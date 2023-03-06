@@ -10,9 +10,9 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.ts": [
+    "**/*.{vue,js,ts}": [
       "pnpm run lint",
-      "git add ."
+      "prettier --write --ignore-unknown"
     ]
   },
   "devDependencies": {
