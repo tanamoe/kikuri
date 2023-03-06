@@ -1,0 +1,5 @@
+# Ignore artifacts:
+.nuxt
+.husky
+.output
+node_modules

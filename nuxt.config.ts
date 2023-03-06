@@ -3,6 +3,6 @@ export default defineNuxtConfig({
   // https://nuxt.com/docs/getting-started/installation#prerequisites
   typescript: {
     shim: false,
-    typeCheck: true
-  }
-})
+    typeCheck: true,
+  },
+});
