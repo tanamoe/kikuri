@@ -6,6 +6,7 @@ specifiers:
   '@nuxtjs/eslint-config-typescript': ^12.0.0
   '@types/node': ^18.14.6
   eslint: ^8.35.0
+  eslint-config-prettier: ^8.6.0
   husky: ^8.0.3
   lint-staged: ^13.1.2
   nuxt: ^3.2.3
@@ -19,6 +20,7 @@ devDependencies:
   '@nuxtjs/eslint-config-typescript': 12.0.0_ycpbpc6yetojsgtrx3mwntkhsu
   '@types/node': 18.14.6
   eslint: 8.35.0
+  eslint-config-prettier: 8.6.0_eslint@8.35.0
   husky: 8.0.3
   lint-staged: 13.1.2
   nuxt: 3.2.3_msbgpe4g2p5nm552rgvzkvck3y
@@ -3529,6 +3531,15 @@ packages:
   /escape-string-regexp/5.0.0:
     resolution: {integrity: sha512-/veY75JbMK4j1yjvuUxuVsiS/hr/4iHs9FTT6cgTexxdE0Ly/glccBAkloH/DofkjRbZU3bnoj38mOmhkZ0lHw==}
     engines: {node: '>=12'}
+    dev: true
+
+  /eslint-config-prettier/8.6.0_eslint@8.35.0:
+    resolution: {integrity: sha512-bAF0eLpLVqP5oEVUFKpMA+NnRFICwn9X8B5jrR9FcqnYBuPbqWEjTEspPWMj5ye6czoSLDweCzSo3Ko7gGrZaA==}
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
+    dependencies:
+      eslint: 8.35.0
     dev: true
 
   /eslint-config-standard/17.0.0_hwjsujmtoc7k47rjh5qfu7woty:
