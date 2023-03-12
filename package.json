@@ -37,6 +37,8 @@
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.12",
-    "class-variance-authority": "^0.4.0"
+    "@pinia/nuxt": "^0.4.7",
+    "class-variance-authority": "^0.4.0",
+    "pinia": "^2.0.33"
   }
 }
