@@ -8,6 +8,7 @@ specifiers:
   '@nuxtjs/eslint-config-typescript': ^12.0.0
   '@nuxtjs/tailwindcss': ^6.4.1
   '@pinia/nuxt': ^0.4.7
+  '@popperjs/core': ^2.11.6
   '@types/node': ^18.14.6
   '@vueuse/core': ^9.13.0
   '@vueuse/nuxt': ^9.13.0
@@ -27,6 +28,7 @@ specifiers:
 dependencies:
   '@headlessui/vue': 1.7.12
   '@pinia/nuxt': 0.4.7_typescript@4.9.5
+  '@popperjs/core': 2.11.6
   class-variance-authority: 0.4.0_typescript@4.9.5
   pinia: 2.0.33_typescript@4.9.5
 
@@ -1777,6 +1779,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@popperjs/core/2.11.6:
+    resolution: {integrity: sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==}
+    dev: false
 
   /@rollup/plugin-alias/4.0.3_rollup@3.18.0:
     resolution: {integrity: sha512-ZuDWE1q4PQDhvm/zc5Prun8sBpLJy41DMptYrS6MhAy9s9kL/doN1613BWfEchGVfKxzliJ3BjbOPizXX38DbQ==}
