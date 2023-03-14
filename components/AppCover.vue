@@ -13,7 +13,7 @@ const placeholder = cva([
   "flex h-full w-full items-center justify-center text-center",
   "bg-zinc-200 text-zinc-500",
   "dark:bg-zinc-700 dark:text-zinc-400",
-  "font-kanit font-bold",
+  "font-bold",
   "p-6",
   "aspect-[2/3]",
 ]);
