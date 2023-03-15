@@ -2,7 +2,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 
 const badge = cva(
-  "block rounded-lg py-0.5 px-1.5 text-xs text-zinc-800 w-fit",
+  "flex items-center rounded-lg py-0.5 px-1.5 text-xs text-zinc-800 w-fit",
   {
     variants: {
       intent: {
