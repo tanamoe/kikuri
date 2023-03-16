@@ -9,6 +9,7 @@ specifiers:
   '@nuxtjs/tailwindcss': ^6.4.1
   '@pinia/nuxt': ^0.4.7
   '@popperjs/core': ^2.11.6
+  '@types/luxon': ^3.2.0
   '@types/node': ^18.14.6
   '@vueuse/core': ^9.13.0
   '@vueuse/nuxt': ^9.13.0
@@ -17,6 +18,7 @@ specifiers:
   eslint-config-prettier: ^8.6.0
   husky: ^8.0.3
   lint-staged: ^13.1.2
+  luxon: ^3.3.0
   nuxt: ^3.2.3
   nuxt-icon: ^0.3.2
   pinia: ^2.0.33
@@ -30,6 +32,7 @@ dependencies:
   '@pinia/nuxt': 0.4.7_typescript@4.9.5
   '@popperjs/core': 2.11.6
   class-variance-authority: 0.4.0_typescript@4.9.5
+  luxon: 3.3.0
   pinia: 2.0.33_typescript@4.9.5
 
 devDependencies:
@@ -38,6 +41,7 @@ devDependencies:
   '@nuxt/image-edge': 1.0.0-27968280.9739e4d
   '@nuxtjs/eslint-config-typescript': 12.0.0_ycpbpc6yetojsgtrx3mwntkhsu
   '@nuxtjs/tailwindcss': 6.4.1
+  '@types/luxon': 3.2.0
   '@types/node': 18.14.6
   '@vueuse/core': 9.13.0
   '@vueuse/nuxt': 9.13.0_nuxt@3.2.3
@@ -1974,6 +1978,10 @@ packages:
 
   /@types/json5/0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+    dev: true
+
+  /@types/luxon/3.2.0:
+    resolution: {integrity: sha512-lGmaGFoaXHuOLXFvuju2bfvZRqxAqkHPx9Y9IQdQABrinJJshJwfNCKV+u7rR3kJbiqfTF/NhOkcxxAFrObyaA==}
     dev: true
 
   /@types/minimist/1.2.2:
@@ -5798,6 +5806,11 @@ packages:
     resolution: {integrity: sha512-8/HcIENyQnfUTCDizRu9rrDyG6XG/21M4X7/YEGZeD76ZJilFPAUVb/2zysFf7VVO1LEjCDFyHp8pMMvozIrvg==}
     engines: {node: '>=12'}
     dev: true
+
+  /luxon/3.3.0:
+    resolution: {integrity: sha512-An0UCfG/rSiqtAIiBPO0Y9/zAnHUZxAMiCpTd5h2smgsj7GGmcenvrvww2cqNA8/4A5ZrD1gJpHN2mIHZQF+Mg==}
+    engines: {node: '>=12'}
+    dev: false
 
   /magic-string/0.25.9:
     resolution: {integrity: sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ==}
