@@ -14,7 +14,7 @@ const button = cva(
         success: ["bg-green-200", "hover:bg-green-300"],
         error: ["bg-red-200", "hover:bg-red-300"],
         caution: ["bg-orange-200", "hover:bg-orange-300"],
-        none: ["hover:bg-zinc-100 dark:hover:bg-zinc-700"],
+        none: "",
       },
     },
     defaultVariants: {
