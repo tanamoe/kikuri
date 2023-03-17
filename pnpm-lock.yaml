@@ -9,6 +9,7 @@ specifiers:
   '@nuxtjs/tailwindcss': ^6.4.1
   '@pinia/nuxt': ^0.4.7
   '@popperjs/core': ^2.11.6
+  '@tailwindcss/forms': ^0.5.3
   '@types/luxon': ^3.2.0
   '@types/node': ^18.14.6
   '@vueuse/core': ^9.13.0
@@ -41,6 +42,7 @@ devDependencies:
   '@nuxt/image-edge': 1.0.0-27968280.9739e4d
   '@nuxtjs/eslint-config-typescript': 12.0.0_byynos7ffx3cepxtk6gvolkky4
   '@nuxtjs/tailwindcss': 6.4.1
+  '@tailwindcss/forms': 0.5.3
   '@types/luxon': 3.2.0
   '@types/node': 18.14.6
   '@vueuse/core': 9.13.0
@@ -1940,6 +1942,14 @@ packages:
       estree-walker: 2.0.2
       picomatch: 2.3.1
       rollup: 3.18.0
+    dev: true
+
+  /@tailwindcss/forms/0.5.3:
+    resolution: {integrity: sha512-y5mb86JUoiUgBjY/o6FJSFZSEttfb3Q5gllE4xoKjAAD+vBrnIhE4dViwUuow3va8mpH4s9jyUbUbrRGoRdc2Q==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || >= 3.0.0-alpha.1'
+    dependencies:
+      mini-svg-data-uri: 1.4.4
     dev: true
 
   /@tootallnate/once/2.0.0:
@@ -5954,6 +5964,11 @@ packages:
   /min-indent/1.0.1:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
+    dev: true
+
+  /mini-svg-data-uri/1.4.4:
+    resolution: {integrity: sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==}
+    hasBin: true
     dev: true
 
   /minimatch/3.0.8:
