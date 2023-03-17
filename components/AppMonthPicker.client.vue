@@ -20,8 +20,8 @@ const props = defineProps<{
   monthYear: MonthYear;
 }>();
 
-const button = ref();
-const popover = ref();
+const button = ref(null);
+const popover = ref(null);
 
 const selectedYear = ref(props.monthYear.year);
 const selectedMonth = ref<MonthNumbers>(props.monthYear.month);
@@ -33,18 +33,20 @@ const availableYears = [
   ),
 ];
 
-onMounted(() => {
-  createPopper(button.value, popover.value, {
-    placement: "bottom-start",
-    modifiers: [
-      {
-        name: "offset",
-        options: {
-          offset: [0, 12],
+watchEffect(() => {
+  if (button.value && popover.value) {
+    createPopper(button.value, popover.value, {
+      placement: "bottom-start",
+      modifiers: [
+        {
+          name: "offset",
+          options: {
+            offset: [0, 12],
+          },
         },
-      },
-    ],
-  });
+      ],
+    });
+  }
 });
 
 defineEmits<{
