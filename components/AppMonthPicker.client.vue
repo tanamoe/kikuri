@@ -60,7 +60,12 @@ defineEmits<{
       <PopoverButton
         class="font-kanit flex items-center gap-3 rounded-2xl bg-zinc-200 py-1 px-2 text-2xl font-bold transition-all duration-150 ease-linear hover:bg-zinc-300 dark:bg-zinc-700 dark:hover:bg-zinc-600"
       >
-        {{ monthYear.month }}/{{ monthYear.year }}
+        {{
+          DateTime.fromObject({
+            month: monthYear.month,
+            year: monthYear.year,
+          }).toLocaleString({ month: "numeric", year: "numeric" })
+        }}
         <Icon
           name="bi:chevron-down"
           :class="[{ 'rotate-180': open }, 'text-base transition-transform']"
@@ -132,23 +137,22 @@ defineEmits<{
 
             <div class="grid grid-cols-3 gap-1">
               <AppButton
-                v-for="monthNumber in Info.months('numeric')"
-                :key="monthNumber"
+                v-for="(month, i) in Info.months()"
+                :key="i"
                 :class="[
                   {
-                    'bg-primary text-zinc-50':
-                      parseInt(monthNumber) == selectedMonth,
+                    'bg-primary text-zinc-50': i + 1 == selectedMonth,
                     'hover:bg-zinc-200 dark:hover:bg-zinc-600':
-                      parseInt(monthNumber) != selectedMonth,
+                      i + 1 != selectedMonth,
                   },
                 ]"
                 @click="
                   {
-                    selectedMonth = parseInt(monthNumber) as MonthNumbers;
+                    selectedMonth = (i + 1) as MonthNumbers;
                   }
                 "
               >
-                Tháng {{ monthNumber }}
+                {{ month }}
               </AppButton>
             </div>
 
@@ -160,8 +164,9 @@ defineEmits<{
                     selectedYear = DateTime.now().year;
                   }
                 "
-                >Tháng này</AppButton
               >
+                Tháng này
+              </AppButton>
               <AppButton
                 :intent="
                   selectedMonth == monthYear.month &&
