@@ -74,7 +74,7 @@ defineEmits<{
     </div>
 
     <div ref="popover" class="z-10">
-      <transition
+      <Transition
         enter-active-class="transition duration-200 ease-out"
         enter-from-class="-translate-y-2 opacity-0"
         enter-to-class="translate-y-0 opacity-100"
@@ -96,7 +96,7 @@ defineEmits<{
                   <Icon name="bi:chevron-bar-expand" />
                 </span>
               </ListboxButton>
-              <transition
+              <Transition
                 enter-active-class="transition duration-100 ease-out"
                 enter-from-class="transform scale-95 opacity-0"
                 enter-to-class="transform scale-100 opacity-100"
@@ -132,7 +132,7 @@ defineEmits<{
                     </li>
                   </ListboxOption>
                 </ListboxOptions>
-              </transition>
+              </Transition>
             </Listbox>
 
             <div class="grid grid-cols-3 gap-1">
@@ -189,7 +189,7 @@ defineEmits<{
             </div>
           </div>
         </PopoverPanel>
-      </transition>
+      </Transition>
     </div>
   </Popover>
 </template>
