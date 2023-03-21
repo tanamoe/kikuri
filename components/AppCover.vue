@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { cva, type VariantProps } from "class-variance-authority";
 
-const image = cva("w-full h-full aspect-[2/3]", {
+const image = cva("w-full h-full aspect-[2/3] object-cover", {
   variants: {
     fit: {
       full: "object-cover",
