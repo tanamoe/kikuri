@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import defaultTheme from "tailwindcss/defaultTheme";
 
 export default <Partial<Config>>{
   theme: {
@@ -15,6 +16,10 @@ export default <Partial<Config>>{
     extend: {
       colors: {
         primary: "#f8b60b",
+      },
+      fontFamily: {
+        sans: ["Inter", ...defaultTheme.fontFamily.sans],
+        lexend: "Lexend",
       },
     },
   },
