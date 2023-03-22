@@ -73,10 +73,12 @@ defineExpose({
 <template>
   <div ref="swiperEl" class="swiper-container">
     <div class="swiper-wrapper">
-      <div v-for="entry in data" :key="entry.id" class="swiper-slide">
-        <AppCard>
-          <AppCover :entry="entry" sizes="sm:90vw md:20vw" />
-        </AppCard>
+      <div
+        v-for="entry in data"
+        :key="entry.id"
+        class="swiper-slide rounded-2xl"
+      >
+        <AppCover :entry="entry" sizes="sm:90vw md:20vw" />
       </div>
     </div>
   </div>
