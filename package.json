@@ -23,6 +23,7 @@
     "@nuxtjs/google-fonts": "^3.0.0",
     "@nuxtjs/tailwindcss": "^6.4.1",
     "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/line-clamp": "^0.4.2",
     "@types/luxon": "^3.2.0",
     "@types/node": "^18.14.6",
     "@vueuse/core": "^9.13.0",
@@ -44,6 +45,7 @@
     "@popperjs/core": "^2.11.6",
     "class-variance-authority": "^0.4.0",
     "luxon": "^3.3.0",
-    "pinia": "^2.0.33"
+    "pinia": "^2.0.33",
+    "swiper": "^9.1.1"
   }
 }

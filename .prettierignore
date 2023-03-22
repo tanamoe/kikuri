@@ -3,3 +3,4 @@
 .husky
 .output
 node_modules
+pnpm-lock.yaml
