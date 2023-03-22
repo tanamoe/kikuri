@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     "nuxt-icon",
     "@vueuse/nuxt",
     "@pinia/nuxt",
+    "@nuxtjs/google-fonts",
   ],
   // https://nuxt.com/docs/getting-started/installation#prerequisites
   typescript: {
@@ -20,6 +21,12 @@ export default defineNuxtConfig({
           baseURL: "https://apps.glhf.vn/imagor",
         },
       },
+    },
+  },
+  googleFonts: {
+    families: {
+      Inter: [400, 700],
+      Lexend: [700, 900],
     },
   },
 });
