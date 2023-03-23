@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@pinia/nuxt",
     "@nuxtjs/google-fonts",
+    "nuxt-swiper",
   ],
   // https://nuxt.com/docs/getting-started/installation#prerequisites
   typescript: {
@@ -28,5 +29,8 @@ export default defineNuxtConfig({
       Inter: [400, 700],
       Lexend: [700, 900],
     },
+  },
+  swiper: {
+    modules: ["autoplay", "effect-creative"],
   },
 });

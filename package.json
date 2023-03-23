@@ -45,7 +45,7 @@
     "@popperjs/core": "^2.11.6",
     "class-variance-authority": "^0.4.0",
     "luxon": "^3.3.0",
-    "pinia": "^2.0.33",
-    "swiper": "^9.1.1"
+    "nuxt-swiper": "^1.0.1",
+    "pinia": "^2.0.33"
   }
 }

@@ -24,10 +24,10 @@ specifiers:
   luxon: ^3.3.0
   nuxt: ^3.3.1
   nuxt-icon: ^0.3.2
+  nuxt-swiper: ^1.0.1
   pinia: ^2.0.33
   prettier: 2.8.6
   prettier-plugin-tailwindcss: ^0.2.4
-  swiper: ^9.1.1
   typescript: ^5.0.0
   vue-tsc: ^1.2.0
 
@@ -37,8 +37,8 @@ dependencies:
   '@popperjs/core': 2.11.6
   class-variance-authority: 0.4.0_typescript@5.0.2
   luxon: 3.3.0
+  nuxt-swiper: 1.0.1
   pinia: 2.0.33_typescript@5.0.2
-  swiper: 9.1.1
 
 devDependencies:
   '@commitlint/cli': 17.4.4
@@ -1206,7 +1206,6 @@ packages:
     transitivePeerDependencies:
       - rollup
       - supports-color
-    dev: true
 
   /@nuxt/kit/3.3.1_rollup@3.20.0:
     resolution: {integrity: sha512-zb7/2FUIB1g7nl6K6qozUzfG5uu4yrs9TQjZvpASnPBZ/x1EuJX5k3AA71hMMIVBEX9Adxvh9AuhDEHE5W26Zg==}
@@ -1291,7 +1290,6 @@ packages:
     transitivePeerDependencies:
       - rollup
       - supports-color
-    dev: true
 
   /@nuxt/schema/3.3.1_rollup@3.20.0:
     resolution: {integrity: sha512-E8HWzU43rXzqwDTmWduTLHY4xIwRSAUt1LbpuE9IjZ4uJZq5Mbaj4nfhANNsTQGw2c+O+rL81yzAP3i61LEJDw==}
@@ -4555,7 +4553,6 @@ packages:
 
   /hookable/5.5.1:
     resolution: {integrity: sha512-ac50aYjbtRMMZEtTG0qnVaBDA+1lqL9fHzDnxMQlVuO6LZWcBB7NXjIu9H9iImClewNdrit4RiEzi9QpRTgKrg==}
-    dev: true
 
   /hosted-git-info/2.8.9:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
@@ -5445,7 +5442,6 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.14
-    dev: true
 
   /make-dir/3.1.0:
     resolution: {integrity: sha512-g3FeP20LNwhALb/6Cz6Dd4F2ngze0jz7tbzrD2wAV+o9FeNHe4rL+yK2md0J/fiSf1sa1ADhXqi5+oVwOM/eGw==}
@@ -5945,6 +5941,16 @@ packages:
       - supports-color
       - vue
     dev: true
+
+  /nuxt-swiper/1.0.1:
+    resolution: {integrity: sha512-NHrPnnxJtM9asKkvxJlyKUhgO/1o3p4ghX+j6xAq1+A2qm8C7l/7WntklQf5t3H7Y7OZXS9e763MXgrCrnZOww==}
+    dependencies:
+      '@nuxt/kit': 3.3.1
+      swiper: 9.1.1
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+    dev: false
 
   /nuxt/3.3.1_xutpjodnmbh4h6l44cc72ayhym:
     resolution: {integrity: sha512-1DTFXEr+FlZO/hyw765cb9a/AiGysHIGLNl8NGJtURwUWC4gd+Z3y5DnL04PE5fVJ08yB/KJwc0t6StijbL8wQ==}
@@ -8037,7 +8043,6 @@ packages:
       unplugin: 1.3.1
     transitivePeerDependencies:
       - rollup
-    dev: true
 
   /unimport/3.0.3_rollup@3.20.0:
     resolution: {integrity: sha512-RzQqQiqepF5P13SwBGCe4pLlRnAQlbFuDAaQlSkXiNJDpN2iymtGMSfa75AcVSejgV05Q2aQYt6UhCiy5GuZ2A==}
@@ -8077,7 +8082,6 @@ packages:
       chokidar: 3.5.3
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.5.0
-    dev: true
 
   /unstorage/1.4.1:
     resolution: {integrity: sha512-ETLczXBd7sjJZuA3oIzaYwhMShiGlo7cGx01Ww23x2ehlk6WiRR1YsmjDBipoiGorq8pX1RRoMQFp/n3me7QOg==}
