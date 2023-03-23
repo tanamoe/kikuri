@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { Swiper, Autoplay, EffectCreative } from "swiper";
-import "swiper/css";
-import "swiper/css/effect-creative";
-
+// TODO: remove, use types from GraphQL API
 interface Entry {
   id: string;
   name: string;
@@ -24,62 +21,48 @@ const emit = defineEmits<{
 defineProps<{
   data: Entry[];
 }>();
+</script>
 
-const swiperEl = ref<Swiper>();
-
-Swiper.use([Autoplay, EffectCreative]);
-
-onMounted(() => {
-  swiperEl.value = new Swiper(".swiper-container", {
-    autoplay: {
+<template>
+  <Swiper
+    ref="swiperEl"
+    :modules="[SwiperAutoplay, SwiperEffectCreative]"
+    :autoplay="{
       delay: 4000,
       disableOnInteraction: false,
       pauseOnMouseEnter: true,
-    },
-    slidesPerView: 1,
-    rewind: true,
-    effect: "creative",
-    grabCursor: true,
-    watchSlidesProgress: true,
-    creativeEffect: {
+    }"
+    :slides-per-view="1"
+    :rewind="true"
+    :effect="'creative'"
+    :grab-cursor="true"
+    :speed="300"
+    :observer="true"
+    :observe-parents="true"
+    :watch-slides-progress="true"
+    :creative-effect="{
       perspective: true,
       limitProgress: 2,
       shadowPerProgress: true,
       prev: {
         shadow: true,
-        translate: ["-10%", 0, -200],
+        translate: ['-10%', 0, -200],
         rotate: [0, 0, -2],
       },
       next: {
         shadow: false,
-        translate: ["120%", 0, 0],
+        translate: ['120%', 0, 0],
       },
-    },
-    speed: 300,
-    observer: true,
-    observeParents: true,
-  });
-
-  swiperEl.value.on("slideChange", (swiper) => {
-    emit("slideChange", swiper.activeIndex);
-  });
-});
-
-defineExpose({
-  swiperEl,
-});
-</script>
-
-<template>
-  <div ref="swiperEl" class="swiper-container">
-    <div class="swiper-wrapper">
-      <div
-        v-for="entry in data"
-        :key="entry.id"
-        class="swiper-slide rounded-2xl"
-      >
-        <AppCover :entry="entry" sizes="sm:90vw md:20vw" />
-      </div>
-    </div>
-  </div>
+    }"
+    style="overflow: visible"
+    @slide-change="(swiper) => emit('slideChange', swiper.activeIndex)"
+  >
+    <SwiperSlide
+      v-for="entry in data"
+      :key="entry.id"
+      class="overflow-hidden rounded-2xl"
+    >
+      <AppCover :entry="entry" sizes="sm:90vw md:20vw" />
+    </SwiperSlide>
+  </Swiper>
 </template>
