@@ -65,7 +65,7 @@ window.addEventListener("keydown", (event) => {
               <div class="relative w-full max-w-[640px] overflow-hidden">
                 <!-- Search box -->
                 <div
-                  class="rounded-2xl bg-neutral-50 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-50"
+                  class="rounded-2xl bg-zinc-50 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-50"
                 >
                   <div class="flex h-12 items-center gap-4 px-4">
                     <span class="flex items-center justify-center py-4">
@@ -90,25 +90,25 @@ window.addEventListener("keydown", (event) => {
 
                 <div
                   v-if="pending || error"
-                  class="mt-6 overflow-hidden rounded-2xl bg-neutral-50 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-50"
+                  class="mt-6 overflow-hidden rounded-2xl bg-zinc-50 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-50"
                 >
                   <!-- Case "pending" -->
                   <ul v-if="pending">
                     <li v-for="(_, index) in [...Array(5)]" :key="index">
                       <div class="flex animate-pulse items-center gap-3 p-3">
                         <div
-                          class="aspect-[2/3] h-full w-full min-w-[4rem] max-w-[4rem] rounded-lg bg-neutral-200 dark:bg-neutral-700"
+                          class="aspect-[2/3] h-full w-full min-w-[4rem] max-w-[4rem] rounded-lg bg-zinc-200 dark:bg-zinc-700"
                         />
 
                         <div class="w-full space-y-1">
                           <div
-                            class="h-6 w-16 rounded-2xl bg-neutral-200 dark:bg-neutral-700"
+                            class="h-6 w-16 rounded-2xl bg-zinc-200 dark:bg-zinc-700"
                           />
                           <div
-                            class="h-6 w-3/4 rounded bg-neutral-200 dark:bg-neutral-700"
+                            class="h-6 w-3/4 rounded bg-zinc-200 dark:bg-zinc-700"
                           />
                           <div
-                            class="h-4 w-1/2 rounded bg-neutral-200 dark:bg-neutral-700"
+                            class="h-4 w-1/2 rounded bg-zinc-200 dark:bg-zinc-700"
                           />
                         </div>
                       </div>
@@ -127,7 +127,7 @@ window.addEventListener("keydown", (event) => {
                 <!-- Result box -->
                 <div
                   v-else-if="data"
-                  class="mt-6 overflow-hidden rounded-2xl bg-neutral-50 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-50"
+                  class="mt-6 overflow-hidden rounded-2xl bg-zinc-50 text-zinc-800 dark:bg-zinc-800 dark:text-zinc-50"
                 >
                   <!-- Case no result -->
                   <div v-if="data.hits.length == 0" class="py-6 text-center">
@@ -140,7 +140,7 @@ window.addEventListener("keydown", (event) => {
                     <li v-for="result in data.hits" :key="result.id">
                       <a
                         href="#"
-                        class="flex items-center gap-3 p-3 transition-colors hover:bg-neutral-500/20"
+                        class="flex items-center gap-3 p-3 transition-colors hover:bg-zinc-500/20"
                       >
                         <nuxt-img
                           v-if="result.image_url"
@@ -151,7 +151,7 @@ window.addEventListener("keydown", (event) => {
                         />
                         <div
                           v-else
-                          class="font-kanit flex aspect-[2/3] h-full w-full min-w-[4rem] max-w-[4rem] items-center justify-center rounded-lg bg-neutral-200 p-3 text-center text-sm font-bold text-neutral-500 dark:bg-neutral-700 dark:text-neutral-400"
+                          class="font-kanit flex aspect-[2/3] h-full w-full min-w-[4rem] max-w-[4rem] items-center justify-center rounded-lg bg-zinc-200 p-3 text-center text-sm font-bold text-zinc-500 dark:bg-zinc-700 dark:text-zinc-400"
                         >
                           Chưa có ảnh
                         </div>
@@ -167,7 +167,7 @@ window.addEventListener("keydown", (event) => {
                           <h5 class="font-bold">
                             {{ result.name }}
                           </h5>
-                          <span class="text-neutral-500 dark:text-neutral-400">
+                          <span class="text-zinc-500 dark:text-zinc-400">
                             {{ result.status }} &middot;
                             {{ result.publisher.name }}
                           </span>
