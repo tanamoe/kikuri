@@ -1,5 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      search_endpoint: process.env.SEARCH_ENDPOINT,
+      search_token: process.env.SEARCH_TOKEN,
+    },
+  },
   modules: [
     "@nuxtjs/tailwindcss",
     "@nuxt/image-edge",
