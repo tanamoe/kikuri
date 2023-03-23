@@ -15,7 +15,7 @@ export default <Partial<Config>>{
     },
     extend: {
       colors: {
-        primary: "#f8b60b",
+        primary: "#89c4f4",
       },
       fontFamily: {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
