@@ -60,7 +60,7 @@ watchEffect(() => {
           </AppButtonLink>
 
           <AppButtonLink
-            href="/forgot"
+            href="/logout"
             class="hover:bg-zinc-300 hover:dark:bg-zinc-600"
           >
             <Icon name="bi:arrow-bar-right"></Icon> Đăng xuất
