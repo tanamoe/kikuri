@@ -23,7 +23,7 @@ const button = cva(
     compoundVariants: [
       {
         intent: ["primary", "secondary", "success", "error", "caution"],
-        class: "hover:shadow-lg",
+        class: "hover:shadow-md",
       },
     ],
   }
@@ -38,9 +38,10 @@ defineProps<{
 </script>
 
 <template>
-  <button :disabled="disabled" :class="button({ intent })">
-    <div class="flex items-center justify-center gap-3">
-      <slot />
-    </div>
+  <button
+    :disabled="disabled"
+    :class="[button({ intent }), 'flex items-center justify-center gap-3']"
+  >
+    <slot />
   </button>
 </template>

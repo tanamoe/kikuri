@@ -14,7 +14,7 @@ const buttonLink = cva(
         success: ["bg-green-200", "hover:bg-green-300"],
         error: ["bg-red-200", "hover:bg-red-300"],
         caution: ["bg-orange-200", "hover:bg-orange-300"],
-        none: ["hover:bg-zinc-100 dark:hover:bg-zinc-700"],
+        none: "",
       },
     },
     defaultVariants: {
@@ -23,7 +23,7 @@ const buttonLink = cva(
     compoundVariants: [
       {
         intent: ["primary", "secondary", "success", "error", "caution"],
-        class: "hover:shadow-lg",
+        class: "hover:shadow-md",
       },
     ],
   }
@@ -38,14 +38,10 @@ defineProps<{
 </script>
 
 <template>
-  <a
-    :href="href"
-    :class="buttonLink({ intent })"
-    target="_blank"
-    rel="noreferrer"
+  <NuxtLink
+    :to="href"
+    :class="[buttonLink({ intent }), 'flex items-center justify-center gap-3']"
   >
-    <div className="flex items-center justify-center gap-3">
-      <slot />
-    </div>
-  </a>
+    <slot />
+  </NuxtLink>
 </template>
