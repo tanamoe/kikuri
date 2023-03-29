@@ -24,5 +24,5 @@ export default {
       },
     },
   },
-  plugins: [require("@tailwindcss/line-clamp"), require("@tailwindcss/forms")],
+  plugins: [require("@tailwindcss/forms")],
 } satisfies Config;
