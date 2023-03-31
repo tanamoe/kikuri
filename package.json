@@ -18,7 +18,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
-    "@nuxt/image-edge": "1.0.0-28002839.c6a7c9b",
+    "@nuxt/image-edge": "1.0.0-28004510.a0dc8e8",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@nuxtjs/google-fonts": "^3.0.0",
     "@nuxtjs/tailwindcss": "^6.6.5",
