@@ -1,7 +1,8 @@
 import type { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
 
-export default <Partial<Config>>{
+export default {
+  content: [],
   theme: {
     screens: {
       sm: "640px",
@@ -23,5 +24,5 @@ export default <Partial<Config>>{
       },
     },
   },
-  plugins: [require("@tailwindcss/line-clamp"), require("@tailwindcss/forms")],
-};
+  plugins: [require("@tailwindcss/forms")],
+} satisfies Config;
