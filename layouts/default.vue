@@ -1,7 +1,7 @@
 <template>
   <div>
     <TheNavigation />
-    <main class="container mx-auto px-3">
+    <main class="container mx-auto">
       <slot />
     </main>
     <TheSearch />
