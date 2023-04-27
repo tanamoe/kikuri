@@ -11,8 +11,8 @@ dependencies:
     specifier: ^2.11.6
     version: 2.11.6
   class-variance-authority:
-    specifier: ^0.5.0
-    version: 0.5.0(typescript@5.0.2)
+    specifier: ^0.6.0
+    version: 0.6.0(typescript@5.0.2)
   luxon:
     specifier: ^3.3.0
     version: 3.3.0
@@ -2931,15 +2931,15 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /class-variance-authority@0.5.0(typescript@5.0.2):
-    resolution: {integrity: sha512-zxROBVgaulmmT1DHnd+MdOqpsYePlllxiA1/lI++bud0AkDJyDKII/kXzOw78iPO7Thfg9Jh0hGNcNw6JVkbWA==}
-    deprecated: Critical bug fixed in v0.5.1
+  /class-variance-authority@0.6.0(typescript@5.0.2):
+    resolution: {integrity: sha512-qdRDgfjx3GRb9fpwpSvn+YaidnT7IUJNe4wt5/SWwM+PmUwJUhQRk/8zAyNro0PmVfmen2635UboTjIBXXxy5A==}
     peerDependencies:
       typescript: '>= 4.5.5 < 6'
     peerDependenciesMeta:
       typescript:
         optional: true
     dependencies:
+      clsx: 1.2.1
       typescript: 5.0.2
     dev: false
 
@@ -3029,6 +3029,11 @@ packages:
     resolution: {integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==}
     engines: {node: '>=0.8'}
     dev: true
+
+  /clsx@1.2.1:
+    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
+    engines: {node: '>=6'}
+    dev: false
 
   /cluster-key-slot@1.1.2:
     resolution: {integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==}
