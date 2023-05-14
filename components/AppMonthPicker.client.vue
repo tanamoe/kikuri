@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { DateTime, Info, type MonthNumbers } from "luxon";
 import { createPopper } from "@popperjs/core";
 import {
   Popover,
@@ -12,7 +11,7 @@ import {
 } from "@headlessui/vue";
 
 interface MonthYear {
-  month: MonthNumbers;
+  month: number;
   year: number;
 }
 
@@ -20,16 +19,18 @@ const props = defineProps<{
   monthYear: MonthYear;
 }>();
 
+const today = new Date();
+
 const button = ref(null);
 const popover = ref(null);
 
 const selectedYear = ref(props.monthYear.year);
-const selectedMonth = ref<MonthNumbers>(props.monthYear.month);
+const selectedMonth = ref(props.monthYear.month);
 
 const availableYears = [
   ...Array.from(
-    { length: DateTime.now().year - 2021 + 2 }, // get from 2021 + the year after that
-    (_, index) => 2021 + index
+    { length: today.getFullYear() - 2000 + 2 }, // get from 2000 to the year after now
+    (_, index) => 2000 + index
   ),
 ];
 
@@ -58,14 +59,9 @@ defineEmits<{
   <Popover v-slot="{ open }" class="relative inline-block">
     <div ref="button">
       <PopoverButton
-        class="font-kanit flex items-center gap-3 rounded-2xl bg-zinc-200 py-1 px-2 text-2xl font-bold transition-all duration-150 ease-linear hover:bg-zinc-300 dark:bg-zinc-700 dark:hover:bg-zinc-600"
+        class="font-kanit flex items-center gap-3 rounded-2xl bg-zinc-200 px-2 py-1 text-2xl font-bold transition-all duration-150 ease-linear hover:bg-zinc-300 dark:bg-zinc-700 dark:hover:bg-zinc-600"
       >
-        {{
-          DateTime.fromObject({
-            month: monthYear.month,
-            year: monthYear.year,
-          }).toLocaleString({ month: "numeric", year: "numeric" })
-        }}
+        {{ monthYear.month + 1 }}/{{ monthYear.year }}
         <Icon
           name="bi:chevron-down"
           :class="[{ 'rotate-180': open }, 'text-base transition-transform']"
@@ -89,7 +85,7 @@ defineEmits<{
           <div class="space-y-3 p-3">
             <Listbox v-model="selectedYear">
               <ListboxButton
-                class="relative w-full rounded-xl bg-zinc-200 py-1 px-2 text-lg font-bold transition-all duration-300 hover:bg-zinc-300 dark:bg-zinc-600 dark:hover:bg-zinc-500"
+                class="relative w-full rounded-xl bg-zinc-200 px-2 py-1 text-lg font-bold transition-all duration-300 hover:bg-zinc-300 dark:bg-zinc-600 dark:hover:bg-zinc-500"
               >
                 {{ selectedYear }}
                 <span class="absolute inset-y-0 right-2 flex items-center">
@@ -120,7 +116,7 @@ defineEmits<{
                           'bg-zinc-300 dark:bg-zinc-500': active,
                           'font-bold': selected,
                         },
-                        'relative w-full cursor-default py-1 px-2 text-center transition-colors',
+                        'relative w-full cursor-default px-2 py-1 text-center transition-colors',
                       ]"
                     >
                       <span
@@ -137,22 +133,27 @@ defineEmits<{
 
             <div class="grid grid-cols-3 gap-1">
               <AppButton
-                v-for="(month, i) in Info.months()"
+                v-for="i in [...Array(12).keys()]"
                 :key="i"
                 :class="[
                   {
-                    'bg-primary text-zinc-50': i + 1 == selectedMonth,
+                    'bg-primary text-zinc-50': i == selectedMonth,
                     'hover:bg-zinc-200 dark:hover:bg-zinc-600':
-                      i + 1 != selectedMonth,
+                      i != selectedMonth,
                   },
                 ]"
                 @click="
                   {
-                    selectedMonth = (i + 1) as MonthNumbers;
+                    selectedMonth = i;
                   }
                 "
               >
-                {{ month }}
+                <!-- TODO: move this to hard-set month -->
+                {{
+                  Intl.DateTimeFormat("vi-VN", { month: "long" }).format(
+                    new Date(0, i)
+                  )
+                }}
               </AppButton>
             </div>
 
@@ -160,8 +161,8 @@ defineEmits<{
               <AppButton
                 @click="
                   {
-                    selectedMonth = DateTime.now().month;
-                    selectedYear = DateTime.now().year;
+                    selectedMonth = today.getMonth();
+                    selectedYear = today.getFullYear();
                   }
                 "
               >
