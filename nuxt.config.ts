@@ -39,4 +39,16 @@ export default defineNuxtConfig({
   swiper: {
     modules: ["autoplay", "effect-creative"],
   },
+  // TODO: remove this in the future after Netlify done fixing.
+  // ref: https://answers.netlify.com/t/javascript-heap-out-of-memory-when-trying-to-build-a-nuxt-app/93138/13
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+      cssnano:
+        process.env.NODE_ENV === "production"
+          ? { preset: ["default", { discardComments: { removeAll: true } }] }
+          : false, // disable cssnano when not in production
+    },
+  },
 });
