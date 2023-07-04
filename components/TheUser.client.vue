@@ -49,21 +49,32 @@ watchEffect(() => {
             href="/login"
             class="hover:bg-zinc-300 hover:dark:bg-zinc-600"
           >
-            <Icon name="bi:box-arrow-in-right"></Icon> Đăng nhập
+            <Icon name="bi:box-arrow-in-right" />
+            <span class="flex-1">Đăng nhập</span>
           </AppButtonLink>
 
           <AppButtonLink
             href="/register"
             class="hover:bg-zinc-300 hover:dark:bg-zinc-600"
           >
-            <Icon name="bi:person-plus"></Icon> Đăng ký
+            <Icon name="bi:person-plus" />
+            <span class="flex-1">Đăng ký</span>
+          </AppButtonLink>
+
+          <AppButtonLink
+            href="/settings"
+            class="hover:bg-zinc-300 hover:dark:bg-zinc-600"
+          >
+            <Icon name="bi:gear" />
+            <span class="flex-1">Cài đặt</span>
           </AppButtonLink>
 
           <AppButtonLink
             href="/logout"
             class="hover:bg-zinc-300 hover:dark:bg-zinc-600"
           >
-            <Icon name="bi:arrow-bar-right"></Icon> Đăng xuất
+            <Icon name="bi:arrow-bar-right" />
+            <span class="flex-1">Đăng xuất</span>
           </AppButtonLink>
         </PopoverPanel>
       </Transition>

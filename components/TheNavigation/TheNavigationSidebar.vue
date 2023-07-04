@@ -48,9 +48,11 @@ defineProps<{
               class="container relative min-h-screen w-5/6 bg-zinc-800 p-6 text-zinc-200"
             >
               <div class="my-6">
-                <NuxtLink to="/">kikuri</NuxtLink>
+                <NuxtLink to="/">
+                  <img src="/logo.svg" class="h-6" />
+                </NuxtLink>
               </div>
-              <ul class="font-lexend mt-12 space-y-2 text-2xl font-bold">
+              <ul class="mt-12 space-y-2 font-lexend text-2xl font-bold">
                 <li><NuxtLink to="/">Lịch phát hành</NuxtLink></li>
                 <li>Danh mục</li>
                 <li>Tủ truyện</li>
