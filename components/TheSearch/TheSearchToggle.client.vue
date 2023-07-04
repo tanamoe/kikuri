@@ -8,7 +8,7 @@ const platform = window.navigator.platform;
 
 <template>
   <button
-    class="flex items-center gap-3 rounded-xl border-2 border-zinc-400 py-1 px-3 dark:border-zinc-700"
+    class="flex items-center gap-3 rounded-xl border-2 border-zinc-400 px-3 py-1 text-zinc-700 dark:border-zinc-700 dark:text-zinc-300"
     @click="open"
   >
     <Icon name="bi:search" />

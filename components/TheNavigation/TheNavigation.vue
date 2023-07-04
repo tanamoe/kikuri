@@ -18,7 +18,9 @@ const sidebarOpen = ref(false);
             :set-is-open="(state: boolean) => (sidebarOpen = state)"
           />
         </div>
-        <NuxtLink to="/">kikuri</NuxtLink>
+        <NuxtLink to="/" active-class="router-logo-active">
+          <img src="/logo.svg" class="h-6" />
+        </NuxtLink>
       </div>
 
       <ul class="col-span-4 hidden items-center justify-center gap-3 lg:flex">
