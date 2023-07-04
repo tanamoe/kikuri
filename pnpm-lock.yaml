@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@headlessui/vue':
     specifier: ^1.7.12
@@ -22,6 +26,9 @@ dependencies:
   pinia:
     specifier: ^2.0.33
     version: 2.0.33(typescript@5.0.4)(vue@3.2.47)
+  pocketbase:
+    specifier: ^0.15.2
+    version: 0.15.2
 
 devDependencies:
   '@commitlint/cli':
@@ -6605,6 +6612,10 @@ packages:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
     dev: true
+
+  /pocketbase@0.15.2:
+    resolution: {integrity: sha512-dGSwO2j3XqtFMANNNEVh/moRw0ItOraKC1p3J+I0y/tPEfgleCAUptMWhqHrFNS+jM5r21eSS1U48N9/OmHFzA==}
+    dev: false
 
   /portfinder@1.0.32:
     resolution: {integrity: sha512-on2ZJVVDXRADWE6jnQaX0ioEylzgBpQk8r55NE4wjXW1ZxO+BgDlY6DXwj20i0V8eB4SenDQ00WEaxfiIQPcxg==}

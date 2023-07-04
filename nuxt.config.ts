@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
+      pocketbase_url: process.env.POCKETBASE_URL,
       search_endpoint: process.env.SEARCH_ENDPOINT,
       search_token: process.env.SEARCH_TOKEN,
     },

@@ -44,6 +44,7 @@
     "class-variance-authority": "^0.6.0",
     "date-fns": "^2.30.0",
     "nuxt-swiper": "^1.0.1",
-    "pinia": "^2.0.33"
+    "pinia": "^2.0.33",
+    "pocketbase": "^0.15.2"
   }
 }
