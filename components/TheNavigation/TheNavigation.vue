@@ -6,7 +6,7 @@ const sidebarOpen = ref(false);
 
 <template>
   <nav
-    class="sticky top-0 z-30 mb-3 bg-zinc-100/90 backdrop-blur-lg dark:bg-zinc-800/90"
+    class="sticky top-0 z-30 mb-3 bg-zinc-100/90 backdrop-blur-lg dark:bg-zinc-900/90"
   >
     <div
       class="container mx-auto grid grid-cols-2 items-center px-6 py-3 lg:grid-cols-6"

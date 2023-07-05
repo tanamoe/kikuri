@@ -6,9 +6,9 @@ const inputField = cva(
   {
     variants: {
       background: {
-        "100": "bg-zinc-100 dark:bg-zinc-800",
-        "200": "bg-zinc-200 dark:bg-zinc-700",
-        "300": "bg-zinc-300 dark:bg-zinc-600",
+        "100": "bg-zinc-100 dark:bg-zinc-900",
+        "200": "bg-zinc-200 dark:bg-zinc-800",
+        "300": "bg-zinc-300 dark:bg-zinc-700",
       },
     },
     defaultVariants: {
