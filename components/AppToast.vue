@@ -2,7 +2,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 
 const toast = cva(
-  "flex rounded-lg px-6 py-4 text-zinc-800 shadow max-w-full min-w-sm mx-6 bottom-6 transition-all transform translate-y-6 open:translate-y-0 open:opacity-100 opacity-0",
+  "fixed flex rounded-lg px-6 py-4 text-zinc-800 shadow max-w-full min-w-sm mx-6 bottom-6 transition-all transform translate-y-6 open:translate-y-0 open:opacity-100 opacity-0",
   {
     variants: {
       intent: {
