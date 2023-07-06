@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ClientResponseError, Record } from "pocketbase";
+import type { AppToast } from ".nuxt/components";
 
 const { $pb } = useNuxtApp();
 
@@ -7,12 +8,12 @@ const loading = ref(false);
 const alert = ref<{
   intent: "success" | "error";
   message: string;
-  show: boolean;
 }>({
   intent: "error",
   message: "",
-  show: false,
 });
+const dialog = ref<InstanceType<typeof AppToast>>();
+
 const user = ref("");
 const password = ref("");
 
@@ -22,11 +23,11 @@ const loginWithPassword = async () => {
   if (user.value === "") {
     alert.value.intent = "error";
     alert.value.message = "Email không được để trống";
-    alert.value.show = true;
+    dialog.value?.show();
   } else if (password.value === "") {
     alert.value.intent = "error";
     alert.value.message = "Mật khẩu không được để trống";
-    alert.value.show = true;
+    dialog.value?.show();
   } else {
     try {
       await $pb
@@ -35,14 +36,14 @@ const loginWithPassword = async () => {
 
       alert.value.intent = "success";
       alert.value.message = "Đăng nhập thành công, đang chuyển hướng...";
-      alert.value.show = true;
+      dialog.value?.show();
 
       navigateTo("/");
     } catch (err) {
       if (err instanceof ClientResponseError) {
         alert.value.intent = "error";
         alert.value.message = `Lỗi: ${err.message}`;
-        alert.value.show = true;
+        dialog.value?.show();
       }
     }
   }
@@ -66,10 +67,10 @@ definePageMeta({
 <template>
   <div class="absolute inset-0">
     <div
-      class="flex h-full flex-col items-center justify-center gap-6 overflow-y-scroll"
+      class="mx-6 flex h-full flex-col items-center justify-center gap-6 overflow-y-scroll"
     >
       <div
-        class="w-full min-w-fit max-w-sm rounded-lg bg-zinc-200 p-6 dark:bg-zinc-700/50"
+        class="w-full min-w-fit max-w-sm rounded-lg bg-zinc-200 p-6 dark:bg-zinc-800"
       >
         <AppHeading>Đăng nhập</AppHeading>
         <form @submit.prevent="loginWithPassword">
@@ -81,6 +82,7 @@ definePageMeta({
                 v-model="user"
                 type="text"
                 placeholder="kikuri"
+                background="100"
               />
             </div>
             <div class="space-y-1">
@@ -90,6 +92,7 @@ definePageMeta({
                 v-model="password"
                 type="password"
                 placeholder="dotdotdot"
+                background="100"
               />
             </div>
           </div>
@@ -119,12 +122,9 @@ definePageMeta({
         </form>
       </div>
 
-      <AppAlert
-        :class="[alert.show ? '' : 'hidden', 'max-w-sm']"
-        :intent="alert.intent"
-      >
-        {{ alert.message }}
-      </AppAlert>
+      <AppToast ref="dialog" :intent="alert.intent">{{
+        alert.message
+      }}</AppToast>
     </div>
   </div>
 </template>
