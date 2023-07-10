@@ -41,8 +41,8 @@ devDependencies:
     specifier: ^17.6.6
     version: 17.6.6
   '@nuxt/image-edge':
-    specifier: 1.0.0-rc.1-28139579.37395b7
-    version: 1.0.0-rc.1-28139579.37395b7
+    specifier: 1.0.0-rc.1-28143901.afe4120
+    version: 1.0.0-rc.1-28143901.afe4120
   '@nuxthq/ui':
     specifier: ^2.5.0
     version: 2.5.0(ts-node@10.9.1)(vue@3.3.4)(webpack@5.88.1)
@@ -1257,12 +1257,12 @@ packages:
     resolution: {integrity: sha512-GBzP8zOc7CGWyFQS6dv1lQz8VVpz5C2yRszbXufwG/9zhStTIH50EtD87NmWbTMwXDvZLNg8GIpb1UFdH93JCA==}
     dev: true
 
-  /@nuxt/image-edge@1.0.0-rc.1-28139579.37395b7:
-    resolution: {integrity: sha512-VFPSQhFG6SEA7rzyHJV30E3PnfBjW9kyE/VE8hGMORJlMqb+AaeojEF/hGo0Zgg4R0WofUeW8cs52Ptp3OlfhA==}
+  /@nuxt/image-edge@1.0.0-rc.1-28143901.afe4120:
+    resolution: {integrity: sha512-xfYEjbYhFDnHe22q2QcPiqPUPJFima++/nHF31a860qbM1DRWfJNBhkZSQKOCPFBKX/L390BPI2IxbVCkB5cdw==}
     engines: {node: ^14.16.0 || >=16.11.0}
     dependencies:
-      '@nuxt/kit': 3.6.1
-      consola: 3.2.2
+      '@nuxt/kit': 3.6.2
+      consola: 3.2.3
       defu: 6.1.2
       h3: 1.7.1
       image-meta: 0.1.1
@@ -1303,6 +1303,32 @@ packages:
       - rollup
       - supports-color
 
+  /@nuxt/kit@3.6.2:
+    resolution: {integrity: sha512-X1WN76izsILva6TvQVTfJCHG7TXCwsB6jsxZKcU3qSog26jer5dildDb5ZmKL3e+IFD6BwK4ShO/py8VZcT6OA==}
+    engines: {node: ^14.18.0 || >=16.10.0}
+    dependencies:
+      '@nuxt/schema': 3.6.2
+      c12: 1.4.2
+      consola: 3.2.3
+      defu: 6.1.2
+      globby: 13.2.1
+      hash-sum: 2.0.0
+      ignore: 5.2.4
+      jiti: 1.19.1
+      knitwork: 1.0.0
+      mlly: 1.4.0
+      pathe: 1.1.1
+      pkg-types: 1.0.3
+      scule: 1.0.0
+      semver: 7.5.3
+      unctx: 2.3.1
+      unimport: 3.0.14(rollup@3.26.0)
+      untyped: 1.3.2
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+    dev: true
+
   /@nuxt/postcss8@1.1.3(webpack@5.88.1):
     resolution: {integrity: sha512-CdHtErhvQwueNZPBOmlAAKrNCK7aIpZDYhtS7TzXlSgPHHox1g3cSlf+Ke9oB/8t4mNNjdB+prclme2ibuCOEA==}
     dependencies:
@@ -1334,6 +1360,24 @@ packages:
     transitivePeerDependencies:
       - rollup
       - supports-color
+
+  /@nuxt/schema@3.6.2:
+    resolution: {integrity: sha512-wxb1/C5ozly5IwX0IRjVGml1n2KjZrTKsf6lTk3fdjUpW105kAvYX4j66PDOdBRE4vCwCsgaHJfWpUSeNBxbuA==}
+    engines: {node: ^14.18.0 || >=16.10.0}
+    dependencies:
+      defu: 6.1.2
+      hookable: 5.5.3
+      pathe: 1.1.1
+      pkg-types: 1.0.3
+      postcss-import-resolver: 2.0.0
+      std-env: 3.3.3
+      ufo: 1.1.2
+      unimport: 3.0.14(rollup@3.26.0)
+      untyped: 1.3.2
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+    dev: true
 
   /@nuxt/telemetry@2.2.0:
     resolution: {integrity: sha512-Z2UmPkBy5WjxvHKuUcl1X6vKWnIyWSP+9UGde1F+MzzZxYgAQybFud1uL2B3KCowxZdoqT1hd2WklV7EtyCwrQ==}
@@ -3226,6 +3270,11 @@ packages:
   /consola@3.2.2:
     resolution: {integrity: sha512-r921u0vbF4lQsoIqYvSSER+yZLPQGijOHrYcWoCNVNBZmn/bRR+xT/DgerTze/nLD9TTGzdDa378TVhx7RDOYg==}
     engines: {node: ^14.18.0 || >=16.10.0}
+
+  /consola@3.2.3:
+    resolution: {integrity: sha512-I5qxpzLv+sJhTVEoLYNcTW+bThDCPsit0vLNKShZx6rLtpilNpmmeTPaeqJb9ZE9dV3DGaeby6Vuhrw38WjeyQ==}
+    engines: {node: ^14.18.0 || >=16.10.0}
+    dev: true
 
   /console-control-strings@1.1.0:
     resolution: {integrity: sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==}
@@ -5144,7 +5193,7 @@ packages:
     requiresBuild: true
     dependencies:
       '@fastify/accept-negotiator': 1.1.0
-      consola: 3.2.2
+      consola: 3.2.3
       defu: 6.1.2
       destr: 1.2.2
       etag: 1.8.1
