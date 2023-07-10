@@ -4,19 +4,20 @@ import defaultTheme from "tailwindcss/defaultTheme";
 export default {
   content: [],
   theme: {
-    screens: {
-      sm: "640px",
-      // => @media (min-width: 640px) { ... }
-      md: "768px",
-      // => @media (min-width: 768px) { ... }
-      lg: "1024px",
-      // => @media (min-width: 1024px) { ... }
-      xl: "1280px",
-      // => @media (min-width: 1280px) { ... }
-    },
     extend: {
       colors: {
-        primary: "#89c4f4",
+        tanablue: {
+          900: "#031D33",
+          800: "#134369",
+          700: "#2D6EA3",
+          600: "#4F98D3",
+          500: "#6AAFE6",
+          400: "#89C4F4",
+          300: "#A1D3FC",
+          200: "#BCE1FE",
+          100: "#D5ECFF",
+          50: "#E7F4FF",
+        },
       },
       fontFamily: {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
@@ -24,5 +25,4 @@ export default {
       },
     },
   },
-  plugins: [require("@tailwindcss/forms")],
 } satisfies Config;

@@ -2,7 +2,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 
 const card = cva(
-  "rounded-2xl h-fit shadow-md bg-zinc-200 overflow-hidden relative dark:bg-zinc-700",
+  "rounded-2xl h-fit shadow-md bg-zinc-200 overflow-hidden relative dark:bg-zinc-800",
   {
     variants: {
       intent: {
