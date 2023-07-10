@@ -68,6 +68,6 @@ defineProps<{
 <style scoped>
 /* TODO: might need changes later */
 .router-link-active {
-  @apply text-primary;
+  @apply text-tanablue-500;
 }
 </style>

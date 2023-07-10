@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     },
   },
   modules: [
-    "@nuxtjs/tailwindcss",
+    "@nuxthq/ui",
     "@nuxt/image-edge",
     "nuxt-icon",
     "@vueuse/nuxt",
@@ -51,5 +51,8 @@ export default defineNuxtConfig({
           ? { preset: ["default", { discardComments: { removeAll: true } }] }
           : false, // disable cssnano when not in production
     },
+  },
+  ui: {
+    icons: ["fluent"],
   },
 });

@@ -21,7 +21,7 @@ const handleError = () => clearError({ redirect: "/" });
           <p>
             {{ is404 ? "Không tìm thấy đường dẫn" : "Đã có lỗi xảy ra" }}, bạn
             có muốn
-            <button class="font-bold text-primary" @click="handleError">
+            <button class="font-bold text-tanablue-500" @click="handleError">
               về trang chủ</button
             >?
           </p>
