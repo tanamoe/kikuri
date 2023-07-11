@@ -168,5 +168,11 @@ export default function () {
     pending.value = false;
   };
 
-  return { data, pending, register, loginWithPassword, requestPasswordReset };
+  return {
+    data,
+    pending,
+    register,
+    loginWithPassword,
+    requestPasswordReset,
+  };
 }

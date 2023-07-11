@@ -1,0 +1,21 @@
+{
+  "general": {
+    "releaseCalendar": "Lịch phát hành",
+    "browse": "Danh mục",
+    "library": "Tủ truyện",
+    "settings": "Cài đặt",
+    "searchResultFor": "Kết quả tìm kiếm cho \"{query}\"..."
+  },
+  "account": {
+    "profile": "Trang cá nhân",
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "forgetPassword": "Quên mật khẩu",
+    "logout": "Đăng xuất",
+    "username": "Tên tài khoản",
+    "email": "Email",
+    "usernameOrEmail": "Tên tài khoản hoặc email",
+    "password": "Mật khẩu",
+    "passwordConfirm": "Xác nhận mật khẩu"
+  }
+}

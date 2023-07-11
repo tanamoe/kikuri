@@ -10,10 +10,7 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "**/*.{vue,js,ts}": [
-      "pnpm run lint",
-      "prettier --write --ignore-unknown"
-    ]
+    "**/*.{vue,js,ts}": "prettier --write --ignore-unknown"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.6",
@@ -22,6 +19,7 @@
     "@nuxthq/ui": "^2.5.0",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@nuxtjs/google-fonts": "^3.0.1",
+    "@nuxtjs/i18n": "8.0.0-beta.13",
     "@nuxtjs/tailwindcss": "^6.8.0",
     "@types/node": "^18.16.19",
     "@vueuse/core": "^10.2.1",
@@ -30,7 +28,7 @@
     "eslint-config-prettier": "^8.8.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.3",
-    "nuxt": "^3.6.1",
+    "nuxt": "^3.6.2",
     "nuxt-icon": "^0.4.2",
     "prettier": "2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
@@ -44,6 +42,7 @@
     "@popperjs/core": "^2.11.8",
     "class-variance-authority": "^0.6.1",
     "date-fns": "^2.30.0",
+    "dayjs": "^1.11.9",
     "nuxt-swiper": "^1.1.1",
     "pinia": "^2.1.4",
     "pocketbase": "^0.15.2"
