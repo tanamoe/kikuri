@@ -13,12 +13,13 @@ defineProps<{
 </script>
 
 <template>
-  <button
-    class="flex h-6 w-6 items-center justify-center text-2xl"
+  <UButton
+    icon="i-fluent-text-align-justify-20-filled"
+    color="gray"
+    square
+    variant="ghost"
     @click="setIsOpen(true)"
-  >
-    <Icon name="bi:list" />
-  </button>
+  />
   <TransitionRoot appear :show="isOpen" as="template">
     <Dialog @close="setIsOpen(false)">
       <TransitionChild
