@@ -26,28 +26,31 @@ const sidebarOpen = ref(false);
       <ul class="col-span-4 hidden items-center justify-center gap-3 lg:flex">
         <li>
           <NuxtLink
-            to="/"
+            to="/calendar"
             class="rounded-lg px-3 py-2 transition-all hover:bg-zinc-200 hover:dark:bg-zinc-700"
-            >Lịch phát hành</NuxtLink
           >
+            {{ $t("general.releaseCalendar") }}
+          </NuxtLink>
         </li>
         <li>
           <NuxtLink
             to="/title"
             class="rounded-lg px-3 py-2 transition-all hover:bg-zinc-200 hover:dark:bg-zinc-700"
-            >Danh mục</NuxtLink
           >
+            {{ $t("general.browse") }}
+          </NuxtLink>
         </li>
         <li>
           <NuxtLink
             to="/profile"
             class="rounded-lg px-3 py-2 transition-all hover:bg-zinc-200 hover:dark:bg-zinc-700"
-            >Tủ truyện</NuxtLink
           >
+            {{ $t("general.library") }}
+          </NuxtLink>
         </li>
       </ul>
 
-      <div class="flex items-center justify-end gap-6 whitespace-nowrap">
+      <div class="flex items-center justify-end gap-3 whitespace-nowrap">
         <TheSearchToggle />
         <TheUser />
       </div>

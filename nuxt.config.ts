@@ -8,12 +8,12 @@ export default defineNuxtConfig({
     },
   },
   modules: [
-    "@nuxthq/ui",
-    "@nuxt/image",
-    "nuxt-icon",
     "@vueuse/nuxt",
     "@pinia/nuxt",
+    "@nuxtjs/i18n",
     "@nuxtjs/google-fonts",
+    "@nuxt/image",
+    "@nuxthq/ui",
     "nuxt-swiper",
   ],
   // https://nuxt.com/docs/getting-started/installation#prerequisites
@@ -35,6 +35,7 @@ export default defineNuxtConfig({
     families: {
       Inter: [400, 700],
       Lexend: [700, 900],
+      "IBM+Plex+Sans+Condensed": [700, 900],
     },
   },
   swiper: {
@@ -54,5 +55,16 @@ export default defineNuxtConfig({
   },
   ui: {
     icons: ["fluent"],
+  },
+  i18n: {
+    locales: [
+      {
+        code: "vi",
+        file: "vi-VN.json",
+      },
+    ],
+    lazy: true,
+    langDir: "locales",
+    defaultLocale: "vi",
   },
 });

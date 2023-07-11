@@ -22,6 +22,7 @@ export default {
       fontFamily: {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
         lexend: "Lexend",
+        condensed: "IBM Plex Sans Condensed",
       },
     },
   },

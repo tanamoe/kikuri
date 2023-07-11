@@ -1,24 +1,42 @@
 <script setup lang="ts">
 import { useSearchStore } from "@/stores/search";
+const { metaSymbol } = useShortcuts();
 
 const { open } = useSearchStore();
-
-const platform = window.navigator.platform;
 </script>
 
 <template>
-  <button
-    class="flex items-center gap-3 rounded-xl border-2 border-zinc-400 px-3 py-1 text-zinc-700 dark:border-zinc-700 dark:text-zinc-300"
-    @click="open"
-  >
-    <Icon name="bi:search" />
-    Tìm kiếm
-    <span class="hidden items-center gap-1 sm:flex">
-      <AppBadge class="h-5 dark:bg-zinc-700 dark:text-zinc-50">
-        <Icon v-if="platform === 'MacIntel'" name="bi:command" />
-        <span v-else>CTRL</span>
-      </AppBadge>
-      <AppBadge class="h-5 dark:bg-zinc-700 dark:text-zinc-50">K</AppBadge>
-    </span>
-  </button>
+  <div>
+    <UButton
+      icon="i-fluent-search-20-filled"
+      variant="ghost"
+      color="gray"
+      class="flex sm:hidden"
+      square
+      @click="open"
+    />
+    <UButton
+      icon="i-fluent-search-20-filled"
+      variant="solid"
+      color="white"
+      class="hidden sm:flex"
+      :ui="{
+        color: {
+          white: {
+            solid:
+              'shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 text-gray-700 dark:text-400 bg-white hover:bg-gray-50 disabled:bg-white dark:bg-gray-900 dark:hover:bg-gray-800/50 dark:disabled:bg-gray-900 focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400',
+          },
+        },
+      }"
+      @click="open"
+    >
+      Tìm kiếm...
+      <template #trailing>
+        <div class="flex items-center gap-0.5">
+          <UKbd>{{ metaSymbol }}</UKbd>
+          <UKbd>K</UKbd>
+        </div>
+      </template>
+    </UButton>
+  </div>
 </template>

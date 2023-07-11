@@ -1,83 +1,60 @@
 <script setup lang="ts">
-// TODO: redesign user popover
-import { createPopper } from "@popperjs/core";
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/vue";
+import { useUserStore } from "@/stores/user";
 
-const button = ref(null);
-const popover = ref(null);
+const { t } = useI18n({ useScope: "global" });
+const user = useUserStore();
 
-watchEffect(() => {
-  if (button.value && popover.value) {
-    createPopper(button.value, popover.value, {
-      placement: "bottom-end",
-      modifiers: [
+const items = computed(() => {
+  if (user.isAuthenticated)
+    return [
+      [
         {
-          name: "offset",
-          options: {
-            offset: [0, 12],
+          label: t("account.profile"),
+          avatar: {
+            src: "https://avatars.githubusercontent.com/u/739984?v=4",
           },
         },
       ],
-    });
-  }
+      [
+        {
+          label: t("general.settings"),
+          icon: "i-fluent-settings-20-filled",
+          to: "/settings",
+        },
+      ],
+      [
+        {
+          label: t("account.logout"),
+          icon: "i-fluent-sign-out-20-filled",
+          to: "/logout",
+        },
+      ],
+    ];
+  else
+    return [
+      [
+        {
+          label: t("account.login"),
+          icon: "i-fluent-arrow-enter-20-filled",
+          to: "/login",
+        },
+        {
+          label: t("account.register"),
+          icon: "i-fluent-person-add-20-filled",
+          to: "/register",
+        },
+      ],
+    ];
 });
 </script>
 
 <template>
-  <Popover class="relative">
-    <div ref="button">
-      <PopoverButton
-        class="flex h-6 w-6 items-center justify-center text-2xl dark:text-zinc-400"
-      >
-        <Icon name="bi:person-circle" />
-      </PopoverButton>
-    </div>
-
-    <div ref="popover">
-      <Transition
-        enter-active-class="transition duration-200 ease-out"
-        enter-from-class="-translate-y-2 opacity-0"
-        enter-to-class="translate-y-0 opacity-100"
-        leave-active-class="transition duration-150 ease-in"
-        leave-from-class="translate-y-0 opacity-100"
-        leave-to-class="-translate-y-2 opacity-0"
-      >
-        <PopoverPanel
-          class="z-10 w-max max-w-sm overflow-hidden rounded-xl bg-zinc-200 shadow-md dark:bg-zinc-700"
-        >
-          <AppButtonLink
-            href="/login"
-            class="hover:bg-zinc-300 hover:dark:bg-zinc-600"
-          >
-            <Icon name="bi:box-arrow-in-right" />
-            <span class="flex-1">Đăng nhập</span>
-          </AppButtonLink>
-
-          <AppButtonLink
-            href="/register"
-            class="hover:bg-zinc-300 hover:dark:bg-zinc-600"
-          >
-            <Icon name="bi:person-plus" />
-            <span class="flex-1">Đăng ký</span>
-          </AppButtonLink>
-
-          <AppButtonLink
-            href="/settings"
-            class="hover:bg-zinc-300 hover:dark:bg-zinc-600"
-          >
-            <Icon name="bi:gear" />
-            <span class="flex-1">Cài đặt</span>
-          </AppButtonLink>
-
-          <AppButtonLink
-            href="/logout"
-            class="hover:bg-zinc-300 hover:dark:bg-zinc-600"
-          >
-            <Icon name="bi:arrow-bar-right" />
-            <span class="flex-1">Đăng xuất</span>
-          </AppButtonLink>
-        </PopoverPanel>
-      </Transition>
-    </div>
-  </Popover>
+  <UDropdown :items="items" :popper="{ placement: 'bottom-end' }">
+    <UButton
+      icon="i-fluent-person-20-filled"
+      color="gray"
+      square
+      variant="ghost"
+    />
+  </UDropdown>
 </template>
