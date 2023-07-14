@@ -1,10 +1,11 @@
+<!-- eslint-disable import/no-named-as-default-member -->
 <script setup lang="ts">
-import { extend, locale } from "dayjs";
+import dayjs from "dayjs";
 import localeData from "dayjs/plugin/localeData";
 import "dayjs/locale/vi";
 
-extend(localeData);
-locale("vi");
+dayjs.extend(localeData);
+dayjs.locale("vi");
 
 const i18nHead = useLocaleHead({
   addSeoAttributes: true,
