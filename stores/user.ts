@@ -1,24 +1,20 @@
 import { defineStore } from "pinia";
-import { Admin, Record } from "pocketbase";
+import { Record, Admin } from "pocketbase";
 
 export const useUserStore = defineStore("user", () => {
   const { $pb } = useNuxtApp();
 
-  const currentUser = ref<Record | Admin | null>(null);
+  const currentUser = ref<Record | Admin | null>(
+    structuredClone($pb.authStore.model)
+  );
 
-  $pb.authStore.onChange(() => (currentUser.value = $pb.authStore.model));
-
-  const fetchUser = () => {
-    if (currentUser.value === null && $pb.authStore.model !== null) {
-      currentUser.value = $pb.authStore.model;
-    }
-  };
-
-  fetchUser();
+  $pb.authStore.onChange(
+    () => (currentUser.value = structuredClone($pb.authStore.model))
+  );
 
   const isAuthenticated = computed(() => {
-    return currentUser.value instanceof Record;
+    return currentUser.value !== null;
   });
 
-  return { isAuthenticated, fetchUser };
+  return { isAuthenticated, currentUser };
 });

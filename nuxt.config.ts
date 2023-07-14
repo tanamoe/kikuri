@@ -5,6 +5,7 @@ export default defineNuxtConfig({
       pocketbase_url: process.env.POCKETBASE_URL,
       search_endpoint: process.env.SEARCH_ENDPOINT,
       search_token: process.env.SEARCH_TOKEN,
+      image_endpoint: process.env.IMAGE_ENDPOINT,
     },
   },
   modules: [
@@ -57,10 +58,24 @@ export default defineNuxtConfig({
     icons: ["fluent"],
   },
   i18n: {
+    strategy: "no_prefix",
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: "i18n_redirected",
+      redirectOn: "root",
+    },
     locales: [
       {
         code: "vi",
+        iso: "vi-VN",
+        name: "Tiếng Việt",
         file: "vi-VN.json",
+      },
+      {
+        code: "en",
+        iso: "en-US",
+        name: "English (US)",
+        file: "en-US.json",
       },
     ],
     lazy: true,

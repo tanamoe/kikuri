@@ -1,6 +1,6 @@
 import { ClientResponseError, Record } from "pocketbase";
 
-export default function () {
+export const useAuth = () => {
   const { $pb } = useNuxtApp();
   const toast = useToast();
 
@@ -175,4 +175,4 @@ export default function () {
     loginWithPassword,
     requestPasswordReset,
   };
-}
+};

@@ -4,10 +4,15 @@
     "browse": "Danh mục",
     "library": "Tủ truyện",
     "settings": "Cài đặt",
-    "searchResultFor": "Kết quả tìm kiếm cho \"{query}\"..."
+    "searchResultFor": "Kết quả tìm kiếm cho \"{query}\"...",
+    "save": "Lưu",
+    "changePassword": "Đổi mật khẩu",
+    "jumpToTop": "Lên đầu trang"
   },
   "account": {
     "profile": "Trang cá nhân",
+    "displayName": "Tên hiển thị",
+    "bio": "Giới thiệu",
     "login": "Đăng nhập",
     "register": "Đăng ký",
     "forgetPassword": "Quên mật khẩu",
@@ -16,6 +21,17 @@
     "email": "Email",
     "usernameOrEmail": "Tên tài khoản hoặc email",
     "password": "Mật khẩu",
-    "passwordConfirm": "Xác nhận mật khẩu"
+    "passwordConfirm": "Xác nhận mật khẩu",
+    "oldPassword": "Mật khẩu cũ",
+    "avatar": "Ảnh đại diện"
+  },
+  "settings": {
+    "profile": "Cá nhân",
+    "account": "Tài khoản",
+    "changePassword": "Mật khẩu"
+  },
+  "monthPicker": {
+    "reset": "Hiện tại",
+    "save": "Chọn"
   }
 }

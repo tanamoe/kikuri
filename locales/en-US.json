@@ -1,0 +1,33 @@
+{
+  "general": {
+    "releaseCalendar": "Calendar",
+    "browse": "Browse",
+    "library": "Library",
+    "settings": "Settings",
+    "searchResultFor": "Search results for \"{query}\"...",
+    "save": "Save",
+    "changePassword": "Change password",
+    "jumpToTop": "Scroll to top"
+  },
+  "account": {
+    "profile": "Profile",
+    "displayName": "Display name",
+    "bio": "Bio",
+    "login": "Login",
+    "register": "Register",
+    "forgetPassword": "Forget password",
+    "logout": "Logout",
+    "username": "Username",
+    "email": "Email",
+    "usernameOrEmail": "Username or email",
+    "password": "Password",
+    "passwordConfirm": "Confirm password",
+    "oldPassword": "Old password",
+    "avatar": "Avatar"
+  },
+  "settings": {
+    "profile": "Profile",
+    "account": "Account",
+    "changePassword": "Security"
+  }
+}
