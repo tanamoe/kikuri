@@ -38,7 +38,7 @@
     "@iconify-json/fluent": "^1.1.26",
     "@pinia/nuxt": "^0.4.11",
     "@popperjs/core": "^2.11.8",
-    "class-variance-authority": "^0.6.1",
+    "class-variance-authority": "^0.7.0",
     "dayjs": "^1.11.9",
     "nuxt-swiper": "^1.1.1",
     "pinia": "^2.1.4",
