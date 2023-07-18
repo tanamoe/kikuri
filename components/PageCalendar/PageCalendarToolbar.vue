@@ -40,7 +40,11 @@ onMounted(() => {
   );
 
   window.addEventListener("scroll", () => {
-    if (toolbar.value?.getBoundingClientRect().y === 0)
+    if (
+      toolbar.value &&
+      toolbar.value.getBoundingClientRect().y >= -1 &&
+      toolbar.value.getBoundingClientRect().y <= 1
+    )
       toolbar.value.classList.add("toolbar__sticky");
     else toolbar.value?.classList.remove("toolbar__sticky");
   });
