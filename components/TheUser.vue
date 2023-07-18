@@ -1,17 +1,28 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/user";
 
 const { t } = useI18n({ useScope: "global" });
-const user = useUserStore();
+const store = useUserStore();
+const runtimeConfig = useRuntimeConfig();
+
+const user = storeToRefs(store);
 
 const items = computed(() => {
-  if (user.isAuthenticated)
+  if (user.isAuthenticated.value)
     return [
       [
         {
           label: t("account.profile"),
           avatar: {
-            src: "https://avatars.githubusercontent.com/u/739984?v=4",
+            src:
+              user.currentUser.value!.avatar !== ""
+                ? `${runtimeConfig.public.image_endpoint}/${
+                    user.currentUser.value!.collectionId
+                  }/${user.currentUser.value!.id}/${
+                    user.currentUser.value!.avatar
+                  }`
+                : "/avatar.jpg",
           },
         },
       ],
@@ -42,6 +53,13 @@ const items = computed(() => {
           label: t("account.register"),
           icon: "i-fluent-person-add-20-filled",
           to: "/register",
+        },
+      ],
+      [
+        {
+          label: t("general.settings"),
+          icon: "i-fluent-settings-20-filled",
+          to: "/settings",
         },
       ],
     ];
