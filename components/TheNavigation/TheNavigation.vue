@@ -1,22 +1,33 @@
 <script setup lang="ts">
-// TODO: remove "kikuri" name placeholder with logo,
-// add hover animations and properly place links
-const sidebarOpen = ref(false);
+import { cva, type VariantProps } from "class-variance-authority";
+
+const navigationContainer = cva("top-0 z-30 mb-3 bg-gray-50 dark:bg-gray-900", {
+  variants: {
+    sticky: {
+      true: "sticky",
+    },
+  },
+  defaultVariants: {
+    sticky: true,
+  },
+});
+
+type NavigationContainerProps = VariantProps<typeof navigationContainer>;
+
+defineProps<{
+  sticky?: NavigationContainerProps["sticky"];
+  disabled?: boolean;
+}>();
 </script>
 
 <template>
-  <nav
-    class="sticky top-0 z-30 mb-3 bg-zinc-100/90 backdrop-blur-lg dark:bg-zinc-900/90"
-  >
+  <nav :class="navigationContainer({ sticky })">
     <div
       class="container mx-auto grid grid-cols-2 items-center px-6 py-3 lg:grid-cols-6"
     >
       <div class="flex items-center justify-start gap-3">
         <div class="block lg:hidden">
-          <TheNavigationSidebar
-            :is-open="sidebarOpen"
-            :set-is-open="(state: boolean) => (sidebarOpen = state)"
-          />
+          <TheNavigationSidebar />
         </div>
         <NuxtLink to="/" active-class="router-logo-active">
           <img src="/logo.svg" class="h-6" />
@@ -52,6 +63,7 @@ const sidebarOpen = ref(false);
 
       <div class="flex items-center justify-end gap-3 whitespace-nowrap">
         <TheSearchToggle />
+        <AppLanguageSwitcher />
         <TheUser />
       </div>
     </div>
