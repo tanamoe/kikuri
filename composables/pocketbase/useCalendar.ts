@@ -63,7 +63,8 @@ export const useCalendar = (
         structuredClone(res).map((release) => ({
           ...release,
           cover: release.base_cover ? release.cover : null,
-          volume: release.volume / 10000 + (release.volume % 10),
+          volume:
+            Math.floor(release.volume / 10000) + (release.volume % 10) * 0.1,
           date: release.publish_date,
         }))
       );
