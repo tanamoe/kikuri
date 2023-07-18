@@ -1,10 +1,17 @@
 <script setup lang="ts">
-import { Record } from "pocketbase";
+import {
+  PublisherResponse,
+  ReleaseCalendarResponse,
+  TitleRecord,
+} from "@/types/pb";
 
 const runtimeConfig = useRuntimeConfig();
 
 defineProps<{
-  book: Partial<Record>;
+  book: ReleaseCalendarResponse<{
+    title: TitleRecord;
+    publisher: PublisherResponse;
+  }>;
   sizes?: string;
 }>();
 </script>

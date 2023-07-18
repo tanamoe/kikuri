@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import dayjs, { type Dayjs } from "dayjs";
 import type { FilterPublishers } from "@/types/calendarFilter";
+import { Collections, PublisherResponse } from "@/types/pb";
 
 const runtimeConfig = useRuntimeConfig();
 const { $pb } = useNuxtApp();
@@ -9,7 +10,7 @@ const toolbar = ref<HTMLDivElement>();
 const toolbarLogo = ref<HTMLDivElement>();
 
 const { data: publisherOptions } = useAsyncData(
-  () => $pb.collection("publisher").getFullList(),
+  () => $pb.collection(Collections.Publisher).getFullList<PublisherResponse>(),
   {
     transform: (publishers) =>
       publishers.map((publisher) => ({

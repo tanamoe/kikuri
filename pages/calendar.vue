@@ -92,14 +92,14 @@ definePageMeta({
     >
       <div
         v-for="group in releases"
-        :key="group.date!.toDateString()"
+        :key="group.date.toDateString()"
         ref="monthRefs"
         class="mb-24 flex scroll-mt-16 gap-6"
       >
         <div
           class="sticky top-28 w-12 flex-shrink-0 self-start sm:top-16 md:w-20"
         >
-          <PageCalendarDate :date="group.date!" />
+          <PageCalendarDate :date="group.date" />
         </div>
         <div
           class="grid w-full grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-6"
