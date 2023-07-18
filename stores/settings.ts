@@ -1,10 +1,12 @@
 import { defineStore } from "pinia";
+import { InterfaceSettings } from "@/types/settingsInterface";
 
 export const useSettingsStore = defineStore(
-  "setting",
+  "settings",
   () => {
-    const settings = ref({
+    const settings = ref<InterfaceSettings>({
       showBookDetails: true,
+      showDigital: "show",
     });
 
     return { settings };
