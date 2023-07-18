@@ -11,7 +11,9 @@
     "changePassword": "Đổi mật khẩu",
     "jumpToTop": "Lên đầu trang",
     "filter": "Lọc",
-    "options": "Tuỳ chọn"
+    "options": "Tuỳ chọn",
+    "print": "In",
+    "download": "Tải về"
   },
   "account": {
     "profile": "Trang cá nhân",

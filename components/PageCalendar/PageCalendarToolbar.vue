@@ -6,9 +6,6 @@ import { Collections, PublisherResponse } from "@/types/pb";
 const runtimeConfig = useRuntimeConfig();
 const { $pb } = useNuxtApp();
 
-const toolbar = ref<HTMLDivElement>();
-const toolbarLogo = ref<HTMLDivElement>();
-
 const { data: publisherOptions } = useAsyncData(
   () => $pb.collection(Collections.Publisher).getFullList<PublisherResponse>(),
   {
@@ -32,36 +29,16 @@ defineEmits<{
   updateMonth: [month: Dayjs];
   updatePublishers: [publishers: FilterPublishers[]];
 }>();
-
-onMounted(() => {
-  document.documentElement.style.setProperty(
-    "--toolbar-logo-size",
-    `${toolbarLogo.value?.clientWidth}px`
-  );
-
-  window.addEventListener("scroll", () => {
-    if (
-      toolbar.value &&
-      toolbar.value.getBoundingClientRect().y >= -1 &&
-      toolbar.value.getBoundingClientRect().y <= 1
-    )
-      toolbar.value.classList.add("toolbar__sticky");
-    else toolbar.value?.classList.remove("toolbar__sticky");
-  });
-});
 </script>
 
 <template>
-  <div ref="toolbar" class="sticky top-0 z-10 mb-3 bg-gray-50 dark:bg-gray-900">
+  <div class="sticky top-0 z-10 mb-3 bg-gray-50 dark:bg-gray-900">
     <div class="container mx-auto px-6 py-3">
       <div
         class="flex flex-col justify-between gap-3 sm:flex-row sm:items-center"
       >
-        <div class="toolbar--main flex items-center gap-3">
-          <div
-            ref="toolbarLogo"
-            class="toolbar--logo flex items-center gap-3 text-gray-500"
-          >
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-3 text-gray-500">
             <img class="h-6 w-auto" src="/icon.svg" />
             <UIcon name="i-fluent-slash-forward-20-filled" class="text-2xl" />
           </div>
@@ -116,40 +93,8 @@ onMounted(() => {
             </UButton>
           </USelectMenu>
           <PageCalendarOptions />
-          <UButton
-            color="gray"
-            icon="i-fluent-more-vertical-20-filled"
-            square
-            disabled
-          />
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<style>
-:root {
-  --toolbar-logo-size: 4rem;
-}
-
-.toolbar--logo {
-  opacity: 0;
-  visibility: hidden;
-  transition: all 200ms ease;
-}
-
-.toolbar__sticky .toolbar--logo {
-  visibility: visible;
-  opacity: 1;
-}
-
-.toolbar--main {
-  transition: transform 200ms ease;
-  transform: translateX(calc(var(--toolbar-logo-size) * -1 - 0.75rem));
-}
-
-.toolbar__sticky .toolbar--main {
-  transform: translateX(0);
-}
-</style>
