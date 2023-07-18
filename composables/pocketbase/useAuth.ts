@@ -1,10 +1,11 @@
-import { ClientResponseError, Record } from "pocketbase";
+import { ClientResponseError } from "pocketbase";
+import { Collections, UsersResponse } from "@/types/pb";
 
 export const useAuth = () => {
   const { $pb } = useNuxtApp();
   const toast = useToast();
 
-  const data = ref<Record | null>(null);
+  const data = ref<UsersResponse | null>(null);
   const pending = ref(false);
 
   const register = async (
@@ -45,18 +46,18 @@ export const useAuth = () => {
       });
     } else {
       try {
-        await $pb.collection("users").create({
+        await $pb.collection(Collections.Users).create({
           username,
           email,
           password,
           passwordConfirm,
         });
 
-        await $pb.collection("users").requestVerification(email);
+        await $pb.collection(Collections.Users).requestVerification(email);
 
         const response = await $pb
-          .collection("users")
-          .authWithPassword(username, password);
+          .collection(Collections.Users)
+          .authWithPassword<UsersResponse>(username, password);
 
         data.value = response.record;
 
@@ -103,8 +104,8 @@ export const useAuth = () => {
     } else {
       try {
         const response = await $pb
-          .collection("users")
-          .authWithPassword(user, password);
+          .collection(Collections.Users)
+          .authWithPassword<UsersResponse>(user, password);
 
         data.value = response.record;
 
@@ -143,7 +144,7 @@ export const useAuth = () => {
       });
     } else {
       try {
-        await $pb.collection("users").requestPasswordReset(email);
+        await $pb.collection(Collections.Users).requestPasswordReset(email);
 
         toast.add({
           color: "primary",

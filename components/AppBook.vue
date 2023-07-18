@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { Record } from "pocketbase";
 import { useSettingsStore } from "@/stores/settings";
+import {
+  PublisherResponse,
+  ReleaseCalendarResponse,
+  TitleRecord,
+} from "@/types/pb";
 
 const store = useSettingsStore();
 
 const { settings } = storeToRefs(store);
 
 defineProps<{
-  book: Partial<Record>;
+  book: ReleaseCalendarResponse<{
+    title: TitleRecord;
+    publisher: PublisherResponse;
+  }>;
 }>();
 </script>
 
@@ -41,7 +48,7 @@ defineProps<{
   <div v-if="settings.showBookDetails" class="mt-2">
     <div v-if="book.volume < 9000 && book.volume > 0" class="space-y-1">
       <span class="block font-condensed text-xl font-black">
-        {{ (book.expand!.title as Record).name }}
+        {{ book.expand!.title.name }}
       </span>
       <span class="block text-zinc-500 dark:text-zinc-400">
         {{ $t("calendar.volume", { volume: book.volume }) }}

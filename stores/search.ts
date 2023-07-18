@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 
 export const useSearchStore = defineStore("search", () => {
-  const query = ref("");
   const isActive = ref(false);
 
   function open() {
@@ -12,9 +11,5 @@ export const useSearchStore = defineStore("search", () => {
     isActive.value = false;
   }
 
-  function changeQuery(value: string) {
-    query.value = value;
-  }
-
-  return { query, isActive, open, close, changeQuery };
+  return { isActive, open, close };
 });

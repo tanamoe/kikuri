@@ -1,6 +1,5 @@
-import { Record } from "pocketbase";
-
-export interface DateRecord extends Partial<Record> {
+export interface DateRecord {
+  [k: string]: any;
   date: string;
 }
 
@@ -8,14 +7,12 @@ interface Group {
   [k: string]: any;
 }
 
-export interface GroupArray {
+export interface GroupArray<T> {
   date: Date;
-  publications: {
-    [k: string]: any;
-  }[];
+  publications: T[];
 }
 
-export const groupByDate = (data: DateRecord[]) => {
+export const groupByDate = <T>(data: DateRecord[]): GroupArray<T>[] => {
   // this gives an object with dates as keys
   const groups: Group = data.reduce((groups, entry) => {
     const date = entry.date.split("T")[0];
@@ -27,7 +24,7 @@ export const groupByDate = (data: DateRecord[]) => {
   }, {} as Group);
 
   // Edit: to add it in the array format instead
-  const groupArrays: GroupArray[] = Object.keys(groups).map((date) => {
+  const groupArrays: GroupArray<T>[] = Object.keys(groups).map((date) => {
     return {
       date: new Date(date),
       publications: groups[date],

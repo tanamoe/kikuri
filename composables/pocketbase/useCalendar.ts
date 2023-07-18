@@ -1,5 +1,11 @@
 import { GroupArray } from "@/utils/groupByDate";
 import type { FilterDigital } from "@/types/calendarFilter";
+import {
+  Collections,
+  PublisherResponse,
+  ReleaseCalendarResponse,
+  TitleResponse,
+} from "@/types/pb";
 
 export const useCalendar = (
   from: string | Ref<string>,
@@ -10,7 +16,14 @@ export const useCalendar = (
   const { $pb } = useNuxtApp();
 
   const pending = ref(false);
-  const data = ref<Partial<GroupArray>[]>();
+  const data = ref<
+    GroupArray<
+      ReleaseCalendarResponse<{
+        title: TitleResponse;
+        publisher: PublisherResponse;
+      }>
+    >[]
+  >();
   const error = ref();
 
   watchEffect(async () => {
@@ -35,7 +48,12 @@ export const useCalendar = (
     pending.value = true;
 
     try {
-      const res = await $pb.collection("release_calendar").getFullList({
+      const res = await $pb.collection(Collections.ReleaseCalendar).getFullList<
+        ReleaseCalendarResponse<{
+          title: TitleResponse;
+          publisher: PublisherResponse;
+        }>
+      >({
         filter: filter.join(" && "),
         sort: "+publish_date",
         expand: "title, publisher",
