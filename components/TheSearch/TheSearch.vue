@@ -64,6 +64,17 @@ defineShortcuts({
 
 <template>
   <UModal v-model="isActive">
-    <UCommandPalette :groups="groups" @update:model-value="onSelect" />
+    <UCommandPalette
+      :groups="groups"
+      :placeholder="$t('general.searchPlaceholder')"
+      @update:model-value="onSelect"
+    >
+      <template #empty-state>
+        <div class="flex flex-col items-center justify-center gap-3 py-6">
+          <UIcon name="i-fluent-search-20-regular" class="text-2xl" />
+          <span class="text-sm">{{ $t("general.searchNoResult") }}</span>
+        </div>
+      </template>
+    </UCommandPalette>
   </UModal>
 </template>

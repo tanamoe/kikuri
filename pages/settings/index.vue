@@ -1,8 +1,12 @@
 <script setup lang="ts">
-await navigateTo("/settings/profile");
+import { useUserStore } from "@/stores/user";
+
+const { isAuthenticated } = useUserStore();
+
+if (isAuthenticated) navigateTo("/settings/profile");
+else navigateTo("/settings/interface");
 
 definePageMeta({
   layout: "setting",
-  middleware: "auth",
 });
 </script>
