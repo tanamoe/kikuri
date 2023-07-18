@@ -26,7 +26,7 @@ const scrollToTop = () => emit("update:modelValue", 0);
 
 <template>
   <div
-    class="fixed bottom-3 left-1/2 flex -translate-x-1/2 transform space-x-3"
+    class="fixed bottom-3 left-1/2 flex w-max -translate-x-1/2 transform space-x-3"
   >
     <UButton
       color="gray"
@@ -48,7 +48,7 @@ const scrollToTop = () => emit("update:modelValue", 0);
     <UButton
       color="gray"
       icon="i-fluent-chevron-down-20-filled"
-      :disabled="modelValue === length"
+      :disabled="modelValue === length - 1"
       square
       :ui="floatingButton"
       @click="scrollDown"
