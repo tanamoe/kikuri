@@ -4,9 +4,9 @@ import type { LocaleObject } from "@nuxtjs/i18n/dist/runtime/composables";
 const { locale, locales, setLocale } = useI18n();
 
 const availableLocales = computed(() => {
-  return locales.value.map((l) => ({
-    id: (l as LocaleObject).code,
-    label: (l as LocaleObject).icon,
+  return (locales.value as LocaleObject[]).map((l) => ({
+    id: l.code,
+    label: l.icon,
   }));
 });
 
@@ -19,6 +19,6 @@ const currentLocale = ref(
   <USelectMenu
     v-model="currentLocale"
     :options="availableLocales"
-    @update:model-value="(v) => setLocale(v.id)"
+    @update:model-value="(v: typeof currentLocale) => setLocale(v!.id)"
   />
 </template>
