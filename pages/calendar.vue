@@ -30,20 +30,26 @@ const doScroll = () =>
     behavior: "smooth",
   });
 
-onMounted(() => {
-  window.addEventListener("wheel", () => {
-    // for getting current position
-    let min = window.innerHeight;
-    monthRefs.value.forEach((div, i) => {
-      if (
-        div.getBoundingClientRect().bottom > 0 &&
-        div.getBoundingClientRect().bottom < min
-      ) {
-        min = div.getBoundingClientRect().bottom;
-        currentPosition.value = i;
-      }
-    });
+const onScroll = () => {
+  // for getting current position
+  let min = window.innerHeight;
+  monthRefs.value.forEach((div, i) => {
+    if (
+      div.getBoundingClientRect().top > 0 &&
+      div.getBoundingClientRect().top < min
+    ) {
+      min = div.getBoundingClientRect().top;
+      currentPosition.value = i;
+    }
   });
+};
+
+onMounted(() => {
+  window.addEventListener("scroll", onScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", onScroll);
 });
 
 definePageMeta({
@@ -94,7 +100,7 @@ definePageMeta({
         v-for="group in releases"
         :key="group.date.toDateString()"
         ref="monthRefs"
-        class="mb-24 flex scroll-mt-16 gap-6"
+        class="mb-24 flex scroll-mt-28 gap-6 sm:scroll-mt-16"
       >
         <div
           class="sticky top-28 w-12 flex-shrink-0 self-start sm:top-16 md:w-20"
