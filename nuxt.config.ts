@@ -11,6 +11,7 @@ export default defineNuxtConfig({
   modules: [
     "@vueuse/nuxt",
     "@pinia/nuxt",
+    "@pinia-plugin-persistedstate/nuxt",
     "@nuxtjs/i18n",
     "@nuxtjs/google-fonts",
     "@nuxt/image",
@@ -67,12 +68,14 @@ export default defineNuxtConfig({
     locales: [
       {
         code: "vi",
+        icon: "🇻🇳",
         iso: "vi-VN",
         name: "Tiếng Việt",
         file: "vi-VN.json",
       },
       {
         code: "en",
+        icon: "🇺🇸",
         iso: "en-US",
         name: "English (US)",
         file: "en-US.json",
