@@ -17,19 +17,17 @@ defineProps<{
 </script>
 
 <template>
-  <nuxt-img
+  <img
     v-if="book.base_cover.length > 0"
     loading="lazy"
     class="aspect-[2/3] h-full w-full object-cover"
-    :placeholder="[20, 30, 10]"
     :src="`${runtimeConfig.public.image_endpoint}/${book.collectionId}/${book.id}/${book.base_cover[0]}`"
     :sizes="sizes"
   />
-  <nuxt-img
+  <img
     v-else-if="book.cover.length > 0"
     loading="lazy"
     class="aspect-[2/3] h-full w-full object-cover"
-    :placeholder="[20, 30, 10]"
     :src="`${runtimeConfig.public.image_endpoint}/${book.collectionId}/${book.id}/${book.cover[0]}`"
     :sizes="sizes"
   />
