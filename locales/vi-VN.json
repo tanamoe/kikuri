@@ -4,10 +4,14 @@
     "browse": "Danh mục",
     "library": "Tủ truyện",
     "settings": "Cài đặt",
+    "searchPlaceholder": "Tìm kiếm...",
     "searchResultFor": "Kết quả tìm kiếm cho \"{query}\"...",
+    "searchNoResult": "Không tìm thấy kết quả, hãy thử lại",
     "save": "Lưu",
     "changePassword": "Đổi mật khẩu",
-    "jumpToTop": "Lên đầu trang"
+    "jumpToTop": "Lên đầu trang",
+    "filter": "Lọc",
+    "options": "Tuỳ chọn"
   },
   "account": {
     "profile": "Trang cá nhân",
@@ -28,10 +32,26 @@
   "settings": {
     "profile": "Cá nhân",
     "account": "Tài khoản",
-    "changePassword": "Mật khẩu"
+    "changePassword": "Mật khẩu",
+    "interface": "Hiển thị"
   },
   "monthPicker": {
     "reset": "Hiện tại",
     "save": "Chọn"
+  },
+  "calendar": {
+    "volume": "Tập {volume}",
+    "publishers": "Nhà xuất bản",
+    "digitalOptions": "Hiển thị lịch phát hành điện tử (e-book)?",
+    "showDigital": "Có",
+    "hideDigital": "Không",
+    "onlyDigital": "Chỉ hiện lịch điện tử",
+    "noReleases": "Không tìm thấy!",
+    "noReleasesDescription": "Có thể lịch phát hành tháng này chưa có, quay lại sau nhé!",
+    "unknownError": "Lỗi không xác định",
+    "unknownErrorDescription": "Đã có gì đó sai sai xảy ra, hãy thử tải lại trang hoặc báo cáo với bọn mình..."
+  },
+  "interface": {
+    "showBookDetails": "Hiển thị thông tin sách bên dưới ảnh bìa"
   }
 }
