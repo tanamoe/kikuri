@@ -1,3 +1,3 @@
-export { useAccount } from "./pocketbase/useAccount";
-export { useAuth } from "./pocketbase/useAuth";
-export { useCalendar } from "./pocketbase/useCalendar";
+export { useCalendar } from "./pocketbase/calendar";
+export { useLogin, usePasswordReset, useRegister } from "./pocketbase/auth";
+export { useUpdateAccount, useRequestVerification } from "./pocketbase/account";

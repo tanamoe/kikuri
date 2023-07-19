@@ -64,7 +64,7 @@ defineProps<{
       <div class="flex items-center justify-end gap-3 whitespace-nowrap">
         <TheSearchToggle />
         <AppLanguageSwitcher />
-        <TheUser />
+        <TheNavigationUser />
       </div>
     </div>
   </nav>
