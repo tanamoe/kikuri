@@ -13,7 +13,10 @@
     "filter": "Lọc",
     "options": "Tuỳ chọn",
     "print": "In",
-    "download": "Tải về"
+    "download": "Tải về",
+    "request": "Yêu cầu",
+    "error": "Lỗi",
+    "success": "Thành công"
   },
   "account": {
     "profile": "Trang cá nhân",
@@ -29,7 +32,23 @@
     "password": "Mật khẩu",
     "passwordConfirm": "Xác nhận mật khẩu",
     "oldPassword": "Mật khẩu cũ",
-    "avatar": "Ảnh đại diện"
+    "avatar": "Ảnh đại diện",
+    "updateSuccessful": "Cập nhật thành công",
+    "requestVerificationEmailSent": "Đã gửi email xác minh tài khoản",
+    "sendVerificationEmail": "Gửi email xác minh",
+    "verify": "Xác minh tài khoản",
+    "verifyLater": "Xác minh sau",
+    "verifyDescription": "Cảm ơn bạn đã tạo tài khoản tại Tana.moe! Hãy xác minh địa chỉ email để gia tăng trải nghiệm sử dụng."
+  },
+  "auth": {
+    "loginSuccessful": "Đăng nhập thành công",
+    "requestSuccessful": "Yêu cầu thành công",
+    "redirecting": "Đang chuyển hướng...",
+    "checkEmailInbox": "Bạn vui lòng kiểm tra hộp thư...",
+    "usernameCannotBeEmpty": "Tên tài khoản không được để trống",
+    "emailCannotBeEmpty": "Email không được để trống",
+    "passwordCannotBeEmpty": "Mật khẩu không được để trống",
+    "passwordNotMatch": "Xác nhận mật khẩu không đúng"
   },
   "settings": {
     "profile": "Cá nhân",

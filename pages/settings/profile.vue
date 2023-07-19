@@ -1,16 +1,21 @@
 <script setup lang="ts">
 import { Record } from "pocketbase";
+import { storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/user";
 
-const { currentUser } = useUserStore();
-const { pending, updateAccount } = useAccount();
+const store = useUserStore();
+const { currentUser } = storeToRefs(store);
+const { pending, update } = useUpdateAccount();
 
-const account = ref<Partial<Record>>({ ...currentUser, avatar: undefined });
+const account = ref<Partial<Record>>({
+  ...unref(currentUser),
+  avatar: undefined,
+});
 const profileForm = ref<HTMLFormElement>();
 
-const handleUpdate = async () => {
+const handleUpdate = () => {
   const formData = new FormData(profileForm.value);
-  await updateAccount(account.value.id!, formData);
+  update(0, { id: account.value.id!, record: formData });
 };
 
 definePageMeta({
@@ -22,7 +27,7 @@ definePageMeta({
 <template>
   <div class="flex flex-col gap-6 lg:flex-row-reverse">
     <AppCard class="w-full lg:max-w-sm">
-      <AppUserProfile :user="currentUser!" />
+      <AppUserProfile v-if="currentUser" :user="currentUser" />
     </AppCard>
 
     <form

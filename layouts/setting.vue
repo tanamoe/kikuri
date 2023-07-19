@@ -34,7 +34,7 @@ const account = [
   <div>
     <TheNavigation />
     <main class="container mx-auto overflow-x-hidden px-6">
-      <AppHeading>Cài đặt</AppHeading>
+      <AppHeading class="mb-6">{{ $t("general.settings") }}</AppHeading>
       <div class="flex flex-col gap-6 sm:flex-row">
         <div
           class="flex gap-3 overflow-x-scroll whitespace-nowrap sm:w-48 sm:flex-col"

@@ -3,14 +3,14 @@ import { Record } from "pocketbase";
 import { useUserStore } from "@/stores/user";
 
 const { currentUser } = useUserStore();
-const { pending, updateAccount } = useAccount();
+const { pending, update } = useUpdateAccount();
 
 const account = ref<Partial<Record>>({ ...currentUser });
 const accountForm = ref<HTMLFormElement>();
 
-const handleUpdate = async () => {
+const handleUpdate = () => {
   const formData = new FormData(accountForm.value);
-  await updateAccount(account.value.id!, formData);
+  update(0, { id: account.value.id!, record: formData });
 };
 
 definePageMeta({

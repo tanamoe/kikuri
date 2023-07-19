@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Record } from "pocketbase";
 
-const { pending, register } = useAuth();
-
 const username = ref("");
 const email = ref("");
 const password = ref("");
 const passwordConfirm = ref("");
+
+const { pending, register } = useRegister();
 
 definePageMeta({
   middleware: [
@@ -26,10 +26,12 @@ definePageMeta({
     class="mx-6 my-12 flex h-full flex-col items-center justify-center gap-6 overflow-y-scroll"
   >
     <div class="w-full max-w-sm rounded-lg bg-zinc-200 p-6 dark:bg-zinc-800">
-      <AppHeading>{{ $t("account.register") }}</AppHeading>
+      <AppHeading class="mb-6">{{ $t("account.register") }}</AppHeading>
       <form
         class="space-y-6"
-        @submit.prevent="register(username, email, password, passwordConfirm)"
+        @submit.prevent="
+          register(0, { username, email, password, passwordConfirm })
+        "
       >
         <div class="space-y-3">
           <UFormGroup name="username" :label="$t('account.username')">

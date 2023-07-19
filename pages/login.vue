@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Record } from "pocketbase";
 
-const { pending, loginWithPassword } = useAuth();
-
 const user = ref("");
 const password = ref("");
+
+const { pending, login } = useLogin();
 
 definePageMeta({
   middleware: [
@@ -24,11 +24,8 @@ definePageMeta({
     class="mx-6 my-12 flex h-full flex-col items-center justify-center gap-6 overflow-y-scroll"
   >
     <div class="w-full max-w-sm rounded-lg bg-zinc-100 p-6 dark:bg-zinc-800">
-      <AppHeading>{{ $t("account.login") }}</AppHeading>
-      <form
-        class="space-y-6"
-        @submit.prevent="loginWithPassword(user, password)"
-      >
+      <AppHeading class="mb-6">{{ $t("account.login") }}</AppHeading>
+      <form class="space-y-6" @submit.prevent="login(0, { user, password })">
         <div class="space-y-3">
           <UFormGroup name="user" :label="$t('account.usernameOrEmail')">
             <UInput
