@@ -4,7 +4,7 @@ import { useSettingsStore } from "@/stores/settings";
 import {
   PublisherResponse,
   ReleaseCalendarResponse,
-  TitleRecord,
+  TitleResponse,
 } from "@/types/pb";
 
 const store = useSettingsStore();
@@ -13,7 +13,7 @@ const { settings } = storeToRefs(store);
 
 defineProps<{
   book: ReleaseCalendarResponse<{
-    title: TitleRecord;
+    title: TitleResponse;
     publisher: PublisherResponse;
   }>;
 }>();

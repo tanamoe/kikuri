@@ -1,5 +1,5 @@
 import { ClientResponseError } from "pocketbase";
-import { Collections, UsersRecord } from "@/types/pb";
+import { Collections, UsersRecord, UsersResponse } from "@/types/pb";
 
 export const useUpdateAccount = () => {
   const { $pb } = useNuxtApp();
@@ -17,7 +17,7 @@ export const useUpdateAccount = () => {
       try {
         const response = await $pb
           .collection(Collections.Users)
-          .update<UsersRecord>(id, record);
+          .update<UsersResponse>(id, record);
 
         toast.add({
           color: "primary",
