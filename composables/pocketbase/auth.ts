@@ -1,5 +1,5 @@
 import { ClientResponseError } from "pocketbase";
-import { Collections, UsersRecord } from "@/types/pb";
+import { Collections, UsersResponse } from "@/types/pb";
 
 export const useRegister = () => {
   const { $pb } = useNuxtApp();
@@ -75,7 +75,7 @@ export const useRegister = () => {
 
         const response = await $pb
           .collection(Collections.Users)
-          .authWithPassword<UsersRecord>(username, password);
+          .authWithPassword<UsersResponse>(username, password);
 
         toast.add({
           color: "primary",
@@ -143,7 +143,7 @@ export const useLogin = () => {
       try {
         const response = await $pb
           .collection(Collections.Users)
-          .authWithPassword<UsersRecord>(user, password);
+          .authWithPassword<UsersResponse>(user, password);
 
         toast.add({
           color: "primary",

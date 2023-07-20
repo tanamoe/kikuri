@@ -1,16 +1,11 @@
 <script setup lang="ts">
-import {
-  PublisherResponse,
-  ReleaseCalendarResponse,
-  TitleRecord,
-} from "@/types/pb";
+import { ReleaseCalendarResponse, TitleResponse } from "@/types/pb";
 
 const runtimeConfig = useRuntimeConfig();
 
 defineProps<{
   book: ReleaseCalendarResponse<{
-    title: TitleRecord;
-    publisher: PublisherResponse;
+    title: TitleResponse;
   }>;
   sizes?: string;
 }>();
