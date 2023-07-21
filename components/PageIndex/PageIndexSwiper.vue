@@ -22,7 +22,7 @@ defineProps<{
         leave-from-class="opacity-100 translate-x-0"
         leave-to-class="opacity-0 -translate-x-3"
       >
-        <div :key="index" class="h-72 w-full overflow-y-hidden">
+        <div :key="index" class="w-full">
           <div v-if="data[index].publish_date" class="mb-3">
             {{
               $t("interface.releaseDate", {

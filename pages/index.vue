@@ -8,11 +8,13 @@ const { data: recentPosts } = await useRecentPosts();
 
 <template>
   <div class="space-y-24">
-    <PageIndexSwiper
-      v-if="recentReleases"
-      :data="recentReleases"
-      class="px-6"
-    />
+    <div class="h-[600px] overflow-y-hidden sm:h-fit">
+      <PageIndexSwiper
+        v-if="recentReleases"
+        :data="recentReleases"
+        class="px-6"
+      />
+    </div>
 
     <div v-if="recentPosts">
       <NuxtLink :to="runtimeConfig.public.blog_url" target="_blank">
