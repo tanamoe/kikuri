@@ -1,9 +1,10 @@
+import dayjs from "dayjs";
 import { GroupArray } from "@/utils/groupByDate";
 import type { FilterDigital } from "@/types/calendarFilter";
 import {
   Collections,
   PublisherResponse,
-  ReleaseCalendarResponse,
+  DetailedBookResponse,
   TitleResponse,
 } from "@/types/pb";
 
@@ -18,7 +19,7 @@ export const useCalendar = (
   const pending = ref(false);
   const data = ref<
     GroupArray<
-      ReleaseCalendarResponse<{
+      DetailedBookResponse<{
         title: TitleResponse;
         publisher: PublisherResponse;
       }>
@@ -48,8 +49,8 @@ export const useCalendar = (
     pending.value = true;
 
     try {
-      const res = await $pb.collection(Collections.ReleaseCalendar).getFullList<
-        ReleaseCalendarResponse<{
+      const res = await $pb.collection(Collections.DetailedBook).getFullList<
+        DetailedBookResponse<{
           title: TitleResponse;
           publisher: PublisherResponse;
         }>
@@ -76,4 +77,31 @@ export const useCalendar = (
   });
 
   return { pending, data, error };
+};
+
+export const useRecentReleases = () => {
+  const { $pb } = useNuxtApp();
+  const now = dayjs();
+
+  return useAsyncData(
+    () =>
+      $pb.collection(Collections.DetailedBook).getFullList<
+        DetailedBookResponse<{
+          publisher: PublisherResponse;
+        }>
+      >({
+        sort: "+publish_date",
+        filter: `publish_date >= '${now.toISOString()}' && publish_date <= '${now
+          .add(2, "days")
+          .toISOString()}'`,
+        expand: "publisher",
+      }),
+    {
+      transform: (data) =>
+        structuredClone(data).map((book) => ({
+          ...book,
+          volume: Math.floor(book.volume / 10000) + (book.volume % 10) * 0.1,
+        })),
+    }
+  );
 };
