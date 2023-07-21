@@ -16,7 +16,8 @@
     "download": "Tải về",
     "request": "Yêu cầu",
     "error": "Lỗi",
-    "success": "Thành công"
+    "success": "Thành công",
+    "categories": "Thể loại"
   },
   "account": {
     "profile": "Trang cá nhân",
@@ -73,6 +74,12 @@
     "unknownErrorDescription": "Đã có gì đó sai sai xảy ra, hãy thử tải lại trang hoặc báo cáo với bọn mình..."
   },
   "interface": {
-    "showBookDetails": "Hiển thị thông tin sách bên dưới ảnh bìa"
+    "showBookDetails": "Hiển thị thông tin sách bên dưới ảnh bìa",
+    "recentPosts": "Bài viết gần đây",
+    "justAddedManga": "Truyện vừa cập nhật",
+    "releaseDate": "Phát hành ngày {date}",
+    "viewTitleDetails": "Xem chi tiết",
+    "bookPrice": "Giá dự kiến",
+    "publishedBy": "Phát hành bởi"
   }
 }
