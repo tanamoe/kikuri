@@ -4,11 +4,11 @@
 
 export enum Collections {
   Book = "book",
+  DetailedBook = "detailed_book",
   Format = "format",
   Publication = "publication",
   Publisher = "publisher",
   Release = "release",
-  ReleaseCalendar = "release_calendar",
   Title = "title",
   Users = "users",
 }
@@ -45,6 +45,20 @@ export type BookRecord<Tmetadata = unknown> = {
   price?: number;
   metadata?: null | Tmetadata;
   old_id?: string;
+};
+
+export type DetailedBookRecord = {
+  name: string;
+  volume?: number;
+  release?: RecordIdString;
+  publish_date?: IsoDateString;
+  base_cover?: string[];
+  cover?: string[];
+  edition?: string;
+  price?: number;
+  digital?: boolean;
+  publisher?: RecordIdString;
+  title: RecordIdString;
 };
 
 export type FormatRecord = {
@@ -89,20 +103,6 @@ export type ReleaseRecord = {
   old_id?: number;
 };
 
-export type ReleaseCalendarRecord = {
-  name: string;
-  volume?: number;
-  release?: RecordIdString;
-  publish_date?: IsoDateString;
-  base_cover?: string[];
-  cover?: string[];
-  edition?: string;
-  price?: number;
-  digital?: boolean;
-  publisher?: RecordIdString;
-  title: RecordIdString;
-};
-
 export type TitleRecord = {
   name: string;
   description?: HTMLString;
@@ -122,6 +122,8 @@ export type BookResponse<Tmetadata = unknown, Texpand = unknown> = Required<
   BookRecord<Tmetadata>
 > &
   BaseSystemFields<Texpand>;
+export type DetailedBookResponse<Texpand = unknown> =
+  Required<DetailedBookRecord> & BaseSystemFields<Texpand>;
 export type FormatResponse<Texpand = unknown> = Required<FormatRecord> &
   BaseSystemFields<Texpand>;
 export type PublicationResponse<
@@ -132,8 +134,6 @@ export type PublisherResponse<Texpand = unknown> = Required<PublisherRecord> &
   BaseSystemFields<Texpand>;
 export type ReleaseResponse<Texpand = unknown> = Required<ReleaseRecord> &
   BaseSystemFields<Texpand>;
-export type ReleaseCalendarResponse<Texpand = unknown> =
-  Required<ReleaseCalendarRecord> & BaseSystemFields<Texpand>;
 export type TitleResponse<Texpand = unknown> = Required<TitleRecord> &
   BaseSystemFields<Texpand>;
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> &
@@ -143,22 +143,22 @@ export type UsersResponse<Texpand = unknown> = Required<UsersRecord> &
 
 export type CollectionRecords = {
   book: BookRecord;
+  detailed_book: DetailedBookRecord;
   format: FormatRecord;
   publication: PublicationRecord;
   publisher: PublisherRecord;
   release: ReleaseRecord;
-  release_calendar: ReleaseCalendarRecord;
   title: TitleRecord;
   users: UsersRecord;
 };
 
 export type CollectionResponses = {
   book: BookResponse;
+  detailed_book: DetailedBookResponse;
   format: FormatResponse;
   publication: PublicationResponse;
   publisher: PublisherResponse;
   release: ReleaseResponse;
-  release_calendar: ReleaseCalendarResponse;
   title: TitleResponse;
   users: UsersResponse;
 };
