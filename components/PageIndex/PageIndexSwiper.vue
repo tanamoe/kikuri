@@ -12,7 +12,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex flex-col-reverse gap-12 overflow-x-hidden sm:flex-row">
+  <div class="flex flex-col-reverse gap-12 overflow-hidden sm:flex-row">
     <div class="relative z-10 -mt-28 flex-1 sm:mt-12">
       <Transition
         enter-active-class="transition-all duration-300"
@@ -22,7 +22,7 @@ defineProps<{
         leave-from-class="opacity-100 translate-x-0"
         leave-to-class="opacity-0 -translate-x-3"
       >
-        <div :key="index" class="w-full">
+        <div :key="index" class="h-72 w-full">
           <div v-if="data[index].publish_date" class="mb-3">
             {{
               $t("interface.releaseDate", {
@@ -48,7 +48,7 @@ defineProps<{
             <UButton
               :to="`/title/${data[index].title}`"
               icon="i-fluent-info-20-filled"
-              color="black"
+              color="gray"
             >
               {{ $t("interface.viewTitleDetails") }}
             </UButton>

@@ -8,7 +8,7 @@ const { data: recentPosts } = await useRecentPosts();
 
 <template>
   <div class="space-y-24">
-    <div class="h-[600px] overflow-y-hidden sm:h-fit">
+    <div class="overflow-y-hidden sm:h-fit">
       <PageIndexSwiper
         v-if="recentReleases"
         :data="recentReleases"
