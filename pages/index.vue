@@ -24,7 +24,7 @@ const { data: recentPosts } = await useRecentPosts();
         </AppH2>
       </NuxtLink>
       <div
-        class="flex snap-x snap-mandatory gap-6 overflow-x-scroll sm:grid sm:grid-cols-3 sm:px-6"
+        class="flex snap-x snap-mandatory gap-6 overflow-x-scroll sm:grid sm:grid-cols-3 sm:overflow-x-hidden sm:px-6"
       >
         <div
           v-for="(post, i) in recentPosts"
@@ -48,7 +48,7 @@ const { data: recentPosts } = await useRecentPosts();
         </AppH2>
       </NuxtLink>
       <div
-        class="flex snap-x snap-mandatory gap-6 overflow-x-scroll sm:grid sm:grid-cols-3 sm:px-6 md:grid-cols-6"
+        class="flex snap-x snap-mandatory gap-6 overflow-x-scroll sm:grid sm:grid-cols-3 sm:overflow-x-hidden sm:px-6 md:grid-cols-6"
       >
         <div
           v-for="(book, i) in recentBooks"
