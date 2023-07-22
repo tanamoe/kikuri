@@ -1,9 +1,10 @@
 <template>
   <div>
     <TheNavigation :sticky="false" />
-    <main>
+    <main class="pb-6">
       <slot />
     </main>
+    <TheFooter />
     <TheSearch />
   </div>
 </template>
