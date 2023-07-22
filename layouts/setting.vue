@@ -33,7 +33,7 @@ const account = [
 <template>
   <div>
     <TheNavigation />
-    <main class="container mx-auto overflow-x-hidden px-6">
+    <main class="container mx-auto min-h-[80vh] overflow-x-hidden px-6 pb-6">
       <AppHeading class="mb-6">{{ $t("general.settings") }}</AppHeading>
       <div class="flex flex-col gap-6 sm:flex-row">
         <div
@@ -50,6 +50,7 @@ const account = [
         </div>
       </div>
     </main>
+    <TheFooter />
     <TheSearch />
   </div>
 </template>
