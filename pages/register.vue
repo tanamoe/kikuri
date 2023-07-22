@@ -23,9 +23,9 @@ definePageMeta({
 
 <template>
   <div
-    class="mx-6 my-12 flex h-full flex-col items-center justify-center gap-6 overflow-y-scroll"
+    class="mx-6 my-12 flex h-[80vh] flex-col items-center justify-center gap-6 overflow-y-scroll"
   >
-    <div class="w-full max-w-sm rounded-lg bg-zinc-200 p-6 dark:bg-zinc-800">
+    <div class="w-full max-w-sm rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
       <AppHeading class="mb-6">{{ $t("account.register") }}</AppHeading>
       <form
         class="space-y-6"
