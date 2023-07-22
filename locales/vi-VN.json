@@ -81,5 +81,23 @@
     "viewTitleDetails": "Xem chi tiết",
     "bookPrice": "Giá dự kiến",
     "publishedBy": "Phát hành bởi"
+  },
+  "footer": {
+    "links": {
+      "blog": "Blog",
+      "about": "Giới thiệu",
+      "credits": "Credit",
+      "api": "API",
+      "status": "Status",
+      "sitemap": "Sitemap",
+      "tos": "Điều khoản",
+      "privacy": "Bảo mật",
+      "contact": "Liên hệ"
+    }
+  },
+  "error": {
+    "notFoundMessage": "Không tìm thấy đường dẫn",
+    "generalMessage": "Đã có lỗi xảy ra",
+    "returnHome": "Trở về trang chủ"
   }
 }
