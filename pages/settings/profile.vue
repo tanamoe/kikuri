@@ -10,11 +10,16 @@ const { pending, update } = useUpdateAccount();
 const account = ref<Partial<Record>>({
   ...unref(currentUser),
   avatar: undefined,
+  banner: undefined,
 });
 const profileForm = ref<HTMLFormElement>();
 
 const handleUpdate = () => {
   const formData = new FormData(profileForm.value);
+
+  if (account.value.avatar === undefined) formData.delete("avatar");
+  if (account.value.banner === undefined) formData.delete("banner");
+
   update(0, { id: account.value.id!, record: formData });
 };
 
@@ -40,6 +45,20 @@ definePageMeta({
       </UFormGroup>
       <UFormGroup name="bio" :label="$t('account.bio')">
         <UTextarea v-model="account.bio" />
+      </UFormGroup>
+      <UFormGroup name="avatar" :label="$t('account.avatar')">
+        <UInput
+          v-model="account.avatar"
+          accept="image/webp, image/jpeg, image/png"
+          type="file"
+        />
+      </UFormGroup>
+      <UFormGroup name="banner" :label="$t('account.banner')">
+        <UInput
+          v-model="account.banner"
+          accept="image/webp, image/jpeg, image/png"
+          type="file"
+        />
       </UFormGroup>
       <div class="text-right">
         <UButton :loading="pending" :label="$t('general.save')" type="submit" />
