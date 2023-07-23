@@ -6,23 +6,23 @@ const { t } = useI18n({ useScope: "global" });
 const store = useUserStore();
 const runtimeConfig = useRuntimeConfig();
 
-const user = storeToRefs(store);
+const { isAuthenticated, currentUser } = storeToRefs(store);
+
+const avatar = computed(() => {
+  if (currentUser.value)
+    if (currentUser.value.avatar !== "")
+      return `${runtimeConfig.public.image_endpoint}/${currentUser.value.collectionId}/${currentUser.value.id}/${currentUser.value.avatar}`;
+    else return "/avatar.jpg";
+});
 
 const items = computed(() => {
-  if (user.isAuthenticated.value)
+  if (isAuthenticated.value === true)
     return [
       [
         {
           label: t("account.profile"),
           avatar: {
-            src:
-              user.currentUser.value!.avatar !== ""
-                ? `${runtimeConfig.public.image_endpoint}/${
-                    user.currentUser.value!.collectionId
-                  }/${user.currentUser.value!.id}/${
-                    user.currentUser.value!.avatar
-                  }`
-                : "/avatar.jpg",
+            src: avatar.value,
           },
         },
       ],
@@ -69,6 +69,15 @@ const items = computed(() => {
 <template>
   <UDropdown :items="items" :popper="{ placement: 'bottom-end' }">
     <UButton
+      v-if="isAuthenticated === true"
+      color="gray"
+      variant="ghost"
+      square
+    >
+      <UAvatar :src="avatar" size="xs" />
+    </UButton>
+    <UButton
+      v-else
       icon="i-fluent-person-20-filled"
       color="gray"
       square
