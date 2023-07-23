@@ -17,7 +17,12 @@
     "request": "Yêu cầu",
     "error": "Lỗi",
     "success": "Thành công",
-    "categories": "Thể loại"
+    "categories": "Thể loại",
+    "darkMode": "Nền tối",
+    "lightMode": "Nền sáng",
+    "systemColorMode": "Tự động",
+    "comingSoon": "Đang phát triển...",
+    "comingSoonDescription": "Cảm ơn bạn đã trải nghiệm Tana.moe! Hiện trang này đang được phát triển, bạn quay lại sau nhé!"
   },
   "account": {
     "profile": "Trang cá nhân",
