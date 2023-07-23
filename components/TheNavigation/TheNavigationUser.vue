@@ -11,7 +11,7 @@ const { isAuthenticated, currentUser } = storeToRefs(store);
 const avatar = computed(() => {
   if (currentUser.value)
     if (currentUser.value.avatar !== "")
-      return `${runtimeConfig.public.image_endpoint}/${currentUser.value.collectionId}/${currentUser.value.id}/${currentUser.value.avatar}`;
+      return `${runtimeConfig.public.image_endpoint}/${currentUser.value.collectionId}/${currentUser.value.id}/${currentUser.value.avatar}?thumb=100x100`;
     else return "/avatar.jpg";
 });
 

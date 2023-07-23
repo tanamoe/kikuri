@@ -13,20 +13,23 @@ defineProps<{
     <img
       v-if="user.banner"
       class="aspect-[21/9] h-auto w-full rounded-lg object-cover"
-      :src="user.banner"
+      :src="`${runtimeConfig.public.image_endpoint}/${user.collectionId}/${user.id}/${user.banner}?thumb=420x180`"
     />
     <div
       v-else
       class="aspect-[21/9] h-full w-full rounded-lg bg-gray-300 dark:bg-gray-700"
     />
     <div class="relative -mt-16 ml-4 w-fit">
-      <img
-        class="aspect-square h-32 w-32 rounded-full border-4 border-gray-50 object-cover dark:border-gray-800"
+      <UAvatar
+        size="profile"
         :src="
           user.avatar != ''
-            ? `${runtimeConfig.public.image_endpoint}/${user.collectionId}/${user.id}/${user.avatar}`
+            ? `${runtimeConfig.public.image_endpoint}/${user.collectionId}/${user.id}/${user.avatar}?thumb=256x256`
             : '/avatar.jpg'
         "
+        :ui="{
+          rounded: 'ring-4 ring-gray-200 dark:ring-gray-800 rounded-full',
+        }"
       />
     </div>
     <div class="space-y-3 p-4">
