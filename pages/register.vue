@@ -26,7 +26,7 @@ definePageMeta({
     class="mx-6 my-12 flex h-[80vh] flex-col items-center justify-center gap-6"
   >
     <div class="w-full max-w-sm rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
-      <AppHeading class="mb-6">{{ $t("account.register") }}</AppHeading>
+      <AppH1 class="mb-6">{{ $t("account.register") }}</AppH1>
       <form
         class="space-y-6"
         @submit.prevent="
