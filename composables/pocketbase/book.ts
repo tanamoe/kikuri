@@ -1,12 +1,16 @@
-import { Collections, DetailedBookResponse, TitleResponse } from "@/types/pb";
+import {
+  Collections,
+  type BookDetailedResponse,
+  type TitleResponse,
+} from "@/types/pb";
 
 export const useRecentBooks = (count: number) => {
   const { $pb } = useNuxtApp();
 
   return useAsyncData(
     () =>
-      $pb.collection(Collections.DetailedBook).getList<
-        DetailedBookResponse<{
+      $pb.collection(Collections.BookDetailed).getList<
+        BookDetailedResponse<{
           title: TitleResponse;
         }>
       >(1, count, {

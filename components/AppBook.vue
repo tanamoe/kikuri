@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useSettingsStore } from "@/stores/settings";
-import { DetailedBookResponse, TitleResponse } from "@/types/pb";
+import type { BookDetailedResponse, TitleResponse } from "@/types/pb";
 
 const store = useSettingsStore();
 
 const { settings } = storeToRefs(store);
 
 defineProps<{
-  book: DetailedBookResponse<{
+  book: BookDetailedResponse<{
     title: TitleResponse;
   }>;
 }>();

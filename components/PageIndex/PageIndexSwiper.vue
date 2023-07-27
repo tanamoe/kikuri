@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { DetailedBookResponse, PublisherResponse } from "@/types/pb";
+import type { BookDetailedResponse, PublisherResponse } from "@/types/pb";
 
 const index = ref(0);
 const swiperEl = ref();
 
 defineProps<{
-  data: DetailedBookResponse<{
+  data: BookDetailedResponse<{
     publisher: PublisherResponse;
   }>[];
 }>();
