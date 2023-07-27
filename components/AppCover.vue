@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { DetailedBookResponse } from "@/types/pb";
+import type { BookDetailedResponse } from "@/types/pb";
 
 const runtimeConfig = useRuntimeConfig();
 
 defineProps<{
-  book: DetailedBookResponse;
+  book: BookDetailedResponse;
   sizes?: string;
 }>();
 </script>

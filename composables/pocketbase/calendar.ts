@@ -3,9 +3,9 @@ import { GroupArray } from "@/utils/groupByDate";
 import type { FilterDigital } from "@/types/calendarFilter";
 import {
   Collections,
-  PublisherResponse,
-  DetailedBookResponse,
-  TitleResponse,
+  type PublisherResponse,
+  type BookDetailedResponse,
+  type TitleResponse,
 } from "@/types/pb";
 
 export const useCalendar = (
@@ -19,7 +19,7 @@ export const useCalendar = (
   const pending = ref(false);
   const data = ref<
     GroupArray<
-      DetailedBookResponse<{
+      BookDetailedResponse<{
         title: TitleResponse;
         publisher: PublisherResponse;
       }>
@@ -49,8 +49,8 @@ export const useCalendar = (
     pending.value = true;
 
     try {
-      const res = await $pb.collection(Collections.DetailedBook).getFullList<
-        DetailedBookResponse<{
+      const res = await $pb.collection(Collections.BookDetailed).getFullList<
+        BookDetailedResponse<{
           title: TitleResponse;
           publisher: PublisherResponse;
         }>
@@ -85,8 +85,8 @@ export const useRecentReleases = () => {
 
   return useAsyncData(
     () =>
-      $pb.collection(Collections.DetailedBook).getFullList<
-        DetailedBookResponse<{
+      $pb.collection(Collections.BookDetailed).getFullList<
+        BookDetailedResponse<{
           publisher: PublisherResponse;
         }>
       >({
