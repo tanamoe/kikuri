@@ -28,6 +28,10 @@ export default defineNuxtConfig({
     shim: false,
     typeCheck: true,
   },
+  routeRules: {
+    "/": { isr: 3600 },
+    "/calendar": { prerender: true },
+  },
   image: {
     provider: "pocketbase",
     providers: {
