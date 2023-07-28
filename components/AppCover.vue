@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { BookDetailedResponse } from "@/types/pb";
 
-const runtimeConfig = useRuntimeConfig();
-
 defineProps<{
   book: BookDetailedResponse;
   sizes?: string;
@@ -10,18 +8,18 @@ defineProps<{
 </script>
 
 <template>
-  <img
+  <nuxt-img
     v-if="book.base_cover.length > 0"
     loading="lazy"
     class="aspect-[2/3] h-full w-full object-cover"
-    :src="`${runtimeConfig.public.image_endpoint}/${book.collectionId}/${book.id}/${book.base_cover[0]}`"
+    :src="`${book.collectionId}/${book.id}/${book.base_cover[0]}`"
     :sizes="sizes"
   />
-  <img
+  <nuxt-img
     v-else-if="book.cover.length > 0"
     loading="lazy"
     class="aspect-[2/3] h-full w-full object-cover"
-    :src="`${runtimeConfig.public.image_endpoint}/${book.collectionId}/${book.id}/${book.cover[0]}`"
+    :src="`${book.collectionId}/${book.id}/${book.cover[0]}`"
     :sizes="sizes"
   />
   <div

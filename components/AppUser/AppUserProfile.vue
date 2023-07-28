@@ -1,32 +1,36 @@
 <script setup lang="ts">
-import type { Record } from "pocketbase";
-
-const runtimeConfig = useRuntimeConfig();
+import type { UsersResponse } from "@/types/pb";
 
 defineProps<{
-  user: Partial<Record>;
+  user: UsersResponse;
 }>();
 </script>
 
 <template>
   <div>
-    <img
+    <nuxt-img
       v-if="user.banner"
       class="aspect-[21/9] h-auto w-full rounded-lg object-cover"
-      :src="user.banner"
+      loading="lazy"
+      :src="`${user.collectionId}/${user.id}/${user.banner}`"
     />
     <div
       v-else
       class="aspect-[21/9] h-full w-full rounded-lg bg-gray-300 dark:bg-gray-700"
     />
     <div class="relative -mt-16 ml-4 w-fit">
-      <img
-        class="aspect-square h-32 w-32 rounded-full border-4 border-gray-50 object-cover dark:border-gray-800"
-        :src="
-          user.avatar != ''
-            ? `${runtimeConfig.public.image_endpoint}/${user.collectionId}/${user.id}/${user.avatar}`
-            : '/avatar.jpg'
-        "
+      <nuxt-img
+        v-if="user.avatar == ''"
+        class="aspect-square h-32 w-32 rounded-full border-4 border-gray-200 object-cover dark:border-gray-800"
+        provider="static"
+        loading="lazy"
+        src="/avatar.jpg"
+      />
+      <nuxt-img
+        v-else
+        class="aspect-square h-32 w-32 rounded-full border-4 border-gray-200 object-cover dark:border-gray-800"
+        loading="lazy"
+        :src="`${user.collectionId}/${user.id}/${user.avatar}`"
       />
     </div>
     <div class="space-y-3 p-4">
