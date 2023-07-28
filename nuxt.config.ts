@@ -29,11 +29,18 @@ export default defineNuxtConfig({
     typeCheck: true,
   },
   image: {
+    provider: "pocketbase",
     providers: {
       imagor: {
         provider: "~/providers/imagor",
         options: {
           baseURL: "https://apps.glhf.vn/imagor",
+        },
+      },
+      pocketbase: {
+        provider: "~/providers/pocketbase",
+        options: {
+          baseURL: "https://pb.tana.moe/api/files",
         },
       },
     },
