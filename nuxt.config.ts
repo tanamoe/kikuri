@@ -29,8 +29,8 @@ export default defineNuxtConfig({
     typeCheck: true,
   },
   routeRules: {
-    "/": { isr: 3600 },
-    "/calendar": { prerender: true },
+    "/": { prerender: true, isr: 3600 },
+    "/calendar": { prerender: true, isr: true },
   },
   image: {
     provider: "pocketbase",
