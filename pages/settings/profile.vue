@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { Record } from "pocketbase";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/user";
+import type { UsersResponse } from "@/types/pb";
 
 const store = useUserStore();
 const { currentUser } = storeToRefs(store);
 const { pending, update } = useUpdateAccount();
 
-const account = ref<Partial<Record>>({
-  ...unref(currentUser),
-  avatar: undefined,
+const account = ref<UsersResponse>({
+  ...store.currentUser!,
+  avatar: "",
 });
 const profileForm = ref<HTMLFormElement>();
 
 const handleUpdate = () => {
   const formData = new FormData(profileForm.value);
-  update(0, { id: account.value.id!, record: formData });
+  update(0, { id: account.value.id, record: formData });
 };
 
 definePageMeta({

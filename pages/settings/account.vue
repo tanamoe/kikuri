@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { Record } from "pocketbase";
 import { useUserStore } from "@/stores/user";
+import type { UsersResponse } from "@/types/pb";
 
 const { currentUser } = useUserStore();
 const { pending, update } = useUpdateAccount();
 
-const account = ref<Partial<Record>>({ ...currentUser });
+const account = ref<UsersResponse>({ ...currentUser! });
 const accountForm = ref<HTMLFormElement>();
 
 const handleUpdate = () => {
   const formData = new FormData(accountForm.value);
-  update(0, { id: account.value.id!, record: formData });
+  update(0, { id: account.value.id, record: formData });
 };
 
 definePageMeta({

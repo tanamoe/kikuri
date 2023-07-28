@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { Record } from "pocketbase";
 import { useUserStore } from "@/stores/user";
 
 const { currentUser } = useUserStore();
 const { pending, update } = useUpdateAccount();
 
-const account = ref<Partial<Record>>({
+const account = ref({
   id: currentUser!.id,
   oldPassword: "",
   password: "",
@@ -15,7 +14,7 @@ const passwordForm = ref<HTMLFormElement>();
 
 const handleUpdate = () => {
   const formData = new FormData(passwordForm.value);
-  update(0, { id: account.value.id!, record: formData });
+  update(0, { id: account.value.id, record: formData });
 };
 
 definePageMeta({
