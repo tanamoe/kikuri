@@ -21,8 +21,8 @@ definePageMeta({
 </script>
 
 <template>
-  <div
-    class="mx-6 my-12 flex h-[80vh] flex-col items-center justify-center gap-6"
+  <UContainer
+    class="my-12 flex h-[80vh] flex-col items-center justify-center gap-6"
   >
     <div class="w-full max-w-sm rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
       <AppH1 class="mb-6">{{ $t("account.verify") }}</AppH1>
@@ -40,5 +40,5 @@ definePageMeta({
         </UButton>
       </div>
     </div>
-  </div>
+  </UContainer>
 </template>
