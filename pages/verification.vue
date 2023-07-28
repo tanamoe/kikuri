@@ -31,7 +31,7 @@ definePageMeta({
         <UButton
           :loading="pending"
           block
-          @click="requestEmail(0, { email: currentUser?.email })"
+          @click="requestEmail(0, { email: currentUser!.email })"
         >
           {{ $t("account.sendVerificationEmail") }}
         </UButton>
