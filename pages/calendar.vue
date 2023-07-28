@@ -66,7 +66,7 @@ definePageMeta({
       @update-publishers="(p) => (publishers = p)"
     />
 
-    <div v-if="pending" class="container mx-auto px-6">
+    <UContainer v-if="pending">
       <div
         v-for="(_, i) in [...Array(4)]"
         :key="i"
@@ -90,12 +90,9 @@ definePageMeta({
           </div>
         </div>
       </div>
-    </div>
+    </UContainer>
 
-    <div
-      v-else-if="releases && releases.length > 0"
-      class="container mx-auto px-6"
-    >
+    <UContainer v-else-if="releases && releases.length > 0">
       <div
         v-for="group in releases"
         :key="group.date.toDateString()"
@@ -115,11 +112,11 @@ definePageMeta({
           </div>
         </div>
       </div>
-    </div>
+    </UContainer>
 
-    <div
+    <UContainer
       v-else-if="releases && releases.length === 0"
-      class="container mx-auto my-12 flex items-center justify-center px-6"
+      class="my-12 flex items-center justify-center"
     >
       <div class="text-center">
         <p>{{ "~(>_<~)" }}</p>
@@ -128,11 +125,11 @@ definePageMeta({
         </h1>
         <p>{{ $t("calendar.noReleasesDescription") }}</p>
       </div>
-    </div>
+    </UContainer>
 
-    <div
+    <UContainer
       v-else-if="error"
-      class="container mx-auto my-12 flex items-center justify-center px-6"
+      class="my-12 flex items-center justify-center"
     >
       <div class="text-center">
         <p>{{ "~(>_<~)" }}</p>
@@ -141,12 +138,9 @@ definePageMeta({
         </h1>
         <p>{{ error.message }}</p>
       </div>
-    </div>
+    </UContainer>
 
-    <div
-      v-else
-      class="container mx-auto my-12 flex items-center justify-center px-6"
-    >
+    <UContainer v-else class="my-12 flex items-center justify-center">
       <div class="text-center">
         <p>{{ "~(>_<~)" }}</p>
         <h1 class="my-3 font-lexend text-4xl font-black">
@@ -154,7 +148,7 @@ definePageMeta({
         </h1>
         <p>{{ $t("calendar.unknownErrorDescription") }}</p>
       </div>
-    </div>
+    </UContainer>
 
     <PageCalendarQuickNavigation
       v-model="currentPosition"
