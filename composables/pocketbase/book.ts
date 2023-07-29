@@ -3,6 +3,7 @@ import {
   type BookDetailedResponse,
   type TitleResponse,
 } from "@/types/pb";
+import { parseVolume } from "@/utils/parseVolume";
 
 export const useRecentBooks = (count: number) => {
   const { $pb } = useNuxtApp();
@@ -21,7 +22,7 @@ export const useRecentBooks = (count: number) => {
       transform: (books) =>
         structuredClone(books).items.map((book) => ({
           ...book,
-          volume: Math.floor(book.volume / 10000) + (book.volume % 10) * 0.1,
+          volume: parseVolume(book.volume),
         })),
     }
   );
@@ -32,11 +33,16 @@ export const useAsyncBookDetailed = () => {
 
   return useAsyncState(
     async (releaseId: string) =>
-      await $pb
-        .collection(Collections.BookDetailed)
-        .getFullList<BookDetailedResponse>({
-          filter: `release='${releaseId}'`,
-        }),
+      (
+        await $pb
+          .collection(Collections.BookDetailed)
+          .getFullList<BookDetailedResponse>({
+            filter: `release='${releaseId}'`,
+          })
+      ).map((release) => ({
+        ...release,
+        volume: parseVolume(release.volume),
+      })),
     null,
     { immediate: false }
   );

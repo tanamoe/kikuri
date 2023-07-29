@@ -23,10 +23,10 @@ defineProps<{
         leave-to-class="opacity-0 -translate-x-3"
       >
         <div :key="index" class="h-72 w-full">
-          <div v-if="data[index].publish_date" class="mb-3">
+          <div v-if="data[index].publishDate" class="mb-3">
             {{
               $t("interface.releaseDate", {
-                date: $d(new Date(data[index].publish_date)),
+                date: $d(new Date(data[index].publishDate)),
               })
             }}
           </div>
@@ -113,7 +113,7 @@ defineProps<{
         <AppCover
           class="rounded-2xl"
           :book="book"
-          :src="book.base_cover[0] || book.cover[0]"
+          :src="book.cover[0] || book.baseCover[0]"
         />
       </SwiperSlide>
     </Swiper>

@@ -7,6 +7,7 @@ import {
   type BookDetailedResponse,
   type TitleResponse,
 } from "@/types/pb";
+import { parseVolume } from "@/utils/parseVolume";
 
 export const useCalendar = (
   from: string | Ref<string>,
@@ -29,8 +30,8 @@ export const useCalendar = (
 
   watchEffect(async () => {
     const filter = [
-      `publish_date >= '${unref(from)}'`,
-      `publish_date <= '${unref(to)}'`,
+      `publishDate >= '${unref(from)}'`,
+      `publishDate <= '${unref(to)}'`,
     ];
 
     if (publishers && unref(publishers).length > 0) {
@@ -56,17 +57,15 @@ export const useCalendar = (
         }>
       >({
         filter: filter.join(" && "),
-        sort: "+publish_date",
+        sort: "+publishDate",
         expand: "title, publisher",
       });
 
       data.value = groupByDate(
         structuredClone(res).map((release) => ({
           ...release,
-          cover: release.base_cover ? release.cover : null,
-          volume:
-            Math.floor(release.volume / 10000) + (release.volume % 10) * 0.1,
-          date: release.publish_date,
+          volume: parseVolume(release.volume),
+          date: release.publishDate,
         }))
       );
     } catch (err) {
@@ -90,8 +89,8 @@ export const useRecentReleases = () => {
           publisher: PublisherResponse;
         }>
       >({
-        sort: "+publish_date",
-        filter: `publish_date >= '${now.toISOString()}' && publish_date <= '${now
+        sort: "+publishDate",
+        filter: `publishDate >= '${now.toISOString()}' && publishDate <= '${now
           .add(2, "days")
           .toISOString()}'`,
         expand: "publisher",

@@ -40,7 +40,7 @@ defineProps<{
     </UBadge>
     <AppCover
       :book="book"
-      :src="book.base_cover[0] || book.cover[0]"
+      :src="book.cover[0] || book.baseCover[0]"
       sizes="sm:40vw md:20vw lg:10vw"
     />
   </AppCard>
