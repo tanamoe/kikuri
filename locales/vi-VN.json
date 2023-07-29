@@ -22,7 +22,23 @@
     "lightMode": "Nền sáng",
     "systemColorMode": "Tự động",
     "comingSoon": "Đang phát triển...",
-    "comingSoonDescription": "Cảm ơn bạn đã trải nghiệm Tana.moe! Hiện trang này đang được phát triển, bạn quay lại sau nhé!"
+    "comingSoonDescription": "Cảm ơn bạn đã trải nghiệm Tana.moe! Hiện trang này đang được phát triển, bạn quay lại sau nhé!",
+    "follow": "Theo dõi",
+    "readMore": "Đọc thêm",
+    "synopsis": "Nội dung",
+    "printRelease": "Bản in",
+    "releaseDate": "Ngày phát hành",
+    "price": "Giá bìa",
+    "name": "Tên"
+  },
+  "status": {
+    "waiting_for_approval": "Chờ duyệt",
+    "registered": "Đã duyệt",
+    "licensed": "Bản quyền",
+    "on_going": "Đang phát hành",
+    "completed": "Hoàn thành",
+    "hiatus": "Tạm dừng",
+    "cancelled": "Huỷ"
   },
   "account": {
     "profile": "Trang cá nhân",
