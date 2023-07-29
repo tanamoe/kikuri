@@ -1,5 +1,5 @@
 <template>
-  <h2 class="font-lexend text-2xl font-bold">
+  <h2 class="font-lexend text-3xl font-bold">
     <slot />
   </h2>
 </template>

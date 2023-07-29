@@ -17,10 +17,10 @@ const { data: recentPosts } = await useRecentPosts();
     <div v-if="recentPosts">
       <UContainer class="mb-6">
         <NuxtLink :to="runtimeConfig.public.blog_url" target="_blank">
-          <AppH2 class="flex items-center gap-3">
+          <AppH3 class="flex items-center gap-3">
             <img src="/icon-blog.svg" class="h-6" />
             {{ $t("interface.recentPosts") }}
-          </AppH2>
+          </AppH3>
         </NuxtLink>
       </UContainer>
       <div
@@ -43,10 +43,10 @@ const { data: recentPosts } = await useRecentPosts();
     <div v-if="recentBooks">
       <UContainer class="mb-6">
         <NuxtLink to="/browse">
-          <AppH2 class="flex items-center gap-3">
+          <AppH3 class="flex items-center gap-3">
             <img src="/icon.svg" class="h-6" />
             {{ $t("interface.justAddedManga") }}
-          </AppH2>
+          </AppH3>
         </NuxtLink>
       </UContainer>
       <div
@@ -56,7 +56,7 @@ const { data: recentPosts } = await useRecentPosts();
           v-for="(book, i) in recentBooks"
           :key="book.id"
           :class="[
-            'w-1/3 flex-shrink-0 snap-center sm:w-full',
+            'w-1/3 flex-shrink-0 snap-start scroll-ml-6 sm:w-full',
             i === 0 && 'ml-6 sm:ml-0',
             i === recentBooks.length - 1 && 'mr-6 sm:mr-0',
           ]"
