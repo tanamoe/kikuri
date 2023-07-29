@@ -7,7 +7,7 @@ const sticky = computed(() => route.meta.stickyNav as boolean);
 <template>
   <div>
     <TheNavigation :sticky="sticky" />
-    <main class="container mx-auto pb-6">
+    <main class="pb-6">
       <slot />
     </main>
     <TheFooter />

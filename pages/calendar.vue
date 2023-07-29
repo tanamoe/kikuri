@@ -53,7 +53,8 @@ onUnmounted(() => {
 });
 
 definePageMeta({
-  layout: "calendar",
+  layout: "full",
+  stickyNav: false,
 });
 </script>
 
