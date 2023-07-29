@@ -9,16 +9,31 @@ const { isLoading, state: rows, execute } = useAsyncBookDetailed();
 
 const columns = [
   {
+    key: "volume",
+    label: t("general.volume"),
+    class: "whitespace-nowrap w-0",
+    sortable: true,
+  },
+  {
     key: "name",
     label: t("general.name"),
   },
   {
-    key: "publish_date",
+    key: "edition",
+    label: t("general.edition"),
+    class: "whitespace-nowrap w-0",
+    sortable: true,
+  },
+  {
+    key: "publishDate",
     label: t("general.releaseDate"),
+    class: "whitespace-nowrap w-0",
+    sortable: true,
   },
   {
     key: "price",
     label: t("general.price"),
+    class: "whitespace-nowrap w-0",
   },
   {
     key: "actions",
@@ -37,12 +52,26 @@ const watcher = watch(
 </script>
 
 <template>
-  <UTable :columns="columns" :rows="rows || []" :loading="isLoading">
-    <template #publish_date-data="{ row }">
-      <span>{{ $d(new Date(row.publish_date)) }}</span>
+  <UTable
+    :columns="columns"
+    :rows="rows || []"
+    :loading="isLoading"
+    :ui="{
+      wrapper: 'relative overflow-x-auto',
+      td: { base: 'whitespace-nowrap lg:whitespace-normal' },
+    }"
+  >
+    <template #edition-data="{ row }">
+      <UBadge v-if="row.edition" color="amber">{{ row.edition }}</UBadge>
+    </template>
+    <template #publishDate-data="{ row }">
+      <span>{{ $d(new Date(row.publishDate)) }}</span>
+    </template>
+    <template #price-data="{ row }">
+      <span>{{ $n(row.price, "currency", "vi") }}</span>
     </template>
     <template #actions-data>
-      <div>
+      <div class="text-right">
         <UButton
           icon="i-fluent-add-20-filled"
           color="gray"
