@@ -1,25 +1,21 @@
 <script setup lang="ts">
-import type { BookDetailedResponse } from "@/types/pb";
+import type { BaseSystemFields } from "@/types/pb";
 
 defineProps<{
-  book: BookDetailedResponse;
+  book: Pick<BaseSystemFields, "id" | "collectionId"> & {
+    name: string;
+  };
+  src?: string;
   sizes?: string;
 }>();
 </script>
 
 <template>
   <nuxt-img
-    v-if="book.base_cover.length > 0"
+    v-if="src"
     loading="lazy"
     class="aspect-[2/3] h-full w-full object-cover"
-    :src="`${book.collectionId}/${book.id}/${book.base_cover[0]}`"
-    :sizes="sizes"
-  />
-  <nuxt-img
-    v-else-if="book.cover.length > 0"
-    loading="lazy"
-    class="aspect-[2/3] h-full w-full object-cover"
-    :src="`${book.collectionId}/${book.id}/${book.cover[0]}`"
+    :src="`${book.collectionId}/${book.id}/${src}`"
     :sizes="sizes"
   />
   <div
