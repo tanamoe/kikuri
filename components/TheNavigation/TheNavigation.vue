@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { cva, type VariantProps } from "class-variance-authority";
 
-const navigationContainer = cva("top-0 z-30 mb-3 bg-gray-50 dark:bg-gray-900", {
+const navigationContainer = cva("top-0 z-30 bg-gray-50 dark:bg-gray-900", {
   variants: {
     sticky: {
       true: "sticky",

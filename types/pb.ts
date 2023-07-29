@@ -62,14 +62,14 @@ export type BookDataRecord = {
 export type BookDetailedRecord = {
   name: string;
   volume?: number;
-  release?: RecordIdString;
+  release: RecordIdString;
   publish_date?: IsoDateString;
   base_cover?: string[];
   cover?: string[];
   edition?: string;
   price?: number;
   digital?: boolean;
-  publisher?: RecordIdString;
+  publisher: RecordIdString;
   title: RecordIdString;
 };
 
@@ -82,7 +82,7 @@ export type FormatRecord = {
 };
 
 export type PublicationRecord<Tmetadata = unknown> = {
-  release?: RecordIdString;
+  release: RecordIdString;
   name: string;
   volume?: number;
   cover?: string[];
@@ -110,7 +110,7 @@ export enum ReleaseStatusOptions {
 export type ReleaseRecord = {
   title: RecordIdString;
   name: string;
-  publisher?: RecordIdString;
+  publisher: RecordIdString;
   status?: ReleaseStatusOptions;
   old_id?: number;
 };
@@ -119,7 +119,8 @@ export type TitleRecord = {
   name: string;
   description?: HTMLString;
   format: RecordIdString;
-  old_id?: number;
+  cover?: string;
+  index4groupdefaultold_id?: number;
 };
 
 export type TitleWithCoverRecord = {
