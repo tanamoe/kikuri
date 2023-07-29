@@ -38,7 +38,11 @@ defineProps<{
     >
       {{ book.edition }}
     </UBadge>
-    <AppCover :book="book" sizes="sm:40vw md:20vw lg:10vw" />
+    <AppCover
+      :book="book"
+      :src="book.base_cover[0] || book.cover[0]"
+      sizes="sm:40vw md:20vw lg:10vw"
+    />
   </AppCard>
   <div v-if="settings.showBookDetails" class="mt-2">
     <div v-if="book.volume < 9000 && book.volume > 0" class="space-y-1">
