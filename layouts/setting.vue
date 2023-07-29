@@ -1,8 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { useUserStore } from "@/stores/user";
 
 const { t } = useI18n({ useScope: "global" });
 const { isAuthenticated } = useUserStore();
+const route = useRoute();
 
 const general = [
   {
@@ -28,11 +29,13 @@ const account = [
     to: "/settings/password",
   },
 ];
+
+const sticky = computed(() => route.meta.stickyNav as boolean);
 </script>
 
 <template>
   <div>
-    <TheNavigation />
+    <TheNavigation :sticky="sticky" />
     <main class="container mx-auto min-h-[80vh] overflow-x-hidden px-6 pb-6">
       <AppH1 class="mb-6">{{ $t("general.settings") }}</AppH1>
       <div class="flex flex-col gap-6 sm:flex-row">
