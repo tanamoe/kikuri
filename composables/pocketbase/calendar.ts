@@ -7,6 +7,7 @@ import {
   type BookDetailedResponse,
   type TitleResponse,
 } from "@/types/pb";
+import { parseVolume } from "@/utils/parseVolume";
 
 export const useCalendar = (
   from: string | Ref<string>,
@@ -63,10 +64,8 @@ export const useCalendar = (
       data.value = groupByDate(
         structuredClone(res).map((release) => ({
           ...release,
-          cover: release.base_cover ? release.cover : null,
-          volume:
-            Math.floor(release.volume / 10000) + (release.volume % 10) * 0.1,
-          date: release.publish_date,
+          volume: parseVolume(release.volume),
+          date: release.publishDate,
         }))
       );
     } catch (err) {
