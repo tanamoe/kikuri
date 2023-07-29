@@ -31,7 +31,7 @@ export const useUserStore = () => {
 
   const store = innerStore();
 
-  if (store.currentUser === null) store.updateCurrentUser();
+  store.updateCurrentUser();
 
   $pb.authStore.onChange(() => store.updateCurrentUser());
 
