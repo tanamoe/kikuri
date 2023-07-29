@@ -30,8 +30,8 @@ export const useCalendar = (
 
   watchEffect(async () => {
     const filter = [
-      `publish_date >= '${unref(from)}'`,
-      `publish_date <= '${unref(to)}'`,
+      `publishDate >= '${unref(from)}'`,
+      `publishDate <= '${unref(to)}'`,
     ];
 
     if (publishers && unref(publishers).length > 0) {
@@ -57,7 +57,7 @@ export const useCalendar = (
         }>
       >({
         filter: filter.join(" && "),
-        sort: "+publish_date",
+        sort: "+publishDate",
         expand: "title, publisher",
       });
 
@@ -89,8 +89,8 @@ export const useRecentReleases = () => {
           publisher: PublisherResponse;
         }>
       >({
-        sort: "+publish_date",
-        filter: `publish_date >= '${now.toISOString()}' && publish_date <= '${now
+        sort: "+publishDate",
+        filter: `publishDate >= '${now.toISOString()}' && publishDate <= '${now
           .add(2, "days")
           .toISOString()}'`,
         expand: "publisher",
