@@ -29,7 +29,10 @@
     "printRelease": "Bản in",
     "releaseDate": "Ngày phát hành",
     "price": "Giá bìa",
-    "name": "Tên"
+    "name": "Tên",
+    "volume": "Tập",
+    "coverImages": "Ảnh bìa",
+    "edition": "Phiên bản"
   },
   "status": {
     "waiting_for_approval": "Chờ duyệt",
