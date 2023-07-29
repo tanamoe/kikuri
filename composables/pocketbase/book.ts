@@ -26,3 +26,18 @@ export const useRecentBooks = (count: number) => {
     }
   );
 };
+
+export const useAsyncBookDetailed = () => {
+  const { $pb } = useNuxtApp();
+
+  return useAsyncState(
+    async (releaseId: string) =>
+      await $pb
+        .collection(Collections.BookDetailed)
+        .getFullList<BookDetailedResponse>({
+          filter: `release='${releaseId}'`,
+        }),
+    null,
+    { immediate: false }
+  );
+};
