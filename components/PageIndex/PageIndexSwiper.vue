@@ -94,7 +94,7 @@ defineProps<{
       <SwiperSlide
         v-for="book in data"
         :key="book.id"
-        class="relative overflow-hidden rounded-2xl"
+        class="relative overflow-hidden"
       >
         <UBadge
           v-if="book.edition !== ''"
@@ -110,7 +110,11 @@ defineProps<{
         <div
           class="absolute inset-0 bg-gradient-to-t from-gray-50 to-transparent to-50% dark:from-gray-900 sm:hidden"
         />
-        <AppCover :book="book" />
+        <AppCover
+          class="rounded-2xl"
+          :book="book"
+          :src="book.base_cover[0] || book.cover[0]"
+        />
       </SwiperSlide>
     </Swiper>
   </div>
