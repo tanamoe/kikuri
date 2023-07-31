@@ -14,6 +14,10 @@ definePageMeta({
 
 <template>
   <UContainer>
+    <Head>
+      <Title>{{ title.name }}</Title>
+    </Head>
+
     <header class="flex flex-col-reverse gap-6 sm:flex-row sm:items-end">
       <div class="z-20 -mt-24 flex-1 sm:mt-0">
         <div class="space-y-3">
