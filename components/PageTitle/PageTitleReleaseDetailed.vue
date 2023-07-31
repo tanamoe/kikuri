@@ -65,7 +65,7 @@ const watcher = watch(
       <UBadge v-if="row.edition" color="amber">{{ row.edition }}</UBadge>
     </template>
     <template #publishDate-data="{ row }">
-      <span>{{ $d(new Date(row.publishDate)) }}</span>
+      <span v-if="row.publishDate">{{ $d(new Date(row.publishDate)) }}</span>
     </template>
     <template #price-data="{ row }">
       <span>{{ $n(row.price, "currency", "vi") }}</span>
