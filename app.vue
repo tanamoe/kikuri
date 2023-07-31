@@ -52,6 +52,8 @@ useHead({
 
 <template>
   <NuxtLayout>
+    <NuxtLoadingIndicator color="#89C4F4" />
+
     <NuxtPage />
 
     <UNotifications />
