@@ -33,8 +33,8 @@ dependencies:
     specifier: ^2.1.4
     version: 2.1.4(typescript@5.1.6)(vue@3.3.4)
   pocketbase:
-    specifier: ^0.15.2
-    version: 0.15.3
+    specifier: ^0.16.0
+    version: 0.16.0
 
 devDependencies:
   '@commitlint/cli':
@@ -7072,8 +7072,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /pocketbase@0.15.3:
-    resolution: {integrity: sha512-sjM0XO4wHUlVZs94VhRJi4FeYtbLqvxFbRDJlfjFb/4FkxypbGwxLM4HDAEr8q6jdreuxAM1/n/b5HB1GjQ1Vg==}
+  /pocketbase@0.16.0:
+    resolution: {integrity: sha512-sndPu4Mbu1Y2VefvO2gIa/No5aIdP6E5br9HUGomvDYSfkmGfBxJNkivJSSKlr9KwWnaF8otf14304UUeFGOrA==}
     dev: false
 
   /portfinder@1.0.32:
