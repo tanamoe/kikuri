@@ -60,6 +60,10 @@ definePageMeta({
 
 <template>
   <div>
+    <Head>
+      <Title>{{ $t("general.releaseCalendar") }}</Title>
+    </Head>
+
     <PageCalendarToolbar
       :month="month"
       :publishers="publishers"
