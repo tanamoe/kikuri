@@ -2,12 +2,15 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
 import localeData from "dayjs/plugin/localeData";
+import timezone from "dayjs/plugin/timezone";
 import "dayjs/locale/vi";
 
 import { useUserStore } from "@/stores/user";
 
 dayjs.extend(localeData);
+dayjs.extend(timezone);
 dayjs.locale("vi");
+dayjs.tz.setDefault("Etc/Greenwich");
 
 const { $pb } = useNuxtApp();
 const i18nHead = useLocaleHead({
