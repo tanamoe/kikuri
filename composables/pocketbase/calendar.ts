@@ -91,7 +91,7 @@ export const useRecentReleases = () => {
       >({
         sort: "+publishDate",
         filter: `publishDate >= '${now.toISOString()}' && publishDate <= '${now
-          .add(2, "days")
+          .add(3, "days")
           .toISOString()}'`,
         expand: "publisher",
       }),
