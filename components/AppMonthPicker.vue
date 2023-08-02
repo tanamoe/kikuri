@@ -2,13 +2,13 @@
 import dayjs from "dayjs";
 
 const props = defineProps<{
-  month: Date;
+  modelValue: Date;
 }>();
 
 const today = new Date();
 
-const selectedYear = ref(props.month.getFullYear());
-const selectedMonth = ref(props.month.getMonth());
+const selectedYear = ref(props.modelValue.getFullYear());
+const selectedMonth = ref(props.modelValue.getMonth());
 
 const availableYears = [
   ...Array.from(
@@ -23,14 +23,14 @@ const reset = () => {
 };
 
 defineEmits<{
-  updateMonth: [month: Date];
+  "update:modelValue": [month: Date];
 }>();
 </script>
 
 <template>
   <UPopover :popper="{ placement: 'bottom-start' }">
     <UButton variant="solid" icon="i-fluent-chevron-down-20-filled" trailing>
-      {{ $d(month, { month: "numeric", year: "numeric" }) }}
+      {{ $d(modelValue, { month: "numeric", year: "numeric" }) }}
     </UButton>
 
     <template #panel="{ close }">
@@ -51,13 +51,15 @@ defineEmits<{
               :variant="
                 i == selectedMonth
                   ? 'solid'
-                  : i == month.getMonth() && selectedYear == month.getFullYear()
+                  : i == modelValue.getMonth() &&
+                    selectedYear == modelValue.getFullYear()
                   ? 'outline'
                   : 'ghost'
               "
               :color="
                 i == selectedMonth ||
-                (i == month.getMonth() && selectedYear == month.getFullYear())
+                (i == modelValue.getMonth() &&
+                  selectedYear == modelValue.getFullYear())
                   ? 'primary'
                   : 'gray'
               "
@@ -75,7 +77,10 @@ defineEmits<{
               block
               @click="
                 {
-                  $emit('updateMonth', new Date(selectedYear, selectedMonth));
+                  $emit(
+                    'update:modelValue',
+                    new Date(selectedYear, selectedMonth)
+                  );
                   close();
                 }
               "

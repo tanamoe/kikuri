@@ -38,7 +38,8 @@
     "dateRelease": "Release on {date}",
     "viewTitleDetails": "View details",
     "bookPrice": "Retail price",
-    "publishedBy": "Published by"
+    "publishedBy": "Published by",
+    "publisher": "Publisher | Publishers"
   },
   "status": {
     "waiting_for_approval": "Waiting for approval",
@@ -95,7 +96,6 @@
   },
   "calendar": {
     "volume": "Volume {volume}",
-    "publishers": "Publishers",
     "showDigital": "Show digital releases",
     "hideDigital": "Hide digital releases",
     "onlyDigital": "Only show digital releases",
