@@ -50,7 +50,7 @@ defineProps<{
         {{ book.expand.title.name }}
       </span>
       <span class="block text-zinc-500 dark:text-zinc-400">
-        {{ $t("calendar.volume", { volume: book.volume }) }}
+        {{ $t("general.volumeNumber", { volume: book.volume }) }}
       </span>
     </div>
     <div v-else>

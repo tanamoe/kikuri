@@ -31,6 +31,7 @@
     "price": "Giá bìa",
     "name": "Tên",
     "volume": "Tập",
+    "volumeNumber": "Tập {volume}",
     "coverImages": "Ảnh bìa",
     "edition": "Phiên bản",
     "recentPosts": "Bài viết gần đây",
@@ -88,17 +89,18 @@
     "password": "Mật khẩu",
     "interface": "Hiển thị",
     "showBookDetails": "Hiển thị thông tin sách bên dưới ảnh bìa",
-    "showDigital": "Hiển thị lịch phát hành điện tử (e-book)"
+    "showDigital": "Hiển thị lịch phát hành điện tử (e-book)",
+    "digital": {
+      "show": "Có",
+      "hide": "Không",
+      "only": "Chỉ hiện lịch điện tử (e-book)"
+    }
   },
   "monthPicker": {
     "reset": "Hiện tại",
     "save": "Chọn"
   },
   "calendar": {
-    "volume": "Tập {volume}",
-    "showDigital": "Có",
-    "hideDigital": "Không",
-    "onlyDigital": "Chỉ hiện lịch điện tử",
     "noReleases": "Không tìm thấy!",
     "noReleasesDescription": "Có thể lịch phát hành tháng này chưa có, quay lại sau nhé!",
     "unknownError": "Lỗi không xác định",

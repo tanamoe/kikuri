@@ -30,7 +30,8 @@
     "releaseDate": "Release date",
     "price": "Price",
     "name": "Name",
-    "volume": "Volume",
+    "volume": "Volume | Volumes",
+    "volumeNumber": "Volume {volume}",
     "coverImages": "Cover images",
     "edition": "Edition",
     "recentPosts": "Recent posts",
@@ -88,17 +89,18 @@
     "password": "Password",
     "interface": "Interface",
     "showBookDetails": "Show book details below cover",
-    "showDigital": "Show digital (e-book) releases"
+    "showDigital": "Show digital (e-book) releases",
+    "digital": {
+      "show": "Show digital releases",
+      "hide": "Hide digital releases",
+      "only": "Only show digital releases"
+    }
   },
   "monthPicker": {
     "reset": "Reset",
     "save": "Save"
   },
   "calendar": {
-    "volume": "Volume {volume}",
-    "showDigital": "Show digital releases",
-    "hideDigital": "Hide digital releases",
-    "onlyDigital": "Only show digital releases",
     "noReleases": "No releases found",
     "noReleasesDescription": "Có thể lịch phát hành tháng này chưa có, quay lại sau nhé!",
     "unknownError": "Unknown error",
