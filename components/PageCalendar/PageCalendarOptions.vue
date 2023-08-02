@@ -32,15 +32,15 @@ const options = [
 
 const digitalOptions = [
   {
-    name: t("calendar.showDigital"),
+    name: t("settings.digital.show"),
     value: "show",
   },
   {
-    name: t("calendar.hideDigital"),
+    name: t("settings.digital.hide"),
     value: "hide",
   },
   {
-    name: t("calendar.onlyDigital"),
+    name: t("settings.digital.only"),
     value: "only",
   },
 ];
