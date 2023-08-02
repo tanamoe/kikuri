@@ -30,7 +30,7 @@ const { open } = useSearchStore();
       }"
       @click="open"
     >
-      Tìm kiếm...
+      {{ $t("general.searchPlaceholder") }}
       <template #trailing>
         <div class="flex items-center gap-0.5">
           <UKbd>{{ metaSymbol }}</UKbd>

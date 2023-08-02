@@ -32,7 +32,13 @@
     "name": "Tên",
     "volume": "Tập",
     "coverImages": "Ảnh bìa",
-    "edition": "Phiên bản"
+    "edition": "Phiên bản",
+    "recentPosts": "Bài viết gần đây",
+    "justAddedManga": "Truyện vừa cập nhật",
+    "dateRelease": "Phát hành ngày {date}",
+    "viewTitleDetails": "Xem chi tiết",
+    "bookPrice": "Giá dự kiến",
+    "publishedBy": "Phát hành bởi"
   },
   "status": {
     "waiting_for_approval": "Chờ duyệt",
@@ -78,8 +84,10 @@
   "settings": {
     "profile": "Cá nhân",
     "account": "Tài khoản",
-    "changePassword": "Mật khẩu",
-    "interface": "Hiển thị"
+    "password": "Mật khẩu",
+    "interface": "Hiển thị",
+    "showBookDetails": "Hiển thị thông tin sách bên dưới ảnh bìa",
+    "showDigital": "Hiển thị lịch phát hành điện tử (e-book)"
   },
   "monthPicker": {
     "reset": "Hiện tại",
@@ -88,7 +96,6 @@
   "calendar": {
     "volume": "Tập {volume}",
     "publishers": "Nhà xuất bản",
-    "digitalOptions": "Hiển thị lịch phát hành điện tử (e-book)?",
     "showDigital": "Có",
     "hideDigital": "Không",
     "onlyDigital": "Chỉ hiện lịch điện tử",
@@ -96,15 +103,6 @@
     "noReleasesDescription": "Có thể lịch phát hành tháng này chưa có, quay lại sau nhé!",
     "unknownError": "Lỗi không xác định",
     "unknownErrorDescription": "Đã có gì đó sai sai xảy ra, hãy thử tải lại trang hoặc báo cáo với bọn mình..."
-  },
-  "interface": {
-    "showBookDetails": "Hiển thị thông tin sách bên dưới ảnh bìa",
-    "recentPosts": "Bài viết gần đây",
-    "justAddedManga": "Truyện vừa cập nhật",
-    "releaseDate": "Phát hành ngày {date}",
-    "viewTitleDetails": "Xem chi tiết",
-    "bookPrice": "Giá dự kiến",
-    "publishedBy": "Phát hành bởi"
   },
   "footer": {
     "links": {

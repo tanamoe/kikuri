@@ -4,10 +4,50 @@
     "browse": "Browse",
     "library": "Library",
     "settings": "Settings",
+    "searchPlaceholder": "Search...",
     "searchResultFor": "Search results for \"{query}\"...",
+    "searchNoResult": "No result",
     "save": "Save",
     "changePassword": "Change password",
-    "jumpToTop": "Scroll to top"
+    "jumpToTop": "Scroll to top",
+    "filter": "Filter",
+    "options": "Options",
+    "print": "Print",
+    "download": "Download",
+    "request": "Request",
+    "error": "Error",
+    "success": "Success",
+    "categories": "Categories",
+    "darkMode": "Dark",
+    "lightMode": "Light",
+    "systemColorMode": "Auto",
+    "comingSoon": "Coming soon...",
+    "comingSoonDescription": "Thank you for trying out Tana.moe! This page is currently in the work, check back later!",
+    "follow": "Follow",
+    "readMore": "Read more",
+    "synopsis": "Synopsis",
+    "printRelease": "Print release",
+    "releaseDate": "Release date",
+    "price": "Price",
+    "name": "Name",
+    "volume": "Volume",
+    "coverImages": "Cover images",
+    "edition": "Edition",
+    "recentPosts": "Recent posts",
+    "justAddedManga": "Just added",
+    "dateRelease": "Release on {date}",
+    "viewTitleDetails": "View details",
+    "bookPrice": "Retail price",
+    "publishedBy": "Published by"
+  },
+  "status": {
+    "waiting_for_approval": "Waiting for approval",
+    "registered": "Registerd",
+    "licensed": "Licensed",
+    "on_going": "On going",
+    "completed": "Completed",
+    "hiatus": "Hiatus",
+    "cancelled": "Cancelled"
   },
   "account": {
     "profile": "Profile",
@@ -23,11 +63,63 @@
     "password": "Password",
     "passwordConfirm": "Confirm password",
     "oldPassword": "Old password",
-    "avatar": "Avatar"
+    "avatar": "Avatar",
+    "updateSuccessful": "Update successfully",
+    "requestVerificationEmailSent": "Verification email sent",
+    "sendVerificationEmail": "Send verification email",
+    "verify": "Verify account",
+    "verifyLater": "Verify later",
+    "verifyDescription": "Thank you for creating an account at Tana.moe! Please verify your email address to have the best experience."
+  },
+  "auth": {
+    "loginSuccessful": "Login successfully",
+    "requestSuccessful": "Request successfully",
+    "redirecting": "Redirecting...",
+    "checkEmailInbox": "Check your email inbox!",
+    "usernameCannotBeEmpty": "Username cannot be empty",
+    "emailCannotBeEmpty": "Email cannot be empty",
+    "passwordCannotBeEmpty": "Password cannot be empty",
+    "passwordNotMatch": "Password does not match"
   },
   "settings": {
     "profile": "Profile",
     "account": "Account",
-    "changePassword": "Security"
+    "password": "Password",
+    "interface": "Interface",
+    "showBookDetails": "Show book details below cover",
+    "showDigital": "Show digital (e-book) releases"
+  },
+  "monthPicker": {
+    "reset": "Reset",
+    "save": "Save"
+  },
+  "calendar": {
+    "volume": "Volume {volume}",
+    "publishers": "Publishers",
+    "showDigital": "Show digital releases",
+    "hideDigital": "Hide digital releases",
+    "onlyDigital": "Only show digital releases",
+    "noReleases": "No releases found",
+    "noReleasesDescription": "Có thể lịch phát hành tháng này chưa có, quay lại sau nhé!",
+    "unknownError": "Unknown error",
+    "unknownErrorDescription": "Đã có gì đó sai sai xảy ra, hãy thử tải lại trang hoặc báo cáo với bọn mình..."
+  },
+  "footer": {
+    "links": {
+      "blog": "Blog",
+      "about": "Giới thiệu",
+      "credits": "Credit",
+      "api": "API",
+      "status": "Status",
+      "sitemap": "Sitemap",
+      "tos": "Điều khoản",
+      "privacy": "Bảo mật",
+      "contact": "Liên hệ"
+    }
+  },
+  "error": {
+    "notFoundMessage": "Không tìm thấy đường dẫn",
+    "generalMessage": "Đã có lỗi xảy ra",
+    "returnHome": "Trở về trang chủ"
   }
 }
