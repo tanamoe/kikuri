@@ -56,11 +56,11 @@ const digitalOptions = [
       <div class="space-y-6 p-6">
         <UFormGroup
           name="showBookDetails"
-          :label="$t('interface.showBookDetails')"
+          :label="$t('settings.showBookDetails')"
         >
           <UToggle v-model="settings.showBookDetails" />
         </UFormGroup>
-        <UFormGroup name="digital" :label="$t('calendar.digitalOptions')">
+        <UFormGroup name="digital" :label="$t('settings.showDigital')">
           <USelect
             v-model="settings.showDigital"
             :options="digitalOptions"

@@ -25,7 +25,7 @@ const account = [
     to: "/settings/account",
   },
   {
-    label: t("settings.changePassword"),
+    label: t("settings.password"),
     to: "/settings/password",
   },
 ];

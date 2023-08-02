@@ -25,7 +25,7 @@ defineProps<{
         <div :key="index" class="h-72 w-full">
           <div v-if="data[index].publishDate" class="mb-3">
             {{
-              $t("interface.releaseDate", {
+              $t("general.releaseDate", {
                 date: $d(new Date(data[index].publishDate)),
               })
             }}
@@ -36,12 +36,12 @@ defineProps<{
           <div>
             <p class="mb-6 text-gray-500 dark:text-gray-300">
               <span>
-                <b>{{ $t("interface.publishedBy") }}</b>
+                <b>{{ $t("general.publishedBy") }}</b>
                 {{ data[index].expand?.publisher.name }}
               </span>
               <br />
               <span v-if="data[index].price !== 0">
-                <b>{{ $t("interface.bookPrice") }}</b>
+                <b>{{ $t("general.bookPrice") }}</b>
                 {{ $n(data[index].price, "currency", "vi") }}
               </span>
             </p>
@@ -50,7 +50,7 @@ defineProps<{
               icon="i-fluent-info-20-filled"
               color="gray"
             >
-              {{ $t("interface.viewTitleDetails") }}
+              {{ $t("general.viewTitleDetails") }}
             </UButton>
           </div>
         </div>

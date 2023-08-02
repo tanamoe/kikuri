@@ -19,7 +19,7 @@ const { data: recentPosts } = await useRecentPosts();
         <NuxtLink :to="runtimeConfig.public.blog_url" target="_blank">
           <AppH3 class="flex items-center gap-3">
             <img src="/icon-blog.svg" class="h-6" />
-            {{ $t("interface.recentPosts") }}
+            {{ $t("general.recentPosts") }}
           </AppH3>
         </NuxtLink>
       </UContainer>
@@ -45,7 +45,7 @@ const { data: recentPosts } = await useRecentPosts();
         <NuxtLink to="/browse">
           <AppH3 class="flex items-center gap-3">
             <img src="/icon.svg" class="h-6" />
-            {{ $t("interface.justAddedManga") }}
+            {{ $t("general.justAddedManga") }}
           </AppH3>
         </NuxtLink>
       </UContainer>
