@@ -20,15 +20,25 @@ const { data: publisherOptions } = useAsyncData(
   }
 );
 
-defineProps<{
+const props = defineProps<{
   month: Dayjs;
   publishers: FilterPublishers[];
 }>();
 
-defineEmits<{
-  updateMonth: [month: Dayjs];
-  updatePublishers: [publishers: FilterPublishers[]];
+const emit = defineEmits<{
+  "update:month": [month: Dayjs];
+  "update:publishers": [publishers: FilterPublishers[]];
 }>();
+
+const currentMonth = computed({
+  get: () => props.month.toDate(),
+  set: (value) => emit("update:month", dayjs(value)),
+});
+
+const currentPublishers = computed({
+  get: () => props.publishers,
+  set: (value) => emit("update:publishers", value),
+});
 </script>
 
 <template>
@@ -50,45 +60,54 @@ defineEmits<{
                 color="gray"
                 variant="ghost"
                 square
-                @click="$emit('updateMonth', dayjs(month).subtract(1, 'month'))"
+                @click="
+                  $emit('update:month', dayjs(month).subtract(1, 'month'))
+                "
               />
               <UButton
                 icon="i-fluent-chevron-right-20-filled"
                 color="gray"
                 variant="ghost"
                 square
-                @click="$emit('updateMonth', dayjs(month).add(1, 'month'))"
+                @click="$emit('update:month', dayjs(month).add(1, 'month'))"
               />
             </div>
           </div>
 
-          <AppMonthPicker
-            :month="month.toDate()"
-            @update-month="(month) => $emit('updateMonth', dayjs(month))"
-          />
+          <AppMonthPicker v-model="currentMonth" />
         </div>
 
         <div class="flex gap-3">
           <USelectMenu
             v-if="publisherOptions"
-            :model-value="publishers"
+            v-model="currentPublishers"
             :options="publisherOptions"
             multiple
-            @update:model-value="(p) => $emit('updatePublishers', p)"
           >
             <UButton
               color="gray"
-              icon="i-fluent-building-20-filled"
               trailing-icon="i-fluent-chevron-down-20-filled"
               class="w-max"
               block
             >
-              <span>{{ $t("calendar.publishers") }}</span>
-              <span
-                v-if="publishers.length"
-                class="text-gray-500 dark:text-gray-400"
-              >
-                ({{ publishers.length }})
+              <template #leading>
+                <UAvatarGroup
+                  v-if="currentPublishers.length"
+                  size="2xs"
+                  :max="2"
+                  :ui="{ ring: 'ring-2 ring-gray-50 dark:ring-gray-800' }"
+                >
+                  <UAvatar
+                    v-for="publisher in currentPublishers"
+                    :key="publisher.id"
+                    :src="publisher.avatar.src"
+                    :alt="publisher.label"
+                  />
+                </UAvatarGroup>
+                <UIcon v-else name="i-fluent-building-20-filled" />
+              </template>
+              <span>
+                {{ $t("general.publisher", currentPublishers.length) }}
               </span>
             </UButton>
           </USelectMenu>

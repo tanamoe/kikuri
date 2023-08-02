@@ -65,10 +65,8 @@ definePageMeta({
     </Head>
 
     <PageCalendarToolbar
-      :month="month"
-      :publishers="publishers"
-      @update-month="(m) => (month = m)"
-      @update-publishers="(p) => (publishers = p)"
+      v-model:month="month"
+      v-model:publishers="publishers"
     />
 
     <UContainer v-if="pending">
