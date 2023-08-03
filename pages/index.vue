@@ -14,6 +14,10 @@ const { data: recentPosts } = await useRecentPosts();
       </UContainer>
     </div>
 
+    <UContainer>
+      <AppRegisterBanner />
+    </UContainer>
+
     <div v-if="recentPosts">
       <UContainer class="mb-6">
         <NuxtLink :to="runtimeConfig.public.blog_url" target="_blank">

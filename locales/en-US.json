@@ -40,7 +40,9 @@
     "viewTitleDetails": "View details",
     "bookPrice": "Retail price",
     "publishedBy": "Published by",
-    "publisher": "Publisher | Publishers"
+    "publisher": "Publisher | Publishers",
+    "registerBanner": "Create a Tana.moe account!",
+    "registerBannerDescription": "Create an account to start your own \"digital bookshelf\", follow upcoming releases easier, and explore stuff you might have missed!"
   },
   "status": {
     "waiting_for_approval": "Waiting for approval",

@@ -40,7 +40,9 @@
     "viewTitleDetails": "Xem chi tiết",
     "bookPrice": "Giá dự kiến",
     "publishedBy": "Phát hành bởi",
-    "publisher": "Nhà xuất bản"
+    "publisher": "Nhà xuất bản",
+    "registerBanner": "Tạo một tài khoản tại Tana.moe!",
+    "registerBannerDescription": "Hãy tạo một tài khoản tại Tana.moe để bắt đầu \"tủ truyện trực tuyến\" cho riêng mình, theo dõi các tựa truyện sắp ra mắt dễ dàng hơn, và khám phá những bộ truyện có thể bạn đã bỏ lỡ!"
   },
   "status": {
     "waiting_for_approval": "Chờ duyệt",
