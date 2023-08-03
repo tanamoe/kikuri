@@ -1,4 +1,10 @@
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
+import { useUserStore } from "@/stores/user";
+
+const store = useUserStore();
+const { isAuthenticated } = storeToRefs(store);
+
 const cookie = useCookie<boolean>("tana_register_banner", {
   default: () => true,
   maxAge: 31_536_000, // 1 year
@@ -6,7 +12,7 @@ const cookie = useCookie<boolean>("tana_register_banner", {
 </script>
 
 <template>
-  <section v-if="cookie">
+  <section v-if="cookie && !isAuthenticated">
     <AppCard class="p-6">
       <UButton
         class="absolute right-3 top-3"
