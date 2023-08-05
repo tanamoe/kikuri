@@ -25,6 +25,7 @@ export default defineNuxtConfig({
   ],
   // https://nuxt.com/docs/getting-started/installation#prerequisites
   typescript: {
+    strict: true,
     shim: false,
     typeCheck: true,
   },
