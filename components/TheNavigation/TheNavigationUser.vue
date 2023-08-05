@@ -37,7 +37,11 @@ const items = computed(() => {
         {
           label: t("account.logout"),
           icon: "i-fluent-sign-out-20-filled",
-          to: "/logout",
+          click: () => {
+            const { $pb } = useNuxtApp();
+            $pb.authStore.clear();
+            navigateTo("/");
+          },
         },
       ],
     ];
