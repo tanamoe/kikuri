@@ -28,66 +28,77 @@ defineEmits<{
 </script>
 
 <template>
-  <UPopover :popper="{ placement: 'bottom-start' }">
+  <UPopover
+    :popper="{ placement: 'bottom-start' }"
+    :ui="{
+      width: 'w-max max-w-xs',
+      background: 'bg-white dark:bg-gray-800',
+      ring: 'ring-1 ring-gray-200 dark:ring-gray-700',
+    }"
+  >
     <UButton variant="solid" icon="i-fluent-chevron-down-20-filled" trailing>
       {{ $d(modelValue, { month: "numeric", year: "numeric" }) }}
     </UButton>
 
     <template #panel="{ close }">
-      <div
-        class="w-max max-w-xs overflow-hidden rounded-2xl bg-zinc-100 shadow-lg dark:bg-zinc-700"
-      >
-        <div class="space-y-3 p-3">
-          <USelect
-            v-model="selectedYear"
-            color="primary"
-            size="md"
-            :options="availableYears"
-          />
-          <div class="grid grid-cols-3 gap-1">
-            <UButton
-              v-for="(monthName, i) in dayjs.months()"
-              :key="i"
-              :variant="
-                i == selectedMonth
-                  ? 'solid'
-                  : i == modelValue.getMonth() &&
-                    selectedYear == modelValue.getFullYear()
-                  ? 'outline'
-                  : 'ghost'
-              "
-              :color="
-                i == selectedMonth ||
-                (i == modelValue.getMonth() &&
-                  selectedYear == modelValue.getFullYear())
-                  ? 'primary'
-                  : 'gray'
-              "
-              block
-              @click="selectedMonth = i"
-            >
-              {{ monthName }}
-            </UButton>
-          </div>
-          <div class="grid grid-cols-2 gap-3">
-            <UButton color="red" variant="outline" block @click="reset">
-              {{ $t("monthPicker.reset") }}
-            </UButton>
-            <UButton
-              block
-              @click="
-                {
-                  $emit(
-                    'update:modelValue',
-                    new Date(selectedYear, selectedMonth)
-                  );
-                  close();
-                }
-              "
-            >
-              {{ $t("monthPicker.save") }}
-            </UButton>
-          </div>
+      <div class="space-y-3 p-3">
+        <USelect
+          v-model="selectedYear"
+          color="primary"
+          size="md"
+          :options="availableYears"
+        />
+        <div class="grid grid-cols-3 gap-1">
+          <UButton
+            v-for="(monthName, i) in dayjs.months()"
+            :key="i"
+            :variant="
+              i == selectedMonth
+                ? 'solid'
+                : i == modelValue.getMonth() &&
+                  selectedYear == modelValue.getFullYear()
+                ? 'outline'
+                : 'ghost'
+            "
+            :color="
+              i == selectedMonth ||
+              (i == modelValue.getMonth() &&
+                selectedYear == modelValue.getFullYear())
+                ? 'primary'
+                : 'gray'
+            "
+            block
+            :ui="{
+              color: {
+                gray: {
+                  ghost:
+                    'text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-900 focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-primary',
+                },
+              },
+            }"
+            @click="selectedMonth = i"
+          >
+            {{ monthName }}
+          </UButton>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <UButton color="red" variant="outline" block @click="reset">
+            {{ $t("monthPicker.reset") }}
+          </UButton>
+          <UButton
+            block
+            @click="
+              {
+                $emit(
+                  'update:modelValue',
+                  new Date(selectedYear, selectedMonth)
+                );
+                close();
+              }
+            "
+          >
+            {{ $t("monthPicker.save") }}
+          </UButton>
         </div>
       </div>
     </template>
