@@ -64,7 +64,13 @@ defineShortcuts({
 </script>
 
 <template>
-  <UModal v-model="isActive">
+  <UModal
+    v-model="isActive"
+    :ui="{
+      container:
+        'flex min-h-full items-start sm:items-center justify-center text-center',
+    }"
+  >
     <UCommandPalette
       :groups="groups"
       :placeholder="$t('general.searchPlaceholder')"
