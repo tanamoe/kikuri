@@ -29,35 +29,42 @@ defineProps<{
         <div class="block lg:hidden">
           <TheNavigationSidebar />
         </div>
-        <NuxtLink to="/" active-class="router-logo-active">
+        <ULink to="/" class="flex items-center gap-2">
           <img src="/logo.svg" class="h-6" />
-        </NuxtLink>
+          <UBadge variant="soft" size="xs" class="invisible sm:visible">
+            Preview
+          </UBadge>
+        </ULink>
       </div>
 
       <ul class="col-span-4 hidden items-center justify-center gap-3 lg:flex">
         <li>
-          <NuxtLink
+          <ULink
+            class="navigation"
+            active-class="navigation-active"
             to="/calendar"
-            class="rounded-lg px-3 py-2 transition-all hover:bg-zinc-200 hover:dark:bg-zinc-700"
           >
             {{ $t("general.releaseCalendar") }}
-          </NuxtLink>
+          </ULink>
+          <NuxtLink to="/calendar" class=""> </NuxtLink>
         </li>
         <li>
-          <NuxtLink
+          <ULink
+            class="navigation"
+            active-class="navigation-active"
             to="/title"
-            class="rounded-lg px-3 py-2 transition-all hover:bg-zinc-200 hover:dark:bg-zinc-700"
           >
             {{ $t("general.browse") }}
-          </NuxtLink>
+          </ULink>
         </li>
         <li>
-          <NuxtLink
+          <ULink
+            class="navigation"
+            active-class="navigation-active"
             to="/profile"
-            class="rounded-lg px-3 py-2 transition-all hover:bg-zinc-200 hover:dark:bg-zinc-700"
           >
             {{ $t("general.library") }}
-          </NuxtLink>
+          </ULink>
         </li>
       </ul>
 
@@ -70,8 +77,12 @@ defineProps<{
   </nav>
 </template>
 
-<style scoped>
-.router-link-active {
-  @apply bg-zinc-200 font-bold dark:bg-zinc-700;
+<style>
+.navigation {
+  @apply rounded-lg px-3 py-2 transition-all hover:bg-gray-200 hover:dark:bg-gray-800;
+}
+
+.navigation-active {
+  @apply bg-gray-200 font-bold dark:bg-gray-800;
 }
 </style>
