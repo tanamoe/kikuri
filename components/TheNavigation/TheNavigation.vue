@@ -79,10 +79,10 @@ defineProps<{
 
 <style>
 .navigation {
-  @apply rounded-lg px-3 py-2 transition-all hover:bg-gray-200 hover:dark:bg-gray-800;
+  @apply rounded-lg px-3 py-2 text-gray-600 transition-all hover:bg-gray-200 dark:text-gray-400 hover:dark:bg-gray-800;
 }
 
 .navigation-active {
-  @apply bg-gray-200 font-bold dark:bg-gray-800;
+  @apply bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-200;
 }
 </style>

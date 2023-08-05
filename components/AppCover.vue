@@ -11,7 +11,7 @@ defineProps<{
 </script>
 
 <template>
-  <nuxt-img
+  <NuxtImg
     v-if="src"
     loading="lazy"
     class="aspect-[2/3] h-full w-full object-cover"
