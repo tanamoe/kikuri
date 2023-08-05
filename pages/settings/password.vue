@@ -1,20 +1,38 @@
 <script setup lang="ts">
+import type { Form } from "@nuxthq/ui/dist/runtime/types";
+import { z } from "zod";
+import { storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/user";
 
-const { currentUser } = useUserStore();
+const store = useUserStore();
 const { pending, update } = useUpdateAccount();
+const { t } = useI18n({ useScope: "global" });
 
-const account = ref({
-  id: currentUser!.id,
+const schema = z.object({
+  oldPassword: z.string().min(8, t("error.passwordShort", { length: 8 })),
+  password: z.string().min(8, t("error.passwordShort", { length: 8 })),
+  passwordConfirm: z
+    .string()
+    .min(8, t("error.passwordShort", { length: 8 }))
+    .refine(
+      (val) => val === state.value.password,
+      () => ({ message: t("error.passwordNotMatch") })
+    ),
+});
+
+type Schema = z.output<typeof schema>;
+
+const { currentUser } = storeToRefs(store);
+const form = ref<Form<Schema>>();
+const state = ref({
   oldPassword: "",
   password: "",
   passwordConfirm: "",
 });
-const passwordForm = ref<HTMLFormElement>();
 
-const handleUpdate = () => {
-  const formData = new FormData(passwordForm.value);
-  update(0, { id: account.value.id, record: formData });
+const submit = async () => {
+  const data = await form.value!.validate();
+  update(0, { id: currentUser.value!.id, record: data });
 };
 
 definePageMeta({
@@ -25,15 +43,21 @@ definePageMeta({
 
 <template>
   <div>
-    <form ref="passwordForm" class="space-y-6" @submit.prevent="handleUpdate">
+    <UForm
+      ref="form"
+      class="space-y-6"
+      :schema="schema"
+      :state="state"
+      @submit.prevent="submit"
+    >
       <UFormGroup name="oldPassword" :label="$t('account.oldPassword')">
-        <UInput v-model="account.oldPassword" type="password" />
+        <UInput v-model="state.oldPassword" type="password" />
       </UFormGroup>
       <UFormGroup name="password" :label="$t('account.password')">
-        <UInput v-model="account.password" type="password" />
+        <UInput v-model="state.password" type="password" />
       </UFormGroup>
       <UFormGroup name="passwordConfirm" :label="$t('account.passwordConfirm')">
-        <UInput v-model="account.passwordConfirm" type="password" />
+        <UInput v-model="state.passwordConfirm" type="password" />
       </UFormGroup>
       <div class="text-right">
         <UButton
@@ -42,6 +66,6 @@ definePageMeta({
           type="submit"
         />
       </div>
-    </form>
+    </UForm>
   </div>
 </template>

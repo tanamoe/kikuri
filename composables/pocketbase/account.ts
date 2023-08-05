@@ -11,7 +11,10 @@ export const useUpdateAccount = () => {
     isLoading: pending,
     execute: update,
   } = useAsyncState(
-    async (args: { id: string; record: Partial<UsersRecord> | FormData }) => {
+    async (args: {
+      id: string;
+      record: Partial<UsersRecord> | FormData | { [k: string]: string };
+    }) => {
       const { id, record } = args;
 
       try {
