@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
   <div>
-    <nuxt-img
+    <NuxtImg
       v-if="user.banner"
       class="aspect-[21/9] h-auto w-full rounded-lg object-cover"
       loading="lazy"
@@ -19,14 +19,14 @@ defineProps<{
       class="aspect-[21/9] h-full w-full rounded-lg bg-gray-300 dark:bg-gray-700"
     />
     <div class="relative -mt-16 ml-4 w-fit">
-      <nuxt-img
+      <img
         v-if="user.avatar == ''"
         class="aspect-square h-32 w-32 rounded-full border-4 border-gray-200 object-cover dark:border-gray-800"
         provider="static"
         loading="lazy"
         src="/avatar.jpg"
       />
-      <nuxt-img
+      <NuxtImg
         v-else
         class="aspect-square h-32 w-32 rounded-full border-4 border-gray-200 object-cover dark:border-gray-800"
         loading="lazy"
