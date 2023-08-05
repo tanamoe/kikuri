@@ -16,7 +16,7 @@
     "@commitlint/cli": "^17.6.6",
     "@commitlint/config-conventional": "^17.6.6",
     "@nuxt/image": "1.0.0-rc.1",
-    "@nuxthq/ui": "^2.6.0",
+    "@nuxthq/ui": "^2.7.0",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@nuxtjs/google-fonts": "^3.0.1",
     "@nuxtjs/i18n": "8.0.0-rc.2",
