@@ -30,7 +30,10 @@ definePageMeta({
 <template>
   <div>
     <form ref="passwordForm" class="space-y-6">
-      <UFormGroup name="showBookDetails" :label="$t('general.showBookDetails')">
+      <UFormGroup
+        name="showBookDetails"
+        :label="$t('settings.showBookDetails')"
+      >
         <UToggle v-model="settings.showBookDetails" />
       </UFormGroup>
       <UFormGroup name="digital" :label="$t('settings.showDigital')">

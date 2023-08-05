@@ -25,7 +25,7 @@ defineProps<{
         <div :key="index" class="h-72 w-full">
           <div v-if="data[index].publishDate" class="mb-3">
             {{
-              $t("general.releaseDate", {
+              $t("general.dateRelease", {
                 date: $d(new Date(data[index].publishDate)),
               })
             }}
