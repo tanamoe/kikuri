@@ -28,21 +28,19 @@ definePageMeta({
 </script>
 
 <template>
-  <div>
-    <form ref="passwordForm" class="space-y-6">
-      <UFormGroup
-        name="showBookDetails"
-        :label="$t('settings.showBookDetails')"
-      >
-        <UToggle v-model="settings.showBookDetails" />
-      </UFormGroup>
-      <UFormGroup name="digital" :label="$t('settings.showDigital')">
-        <USelect
-          v-model="settings.showDigital"
-          :options="digitalOptions"
-          option-attribute="name"
-        />
-      </UFormGroup>
-    </form>
-  </div>
+  <form class="space-y-6">
+    <UFormGroup name="showBookDetails" :label="$t('settings.showBookDetails')">
+      <UToggle v-model="settings.showBookDetails" />
+    </UFormGroup>
+    <UFormGroup name="showBookPrice" :label="$t('settings.showBookPrice')">
+      <UToggle v-model="settings.showBookPrice" />
+    </UFormGroup>
+    <UFormGroup name="digital" :label="$t('settings.showDigital')">
+      <USelect
+        v-model="settings.showDigital"
+        :options="digitalOptions"
+        option-attribute="name"
+      />
+    </UFormGroup>
+  </form>
 </template>

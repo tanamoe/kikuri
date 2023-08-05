@@ -93,6 +93,7 @@
     "password": "Password",
     "interface": "Interface",
     "showBookDetails": "Show book details below cover",
+    "showBookPrice": "Show book retail price",
     "showDigital": "Show digital (e-book) releases",
     "digital": {
       "show": "Show digital releases",
@@ -132,5 +133,11 @@
     "emailInvalid": "Email is invalid",
     "passwordShort": "Password must be {length} characters long",
     "passwordNotMatch": "Password confirmation is incorrect"
+  },
+  "sort": {
+    "latest": "Latest",
+    "oldest": "Oldest",
+    "nameAscending": "Name ascending",
+    "nameDescending": "Name descending"
   }
 }

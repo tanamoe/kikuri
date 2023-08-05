@@ -60,6 +60,9 @@ const digitalOptions = [
         >
           <UToggle v-model="settings.showBookDetails" />
         </UFormGroup>
+        <UFormGroup name="showBookPrice" :label="$t('settings.showBookPrice')">
+          <UToggle v-model="settings.showBookPrice" />
+        </UFormGroup>
         <UFormGroup name="digital" :label="$t('settings.showDigital')">
           <USelect
             v-model="settings.showDigital"
