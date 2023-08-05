@@ -1,12 +1,41 @@
 <script setup lang="ts">
+import type { Form } from "@nuxthq/ui/dist/runtime/types";
 import { Record } from "pocketbase";
-
-const username = ref("");
-const email = ref("");
-const password = ref("");
-const passwordConfirm = ref("");
+import { z } from "zod";
 
 const { pending, register } = useRegister();
+const { t } = useI18n({ useScope: "global" });
+
+const schema = z.object({
+  username: z
+    .string()
+    .min(1, t("error.usernameEmpty"))
+    .regex(/^[^\s]*$/, t("error.usernameIncludesSpace")),
+  email: z.string().email(t("error.emailInvalid")),
+  password: z.string().min(8, t("error.passwordShort", { length: 8 })),
+  passwordConfirm: z
+    .string()
+    .min(8, t("error.passwordShort", { length: 8 }))
+    .refine(
+      (val) => val === state.value.password,
+      () => ({ message: t("error.passwordNotMatch") })
+    ),
+});
+
+type Schema = z.output<typeof schema>;
+
+const form = ref<Form<Schema>>();
+const state = ref({
+  username: "",
+  email: "",
+  password: "",
+  passwordConfirm: "",
+});
+
+const submit = async () => {
+  const data = await form.value!.validate();
+  register(0, data);
+};
 
 definePageMeta({
   middleware: [
@@ -31,16 +60,17 @@ definePageMeta({
 
     <div class="w-full max-w-sm rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
       <AppH1 class="mb-6">{{ $t("account.register") }}</AppH1>
-      <form
+      <UForm
+        ref="form"
         class="space-y-6"
-        @submit.prevent="
-          register(0, { username, email, password, passwordConfirm })
-        "
+        :schema="schema"
+        :state="state"
+        @submit.prevent="submit"
       >
         <div class="space-y-3">
           <UFormGroup name="username" :label="$t('account.username')">
             <UInput
-              v-model="username"
+              v-model="state.username"
               placeholder="kikuri"
               icon="i-fluent-person-20-filled"
               size="lg"
@@ -48,7 +78,7 @@ definePageMeta({
           </UFormGroup>
           <UFormGroup name="email" :label="$t('account.email')">
             <UInput
-              v-model="email"
+              v-model="state.email"
               placeholder="user@tana.moe"
               icon="i-fluent-mail-20-filled"
               size="lg"
@@ -56,7 +86,7 @@ definePageMeta({
           </UFormGroup>
           <UFormGroup name="password" :label="$t('account.password')">
             <UInput
-              v-model="password"
+              v-model="state.password"
               placeholder="•••••••••••••••"
               icon="i-fluent-key-20-filled"
               type="password"
@@ -68,7 +98,7 @@ definePageMeta({
             :label="$t('account.passwordConfirm')"
           >
             <UInput
-              v-model="passwordConfirm"
+              v-model="state.passwordConfirm"
               placeholder="•••••••••••••••"
               icon="i-fluent-key-20-filled"
               type="password"
@@ -79,7 +109,7 @@ definePageMeta({
         <UButton :loading="pending" type="submit" block>
           {{ $t("account.register") }}
         </UButton>
-      </form>
+      </UForm>
       <div class="mt-3 text-center text-sm text-zinc-600 dark:text-zinc-400">
         <NuxtLink
           class="decoration-tanablue-500 decoration-2 hover:underline"

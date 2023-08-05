@@ -1,9 +1,26 @@
 <script setup lang="ts">
+import type { Form } from "@nuxthq/ui/dist/runtime/types";
 import { Record } from "pocketbase";
+import { z } from "zod";
 
 const { pending, requestPasswordReset } = usePasswordReset();
+const { t } = useI18n({ useScope: "global" });
 
-const email = ref("");
+const schema = z.object({
+  email: z.string().email(t("error.emailInvalid")),
+});
+
+type Schema = z.output<typeof schema>;
+
+const form = ref<Form<Schema>>();
+const state = ref({
+  email: "",
+});
+
+const submit = async () => {
+  const data = await form.value!.validate();
+  requestPasswordReset(0, data);
+};
 
 definePageMeta({
   middleware: [
@@ -28,13 +45,16 @@ definePageMeta({
 
     <div class="w-full max-w-sm rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
       <AppH1 class="mb-6">{{ $t("account.forgetPassword") }}</AppH1>
-      <form
+      <UForm
+        ref="form"
         class="space-y-6"
-        @submit.prevent="requestPasswordReset(0, { email })"
+        :state="state"
+        :schema="schema"
+        @submit.prevent="submit"
       >
         <UFormGroup name="email" :label="$t('account.email')">
           <UInput
-            v-model="email"
+            v-model="state.email"
             placeholder="user@tana.moe"
             icon="i-fluent-mail-20-filled"
             size="lg"
@@ -44,7 +64,7 @@ definePageMeta({
         <UButton :loading="pending" type="submit" block>
           {{ $t("general.request") }}
         </UButton>
-      </form>
+      </UForm>
       <div
         class="mt-3 space-x-1 text-center text-sm text-zinc-600 dark:text-zinc-400"
       >
