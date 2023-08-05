@@ -93,6 +93,7 @@
     "password": "Mật khẩu",
     "interface": "Hiển thị",
     "showBookDetails": "Hiển thị thông tin sách bên dưới ảnh bìa",
+    "showBookPrice": "Hiển thị giá bán",
     "showDigital": "Hiển thị lịch phát hành điện tử (e-book)",
     "digital": {
       "show": "Có",
@@ -132,5 +133,11 @@
     "emailInvalid": "Email không đúng định dạng",
     "passwordShort": "Mật khẩu phải từ {length} ký tự",
     "passwordNotMatch": "Xác nhận mật khẩu không trùng"
+  },
+  "sort": {
+    "latest": "Mới cập nhật",
+    "oldest": "Cập nhật cũ nhất",
+    "nameAscending": "Tên tăng dần",
+    "nameDescending": "Tên giảm dần"
   }
 }

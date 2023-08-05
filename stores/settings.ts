@@ -6,6 +6,7 @@ export const useSettingsStore = defineStore(
   () => {
     const settings = ref<InterfaceSettings>({
       showBookDetails: true,
+      showBookPrice: true,
       showDigital: "show",
     });
 
