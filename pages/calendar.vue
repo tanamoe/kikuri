@@ -87,9 +87,9 @@ definePageMeta({
           class="grid w-full grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-6"
         >
           <div v-for="(__, y) in [...Array(12)]" :key="y" class="space-y-3">
-            <USkeleton class="aspect-[2/3] h-auto w-full rounded-2xl" />
-            <USkeleton class="h-6 w-full rounded-2xl" />
-            <USkeleton class="h-3 w-1/3 rounded-2xl" />
+            <USkeleton class="aspect-[2/3] h-auto w-full rounded-md" />
+            <USkeleton class="h-6 w-full rounded-md" />
+            <USkeleton class="h-3 w-1/3 rounded-md" />
           </div>
         </div>
       </div>

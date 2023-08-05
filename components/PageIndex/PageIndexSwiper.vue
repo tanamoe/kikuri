@@ -111,7 +111,7 @@ defineProps<{
           class="absolute inset-0 bg-gradient-to-t from-gray-50 to-transparent to-50% dark:from-gray-900 sm:hidden"
         />
         <AppCover
-          class="rounded-2xl"
+          class="rounded-md"
           :book="book"
           :src="book.cover[0] || book.baseCover[0]"
         />
