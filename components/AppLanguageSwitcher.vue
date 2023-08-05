@@ -23,7 +23,7 @@ const currentLocale = ref<Locale | undefined>(
 const changeLocale = async (v: Locale) => {
   await setLocale(v!.id);
   toast.add({
-    icon: "i-fluent-local-language-20-regular",
+    icon: "i-fluent-local-language-20-filled",
     title: t("general.localeChanged"),
     description: t("general.localeChangedDescription"),
   });
