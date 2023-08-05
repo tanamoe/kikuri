@@ -42,7 +42,9 @@
     "publishedBy": "Phát hành bởi",
     "publisher": "Nhà xuất bản",
     "registerBanner": "Tạo một tài khoản tại Tana.moe!",
-    "registerBannerDescription": "Hãy tạo một tài khoản tại Tana.moe để bắt đầu \"tủ truyện trực tuyến\" cho riêng mình, theo dõi các tựa truyện sắp ra mắt dễ dàng hơn, và khám phá những bộ truyện có thể bạn đã bỏ lỡ!"
+    "registerBannerDescription": "Hãy tạo một tài khoản tại Tana.moe để bắt đầu \"tủ truyện trực tuyến\" cho riêng mình, theo dõi các tựa truyện sắp ra mắt dễ dàng hơn, và khám phá những bộ truyện có thể bạn đã bỏ lỡ!",
+    "localeChanged": "Đã thay đổi ngôn ngữ",
+    "localeChangedDescription": "Hãy tải lại trang để có trải nghiệm tốt nhất"
   },
   "status": {
     "waiting_for_approval": "Chờ duyệt",
@@ -124,6 +126,11 @@
   "error": {
     "notFoundMessage": "Không tìm thấy đường dẫn",
     "generalMessage": "Đã có lỗi xảy ra",
-    "returnHome": "Trở về trang chủ"
+    "returnHome": "Trở về trang chủ",
+    "usernameEmpty": "Tên tài khoản không được để trống",
+    "usernameIncludesSpace": "Tên tài khoản không được có dấu cách",
+    "emailInvalid": "Email không đúng định dạng",
+    "passwordShort": "Mật khẩu phải từ {length} ký tự",
+    "passwordNotMatch": "Xác nhận mật khẩu không trùng"
   }
 }

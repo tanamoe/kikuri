@@ -42,7 +42,9 @@
     "publishedBy": "Published by",
     "publisher": "Publisher | Publishers",
     "registerBanner": "Create a Tana.moe account!",
-    "registerBannerDescription": "Create an account to start your own \"digital bookshelf\", follow upcoming releases easier, and explore stuff you might have missed!"
+    "registerBannerDescription": "Create an account to start your own \"digital bookshelf\", follow upcoming releases easier, and explore stuff you might have missed!",
+    "localeChanged": "Language changed",
+    "localeChangedDescription": "Reload the page to get better experience"
   },
   "status": {
     "waiting_for_approval": "Waiting for approval",
@@ -104,26 +106,31 @@
   },
   "calendar": {
     "noReleases": "No releases found",
-    "noReleasesDescription": "Có thể lịch phát hành tháng này chưa có, quay lại sau nhé!",
+    "noReleasesDescription": "Maybe this month releases weren't updated, please check back later!",
     "unknownError": "Unknown error",
-    "unknownErrorDescription": "Đã có gì đó sai sai xảy ra, hãy thử tải lại trang hoặc báo cáo với bọn mình..."
+    "unknownErrorDescription": "Something wrong happened, maybe try reload the page, or contact us..."
   },
   "footer": {
     "links": {
       "blog": "Blog",
-      "about": "Giới thiệu",
+      "about": "About",
       "credits": "Credit",
       "api": "API",
       "status": "Status",
       "sitemap": "Sitemap",
-      "tos": "Điều khoản",
-      "privacy": "Bảo mật",
-      "contact": "Liên hệ"
+      "tos": "Term of Service",
+      "privacy": "Privacy Policy",
+      "contact": "Contact"
     }
   },
   "error": {
-    "notFoundMessage": "Không tìm thấy đường dẫn",
-    "generalMessage": "Đã có lỗi xảy ra",
-    "returnHome": "Trở về trang chủ"
+    "notFoundMessage": "Page not found",
+    "generalMessage": "An error has occurred",
+    "returnHome": "Back to home",
+    "usernameEmpty": "Username is empty",
+    "usernameIncludesSpace": "Username cannot include space",
+    "emailInvalid": "Email is invalid",
+    "passwordShort": "Password must be {length} characters long",
+    "passwordNotMatch": "Password confirmation is incorrect"
   }
 }
