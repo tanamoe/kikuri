@@ -70,12 +70,16 @@
     "passwordConfirm": "Confirm password",
     "oldPassword": "Old password",
     "avatar": "Avatar",
+    "banner": "Banner",
     "updateSuccessful": "Update successfully",
     "requestVerificationEmailSent": "Verification email sent",
     "sendVerificationEmail": "Send verification email",
     "verify": "Verify account",
     "verifyLater": "Verify later",
-    "verifyDescription": "Thank you for creating an account at Tana.moe! Please verify your email address to have the best experience."
+    "verifyDescription": "Thank you for creating an account at Tana.moe! Please verify your email address to have the best experience.",
+    "upload": "Upload",
+    "removeAvatar": "Remove avatar",
+    "removeBanner": "Remove banner"
   },
   "auth": {
     "loginSuccessful": "Login successfully",
@@ -85,7 +89,9 @@
     "usernameCannotBeEmpty": "Username cannot be empty",
     "emailCannotBeEmpty": "Email cannot be empty",
     "passwordCannotBeEmpty": "Password cannot be empty",
-    "passwordNotMatch": "Password does not match"
+    "passwordNotMatch": "Password does not match",
+    "or": "or",
+    "loginWithDiscord": "Login with Discord"
   },
   "settings": {
     "profile": "Profile",

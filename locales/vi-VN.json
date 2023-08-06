@@ -70,12 +70,16 @@
     "passwordConfirm": "Xác nhận mật khẩu",
     "oldPassword": "Mật khẩu cũ",
     "avatar": "Ảnh đại diện",
+    "banner": "Ảnh bìa",
     "updateSuccessful": "Cập nhật thành công",
     "requestVerificationEmailSent": "Đã gửi email xác minh tài khoản",
     "sendVerificationEmail": "Gửi email xác minh",
     "verify": "Xác minh tài khoản",
     "verifyLater": "Xác minh sau",
-    "verifyDescription": "Cảm ơn bạn đã tạo tài khoản tại Tana.moe! Hãy xác minh địa chỉ email để gia tăng trải nghiệm sử dụng."
+    "verifyDescription": "Cảm ơn bạn đã tạo tài khoản tại Tana.moe! Hãy xác minh địa chỉ email để gia tăng trải nghiệm sử dụng.",
+    "upload": "Tải lên",
+    "removeAvatar": "Xóa ảnh đại diện",
+    "removeBanner": "Xóa ảnh bìa"
   },
   "auth": {
     "loginSuccessful": "Đăng nhập thành công",
@@ -85,7 +89,9 @@
     "usernameCannotBeEmpty": "Tên tài khoản không được để trống",
     "emailCannotBeEmpty": "Email không được để trống",
     "passwordCannotBeEmpty": "Mật khẩu không được để trống",
-    "passwordNotMatch": "Xác nhận mật khẩu không đúng"
+    "passwordNotMatch": "Xác nhận mật khẩu không đúng",
+    "or": "hoặc",
+    "loginWithDiscord": "Đăng nhập với Discord"
   },
   "settings": {
     "profile": "Cá nhân",
@@ -131,8 +137,10 @@
     "usernameEmpty": "Tên tài khoản không được để trống",
     "usernameIncludesSpace": "Tên tài khoản không được có dấu cách",
     "emailInvalid": "Email không đúng định dạng",
-    "passwordShort": "Mật khẩu phải từ {length} ký tự",
-    "passwordNotMatch": "Xác nhận mật khẩu không trùng"
+    "passwordShort": "Mật khẩu phải từ 8 ký tự",
+    "passwordNotMatch": "Xác nhận mật khẩu không trùng",
+    "displayNameLength": "Tên hiển thị phải từ 1-32 ký tự",
+    "bioLength": "Giới thiệu không được dài quá 280 ký tự"
   },
   "sort": {
     "latest": "Mới cập nhật",
