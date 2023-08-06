@@ -1,4 +1,4 @@
-import GhostContentAPI from "@tryghost/content-api";
+import { type PostsOrPages } from "@tryghost/content-api";
 
 export default defineEventHandler(async (event) => {
   if (!event.context.params)
@@ -9,25 +9,9 @@ export default defineEventHandler(async (event) => {
 
   const runtimeConfig = useRuntimeConfig();
 
-  const ghost = new GhostContentAPI({
-    url: runtimeConfig.ghost.url,
-    key: runtimeConfig.ghost.key,
-    version: "v5.0",
-  });
+  const posts = await $fetch<PostsOrPages>(
+    `${runtimeConfig.public.blog_url}/api/home`
+  );
 
-  const posts = await ghost.posts.browse({
-    include: ["authors"],
-    fields: [
-      "id",
-      "title",
-      "slug",
-      "feature_image",
-      "excerpt",
-      "primary_author",
-      "created_at",
-    ],
-    limit: "3",
-  });
-
-  return posts;
+  return posts.splice(0, 3);
 });
