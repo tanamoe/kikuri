@@ -4,6 +4,7 @@ import { Record } from "pocketbase";
 import { z } from "zod";
 
 const { pending, login } = useLogin();
+const { pending: pendingOAuth, login: loginOAuth } = useOAuthLogin();
 const { t } = useI18n({ useScope: "global" });
 
 const schema = z.object({
@@ -11,7 +12,7 @@ const schema = z.object({
     .string()
     .min(1, t("error.usernameEmpty"))
     .regex(/^[^\s]*$/, t("error.usernameIncludesSpace")),
-  password: z.string().min(8, t("error.passwordShort", { length: 8 })),
+  password: z.string(),
 });
 
 type Schema = z.output<typeof schema>;
@@ -48,55 +49,89 @@ definePageMeta({
       <Title>{{ $t("account.login") }}</Title>
     </Head>
 
-    <div class="w-full max-w-sm rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
-      <AppH1 class="mb-6">{{ $t("account.login") }}</AppH1>
-      <UForm
-        ref="form"
-        class="space-y-6"
-        :schema="schema"
-        :state="state"
-        @submit.prevent="submit"
-      >
-        <div class="space-y-3">
-          <UFormGroup name="user" :label="$t('account.usernameOrEmail')">
-            <UInput
-              v-model="state.user"
-              placeholder="user@tana.moe"
-              icon="i-fluent-person-20-filled"
-              size="lg"
-            />
-          </UFormGroup>
-          <UFormGroup name="password" :label="$t('account.password')">
-            <UInput
-              v-model="state.password"
-              placeholder="•••••••••••••••"
-              icon="i-fluent-key-20-filled"
-              type="password"
-              size="lg"
-            />
-          </UFormGroup>
+    <div
+      class="w-full max-w-sm space-y-6 rounded-lg bg-gray-100 p-6 dark:bg-gray-800"
+    >
+      <AppH1>{{ $t("account.login") }}</AppH1>
+
+      <div>
+        <UForm
+          ref="form"
+          class="space-y-6"
+          :schema="schema"
+          :state="state"
+          @submit.prevent="submit"
+        >
+          <div class="space-y-3">
+            <UFormGroup name="user" :label="$t('account.usernameOrEmail')">
+              <UInput
+                v-model="state.user"
+                placeholder="user@tana.moe"
+                icon="i-fluent-person-20-filled"
+                size="lg"
+              />
+            </UFormGroup>
+            <UFormGroup name="password" :label="$t('account.password')">
+              <UInput
+                v-model="state.password"
+                placeholder="•••••••••••••••"
+                icon="i-fluent-key-20-filled"
+                type="password"
+                size="lg"
+              />
+            </UFormGroup>
+          </div>
+          <UButton :loading="pending" type="submit" block>
+            {{ $t("account.login") }}
+          </UButton>
+        </UForm>
+
+        <div
+          class="mt-3 space-x-1 text-center text-sm text-gray-600 dark:text-gray-400"
+        >
+          <NuxtLink
+            class="decoration-tanablue-500 decoration-2 hover:underline"
+            to="/forget"
+          >
+            {{ $t("account.forgetPassword") }}
+          </NuxtLink>
+          <span>&middot;</span>
+          <NuxtLink
+            class="decoration-tanablue-500 decoration-2 hover:underline"
+            to="/register"
+          >
+            {{ $t("account.register") }}
+          </NuxtLink>
         </div>
-        <UButton :loading="pending" type="submit" block>
-          {{ $t("account.login") }}
-        </UButton>
-      </UForm>
+      </div>
 
       <div
-        class="mt-3 space-x-1 text-center text-sm text-zinc-600 dark:text-zinc-400"
+        class="relative text-center text-sm text-gray-600 dark:text-gray-400"
       >
-        <NuxtLink
-          class="decoration-tanablue-500 decoration-2 hover:underline"
-          to="/forget"
+        <hr
+          class="absolute inset-x-0 top-1/2 w-full -translate-y-1/2 transform border border-gray-600 dark:border-gray-600"
+        />
+        <span class="relative bg-gray-100 px-1 dark:bg-gray-800">
+          {{ $t("auth.or") }}
+        </span>
+      </div>
+
+      <div>
+        <UButton
+          icon="i-simple-icons-discord"
+          color="[#5865F2]"
+          :ui="{
+            variant: {
+              solid:
+                'shadow-sm text-white bg-{color} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 dark:focus-visible:outline-gray-400',
+            },
+          }"
+          block
+          :disabled="pendingOAuth"
+          @click="loginOAuth(0, { provider: 'discord' })"
         >
-          {{ $t("account.forgetPassword") }}
-        </NuxtLink>
-        <span>&middot;</span>
-        <NuxtLink
-          class="decoration-tanablue-500 decoration-2 hover:underline"
-          to="/register"
-        >
-          {{ $t("account.register") }}
-        </NuxtLink>
+          {{ $t("auth.loginWithDiscord") }}
+        </UButton>
       </div>
     </div>
   </UContainer>
