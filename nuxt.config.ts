@@ -1,10 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   runtimeConfig: {
-    ghost: {
-      url: process.env.GHOST_URL,
-      key: process.env.GHOST_KEY,
-    },
     public: {
       pocketbase_url: process.env.POCKETBASE_URL,
       search_endpoint: process.env.SEARCH_ENDPOINT,
