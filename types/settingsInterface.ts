@@ -1,4 +1,4 @@
-import { FilterDigital } from "./calendarFilter";
+import type { FilterDigital } from "@/utils/releases";
 
 export interface InterfaceSettings {
   showBookDetails: boolean;

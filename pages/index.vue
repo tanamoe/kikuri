@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const runtimeConfig = useRuntimeConfig();
 
-const { data: recentReleases } = await useRecentReleases();
-const { data: recentBooks } = await useRecentBooks(6);
-const { data: recentPosts } = await useRecentPosts();
+const { data: recentReleases } = await useAsyncData(() => getRecentReleases());
+const { data: recentBooks } = await useAsyncData(() => getRecentBooks(6));
+const { data: recentPosts } = await useAsyncData(() => getRecentGhostPosts());
 </script>
 
 <template>

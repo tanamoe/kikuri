@@ -5,7 +5,11 @@ const props = defineProps<{
 }>();
 
 const { t } = useI18n();
-const { isLoading, state: rows, execute } = useAsyncBookDetailed();
+const {
+  pending,
+  data: rows,
+  execute,
+} = useAsyncData(() => getBooks(props.releaseId));
 
 const columns = [
   {
@@ -44,7 +48,7 @@ const watcher = watch(
   () => props.open,
   () => {
     if (props.open === true) {
-      execute(0, props.releaseId);
+      execute();
       watcher();
     }
   }
@@ -55,7 +59,7 @@ const watcher = watch(
   <UTable
     :columns="columns"
     :rows="rows || []"
-    :loading="isLoading"
+    :loading="pending"
     :ui="{
       wrapper: 'relative overflow-x-auto',
       td: { base: 'whitespace-nowrap lg:whitespace-normal' },
