@@ -9,11 +9,11 @@ const { pending, update } = useUpdateAccount();
 const { t } = useI18n({ useScope: "global" });
 
 const schema = z.object({
-  oldPassword: z.string().min(8, t("error.passwordShort", { length: 8 })),
-  password: z.string().min(8, t("error.passwordShort", { length: 8 })),
+  oldPassword: z.string().min(8, t("error.passwordShort")),
+  password: z.string().min(8, t("error.passwordShort")),
   passwordConfirm: z
     .string()
-    .min(8, t("error.passwordShort", { length: 8 }))
+    .min(8, t("error.passwordShort"))
     .refine(
       (val) => val === state.value.password,
       () => ({ message: t("error.passwordNotMatch") })

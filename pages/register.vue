@@ -12,10 +12,10 @@ const schema = z.object({
     .min(1, t("error.usernameEmpty"))
     .regex(/^[^\s]*$/, t("error.usernameIncludesSpace")),
   email: z.string().email(t("error.emailInvalid")),
-  password: z.string().min(8, t("error.passwordShort", { length: 8 })),
+  password: z.string().min(8, t("error.passwordShort")),
   passwordConfirm: z
     .string()
-    .min(8, t("error.passwordShort", { length: 8 }))
+    .min(8, t("error.passwordShort"))
     .refine(
       (val) => val === state.value.password,
       () => ({ message: t("error.passwordNotMatch") })

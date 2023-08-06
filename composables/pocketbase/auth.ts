@@ -19,50 +19,6 @@ export const useRegister = () => {
     }) => {
       const { username, email, password, passwordConfirm } = args;
 
-      if (username === "") {
-        toast.add({
-          color: "red",
-          title: t("general.error"),
-          description: t("auth.usernameCannotBeEmpty"),
-          icon: "i-fluent-error-circle-20-filled",
-        });
-
-        return;
-      }
-
-      if (email === "") {
-        toast.add({
-          color: "red",
-          title: t("general.error"),
-          description: t("auth.emailCannotBeEmpty"),
-          icon: "i-fluent-error-circle-20-filled",
-        });
-
-        return;
-      }
-
-      if (password === "" || passwordConfirm === "") {
-        toast.add({
-          color: "red",
-          title: t("general.error"),
-          description: t("auth.passwordCannotBeEmpty"),
-          icon: "i-fluent-error-circle-20-filled",
-        });
-
-        return;
-      }
-
-      if (password !== passwordConfirm) {
-        toast.add({
-          color: "red",
-          title: t("general.error"),
-          description: t("auth.passwordNotMatch"),
-          icon: "i-fluent-error-circle-20-filled",
-        });
-
-        return;
-      }
-
       try {
         await $pb.collection(Collections.Users).create({
           username,
@@ -118,32 +74,58 @@ export const useLogin = () => {
     async (args: { user: string; password: string }) => {
       const { user, password } = args;
 
-      if (user === "") {
-        toast.add({
-          color: "red",
-          title: t("general.error"),
-          description: t("auth.usernameCannotBeEmpty"),
-          icon: "i-fluent-error-circle-20-filled",
-        });
-
-        return;
-      }
-
-      if (password === "") {
-        toast.add({
-          color: "red",
-          title: t("general.error"),
-          description: t("auth.passwordCannotBeEmpty"),
-          icon: "i-fluent-error-circle-20-filled",
-        });
-
-        return;
-      }
-
       try {
         const response = await $pb
           .collection(Collections.Users)
           .authWithPassword<UsersResponse>(user, password);
+
+        toast.add({
+          color: "primary",
+          title: t("auth.loginSuccessful"),
+          description: t("auth.redirecting"),
+          icon: "i-fluent-checkmark-circle-20-filled",
+        });
+
+        navigateTo("/");
+
+        return response;
+      } catch (err) {
+        if (err instanceof ClientResponseError) {
+          toast.add({
+            color: "red",
+            title: t("general.error"),
+            description: err.message,
+            icon: "i-fluent-error-circle-20-filled",
+          });
+        }
+      }
+    },
+    null,
+    {
+      immediate: false,
+    }
+  );
+
+  return { pending, data, login };
+};
+
+export const useOAuthLogin = () => {
+  const { $pb } = useNuxtApp();
+  const toast = useToast();
+  const { t } = useI18n({ useScope: "global" });
+
+  const {
+    state: data,
+    isLoading: pending,
+    execute: login,
+  } = useAsyncState(
+    async (args: { provider: string }) => {
+      const { provider } = args;
+
+      try {
+        const response = await $pb
+          .collection(Collections.Users)
+          .authWithOAuth2<UsersResponse>({ provider });
 
         toast.add({
           color: "primary",

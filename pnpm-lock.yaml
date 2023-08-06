@@ -8,6 +8,9 @@ dependencies:
   '@iconify-json/fluent':
     specifier: ^1.1.26
     version: 1.1.26
+  '@iconify-json/simple-icons':
+    specifier: ^1.1.64
+    version: 1.1.64
   '@pinia/nuxt':
     specifier: ^0.4.11
     version: 0.4.11(typescript@5.1.6)(vue@3.3.4)
@@ -1115,6 +1118,12 @@ packages:
     dependencies:
       '@iconify/types': 2.0.0
     dev: true
+
+  /@iconify-json/simple-icons@1.1.64:
+    resolution: {integrity: sha512-ssBOJRCI3fZE4f0jUuB4cCmV/+ZRtUSvexcjUhbskr3tJZLtwxteOWdUT+bSbppA5nkDjWVcCVO18gx/QyK04Q==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: false
 
   /@iconify/types@2.0.0:
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
