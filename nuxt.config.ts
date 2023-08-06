@@ -73,7 +73,7 @@ export default defineNuxtConfig({
     },
   },
   ui: {
-    icons: ["fluent"],
+    icons: ["fluent", "simple-icons"],
   },
   i18n: {
     strategy: "no_prefix",
