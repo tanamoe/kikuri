@@ -4,8 +4,18 @@ const route = useRoute();
 
 const synopsisOpen = ref(false);
 
-const title = await useTitle(route.params.id as string);
-const releases = await useTitleReleases(title.id);
+const { data: title } = await useAsyncData(() =>
+  getTitle(route.params.id as string)
+);
+if (!title.value) throw createError({ statusCode: 404 });
+
+const { data: releases } = await useAsyncData(() =>
+  getReleases(title.value!.id)
+);
+
+const { data: images } = await useAsyncData(() =>
+  getTitleCoverImages(title.value!.id)
+);
 
 definePageMeta({
   layout: "full",
@@ -13,7 +23,7 @@ definePageMeta({
 </script>
 
 <template>
-  <UContainer>
+  <UContainer v-if="title">
     <Head>
       <Title>{{ title.name }}</Title>
     </Head>
@@ -60,11 +70,15 @@ definePageMeta({
 
     <div class="mt-6 flex flex-col-reverse gap-6 lg:flex-row">
       <div class="flex-1">
-        <AppH3 class="mb-3 mt-12">{{ $t("general.releaseCalendar") }}</AppH3>
-        <PageTitleReleases :releases="releases" />
+        <div v-if="releases">
+          <AppH3 class="mb-3 mt-12">{{ $t("general.releaseCalendar") }}</AppH3>
+          <PageTitleReleases :releases="releases" />
+        </div>
 
-        <AppH3 class="mb-3 mt-12">{{ $t("general.coverImages") }}</AppH3>
-        <PageTitleCoverImages :title-id="title.id" />
+        <div v-if="images">
+          <AppH3 class="mb-3 mt-12">{{ $t("general.coverImages") }}</AppH3>
+          <PageTitleCoverImages :images="images" />
+        </div>
       </div>
 
       <div class="w-full flex-shrink-0 lg:w-64">

@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
 import { storeToRefs } from "pinia";
-
 import { useSettingsStore } from "@/stores/settings";
-import type { FilterPublishers } from "@/types/calendarFilter";
+import type { FilterPublishers } from "@/utils/releases";
 
 const store = useSettingsStore();
+const { settings } = storeToRefs(store);
 
 const month = ref(dayjs());
 const publishers = ref<FilterPublishers[]>([]);
-const { settings } = storeToRefs(store);
-
 const monthRefs = ref<HTMLDivElement[]>([]);
 const currentPosition = ref(0);
 
@@ -18,11 +16,17 @@ const {
   pending,
   data: releases,
   error,
-} = useCalendar(
-  computed(() => month.value.startOf("month").toISOString()),
-  computed(() => month.value.endOf("month").toISOString()),
-  computed(() => publishers.value.map((publisher) => publisher.id)),
-  computed(() => settings.value.showDigital)
+} = await useAsyncData(
+  () =>
+    getCalendarReleases(
+      month.value.startOf("month").toISOString(),
+      month.value.endOf("month").toISOString(),
+      publishers.value.map((publisher) => publisher.id),
+      settings.value.showDigital
+    ),
+  {
+    watch: [month, publishers, settings],
+  }
 );
 
 const doScroll = () =>
@@ -78,9 +82,9 @@ definePageMeta({
       >
         <div class="sticky top-16 self-start">
           <div class="space-y-3">
-            <USkeleton class="h-4 w-16 rounded" />
-            <USkeleton class="h-12 w-16 rounded" />
-            <USkeleton class="h-12 w-16 rounded" />
+            <USkeleton class="h-4 w-12 rounded md:w-20" />
+            <USkeleton class="h-12 w-12 rounded md:w-20" />
+            <USkeleton class="h-12 w-12 rounded md:w-20" />
           </div>
         </div>
         <div
@@ -95,30 +99,8 @@ definePageMeta({
       </div>
     </UContainer>
 
-    <UContainer v-else-if="releases && releases.length > 0">
-      <div
-        v-for="group in releases"
-        :key="group.date.toDateString()"
-        ref="monthRefs"
-        class="mb-24 flex scroll-mt-28 gap-6 sm:scroll-mt-16"
-      >
-        <div
-          class="sticky top-28 w-12 flex-shrink-0 self-start sm:top-16 md:w-20"
-        >
-          <PageCalendarDate :date="group.date" />
-        </div>
-        <div
-          class="grid w-full grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-6"
-        >
-          <div v-for="book in group.publications" :key="book.id">
-            <AppBook :book="book" />
-          </div>
-        </div>
-      </div>
-    </UContainer>
-
     <UContainer
-      v-else-if="releases && releases.length === 0"
+      v-if="releases === null"
       class="my-12 flex items-center justify-center"
     >
       <div class="text-center">
@@ -130,10 +112,7 @@ definePageMeta({
       </div>
     </UContainer>
 
-    <UContainer
-      v-else-if="error"
-      class="my-12 flex items-center justify-center"
-    >
+    <UContainer v-if="error" class="my-12 flex items-center justify-center">
       <div class="text-center">
         <p>{{ "~(>_<~)" }}</p>
         <h1 class="my-3 font-lexend text-4xl font-black">
@@ -143,13 +122,25 @@ definePageMeta({
       </div>
     </UContainer>
 
-    <UContainer v-else class="my-12 flex items-center justify-center">
-      <div class="text-center">
-        <p>{{ "~(>_<~)" }}</p>
-        <h1 class="my-3 font-lexend text-4xl font-black">
-          {{ $t("calendar.unknownError") }}
-        </h1>
-        <p>{{ $t("calendar.unknownErrorDescription") }}</p>
+    <UContainer>
+      <div
+        v-for="(group, key) in releases"
+        :key="key"
+        ref="monthRefs"
+        class="mb-24 flex scroll-mt-28 gap-6 sm:scroll-mt-16"
+      >
+        <div
+          class="sticky top-28 w-12 flex-shrink-0 self-start sm:top-16 md:w-20"
+        >
+          <PageCalendarDate :date="new Date(key)" />
+        </div>
+        <div
+          class="grid w-full grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-6"
+        >
+          <div v-for="book in group" :key="book.id">
+            <AppBook :book="book" />
+          </div>
+        </div>
       </div>
     </UContainer>
 
