@@ -89,7 +89,7 @@ export const getReleases = async (id: string) => {
 
 export const getRecentReleases = async () => {
   const { $pb } = useNuxtApp();
-  const now = dayjs();
+  const now = dayjs.utc();
 
   const data = await $pb.collection(Collections.BookDetailed).getFullList<
     BookDetailedResponse<{
@@ -97,8 +97,11 @@ export const getRecentReleases = async () => {
     }>
   >({
     sort: "+publishDate",
-    filter: `publishDate >= '${now.toISOString()}'
-    && publishDate <= '${now.add(3, "days").toISOString()}'`,
+    filter: `publishDate >= '${now.startOf("day").format("YYYY-MM-DD")}'
+    && publishDate <= '${now
+      .add(3, "days")
+      .endOf("day")
+      .format("YYYY-MM-DD")}'`,
     expand: "publisher",
   });
 

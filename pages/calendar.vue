@@ -7,7 +7,7 @@ import type { FilterPublishers } from "@/utils/releases";
 const store = useSettingsStore();
 const { settings } = storeToRefs(store);
 
-const month = ref(dayjs());
+const month = ref(dayjs.utc());
 const publishers = ref<FilterPublishers[]>([]);
 const monthRefs = ref<HTMLDivElement[]>([]);
 const currentPosition = ref(0);
@@ -19,8 +19,8 @@ const {
 } = await useAsyncData(
   () =>
     getCalendarReleases(
-      month.value.startOf("month").toISOString(),
-      month.value.endOf("month").toISOString(),
+      month.value.startOf("month").format("YYYY-MM-DD"),
+      month.value.endOf("month").format("YYYY-MM-DD"),
       publishers.value.map((publisher) => publisher.id),
       settings.value.showDigital
     ),

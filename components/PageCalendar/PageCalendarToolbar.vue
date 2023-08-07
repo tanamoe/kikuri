@@ -32,7 +32,7 @@ const emit = defineEmits<{
 
 const currentMonth = computed({
   get: () => props.month.toDate(),
-  set: (value) => emit("update:month", dayjs(value)),
+  set: (value) => emit("update:month", dayjs.utc(value)),
 });
 
 const currentPublishers = computed({
@@ -60,16 +60,14 @@ const currentPublishers = computed({
                 color="gray"
                 variant="ghost"
                 square
-                @click="
-                  $emit('update:month', dayjs(month).subtract(1, 'month'))
-                "
+                @click="$emit('update:month', month.subtract(1, 'month'))"
               />
               <UButton
                 icon="i-fluent-chevron-right-20-filled"
                 color="gray"
                 variant="ghost"
                 square
-                @click="$emit('update:month', dayjs(month).add(1, 'month'))"
+                @click="$emit('update:month', month.add(1, 'month'))"
               />
             </div>
           </div>
