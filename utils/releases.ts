@@ -27,23 +27,28 @@ function groupBy<T>(arr: T[], fn: (item: T) => any) {
 export const getCalendarReleases = async (
   from: string,
   to: string,
-  publishers?: string[],
-  digital?: FilterDigital
+  filters?: {
+    publishers?: string[];
+    digital?: FilterDigital;
+    edition?: boolean;
+  }
 ) => {
   const { $pb } = useNuxtApp();
 
   const filter = [`publishDate >= '${from}'`, `publishDate <= '${to}'`];
 
-  if (publishers && publishers.length > 0) {
+  if (filters?.publishers && filters.publishers.length > 0) {
     const p = [
-      ...publishers.map((publisher) => `publisher.id = '${publisher}'`),
+      ...filters.publishers.map((publisher) => `publisher.id = '${publisher}'`),
     ].join(" || ");
 
     filter.push("(" + p + ")");
   }
 
-  if (digital === "hide") filter.push("digital = false");
-  if (digital === "only") filter.push("digital = true");
+  if (filters?.digital === "hide") filter.push("digital = false");
+  if (filters?.digital === "only") filter.push("digital = true");
+
+  if (filters?.edition === false) filter.push("edition = ''");
 
   const data = await $pb.collection(Collections.BookDetailed).getFullList<
     BookDetailedResponse<{

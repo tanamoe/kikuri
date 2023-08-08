@@ -6,7 +6,8 @@ const { t } = useI18n({ useScope: "global" });
 const store = useSettingsStore();
 
 const isOpen = ref(false);
-const { settings } = storeToRefs(store);
+const { showBookDetails, showBookPrice, showDigital, showEditionedBook } =
+  storeToRefs(store);
 
 const options = computed(() => [
   [
@@ -58,14 +59,20 @@ const digitalOptions = computed(() => [
           name="showBookDetails"
           :label="$t('settings.showBookDetails')"
         >
-          <UToggle v-model="settings.showBookDetails" />
+          <UToggle v-model="showBookDetails" />
         </UFormGroup>
         <UFormGroup name="showBookPrice" :label="$t('settings.showBookPrice')">
-          <UToggle v-model="settings.showBookPrice" />
+          <UToggle v-model="showBookPrice" />
+        </UFormGroup>
+        <UFormGroup
+          name="showEditionedBook"
+          :label="$t('settings.showEditionedBook')"
+        >
+          <UToggle v-model="showEditionedBook" />
         </UFormGroup>
         <UFormGroup name="digital" :label="$t('settings.showDigital')">
           <USelect
-            v-model="settings.showDigital"
+            v-model="showDigital"
             :options="digitalOptions"
             option-attribute="name"
           />

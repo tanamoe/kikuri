@@ -101,6 +101,7 @@
     "showBookDetails": "Show book details below cover",
     "showBookPrice": "Show book retail price",
     "showDigital": "Show digital (e-book) releases",
+    "showEditionedBook": "Show optional editions of the book (e.g. special edition, limited edition, etc.)",
     "digital": {
       "show": "Show digital releases",
       "hide": "Hide digital releases",

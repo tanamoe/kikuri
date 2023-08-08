@@ -101,6 +101,7 @@
     "showBookDetails": "Hiển thị thông tin sách bên dưới ảnh bìa",
     "showBookPrice": "Hiển thị giá bán",
     "showDigital": "Hiển thị lịch phát hành điện tử (e-book)",
+    "showEditionedBook": "Hiển thị các phiên bản khác (bản đặc biệt, bản giới hạn,...) của sách",
     "digital": {
       "show": "Có",
       "hide": "Không",

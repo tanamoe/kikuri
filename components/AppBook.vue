@@ -5,7 +5,7 @@ import type { BookDetailedResponse, TitleResponse } from "@/types/pb";
 
 const store = useSettingsStore();
 
-const { settings } = storeToRefs(store);
+const { showBookDetails, showBookPrice } = storeToRefs(store);
 
 defineProps<{
   book: BookDetailedResponse<{
@@ -45,7 +45,7 @@ defineProps<{
       :sizes="sizes"
     />
   </AppCard>
-  <div v-if="settings.showBookDetails" class="mt-2">
+  <div v-if="showBookDetails" class="mt-2">
     <div v-if="book.volume < 9000 && book.volume > 0" class="space-y-1">
       <div v-if="book.expand" class="font-condensed text-xl font-black">
         {{ book.expand.title.name }}
@@ -60,10 +60,7 @@ defineProps<{
       </span>
     </div>
   </div>
-  <div
-    v-if="settings.showBookPrice"
-    :class="settings.showBookDetails ? 'mt-1' : 'mt-2'"
-  >
+  <div v-if="showBookPrice" :class="showBookDetails ? 'mt-1' : 'mt-2'">
     <span class="block text-zinc-500 dark:text-zinc-400">
       {{ $n(book.price, "currency", "vi") }}
     </span>
