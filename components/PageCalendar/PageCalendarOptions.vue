@@ -8,7 +8,7 @@ const store = useSettingsStore();
 const isOpen = ref(false);
 const { settings } = storeToRefs(store);
 
-const options = [
+const options = computed(() => [
   [
     {
       label: t("general.print"),
@@ -28,9 +28,9 @@ const options = [
       click: () => (isOpen.value = true),
     },
   ],
-];
+]);
 
-const digitalOptions = [
+const digitalOptions = computed(() => [
   {
     name: t("settings.digital.show"),
     value: "show",
@@ -43,7 +43,7 @@ const digitalOptions = [
     name: t("settings.digital.only"),
     value: "only",
   },
-];
+]);
 </script>
 
 <template>

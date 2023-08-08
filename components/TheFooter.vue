@@ -2,7 +2,7 @@
 const colorMode = useColorMode();
 const { t } = useI18n({ useScope: "global" });
 
-const themes = [
+const themes = computed(() => [
   {
     id: "dark",
     label: t("general.darkMode"),
@@ -18,11 +18,11 @@ const themes = [
     label: t("general.systemColorMode"),
     icon: "i-fluent-desktop-16-regular",
   },
-];
+]);
 
 const currentTheme = computed({
   get() {
-    return themes.find((theme) => colorMode.preference === theme.id);
+    return themes.value.find((theme) => colorMode.preference === theme.id);
   },
   set(theme) {
     colorMode.preference = theme!.id;
