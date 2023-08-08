@@ -5,7 +5,7 @@ import { useSettingsStore } from "@/stores/settings";
 import type { FilterPublishers } from "@/utils/releases";
 
 const store = useSettingsStore();
-const { settings } = storeToRefs(store);
+const { showDigital, showEditionedBook } = storeToRefs(store);
 
 const month = ref(dayjs.utc());
 const publishers = ref<FilterPublishers[]>([]);
@@ -21,11 +21,14 @@ const {
     getCalendarReleases(
       month.value.startOf("month").format("YYYY-MM-DD"),
       month.value.endOf("month").format("YYYY-MM-DD"),
-      publishers.value.map((publisher) => publisher.id),
-      settings.value.showDigital
+      {
+        publishers: publishers.value.map((publisher) => publisher.id),
+        digital: showDigital.value,
+        edition: showEditionedBook.value,
+      }
     ),
   {
-    watch: [month, publishers, settings],
+    watch: [month, publishers, showDigital, showEditionedBook],
   }
 );
 
