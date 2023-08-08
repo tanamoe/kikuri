@@ -7,7 +7,7 @@ const store = useSettingsStore();
 
 const { settings } = storeToRefs(store);
 
-const digitalOptions = [
+const digitalOptions = computed(() => [
   {
     name: t("settings.digital.show"),
     value: "show",
@@ -20,7 +20,7 @@ const digitalOptions = [
     name: t("settings.digital.only"),
     value: "only",
   },
-];
+]);
 
 definePageMeta({
   layout: "setting",
