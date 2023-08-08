@@ -17,6 +17,7 @@ defineProps<{
       <img
         v-if="post.feature_image"
         class="aspect-[3/2] h-full w-full object-cover"
+        loading="lazy"
         :src="post.feature_image"
       />
       <!-- TODO: replace by placeholder image -->

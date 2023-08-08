@@ -65,7 +65,7 @@ const { data: recentPosts } = await useAsyncData(() => getRecentGhostPosts());
             i === recentBooks.length - 1 && 'mr-6 sm:mr-0',
           ]"
         >
-          <AppBook :book="book" />
+          <AppBook :book="book" sizes="sm:40vw md:20vw" />
         </div>
       </div>
     </div>

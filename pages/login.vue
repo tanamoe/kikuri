@@ -3,8 +3,8 @@ import type { Form } from "@nuxthq/ui/dist/runtime/types";
 import { Record } from "pocketbase";
 import { z } from "zod";
 
-const { pending, login } = useLogin();
-const { pending: pendingOAuth, login: loginOAuth } = useOAuthLogin();
+const login = useLogin();
+const oauthLogin = useOAuthLogin();
 const { t } = useI18n({ useScope: "global" });
 
 const schema = z.object({
@@ -22,10 +22,11 @@ const state = ref<Schema>({
   user: "",
   password: "",
 });
+const pending = computed(() => login.pending.value || oauthLogin.pending.value);
 
 const submit = async () => {
   const data = await form.value!.validate();
-  login(0, data);
+  await login.login(0, data);
 };
 
 definePageMeta({
@@ -119,16 +120,15 @@ definePageMeta({
       <div>
         <UButton
           icon="i-simple-icons-discord"
-          color="[#5865F2]"
           :ui="{
             variant: {
               solid:
-                'shadow-sm text-white bg-{color} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 dark:focus-visible:outline-gray-400',
+                'shadow-sm text-white bg-[#5865F2] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 dark:focus-visible:outline-gray-400',
             },
           }"
           block
-          :disabled="pendingOAuth"
-          @click="loginOAuth(0, { provider: 'discord' })"
+          :disabled="pending"
+          @click="oauthLogin.login(0, { provider: 'discord' })"
         >
           {{ $t("auth.loginWithDiscord") }}
         </UButton>

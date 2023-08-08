@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { joinURL } from "ufo";
 import dayjs, { type Dayjs } from "dayjs";
 import type { FilterPublishers } from "@/utils/releases";
 import { Collections, type PublisherResponse } from "@/types/pb";
@@ -14,7 +15,12 @@ const { data: publisherOptions } = useAsyncData(
         id: publisher.id,
         label: publisher.name,
         avatar: {
-          src: `${runtimeConfig.public.image_endpoint}/${publisher.collectionId}/${publisher.id}/${publisher.logo}`,
+          src: joinURL(
+            runtimeConfig.public.pocketbase_url,
+            "/api/files",
+            getPockerBaseImagePath(publisher, publisher.logo),
+            "?thumb=24x24"
+          ),
         },
       })),
   }

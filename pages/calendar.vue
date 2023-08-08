@@ -138,7 +138,7 @@ definePageMeta({
           class="grid w-full grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-6"
         >
           <div v-for="book in group" :key="book.id">
-            <AppBook :book="book" />
+            <AppBook :book="book" sizes="sm:30vw md:25vw lg:20vw xl:25vw" />
           </div>
         </div>
       </div>

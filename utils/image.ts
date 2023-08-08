@@ -1,9 +1,9 @@
 import { joinURL } from "ufo";
 import type { BaseSystemFields } from "@/types/pb";
 
-export const usePocketbaseImage = (
+export const getPockerBaseImagePath = (
   record: Pick<BaseSystemFields, "id" | "collectionId">,
-  src: string
+  fileName: string
 ) => {
-  return joinURL(record.collectionId, record.id, src);
+  return joinURL(record.collectionId, record.id, fileName);
 };

@@ -30,12 +30,12 @@ export default defineNuxtConfig({
     "/calendar": { prerender: true, isr: 3600 },
   },
   image: {
-    provider: "pocketbase",
+    provider: "imagor",
     providers: {
       imagor: {
         provider: "~/providers/imagor",
         options: {
-          baseURL: "https://apps.glhf.vn/imagor",
+          baseURL: "https://image.tana.moe/unsafe",
         },
       },
       pocketbase: {

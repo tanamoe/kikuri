@@ -113,7 +113,8 @@ defineProps<{
         <AppCover
           class="rounded-md"
           :book="book"
-          :src="book.cover[0] || book.baseCover[0]"
+          :file-name="book.cover[0] || book.baseCover[0]"
+          sizes="sm:80vw md:300px"
         />
       </SwiperSlide>
     </Swiper>
