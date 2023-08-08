@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import { joinURL } from "ufo";
 import type { PublisherResponse, ReleaseResponse } from "@/types/pb";
-
-const runtimeConfig = useRuntimeConfig();
 
 const props = defineProps<{
   releases: ReleaseResponse<{
@@ -23,14 +20,11 @@ const items = props.releases.map((release) => ({
     <template #default="{ item, open }">
       <UButton color="gray" variant="ghost">
         <template #leading>
-          <UAvatar
-            size="2xs"
-            :src="
-              joinURL(
-                runtimeConfig.public.image_endpoint,
-                usePocketbaseImage(item.publisher, item.publisher.logo)
-              )
-            "
+          <NuxtImg
+            :src="getPockerBaseImagePath(item.publisher, item.publisher.logo)"
+            width="20px"
+            height="20px"
+            class="rounded"
           />
         </template>
 

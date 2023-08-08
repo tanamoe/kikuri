@@ -11,6 +11,7 @@ defineProps<{
   book: BookDetailedResponse<{
     title: TitleResponse;
   }>;
+  sizes?: string;
 }>();
 </script>
 
@@ -40,8 +41,8 @@ defineProps<{
     </UBadge>
     <AppCover
       :book="book"
-      :src="book.cover[0] || book.baseCover[0]"
-      sizes="sm:40vw md:20vw lg:10vw"
+      :file-name="book.cover[0] || book.baseCover[0]"
+      :sizes="sizes"
     />
   </AppCard>
   <div v-if="settings.showBookDetails" class="mt-2">

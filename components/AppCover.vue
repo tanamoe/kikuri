@@ -5,17 +5,17 @@ defineProps<{
   book: Pick<BaseSystemFields, "id" | "collectionId"> & {
     name: string;
   };
-  src?: string;
+  fileName?: string;
   sizes?: string;
 }>();
 </script>
 
 <template>
   <NuxtImg
-    v-if="src"
+    v-if="fileName"
     loading="lazy"
     class="aspect-[2/3] h-full w-full object-cover"
-    :src="`${book.collectionId}/${book.id}/${src}`"
+    :src="getPockerBaseImagePath(book, fileName)"
     :sizes="sizes"
   />
   <div

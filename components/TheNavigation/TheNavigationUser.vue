@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { joinURL } from "ufo";
 import { storeToRefs } from "pinia";
 import { useUserStore } from "@/stores/user";
 
@@ -11,7 +12,12 @@ const { isAuthenticated, currentUser } = storeToRefs(store);
 const avatar = computed(() => {
   if (currentUser.value)
     if (currentUser.value.avatar !== "")
-      return `${runtimeConfig.public.image_endpoint}/${currentUser.value.collectionId}/${currentUser.value.id}/${currentUser.value.avatar}`;
+      return joinURL(
+        runtimeConfig.public.pocketbase_url,
+        "/api/files",
+        getPockerBaseImagePath(currentUser.value, currentUser.value.avatar),
+        "?thumb=24x24"
+      );
     else return "/avatar.jpg";
 });
 

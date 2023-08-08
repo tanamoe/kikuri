@@ -64,7 +64,12 @@ definePageMeta({
         <div
           class="absolute inset-0 z-10 bg-gradient-to-t from-gray-50 to-transparent to-50% dark:from-gray-900 sm:hidden"
         />
-        <AppCover class="rounded-lg" :book="title" :src="title.cover" />
+        <AppCover
+          class="rounded-lg"
+          :book="title"
+          :file-name="title.cover"
+          sizes="sm:80vw md:300px"
+        />
       </div>
     </header>
 

@@ -11,8 +11,8 @@ defineProps<{
     <NuxtImg
       v-if="user.banner"
       class="aspect-[21/9] h-auto w-full rounded-md object-cover"
-      loading="lazy"
-      :src="`${user.collectionId}/${user.id}/${user.banner}`"
+      :src="getPockerBaseImagePath(user, user.banner)"
+      sizes="sm:90vw md:70vw lg:40vw"
     />
     <div
       v-else
@@ -20,17 +20,16 @@ defineProps<{
     />
     <div class="relative -mt-16 ml-4 w-fit">
       <img
-        v-if="user.avatar == ''"
+        v-if="!user.avatar"
         class="aspect-square h-32 w-32 rounded-full border-4 border-gray-100 object-cover dark:border-gray-800"
-        provider="static"
-        loading="lazy"
         src="/avatar.jpg"
       />
       <NuxtImg
         v-else
         class="aspect-square h-32 w-32 rounded-full border-4 border-gray-100 object-cover dark:border-gray-800"
-        loading="lazy"
-        :src="`${user.collectionId}/${user.id}/${user.avatar}`"
+        width="128px"
+        height="128px"
+        :src="getPockerBaseImagePath(user, user.avatar)"
       />
     </div>
     <div class="space-y-3 p-4">
