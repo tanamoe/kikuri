@@ -18,6 +18,18 @@ export default {
           100: "#D5ECFF",
           50: "#E7F4FF",
         },
+        tanaamber: {
+          900: "#302000",
+          800: "#583C01",
+          700: "#805802",
+          300: "#FABF35",
+          600: "#A87504",
+          500: "#DA9A0A",
+          400: "#F8B60B",
+          200: "#FBD67D",
+          100: "#FDE9B7",
+          50: "#FFFBF1",
+        },
       },
       fontFamily: {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
