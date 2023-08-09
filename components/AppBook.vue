@@ -20,22 +20,16 @@ defineProps<{
     <UBadge
       v-if="book.digital == true"
       class="absolute right-2 top-2 backdrop-blur"
-      :ui="{
-        variant: {
-          solid: 'bg-red-300 bg-opacity-50 text-gray-800',
-        },
-      }"
+      color="red"
+      variant="overlay"
     >
       Digital
     </UBadge>
     <UBadge
       v-else-if="book.edition !== ''"
       class="absolute right-2 top-2 backdrop-blur"
-      :ui="{
-        variant: {
-          solid: 'bg-amber-300 bg-opacity-50 text-gray-800',
-        },
-      }"
+      color="tanaamber"
+      variant="overlay"
     >
       {{ book.edition }}
     </UBadge>

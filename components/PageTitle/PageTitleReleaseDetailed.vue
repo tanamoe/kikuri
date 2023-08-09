@@ -66,7 +66,9 @@ const watcher = watch(
     }"
   >
     <template #edition-data="{ row }">
-      <UBadge v-if="row.edition" color="amber">{{ row.edition }}</UBadge>
+      <UBadge v-if="row.edition" color="tanaamber" variant="overlay">
+        {{ row.edition }}
+      </UBadge>
     </template>
     <template #publishDate-data="{ row }">
       <span v-if="row.publishDate">{{ $d(new Date(row.publishDate)) }}</span>
