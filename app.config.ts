@@ -7,6 +7,11 @@ export default defineAppConfig({
       padding: "px-6",
       constrained: "container",
     },
+    badge: {
+      variant: {
+        overlay: "bg-{color}-400 bg-opacity-50 backdrop-blur text-gray-900",
+      },
+    },
     formGroup: {
       description: "text-gray-500 dark:text-gray-400 text-sm",
       hint: "text-gray-500 dark:text-gray-400 text-sm",
