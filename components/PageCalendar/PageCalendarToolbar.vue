@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { joinURL } from "ufo";
-import dayjs, { type Dayjs } from "dayjs";
+import { type Dayjs } from "dayjs";
 import type { FilterPublishers } from "@/utils/releases";
 import { Collections, type PublisherResponse } from "@/types/pb";
 
@@ -37,8 +37,8 @@ const emit = defineEmits<{
 }>();
 
 const currentMonth = computed({
-  get: () => props.month.toDate(),
-  set: (value) => emit("update:month", dayjs.utc(value)),
+  get: () => props.month,
+  set: (value) => emit("update:month", value),
 });
 
 const currentPublishers = computed({
