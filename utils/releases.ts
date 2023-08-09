@@ -57,7 +57,7 @@ export const getCalendarReleases = async (
     }>
   >({
     filter: filter.join(" && "),
-    sort: "+publishDate",
+    sort: "+publishDate,+name,-edition",
     expand: "title, publisher",
   });
 

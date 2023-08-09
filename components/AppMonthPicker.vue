@@ -1,30 +1,48 @@
 <script setup lang="ts">
-import dayjs from "dayjs";
+import dayjs, { type Dayjs } from "dayjs";
 
 const props = defineProps<{
-  modelValue: Date;
+  modelValue: Dayjs;
 }>();
 
-const today = new Date();
+const emit = defineEmits<{
+  "update:modelValue": [month: Dayjs];
+}>();
 
-const selectedYear = ref(props.modelValue.getFullYear());
-const selectedMonth = ref(props.modelValue.getMonth());
+const date = computed({
+  get: () => props.modelValue,
+  set: (value) => emit("update:modelValue", value),
+});
+
+const today = dayjs.utc();
 
 const availableYears = [
   ...Array.from(
-    { length: today.getFullYear() - 2000 + 2 }, // get from 2000 to the year after now
+    { length: today.year() - 2000 + 2 }, // get from 2000 to the year after now
     (_, index) => 2000 + index
   ),
 ];
 
+const selected = ref({
+  year: date.value.year(),
+  month: date.value.month(),
+});
+
 const reset = () => {
-  selectedYear.value = today.getFullYear();
-  selectedMonth.value = today.getMonth();
+  selected.value = {
+    year: today.year(),
+    month: today.month(),
+  };
 };
 
-defineEmits<{
-  "update:modelValue": [month: Date];
-}>();
+watch(
+  [date],
+  () =>
+    (selected.value = {
+      year: date.value.year(),
+      month: date.value.month(),
+    })
+);
 </script>
 
 <template>
@@ -37,49 +55,55 @@ defineEmits<{
     }"
   >
     <UButton variant="solid" icon="i-fluent-chevron-down-20-filled" trailing>
-      {{ $d(modelValue, { month: "numeric", year: "numeric" }) }}
+      {{ $d(modelValue.toDate(), { month: "numeric", year: "numeric" }) }}
     </UButton>
 
     <template #panel="{ close }">
       <div class="space-y-3 p-3">
         <USelect
-          v-model="selectedYear"
+          v-model="selected.year"
           color="primary"
           size="md"
           :options="availableYears"
         />
         <div class="grid grid-cols-3 gap-1">
-          <UButton
-            v-for="(monthName, i) in dayjs.months()"
-            :key="i"
-            :variant="
-              i == selectedMonth
-                ? 'solid'
-                : i == modelValue.getMonth() &&
-                  selectedYear == modelValue.getFullYear()
-                ? 'outline'
-                : 'ghost'
-            "
-            :color="
-              i == selectedMonth ||
-              (i == modelValue.getMonth() &&
-                selectedYear == modelValue.getFullYear())
-                ? 'primary'
-                : 'gray'
-            "
-            block
-            :ui="{
-              color: {
-                gray: {
-                  ghost:
-                    'text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-900 focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-primary',
+          <template v-for="(monthName, i) in dayjs.months()" :key="i">
+            <UButton
+              v-if="i == selected.month"
+              variant="solid"
+              color="primary"
+              block
+              @click="selected.month = i"
+            >
+              {{ monthName }}
+            </UButton>
+            <UButton
+              v-else-if="i == date.month() && selected.year == date.year()"
+              variant="outline"
+              color="primary"
+              block
+              @click="selected.month = i"
+            >
+              {{ monthName }}
+            </UButton>
+            <UButton
+              v-else
+              variant="ghost"
+              color="gray"
+              block
+              :ui="{
+                color: {
+                  gray: {
+                    ghost:
+                      'text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-900 focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-primary',
+                  },
                 },
-              },
-            }"
-            @click="selectedMonth = i"
-          >
-            {{ monthName }}
-          </UButton>
+              }"
+              @click="selected.month = i"
+            >
+              {{ monthName }}
+            </UButton>
+          </template>
         </div>
         <div class="grid grid-cols-2 gap-3">
           <UButton color="red" variant="outline" block @click="reset">
@@ -88,12 +112,9 @@ defineEmits<{
           <UButton
             block
             @click="
-              {
-                $emit(
-                  'update:modelValue',
-                  new Date(selectedYear, selectedMonth)
-                );
+              () => {
                 close();
+                date = dayjs.utc(selected);
               }
             "
           >

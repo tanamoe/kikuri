@@ -9,19 +9,16 @@ const floatingButton = {
 };
 
 const props = defineProps<{
-  modelValue: number;
-  length: number;
-}>();
-const emit = defineEmits<{
-  "update:modelValue": [number];
+  currentDay: string;
+  dates: string[];
+  scroll: (position: string) => void;
 }>();
 
 const scrollUp = () =>
-  props.modelValue > 0 && emit("update:modelValue", props.modelValue - 1);
+  props.scroll(props.dates[props.dates.indexOf(props.currentDay) - 1]);
 const scrollDown = () =>
-  props.modelValue < props.length &&
-  emit("update:modelValue", props.modelValue + 1);
-const scrollToTop = () => emit("update:modelValue", 0);
+  props.scroll(props.dates[props.dates.indexOf(props.currentDay) + 1]);
+const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 </script>
 
 <template>
@@ -31,7 +28,7 @@ const scrollToTop = () => emit("update:modelValue", 0);
     <UButton
       color="gray"
       icon="i-fluent-chevron-up-20-filled"
-      :disabled="modelValue === 0"
+      :disabled="dates.indexOf(currentDay) === 0"
       square
       :ui="floatingButton"
       @click="scrollUp"
@@ -48,7 +45,7 @@ const scrollToTop = () => emit("update:modelValue", 0);
     <UButton
       color="gray"
       icon="i-fluent-chevron-down-20-filled"
-      :disabled="modelValue === length - 1"
+      :disabled="dates.indexOf(currentDay) === dates.length - 1"
       square
       :ui="floatingButton"
       @click="scrollDown"

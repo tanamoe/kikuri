@@ -9,8 +9,7 @@ const { showDigital, showEditionedBook } = storeToRefs(store);
 
 const month = ref(dayjs.utc());
 const publishers = ref<FilterPublishers[]>([]);
-const monthRefs = ref<HTMLDivElement[]>([]);
-const currentPosition = ref(0);
+const currentPosition = ref<HTMLDivElement>();
 
 const {
   pending,
@@ -32,26 +31,36 @@ const {
   }
 );
 
-const doScroll = () =>
-  monthRefs.value[currentPosition.value].scrollIntoView({
-    behavior: "smooth",
-  });
+const dates = computed(() => {
+  if (releases.value) {
+    return Object.keys(releases.value).map((date) =>
+      dayjs(date).format("YYYY-MM-DD")
+    );
+  } else return [];
+});
+
+const doScroll = (position: string) => {
+  const el = document.getElementById(position) as HTMLDivElement;
+
+  if (el) {
+    el.scrollIntoView({
+      behavior: "smooth",
+    });
+  }
+};
 
 const onScroll = () => {
-  // for getting current position
-  let min = window.innerHeight;
-  monthRefs.value.forEach((div, i) => {
-    if (
-      div.getBoundingClientRect().top > 0 &&
-      div.getBoundingClientRect().top < min
-    ) {
-      min = div.getBoundingClientRect().top;
-      currentPosition.value = i;
-    }
-  });
+  const els = document.getElementsByClassName("release-day");
+  currentPosition.value = Array.from(els as HTMLCollectionOf<HTMLDivElement>)
+    .filter((el) => el.getBoundingClientRect().bottom > 100)
+    .sort(
+      (el1, el2) =>
+        el1.getBoundingClientRect().bottom - el2.getBoundingClientRect().bottom
+    )[0];
 };
 
 onMounted(() => {
+  onScroll();
   window.addEventListener("scroll", onScroll);
 });
 
@@ -128,9 +137,9 @@ definePageMeta({
     <UContainer>
       <div
         v-for="(group, key) in releases"
+        :id="dayjs(key).format('YYYY-MM-DD')"
         :key="key"
-        ref="monthRefs"
-        class="mb-24 flex scroll-mt-28 gap-6 sm:scroll-mt-16"
+        class="release-day mb-24 flex scroll-mt-28 gap-6 sm:scroll-mt-16"
       >
         <div
           class="sticky top-28 w-12 flex-shrink-0 self-start sm:top-16 md:w-20"
@@ -148,9 +157,9 @@ definePageMeta({
     </UContainer>
 
     <PageCalendarQuickNavigation
-      v-model="currentPosition"
-      :length="monthRefs.length"
-      @update:model-value="doScroll"
+      :current-day="currentPosition?.id || ''"
+      :dates="dates"
+      :scroll="doScroll"
     />
   </div>
 </template>
