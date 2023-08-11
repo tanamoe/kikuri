@@ -15,10 +15,11 @@ defineProps<{
   <div class="flex flex-col-reverse gap-12 overflow-hidden sm:flex-row">
     <div class="relative z-10 -mt-28 flex-1 sm:mt-12">
       <Transition
+        mode="out-in"
         enter-active-class="transition-all duration-300"
         enter-from-class="opacity-0 translate-x-3"
         enter-to-class="opacity-100 translate-x-0"
-        leave-active-class="transition-all absolute left-0 right-0"
+        leave-active-class="transition-all"
         leave-from-class="opacity-100 translate-x-0"
         leave-to-class="opacity-0 -translate-x-3"
       >
