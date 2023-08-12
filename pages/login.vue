@@ -34,6 +34,17 @@ const submit = async () => {
   await login(0, data);
 };
 
+function parseIcon(name: string) {
+  switch (name) {
+    case "twitter":
+      return "i-simple-icons-x";
+    case "discord":
+      return "i-simple-icons-discord";
+    case "facebook":
+      return "i-simple-icons-facebook";
+  }
+}
+
 definePageMeta({
   middleware: [
     () => {
@@ -123,25 +134,33 @@ definePageMeta({
       </div>
 
       <div>
-        <ul>
+        <ul class="space-y-3">
           <li
             v-for="provider in authMethods.authProviders"
             :key="provider.name"
           >
             <UButton
-              v-if="provider.name === 'discord'"
-              icon="i-simple-icons-discord"
+              :icon="parseIcon(provider.name)"
               :ui="{
                 variant: {
                   solid:
-                    'shadow-sm text-white bg-[#5865F2] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 dark:focus-visible:outline-gray-400',
+                    'shadow-sm text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 dark:focus-visible:outline-gray-400',
                 },
+              }"
+              :class="{
+                'bg-black': provider.name === 'twitter',
+                'bg-[#1877F2]': provider.name === 'facebook',
+                'bg-[#5865F2]': provider.name === 'discord',
               }"
               block
               :to="provider.authUrl + redirectUrl"
               @click="authProvider = provider"
             >
-              {{ $t("auth.loginWithDiscord") }}
+              {{
+                $t("auth.loginWith", {
+                  name: $t(`provider.${provider.name}`),
+                })
+              }}
             </UButton>
           </li>
         </ul>

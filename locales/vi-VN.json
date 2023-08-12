@@ -94,7 +94,7 @@
     "oauthInvalidState": "Tham biến trạng thái không phù hợp",
     "oauthPending": "Đang kiểm tra để hoàn tất đăng nhập...",
     "oauthStuck": "Kẹt? Đăng nhập lại",
-    "loginWithDiscord": "Đăng nhập với Discord"
+    "loginWith": "Đăng nhập với {name}"
   },
   "settings": {
     "profile": "Cá nhân",
@@ -151,5 +151,10 @@
     "oldest": "Cập nhật cũ nhất",
     "nameAscending": "Tên tăng dần",
     "nameDescending": "Tên giảm dần"
+  },
+  "provider": {
+    "facebook": "Facebook",
+    "twitter": "X",
+    "discord": "Discord"
   }
 }
