@@ -34,25 +34,12 @@ const handleError = () => clearError({ redirect: "/" });
         </h1>
         <p>
           <span v-if="is404">{{ $t("error.notFoundMessage") }}</span>
+          <span v-else-if="error?.message">{{ error.message }}</span>
           <span v-else>{{ $t("error.generalMessage") }}</span>
         </p>
         <div class="flex justify-center gap-3">
           <UButton color="black" @click="handleError">
             {{ $t("error.returnHome") }}
-          </UButton>
-          <UButton
-            to="https://youtu.be/2b1IexhKPz4"
-            target="_blank"
-            color="kyukurarin"
-            :ui="{
-              color: {
-                kyukurarin: {
-                  solid: 'bg-[#fec9d7] text-gray-800',
-                },
-              },
-            }"
-          >
-            Kyu-kurarin
           </UButton>
         </div>
         <p v-if="isDev">
