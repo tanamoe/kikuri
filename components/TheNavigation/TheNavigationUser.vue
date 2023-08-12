@@ -16,7 +16,7 @@ const avatar = computed(() => {
         runtimeConfig.public.pocketbaseUrl,
         "/api/files",
         getPockerBaseImagePath(currentUser.value, currentUser.value.avatar),
-        "?thumb=24x24",
+        "?thumb=20x20",
       );
     else return "/avatar.jpg";
 });
@@ -84,7 +84,7 @@ const items = computed(() => {
       variant="ghost"
       square
     >
-      <UAvatar :src="avatar" size="xs" />
+      <UAvatar :src="avatar" size="2xs" />
     </UButton>
     <UButton
       v-else
