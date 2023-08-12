@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 const navigationContainer = cva("top-0 z-30 bg-gray-50 dark:bg-gray-900", {
   variants: {
     sticky: {
-      true: "sticky",
+      true: "sticky mb-6",
     },
   },
   defaultVariants: {
