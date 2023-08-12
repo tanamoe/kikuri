@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@iconify-json/fluent": "^1.1.26",
-    "@iconify-json/simple-icons": "^1.1.64",
+    "@iconify-json/simple-icons": "^1.1.65",
     "@pinia/nuxt": "^0.4.11",
     "@popperjs/core": "^2.11.8",
     "@tryghost/content-api": "^1.11.16",

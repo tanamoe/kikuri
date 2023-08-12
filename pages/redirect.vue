@@ -7,6 +7,8 @@ const { query } = useRoute();
 const { t } = useI18n({ useScope: "global" });
 const authProvider = useCookie<AuthProviderInfo>("auth_provider");
 
+if (!query.code) navigateTo("/");
+
 if (authProvider.value.state !== query.state)
   throw createError(t("auth.oauthInvalidState"));
 

@@ -94,7 +94,7 @@
     "oauthInvalidState": "State parameter don't match",
     "oauthPending": "Authenticating...",
     "oauthStuck": "Stuck? Try login again",
-    "loginWithDiscord": "Login with Discord"
+    "loginWith": "Login with {name}"
   },
   "settings": {
     "profile": "Profile",
@@ -149,5 +149,10 @@
     "oldest": "Oldest",
     "nameAscending": "Name ascending",
     "nameDescending": "Name descending"
+  },
+  "provider": {
+    "facebook": "Facebook",
+    "twitter": "X",
+    "discord": "Discord"
   }
 }
