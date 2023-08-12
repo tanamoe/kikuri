@@ -72,11 +72,6 @@ export default defineNuxtConfig({
   },
   i18n: {
     strategy: "no_prefix",
-    detectBrowserLanguage: {
-      useCookie: true,
-      cookieKey: "i18n_redirected",
-      redirectOn: "root",
-    },
     locales: [
       {
         code: "vi",
@@ -85,20 +80,12 @@ export default defineNuxtConfig({
         name: "Tiếng Việt",
         file: "vi-VN.json",
       },
-      {
-        code: "en",
-        icon: "🇺🇸",
-        iso: "en-US",
-        name: "English (US)",
-        file: "en-US.json",
-      },
     ],
-    lazy: true,
     langDir: "locales",
     defaultLocale: "vi",
   },
   content: {
-    locales: ["vi", "en"],
+    locales: ["vi"],
     defaultLocale: "vi",
     markdown: {
       anchorLinks: false,
