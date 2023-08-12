@@ -2,11 +2,9 @@
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      pocketbase_url: process.env.POCKETBASE_URL,
-      search_endpoint: process.env.SEARCH_ENDPOINT,
-      search_token: process.env.SEARCH_TOKEN,
-      image_endpoint: process.env.IMAGE_ENDPOINT,
-      blog_url: process.env.BLOG_URL,
+      siteUrl: process.env.SITE_URL,
+      pocketbaseUrl: process.env.POCKETBASE_URL,
+      blogUrl: process.env.BLOG_URL,
     },
   },
   modules: [

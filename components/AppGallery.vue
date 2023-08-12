@@ -86,7 +86,7 @@ defineShortcuts({
         square
         :to="
           joinURL(
-            runtimeConfig.public.pocketbase_url,
+            runtimeConfig.public.pocketbaseUrl,
             '/api/files',
             images[currentIndex],
             '?download=1',
