@@ -91,6 +91,9 @@
     "passwordCannotBeEmpty": "Mật khẩu không được để trống",
     "passwordNotMatch": "Xác nhận mật khẩu không đúng",
     "or": "hoặc",
+    "oauthInvalidState": "Tham biến trạng thái không phù hợp",
+    "oauthPending": "Đang kiểm tra để hoàn tất đăng nhập...",
+    "oauthStuck": "Kẹt? Đăng nhập lại",
     "loginWithDiscord": "Đăng nhập với Discord"
   },
   "settings": {

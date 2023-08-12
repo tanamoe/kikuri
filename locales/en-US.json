@@ -91,6 +91,9 @@
     "passwordCannotBeEmpty": "Password cannot be empty",
     "passwordNotMatch": "Password does not match",
     "or": "or",
+    "oauthInvalidState": "State parameter don't match",
+    "oauthPending": "Authenticating...",
+    "oauthStuck": "Stuck? Try login again",
     "loginWithDiscord": "Login with Discord"
   },
   "settings": {

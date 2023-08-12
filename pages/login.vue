@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import type { Form } from "@nuxthq/ui/dist/runtime/types";
-import { Record } from "pocketbase";
+import { type AuthProviderInfo, Record } from "pocketbase";
+import { joinURL } from "ufo";
 import { z } from "zod";
+import { getAuthMethods } from "@/utils/auth";
 
-const login = useLogin();
-const oauthLogin = useOAuthLogin();
+const runtimeConfig = useRuntimeConfig();
+const authProvider = useCookie<AuthProviderInfo>("auth_provider");
+const { pending, login } = useLogin();
 const { t } = useI18n({ useScope: "global" });
+
+const authMethods = await getAuthMethods();
+const redirectUrl = joinURL(runtimeConfig.public.siteUrl, "redirect");
 
 const schema = z.object({
   user: z
@@ -22,11 +28,10 @@ const state = ref<Schema>({
   user: "",
   password: "",
 });
-const pending = computed(() => login.pending.value || oauthLogin.pending.value);
 
 const submit = async () => {
   const data = await form.value!.validate();
-  await login.login(0, data);
+  await login(0, data);
 };
 
 definePageMeta({
@@ -118,20 +123,28 @@ definePageMeta({
       </div>
 
       <div>
-        <UButton
-          icon="i-simple-icons-discord"
-          :ui="{
-            variant: {
-              solid:
-                'shadow-sm text-white bg-[#5865F2] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 dark:focus-visible:outline-gray-400',
-            },
-          }"
-          block
-          :disabled="pending"
-          @click="oauthLogin.login(0, { provider: 'discord' })"
-        >
-          {{ $t("auth.loginWithDiscord") }}
-        </UButton>
+        <ul>
+          <li
+            v-for="provider in authMethods.authProviders"
+            :key="provider.name"
+          >
+            <UButton
+              v-if="provider.name === 'discord'"
+              icon="i-simple-icons-discord"
+              :ui="{
+                variant: {
+                  solid:
+                    'shadow-sm text-white bg-[#5865F2] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 dark:focus-visible:outline-gray-400',
+                },
+              }"
+              block
+              :to="provider.authUrl + redirectUrl"
+              @click="authProvider = provider"
+            >
+              {{ $t("auth.loginWithDiscord") }}
+            </UButton>
+          </li>
+        </ul>
       </div>
     </div>
   </UContainer>
