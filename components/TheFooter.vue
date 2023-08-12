@@ -69,7 +69,7 @@ const currentTheme = computed({
           </ul>
           <ul>
             <li>
-              <NuxtLink to="/terms">
+              <NuxtLink to="/terms-of-service">
                 {{ $t("footer.links.tos") }}
               </NuxtLink>
             </li>
