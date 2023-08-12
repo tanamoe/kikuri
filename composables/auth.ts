@@ -55,7 +55,7 @@ export const useRegister = () => {
       }
     },
     null,
-    { immediate: false }
+    { immediate: false },
   );
 
   return { pending, data, register };
@@ -103,7 +103,7 @@ export const useLogin = () => {
     null,
     {
       immediate: false,
-    }
+    },
   );
 
   return { pending, data, login };
@@ -123,9 +123,17 @@ export const useOAuthLogin = () => {
       const { provider } = args;
 
       try {
+        const newWindow = window.open();
+        if (!newWindow) throw new Error("Cannot open new window");
+
         const response = await $pb
           .collection(Collections.Users)
-          .authWithOAuth2<UsersResponse>({ provider });
+          .authWithOAuth2<UsersResponse>({
+            provider,
+            urlCallback: (url) => {
+              newWindow.location = url;
+            },
+          });
 
         toast.add({
           color: "primary",
@@ -151,7 +159,7 @@ export const useOAuthLogin = () => {
     null,
     {
       immediate: false,
-    }
+    },
   );
 
   return { pending, data, login };
@@ -202,7 +210,7 @@ export const usePasswordReset = () => {
       }
     },
     null,
-    { immediate: false }
+    { immediate: false },
   );
 
   return { data, pending, requestPasswordReset };
