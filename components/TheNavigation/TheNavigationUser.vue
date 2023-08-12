@@ -13,10 +13,10 @@ const avatar = computed(() => {
   if (currentUser.value)
     if (currentUser.value.avatar !== "")
       return joinURL(
-        runtimeConfig.public.pocketbase_url,
+        runtimeConfig.public.pocketbaseUrl,
         "/api/files",
         getPockerBaseImagePath(currentUser.value, currentUser.value.avatar),
-        "?thumb=24x24"
+        "?thumb=24x24",
       );
     else return "/avatar.jpg";
 });

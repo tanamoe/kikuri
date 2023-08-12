@@ -16,14 +16,14 @@ const { data: publisherOptions } = useAsyncData(
         label: publisher.name,
         avatar: {
           src: joinURL(
-            runtimeConfig.public.pocketbase_url,
+            runtimeConfig.public.pocketbaseUrl,
             "/api/files",
             getPockerBaseImagePath(publisher, publisher.logo),
-            "?thumb=24x24"
+            "?thumb=24x24",
           ),
         },
       })),
-  }
+  },
 );
 
 const props = defineProps<{

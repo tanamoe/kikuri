@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { joinURL } from "ufo";
 import type { PostOrPage } from "@tryghost/content-api";
 
 const runtimeConfig = useRuntimeConfig();
@@ -10,7 +11,7 @@ defineProps<{
 
 <template>
   <NuxtLink
-    :to="`${runtimeConfig.public.blog_url}/posts/${post.slug}`"
+    :to="joinURL(runtimeConfig.public.blogUrl, '/posts', post.slug)"
     target="_blank"
   >
     <AppCard>

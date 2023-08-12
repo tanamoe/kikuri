@@ -20,7 +20,7 @@ const { data: recentPosts } = await useAsyncData(() => getRecentGhostPosts());
 
     <div v-if="recentPosts">
       <UContainer class="mb-6">
-        <NuxtLink :to="runtimeConfig.public.blog_url" target="_blank">
+        <NuxtLink :to="runtimeConfig.public.blogUrl" target="_blank">
           <AppH3
             class="flex items-center gap-3 underline decoration-tanaamber-400 decoration-[.2rem] underline-offset-[.2rem]"
           >

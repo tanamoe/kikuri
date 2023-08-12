@@ -1,7 +1,7 @@
 import PocketBase, { type Admin, type Record } from "pocketbase";
 
 export default defineNuxtPlugin(async () => {
-  const pb = new PocketBase(useRuntimeConfig().public.pocketbase_url);
+  const pb = new PocketBase(useRuntimeConfig().public.pocketbaseUrl);
 
   const cookie = useCookie<{
     token: string;
