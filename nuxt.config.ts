@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxthq/ui",
     "nuxt-swiper",
+    "@nuxt/content",
   ],
   // https://nuxt.com/docs/getting-started/installation#prerequisites
   typescript: {
@@ -97,5 +98,12 @@ export default defineNuxtConfig({
     lazy: true,
     langDir: "locales",
     defaultLocale: "vi",
+  },
+  content: {
+    locales: ["vi", "en"],
+    defaultLocale: "vi",
+    markdown: {
+      anchorLinks: false,
+    },
   },
 });
