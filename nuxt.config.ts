@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxthq/ui",
     "nuxt-swiper",
+    "nuxt-og-image",
     "@nuxt/content",
   ],
   // https://nuxt.com/docs/getting-started/installation#prerequisites
@@ -51,6 +52,9 @@ export default defineNuxtConfig({
       Lexend: [700, 900],
       "IBM+Plex+Sans+Condensed": [700, 900],
     },
+  },
+  ogImage: {
+    fonts: ["Lexend:700"],
   },
   swiper: {
     modules: ["autoplay", "effect-creative"],
