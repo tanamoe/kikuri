@@ -24,17 +24,17 @@ const {
         publishers: publishers.value.map((publisher) => publisher.id),
         digital: showDigital.value,
         edition: showEditionedBook.value,
-      }
+      },
     ),
   {
     watch: [month, publishers, showDigital, showEditionedBook],
-  }
+  },
 );
 
 const dates = computed(() => {
   if (releases.value) {
     return Object.keys(releases.value).map((date) =>
-      dayjs(date).format("YYYY-MM-DD")
+      dayjs(date).format("YYYY-MM-DD"),
     );
   } else return [];
 });
@@ -55,7 +55,7 @@ const onScroll = () => {
     .filter((el) => el.getBoundingClientRect().bottom > 100)
     .sort(
       (el1, el2) =>
-        el1.getBoundingClientRect().bottom - el2.getBoundingClientRect().bottom
+        el1.getBoundingClientRect().bottom - el2.getBoundingClientRect().bottom,
     )[0];
 };
 
@@ -66,6 +66,10 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener("scroll", onScroll);
+});
+
+defineOgImage({
+  component: "TanaCalendar",
 });
 
 definePageMeta({
