@@ -50,13 +50,13 @@ const ui = {
 
 function handlePrev() {
   transitionName.value = "slide-ltr";
-  if (currentIndex.value - 1 !== 0) currentIndex.value--;
+  if (currentIndex.value - 1 >= 0) currentIndex.value--;
   else currentIndex.value = props.images.length - 1;
 }
 
 function handleNext() {
   transitionName.value = "slide-rtl";
-  if (currentIndex.value + 1 !== props.images.length) currentIndex.value++;
+  if (currentIndex.value + 1 < props.images.length) currentIndex.value++;
   else currentIndex.value = 0;
 }
 
@@ -129,7 +129,7 @@ defineShortcuts({
         :key="currentIndex"
         provider="pocketbase"
         :src="images[currentIndex]"
-        class="h-full max-h-[80vh] w-auto rounded-md"
+        class="h-auto max-h-[80dvh] w-auto rounded-md"
         draggable="false"
       />
     </Transition>
