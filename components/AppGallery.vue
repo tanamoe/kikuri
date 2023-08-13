@@ -129,7 +129,7 @@ defineShortcuts({
         :key="currentIndex"
         provider="pocketbase"
         :src="images[currentIndex]"
-        class="h-full max-h-[80vh] w-auto rounded-md"
+        class="h-auto max-h-[80dvh] w-auto rounded-md"
         draggable="false"
       />
     </Transition>
