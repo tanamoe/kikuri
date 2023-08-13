@@ -50,13 +50,13 @@ const ui = {
 
 function handlePrev() {
   transitionName.value = "slide-ltr";
-  if (currentIndex.value - 1 !== 0) currentIndex.value--;
+  if (currentIndex.value - 1 >= 0) currentIndex.value--;
   else currentIndex.value = props.images.length - 1;
 }
 
 function handleNext() {
   transitionName.value = "slide-rtl";
-  if (currentIndex.value + 1 !== props.images.length) currentIndex.value++;
+  if (currentIndex.value + 1 < props.images.length) currentIndex.value++;
   else currentIndex.value = 0;
 }
 
