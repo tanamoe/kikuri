@@ -5,6 +5,7 @@ export default defineNuxtConfig({
       siteUrl: process.env.SITE_URL,
       pocketbaseUrl: process.env.POCKETBASE_URL,
       blogUrl: process.env.BLOG_URL,
+      ogUrl: process.env.OG_URL,
     },
   },
   modules: [
