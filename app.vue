@@ -41,6 +41,10 @@ useHead({
     return titleChunk ? `${titleChunk} - Tana.moe` : "Tana.moe";
   },
 });
+
+useSeoMeta({
+  twitterCard: "summary_large_image",
+});
 </script>
 
 <template>

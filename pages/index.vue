@@ -4,6 +4,10 @@ const runtimeConfig = useRuntimeConfig();
 const { data: recentReleases } = await useAsyncData(() => getRecentReleases());
 const { data: recentBooks } = await useAsyncData(() => getRecentBooks(6));
 const { data: recentPosts } = await useAsyncData(() => getRecentGhostPosts());
+
+useSeoMeta({
+  ogImage: runtimeConfig.public.ogUrl,
+});
 </script>
 
 <template>
