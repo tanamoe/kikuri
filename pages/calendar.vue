@@ -9,7 +9,7 @@ const runtimeConfig = useRuntimeConfig();
 const store = useSettingsStore();
 const { showDigital, showEditionedBook } = storeToRefs(store);
 
-const month = ref(dayjs.utc());
+const month = ref(dayjs.tz());
 const publishers = ref<FilterPublishers[]>([]);
 const currentPosition = ref<HTMLDivElement>();
 

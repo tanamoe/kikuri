@@ -22,17 +22,6 @@ export default defineI18nConfig(() => {
           month: "2-digit",
         },
       },
-      en: {
-        weekdayShort: {
-          weekday: "short",
-        },
-        twoDigitDay: {
-          day: "2-digit",
-        },
-        twoDigitMonth: {
-          month: "2-digit",
-        },
-      },
     },
   };
 });

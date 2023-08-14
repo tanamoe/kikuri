@@ -14,12 +14,12 @@ const date = computed({
   set: (value) => emit("update:modelValue", value),
 });
 
-const today = dayjs.utc();
+const today = dayjs.tz();
 
 const availableYears = [
   ...Array.from(
     { length: today.year() - 2000 + 2 }, // get from 2000 to the year after now
-    (_, index) => 2000 + index
+    (_, index) => 2000 + index,
   ),
 ];
 
@@ -41,7 +41,7 @@ watch(
     (selected.value = {
       year: date.value.year(),
       month: date.value.month(),
-    })
+    }),
 );
 </script>
 
@@ -114,7 +114,7 @@ watch(
             @click="
               () => {
                 close();
-                date = dayjs.utc(selected);
+                date = dayjs.tz(selected);
               }
             "
           >
