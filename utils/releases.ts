@@ -31,7 +31,7 @@ export const getCalendarReleases = async (
     publishers?: string[];
     digital?: FilterDigital;
     edition?: boolean;
-  }
+  },
 ) => {
   const { $pb } = useNuxtApp();
 
@@ -73,7 +73,7 @@ export const getCalendarReleases = async (
       ...release,
       volume: parseVolume(release.volume),
     })),
-    (p) => p.publishDate
+    (p) => p.publishDate,
   );
 };
 
@@ -94,7 +94,7 @@ export const getReleases = async (id: string) => {
 
 export const getRecentReleases = async () => {
   const { $pb } = useNuxtApp();
-  const now = dayjs.utc();
+  const now = dayjs.tz();
 
   const data = await $pb.collection(Collections.BookDetailed).getFullList<
     BookDetailedResponse<{
