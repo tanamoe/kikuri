@@ -43,9 +43,9 @@ const sticky = computed(() => route.meta.stickyNav as boolean);
           class="flex gap-3 overflow-x-scroll whitespace-nowrap sm:w-48 sm:flex-col"
         >
           <UVerticalNavigation v-if="isAuthenticated" :links="general" />
-          <hr v-if="isAuthenticated" class="dark:border-zinc-700" />
+          <hr v-if="isAuthenticated" class="dark:border-gray-700" />
           <UVerticalNavigation :links="site" />
-          <hr v-if="isAuthenticated" class="dark:border-zinc-700" />
+          <hr v-if="isAuthenticated" class="dark:border-gray-700" />
           <UVerticalNavigation v-if="isAuthenticated" :links="account" />
         </div>
         <div class="flex-1">

@@ -66,7 +66,7 @@ definePageMeta({
         </UButton>
       </UForm>
       <div
-        class="mt-3 space-x-1 text-center text-sm text-zinc-600 dark:text-zinc-400"
+        class="mt-3 space-x-1 text-center text-sm text-gray-600 dark:text-gray-400"
       >
         <NuxtLink
           class="decoration-tanablue-500 decoration-2 hover:underline"

@@ -44,7 +44,7 @@ defineProps<{
       <div v-if="book.expand" class="font-condensed text-xl font-black">
         {{ book.expand.title.name }}
       </div>
-      <div class="text-zinc-500 dark:text-zinc-400">
+      <div class="text-gray-500 dark:text-gray-400">
         {{ $t("general.volumeNumber", { volume: book.volume }) }}
       </div>
     </div>
@@ -55,7 +55,7 @@ defineProps<{
     </div>
   </div>
   <div v-if="showBookPrice" :class="showBookDetails ? 'mt-1' : 'mt-2'">
-    <span class="block text-zinc-500 dark:text-zinc-400">
+    <span class="block text-gray-500 dark:text-gray-400">
       {{ $n(book.price, "currency", "vi") }}
     </span>
   </div>

@@ -18,7 +18,7 @@ const schema = z.object({
     .min(8, t("error.passwordShort"))
     .refine(
       (val) => val === state.value.password,
-      () => ({ message: t("error.passwordNotMatch") })
+      () => ({ message: t("error.passwordNotMatch") }),
     ),
 });
 
@@ -110,7 +110,7 @@ definePageMeta({
           {{ $t("account.register") }}
         </UButton>
       </UForm>
-      <div class="mt-3 text-center text-sm text-zinc-600 dark:text-zinc-400">
+      <div class="mt-3 text-center text-sm text-gray-600 dark:text-gray-400">
         <NuxtLink
           class="decoration-tanablue-500 decoration-2 hover:underline"
           to="/login"
