@@ -12,6 +12,12 @@ export default defineI18nConfig(() => {
     },
     datetimeFormats: {
       vi: {
+        full: {
+          year: "numeric",
+          month: "2-digit",
+          day: "numeric",
+          weekday: "long",
+        },
         weekdayShort: {
           weekday: "long",
         },

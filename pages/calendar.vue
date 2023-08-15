@@ -7,7 +7,7 @@ import type { FilterPublishers } from "@/utils/releases";
 
 const runtimeConfig = useRuntimeConfig();
 const store = useSettingsStore();
-const { showDigital, showEditionedBook } = storeToRefs(store);
+const { showDigital, showEditionedBook, datePosition } = storeToRefs(store);
 
 const month = ref(dayjs.tz());
 const publishers = ref<FilterPublishers[]>([]);
@@ -146,9 +146,18 @@ useSeoMeta({
         :id="dayjs(key).format('YYYY-MM-DD')"
         :key="key"
         class="release-day mb-24 flex scroll-mt-28 gap-6 sm:scroll-mt-16"
+        :class="{
+          'flex-col': datePosition === 'top',
+        }"
+        style="scroll-margin-top: var(--toolbar-height)"
       >
         <div
-          class="sticky top-28 w-12 flex-shrink-0 self-start sm:top-16 md:w-20"
+          class="sticky top-28 flex-shrink-0 self-start sm:top-16"
+          :class="{
+            'w-12 md:w-20': datePosition === 'left',
+            'z-10 w-full bg-gray-50 dark:bg-gray-900': datePosition === 'top',
+          }"
+          style="top: var(--toolbar-height)"
         >
           <PageCalendarDate :date="new Date(key)" />
         </div>

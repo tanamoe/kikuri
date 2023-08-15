@@ -8,10 +8,17 @@ export const useSettingsStore = defineStore(
     const showBookPrice = ref(true);
     const showDigital = ref<FilterDigital>("show");
     const showEditionedBook = ref(true);
+    const datePosition = ref<"left" | "top">("left");
 
-    return { showBookDetails, showBookPrice, showDigital, showEditionedBook };
+    return {
+      showBookDetails,
+      showBookPrice,
+      showDigital,
+      showEditionedBook,
+      datePosition,
+    };
   },
   {
     persist: true,
-  }
+  },
 );

@@ -5,8 +5,13 @@ import { useSettingsStore } from "@/stores/settings";
 const { t } = useI18n({ useScope: "global" });
 const store = useSettingsStore();
 
-const { showBookDetails, showBookPrice, showDigital, showEditionedBook } =
-  storeToRefs(store);
+const {
+  showBookDetails,
+  showBookPrice,
+  showDigital,
+  showEditionedBook,
+  datePosition,
+} = storeToRefs(store);
 
 const digitalOptions = computed(() => [
   {
@@ -20,6 +25,17 @@ const digitalOptions = computed(() => [
   {
     name: t("settings.digital.only"),
     value: "only",
+  },
+]);
+
+const positionOptions = computed(() => [
+  {
+    name: t("settings.position.left"),
+    value: "left",
+  },
+  {
+    name: t("settings.position.top"),
+    value: "top",
   },
 ]);
 
@@ -46,6 +62,13 @@ definePageMeta({
       <USelect
         v-model="showDigital"
         :options="digitalOptions"
+        option-attribute="name"
+      />
+    </UFormGroup>
+    <UFormGroup name="datePosition" :label="$t('settings.datePosition')">
+      <USelect
+        v-model="datePosition"
+        :options="positionOptions"
         option-attribute="name"
       />
     </UFormGroup>

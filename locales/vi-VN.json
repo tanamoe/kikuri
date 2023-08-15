@@ -109,6 +109,11 @@
       "show": "Có",
       "hide": "Không",
       "only": "Chỉ hiện lịch điện tử (e-book)"
+    },
+    "datePosition": "Vị trí hiển thị ngày tháng",
+    "position": {
+      "left": "Bên trái",
+      "top": "Bên trên"
     }
   },
   "monthPicker": {
