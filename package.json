@@ -20,7 +20,7 @@
     "@nuxthq/ui": "^2.7.0",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@nuxtjs/google-fonts": "^3.0.1",
-    "@nuxtjs/i18n": "8.0.0-rc.2",
+    "@nuxtjs/i18n": "8.0.0-rc.3",
     "@pinia-plugin-persistedstate/nuxt": "^1.1.1",
     "@tailwindcss/typography": "^0.5.9",
     "@types/node": "^18.16.19",
