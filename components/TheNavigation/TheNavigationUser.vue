@@ -77,7 +77,13 @@ const items = computed(() => {
 </script>
 
 <template>
-  <UDropdown :items="items" :popper="{ placement: 'bottom-end' }">
+  <UDropdown
+    :items="items"
+    :popper="{ placement: 'bottom-end' }"
+    :ui="{
+      container: 'z-30',
+    }"
+  >
     <UButton
       v-if="isAuthenticated === true"
       color="gray"
