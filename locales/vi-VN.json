@@ -161,5 +161,9 @@
     "facebook": "Facebook",
     "twitter": "X",
     "discord": "Discord"
+  },
+  "seo": {
+    "description": "Tana.moe là một \"tủ truyện trực tuyến\" giúp theo dõi các tựa truyện sắp ra mắt dễ dàng hơn và khám phá những bộ truyện bạn có thể đã bỏ lỡ!",
+    "calendarDescription": "Lịch phát hành manga, light-novel tổng hợp từ các nhà xuất bản, phát hành trên toàn quốc, được cập nhật thường xuyên trên Tana.moe"
   }
 }

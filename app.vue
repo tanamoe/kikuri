@@ -2,6 +2,7 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
 
+const runtimeConfig = useRuntimeConfig();
 const { $pb } = useNuxtApp();
 const i18nHead = useLocaleHead({
   addSeoAttributes: true,
@@ -43,7 +44,15 @@ useHead({
 });
 
 useSeoMeta({
+  ogSiteName: "Tana.moe",
+  ogLocale: "vi_VN",
+  ogType: "website",
+  ogImageHeight: "630",
+  ogImageWidth: "1200",
+  themeColor: "#89c4f4",
+  twitterSite: "@tanamoeeee",
   twitterCard: "summary_large_image",
+  fbAppId: runtimeConfig.public.fbAppId,
 });
 </script>
 

@@ -6,6 +6,7 @@ export default defineNuxtConfig({
       pocketbaseUrl: process.env.POCKETBASE_URL,
       blogUrl: process.env.BLOG_URL,
       ogUrl: process.env.OG_URL,
+      fbAppId: process.env.FB_APP_ID,
     },
   },
   modules: [
