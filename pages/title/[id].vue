@@ -42,6 +42,7 @@ if (title.value.cover)
 
 useSeoMeta({
   title: title.value.name,
+  description: title.value.description,
   ogTitle: title.value.name,
   ogDescription: title.value.description,
   ogImage: ogImage.toString(),

@@ -47,7 +47,7 @@ useSeoMeta({
   ogSiteName: "Tana.moe",
   ogLocale: "vi_VN",
   ogType: "website",
-  ogImageHeight: "600",
+  ogImageHeight: "630",
   ogImageWidth: "1200",
   themeColor: "#89c4f4",
   twitterSite: "@tanamoeeee",

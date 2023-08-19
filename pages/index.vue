@@ -1,12 +1,17 @@
 <script setup lang="ts">
 const runtimeConfig = useRuntimeConfig();
+const { t } = useI18n({ useScope: "global" });
 
 const { data: recentReleases } = await useAsyncData(() => getRecentReleases());
 const { data: recentBooks } = await useAsyncData(() => getRecentBooks(6));
 const { data: recentPosts } = await useAsyncData(() => getRecentGhostPosts());
 
 useSeoMeta({
+  description: t("seo.description"),
+  ogTitle: "Tana.moe",
+  ogDescription: t("seo.description"),
   ogImage: runtimeConfig.public.ogUrl,
+  ogImageAlt: "Tana.moe",
 });
 </script>
 

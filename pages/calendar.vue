@@ -6,6 +6,7 @@ import { useSettingsStore } from "@/stores/settings";
 import type { FilterPublishers } from "@/utils/releases";
 
 const runtimeConfig = useRuntimeConfig();
+const { t } = useI18n({ useScope: "global" });
 const store = useSettingsStore();
 const { showDigital, showEditionedBook, datePosition } = storeToRefs(store);
 
@@ -76,16 +77,17 @@ definePageMeta({
 });
 
 useSeoMeta({
+  title: t("general.releaseCalendar"),
+  description: t("seo.calendarDescription"),
+  ogTitle: t("general.releaseCalendar"),
+  ogDescription: t("seo.calendarDescription"),
   ogImage: joinURL(runtimeConfig.public.ogUrl, "calendar"),
+  ogImageAlt: t("general.releaseCalendar"),
 });
 </script>
 
 <template>
   <div>
-    <Head>
-      <Title>{{ $t("general.releaseCalendar") }}</Title>
-    </Head>
-
     <PageCalendarToolbar
       v-model:month="month"
       v-model:publishers="publishers"
