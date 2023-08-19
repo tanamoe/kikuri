@@ -1,6 +1,8 @@
 <script setup lang="ts">
 /* eslint-disable vue/no-v-html */
 const route = useRoute();
+const runtimeConfig = useRuntimeConfig();
+const { $pb } = useNuxtApp();
 const { share, isSupported: shareSupported } = useShare();
 const { copy, copied, isSupported: clipboardSupported } = useClipboard();
 
@@ -29,6 +31,23 @@ function copyLink() {
   copy(location.href);
 }
 
+const ogImage = new URL("/title", runtimeConfig.public.ogUrl);
+ogImage.searchParams.set("name", title.value.name);
+ogImage.searchParams.set("format", title.value.expand!.format.name);
+if (title.value.cover)
+  ogImage.searchParams.set(
+    "image",
+    $pb.files.getUrl(title.value, title.value.cover),
+  );
+
+useSeoMeta({
+  title: title.value.name,
+  ogTitle: title.value.name,
+  ogDescription: title.value.description,
+  ogImage: ogImage.toString(),
+  ogImageAlt: title.value.name,
+});
+
 definePageMeta({
   layout: "full",
 });
@@ -36,10 +55,6 @@ definePageMeta({
 
 <template>
   <UContainer v-if="title">
-    <Head>
-      <Title>{{ title.name }}</Title>
-    </Head>
-
     <header class="flex flex-col-reverse gap-6 sm:flex-row sm:items-end">
       <div class="z-20 -mt-24 flex-1 sm:mt-0">
         <div class="space-y-3">
