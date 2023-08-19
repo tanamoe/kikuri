@@ -42,9 +42,9 @@ if (title.value.cover)
 
 useSeoMeta({
   title: title.value.name,
-  description: title.value.description,
+  description: title.value.description.replace(/<[^>]*>/g, ""),
   ogTitle: title.value.name,
-  ogDescription: title.value.description,
+  ogDescription: title.value.description.replace(/<[^>]*>/g, ""),
   ogImage: ogImage.toString(),
   ogImageAlt: title.value.name,
 });
