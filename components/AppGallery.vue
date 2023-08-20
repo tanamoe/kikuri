@@ -29,7 +29,7 @@ const currentIndex = computed({
 
 const ui = {
   inner: "fixed inset-0",
-  container: "flex items-center justify-center h-screen",
+  container: "flex items-center justify-center h-full",
   base: "h-auto",
   width: "w-fit",
   background: "",
