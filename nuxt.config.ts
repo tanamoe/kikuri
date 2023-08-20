@@ -7,6 +7,8 @@ export default defineNuxtConfig({
       blogUrl: process.env.BLOG_URL,
       ogUrl: process.env.OG_URL,
       fbAppId: process.env.FB_APP_ID,
+      umamiUrl: process.env.UMAMI_URL,
+      umamiSiteId: process.env.UMAMI_SITE_ID,
     },
   },
   modules: [
