@@ -43,6 +43,16 @@ useHead({
   },
 });
 
+useHead({
+  script: [
+    {
+      async: true,
+      src: runtimeConfig.public.umamiUrl,
+      "data-website-id": runtimeConfig.public.umamiSiteId,
+    },
+  ],
+});
+
 useSeoMeta({
   ogSiteName: "Tana.moe",
   ogLocale: "vi_VN",
