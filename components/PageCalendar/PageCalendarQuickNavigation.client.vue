@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import dayjs from "dayjs";
+
 const floatingButton = {
   color: {
     gray: {
@@ -14,41 +16,74 @@ const props = defineProps<{
   scroll: (position: string) => void;
 }>();
 
-const scrollUp = () =>
+const nearestDay = computed(() => {
+  if (dayjs().isSame(props.dates[0], "month")) {
+    return props.dates
+      .map((date) => dayjs(date))
+      .reduceRight((acc, val) => {
+        if (val.isSameOrAfter(dayjs.tz().startOf("day")) && val.isBefore(acc))
+          return val;
+        else return acc;
+      })
+      .format("YYYY-MM-DD");
+  }
+});
+
+function scrollUp() {
   props.scroll(props.dates[props.dates.indexOf(props.currentDay) - 1]);
-const scrollDown = () =>
+}
+
+function scrollDown() {
   props.scroll(props.dates[props.dates.indexOf(props.currentDay) + 1]);
-const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function scrollToNearest() {
+  if (nearestDay.value)
+    props.scroll(props.dates[props.dates.indexOf(nearestDay.value)]);
+}
 </script>
 
 <template>
-  <div
-    class="fixed bottom-3 left-1/2 flex w-max -translate-x-1/2 transform space-x-3"
-  >
-    <UButton
-      color="gray"
-      icon="i-fluent-chevron-up-20-filled"
-      :disabled="dates.indexOf(currentDay) === 0"
-      square
-      :ui="floatingButton"
-      @click="scrollUp"
-    />
-    <UButton
-      icon="i-fluent-arrow-up-20-filled"
-      color="gray"
-      :trailing="true"
-      :ui="floatingButton"
-      @click="scrollToTop"
-    >
-      {{ $t("general.jumpToTop") }}
-    </UButton>
-    <UButton
-      color="gray"
-      icon="i-fluent-chevron-down-20-filled"
-      :disabled="dates.indexOf(currentDay) === dates.length - 1"
-      square
-      :ui="floatingButton"
-      @click="scrollDown"
-    />
+  <div class="fixed bottom-3 left-1/2 z-20 w-max -translate-x-1/2">
+    <div class="flex gap-3">
+      <UButton
+        color="gray"
+        icon="i-fluent-chevron-up-20-filled"
+        :disabled="dates.indexOf(currentDay) === -1"
+        square
+        :ui="floatingButton"
+        @click="scrollUp"
+      />
+      <UButton
+        icon="i-fluent-arrow-up-20-filled"
+        color="gray"
+        :ui="floatingButton"
+        @click="scrollToTop"
+      >
+        {{ $t("general.top") }}
+      </UButton>
+      <UButton
+        v-if="nearestDay"
+        icon="i-fluent-arrow-turn-up-down-20-filled"
+        color="gray"
+        :trailing="true"
+        :ui="floatingButton"
+        @click="scrollToNearest"
+      >
+        {{ $t("general.toNearest") }}
+      </UButton>
+      <UButton
+        color="gray"
+        icon="i-fluent-chevron-down-20-filled"
+        :disabled="dates.indexOf(currentDay) === dates.length - 0"
+        square
+        :ui="floatingButton"
+        @click="scrollDown"
+      />
+    </div>
   </div>
 </template>
