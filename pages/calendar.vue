@@ -151,15 +151,16 @@ useSeoMeta({
         :class="{
           'flex-col': datePosition === 'top',
         }"
-        style="scroll-margin-top: calc(var(--toolbar-height) - 1px)"
+        style="scroll-margin-top: calc(var(--toolbar-height) + 1rem)"
       >
         <div
           class="sticky top-28 flex-shrink-0 self-start sm:top-16"
           :class="{
             'w-12 md:w-20': datePosition === 'left',
-            'z-10 w-full bg-gray-50 dark:bg-gray-900': datePosition === 'top',
+            'z-10 w-full bg-gray-50 ring-8 ring-gray-50 dark:bg-gray-900 dark:ring-gray-900':
+              datePosition === 'top',
           }"
-          style="top: calc(var(--toolbar-height) - 1px)"
+          style="top: var(--toolbar-height)"
         >
           <PageCalendarDate :date="new Date(key)" />
         </div>
