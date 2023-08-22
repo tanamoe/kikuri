@@ -25,6 +25,7 @@
     "comingSoon": "Đang phát triển...",
     "comingSoonDescription": "Cảm ơn bạn đã trải nghiệm Tana.moe! Hiện trang này đang được phát triển, bạn quay lại sau nhé!",
     "follow": "Theo dõi",
+    "review": "Đánh giá",
     "readMore": "Đọc thêm",
     "synopsis": "Nội dung",
     "printRelease": "Bản in",
@@ -55,6 +56,29 @@
     "completed": "Hoàn thành",
     "hiatus": "Tạm dừng",
     "cancelled": "Huỷ"
+  },
+  "review": {
+    "recommend": "Ấn tượng",
+    "create": "Tạo đánh giá",
+    "post": "Gửi đánh giá",
+    "title": "Tựa truyện",
+    "titleSelect": "Chọn tựa truyện",
+    "release": "Bản in",
+    "releaseSelect": "Chọn bản in",
+    "score": "Điểm",
+    "header": "Tiêu đề",
+    "termsTitle": "Trước khi đăng",
+    "termsDescription": "Bạn hãy kiểm tra thật kỹ nội dung và xem nội quy đăng bài nha."
+  },
+  "editor": {
+    "add": "Thêm",
+    "remove": "Gỡ",
+    "bold": "In đậm",
+    "italic": "In nghiêng",
+    "underline": "Gạch dưới",
+    "strikethrough": "Gạch ngang",
+    "quote": "Trích dẫn",
+    "characterCount": "{count} chữ"
   },
   "account": {
     "profile": "Trang cá nhân",
