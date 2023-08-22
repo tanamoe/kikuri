@@ -10,9 +10,12 @@ export const getTitle = async (id: string) => {
   const { $pb } = useNuxtApp();
 
   const data = await $pb.collection(Collections.Title).getOne<
-    TitleResponse<{
-      format: FormatResponse;
-    }>
+    TitleResponse<
+      {},
+      {
+        format: FormatResponse;
+      }
+    >
   >(id, {
     expand: "format",
   });

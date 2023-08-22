@@ -9,6 +9,7 @@ export enum Collections {
   Publication = "publication",
   Publisher = "publisher",
   Release = "release",
+  Review = "review",
   Staff = "staff",
   Title = "title",
   Users = "users",
@@ -105,15 +106,28 @@ export type ReleaseRecord = {
   old_id?: number;
 };
 
+export type ReviewRecord = {
+  release: RecordIdString;
+  user: RecordIdString;
+  header: string;
+  content: HTMLString;
+  score: number;
+  detailedScoreStory?: number;
+  detailedScoreArt?: number;
+  detailedScoreTranslation?: number;
+  detailedScorePrint?: number;
+};
+
 export type StaffRecord = {
   name: string;
 };
 
-export type TitleRecord = {
+export type TitleRecord<Tmetadata = unknown> = {
   name: string;
   description?: HTMLString;
   format: RecordIdString;
   cover?: string;
+  metadata?: null | Tmetadata;
 };
 
 export type UsersRecord = {
@@ -146,9 +160,13 @@ export type PublisherResponse<Texpand = unknown> = Required<PublisherRecord> &
   BaseSystemFields<Texpand>;
 export type ReleaseResponse<Texpand = unknown> = Required<ReleaseRecord> &
   BaseSystemFields<Texpand>;
+export type ReviewResponse<Texpand = unknown> = Required<ReviewRecord> &
+  BaseSystemFields<Texpand>;
 export type StaffResponse<Texpand = unknown> = Required<StaffRecord> &
   BaseSystemFields<Texpand>;
-export type TitleResponse<Texpand = unknown> = Required<TitleRecord> &
+export type TitleResponse<Tmetadata = unknown, Texpand = unknown> = Required<
+  TitleRecord<Tmetadata>
+> &
   BaseSystemFields<Texpand>;
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> &
   AuthSystemFields<Texpand>;
@@ -164,6 +182,7 @@ export type CollectionRecords = {
   publication: PublicationRecord;
   publisher: PublisherRecord;
   release: ReleaseRecord;
+  review: ReviewRecord;
   staff: StaffRecord;
   title: TitleRecord;
   users: UsersRecord;
@@ -177,6 +196,7 @@ export type CollectionResponses = {
   publication: PublicationResponse;
   publisher: PublisherResponse;
   release: ReleaseResponse;
+  review: ReviewResponse;
   staff: StaffResponse;
   title: TitleResponse;
   users: UsersResponse;
