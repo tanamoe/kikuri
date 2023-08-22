@@ -51,7 +51,7 @@ const watcher = watch(
       execute();
       watcher();
     }
-  }
+  },
 );
 </script>
 

@@ -41,7 +41,7 @@ export const useUpdateAccount = () => {
       }
     },
     null,
-    { immediate: false }
+    { immediate: false },
   );
 
   return { pending, data, update };
@@ -81,7 +81,7 @@ export const useRequestVerification = () => {
       }
     },
     null,
-    { immediate: false }
+    { immediate: false },
   );
 
   return { pending, data, requestEmail };

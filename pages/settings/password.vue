@@ -16,7 +16,7 @@ const schema = z.object({
     .min(8, t("error.passwordShort"))
     .refine(
       (val) => val === state.value.password,
-      () => ({ message: t("error.passwordNotMatch") })
+      () => ({ message: t("error.passwordNotMatch") }),
     ),
 });
 

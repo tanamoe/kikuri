@@ -23,7 +23,7 @@ const card = cva(
       hoverable: true,
       clickable: false,
     },
-  }
+  },
 );
 
 type AppCardProps = VariantProps<typeof card>;

@@ -3,7 +3,7 @@ import type { ProviderGetImage } from "@nuxt/image";
 
 export const getImage: ProviderGetImage = (
   src,
-  { modifiers = {}, baseURL } = {}
+  { modifiers = {}, baseURL } = {},
 ) => {
   let url = baseURL;
   const { width, height, quality } = modifiers;
