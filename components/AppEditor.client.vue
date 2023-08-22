@@ -5,9 +5,7 @@ import ExtensionUnderline from "@tiptap/extension-underline";
 import ExtensionImage from "@tiptap/extension-image";
 import ExtensionCharacterCount from "@tiptap/extension-character-count";
 import ExtensionYoutube from "@tiptap/extension-youtube";
-import ExtensionHorizontalRule from "@tiptap/extension-horizontal-rule";
 import ExtensionLink from "@tiptap/extension-link";
-import ExtensionBlockquote from "@tiptap/extension-blockquote";
 
 const props = defineProps<{
   modelValue: string;
@@ -35,11 +33,9 @@ const editor = useEditor({
     ExtensionImage,
     ExtensionCharacterCount,
     ExtensionYoutube,
-    ExtensionHorizontalRule,
     ExtensionLink.configure({
       openOnClick: false,
     }),
-    ExtensionBlockquote,
   ],
   onUpdate: () => {
     content.value = editor.value!.getHTML();
