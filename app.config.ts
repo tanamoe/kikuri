@@ -23,5 +23,10 @@ export default defineAppConfig({
       help: "mt-2 text-gray-500 dark:text-gray-400 text-sm",
       error: "mt-2 text-red-500 dark:text-red-400 text-sm",
     },
+    table: {
+      td: {
+        base: "whitespace-normal",
+      },
+    },
   },
 });
