@@ -17,7 +17,7 @@ const availableLocales = computed(() => {
 });
 
 const currentLocale = ref<Locale | undefined>(
-  availableLocales.value.find((i) => i.id === locale.value)
+  availableLocales.value.find((i) => i.id === locale.value),
 );
 
 const changeLocale = async (v: Locale) => {
