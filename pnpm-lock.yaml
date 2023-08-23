@@ -20,6 +20,12 @@ dependencies:
   '@tiptap/extension-character-count':
     specifier: ^2.1.6
     version: 2.1.6(@tiptap/core@2.1.6)(@tiptap/pm@2.1.6)
+  '@tiptap/extension-dropcursor':
+    specifier: ^2.1.7
+    version: 2.1.7(@tiptap/core@2.1.6)(@tiptap/pm@2.1.6)
+  '@tiptap/extension-gapcursor':
+    specifier: ^2.1.7
+    version: 2.1.7(@tiptap/core@2.1.6)(@tiptap/pm@2.1.6)
   '@tiptap/extension-image':
     specifier: ^2.1.6
     version: 2.1.6(@tiptap/core@2.1.6)
@@ -2214,8 +2220,8 @@ packages:
       '@tiptap/core': 2.1.6(@tiptap/pm@2.1.6)
     dev: false
 
-  /@tiptap/extension-dropcursor@2.1.6(@tiptap/core@2.1.6)(@tiptap/pm@2.1.6):
-    resolution: {integrity: sha512-+nk4XtCp2+lVf1pzwonaOdIolE9AI3HPAtUO7sthHYLDIm1JEQT2GS3+MVDGHdFKxEGUkB5DEcNLtr/xLTQjZQ==}
+  /@tiptap/extension-dropcursor@2.1.7(@tiptap/core@2.1.6)(@tiptap/pm@2.1.6):
+    resolution: {integrity: sha512-hNk2BuLnNSXlGOQphlzdpFKCKo7uHUFjWuBfzF1S9FMAQgcN7eTia+cCClmXABYfVLW4fT14PC1KiuGjxi9MuA==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
       '@tiptap/pm': ^2.0.0
@@ -2235,8 +2241,8 @@ packages:
       tippy.js: 6.3.7
     dev: false
 
-  /@tiptap/extension-gapcursor@2.1.6(@tiptap/core@2.1.6)(@tiptap/pm@2.1.6):
-    resolution: {integrity: sha512-5AH6Je1B6JpZkMBslXw/UglMpxVwL8AXqX5xWKP2OSsKVYcL00jApq709FxfYhyqui/SukUVusKKQFstTNqIGA==}
+  /@tiptap/extension-gapcursor@2.1.7(@tiptap/core@2.1.6)(@tiptap/pm@2.1.6):
+    resolution: {integrity: sha512-7eoInzzk1sssoD3RMkwFC86U15Ja4ANve+8wIC+xhN4R3Oe3PY3lFbp1GQxCmaJj8b3rtjNKIQZ2zO0PH58afA==}
     peerDependencies:
       '@tiptap/core': ^2.0.0
       '@tiptap/pm': ^2.0.0
@@ -2397,8 +2403,8 @@ packages:
       '@tiptap/extension-code': 2.1.6(@tiptap/core@2.1.6)
       '@tiptap/extension-code-block': 2.1.6(@tiptap/core@2.1.6)(@tiptap/pm@2.1.6)
       '@tiptap/extension-document': 2.1.6(@tiptap/core@2.1.6)
-      '@tiptap/extension-dropcursor': 2.1.6(@tiptap/core@2.1.6)(@tiptap/pm@2.1.6)
-      '@tiptap/extension-gapcursor': 2.1.6(@tiptap/core@2.1.6)(@tiptap/pm@2.1.6)
+      '@tiptap/extension-dropcursor': 2.1.7(@tiptap/core@2.1.6)(@tiptap/pm@2.1.6)
+      '@tiptap/extension-gapcursor': 2.1.7(@tiptap/core@2.1.6)(@tiptap/pm@2.1.6)
       '@tiptap/extension-hard-break': 2.1.6(@tiptap/core@2.1.6)
       '@tiptap/extension-heading': 2.1.6(@tiptap/core@2.1.6)
       '@tiptap/extension-history': 2.1.6(@tiptap/core@2.1.6)(@tiptap/pm@2.1.6)
