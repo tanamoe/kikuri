@@ -111,11 +111,7 @@ export type ReviewRecord = {
   user: RecordIdString;
   header: string;
   content: HTMLString;
-  score: number;
-  detailedScoreStory?: number;
-  detailedScoreArt?: number;
-  detailedScoreTranslation?: number;
-  detailedScorePrint?: number;
+  score?: number;
 };
 
 export type StaffRecord = {
