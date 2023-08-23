@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Collections, ReviewResponse, UsersResponse } from "@/types/pb";
+
 /* eslint-disable vue/no-v-html */
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
@@ -17,6 +19,19 @@ const { data: works } = await useAsyncData(() => getWorks(title.value!.id));
 
 const { data: releases } = await useAsyncData(() =>
   getReleases(title.value!.id),
+);
+
+const { data: reviews } = await useAsyncData(
+  () =>
+    $pb.collection(Collections.Review).getList<
+      ReviewResponse<{
+        user: UsersResponse;
+      }>
+    >(1, 3, {
+      filter: `release.title = '${title.value!.id}'`,
+      expand: "user",
+    }),
+  { transform: (reviews) => structuredClone(reviews) },
 );
 
 const { data: images } = await useAsyncData(() =>
@@ -116,6 +131,11 @@ definePageMeta({
         <div v-if="releases">
           <AppH3 class="mb-3 mt-12">{{ $t("general.releaseCalendar") }}</AppH3>
           <PageTitleReleases :releases="releases" />
+        </div>
+
+        <div v-if="reviews">
+          <AppH3 class="mb-3 mt-12">{{ $t("general.review") }}</AppH3>
+          <PageTitleReviews :reviews="reviews.items" />
         </div>
 
         <div v-if="images">
