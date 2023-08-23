@@ -6,6 +6,8 @@ import ExtensionImage from "@tiptap/extension-image";
 import ExtensionCharacterCount from "@tiptap/extension-character-count";
 import ExtensionYoutube from "@tiptap/extension-youtube";
 import ExtensionLink from "@tiptap/extension-link";
+import ExtensionDropcursor from "@tiptap/extension-dropcursor";
+import ExtensionGapcursor from "@tiptap/extension-gapcursor";
 
 const props = defineProps<{
   modelValue: string;
@@ -36,6 +38,8 @@ const editor = useEditor({
     ExtensionLink.configure({
       openOnClick: false,
     }),
+    ExtensionDropcursor,
+    ExtensionGapcursor,
   ],
   onUpdate: () => {
     content.value = editor.value!.getHTML();
