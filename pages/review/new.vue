@@ -12,7 +12,6 @@ const route = useRoute();
 const { $pb } = useNuxtApp();
 const { pending, post } = useReview();
 const store = useUserStore();
-const { t } = useI18n({ useScope: "global" });
 
 const { currentUser } = storeToRefs(store);
 
@@ -64,55 +63,18 @@ const { data: releases, pending: releasesPending } = await useAsyncData(
 const header = ref<string>();
 const content = ref<string>("");
 const score = ref<number>();
-const advancedScoring = ref<boolean>(false);
-const advancedScore = ref({
-  story: 0,
-  art: 0,
-  translation: 0,
-  print: 0,
-});
-const averageScore = computed(
-  () =>
-    (Number(advancedScore.value.story) +
-      Number(advancedScore.value.art) +
-      Number(advancedScore.value.translation) +
-      Number(advancedScore.value.print)) /
-    4,
-);
 
 const titleSelectOpen = ref(false);
 const postPromptOpen = ref(false);
 
-const advancedItems = computed(() => [
-  {
-    label: t("review.advancedScoring"),
-    icon: "i-fluent-number-row-20-filled",
-    defaultOpen: false,
-    slot: "advanced-scoring",
-  },
-]);
-
 function handlePost() {
-  if (advancedScoring.value) {
-    post({
-      release: release.value?.id,
-      user: currentUser.value?.id,
-      header: header.value,
-      content: content.value,
-      detailedScoreStory: advancedScore.value.story,
-      detailedScoreArt: advancedScore.value.art,
-      detailedScoreTranslation: advancedScore.value.translation,
-      detailedScorePrint: advancedScore.value.print,
-    });
-  } else {
-    post({
-      release: release.value?.id,
-      user: currentUser.value?.id,
-      header: header.value,
-      content: content.value,
-      score: score.value,
-    });
-  }
+  post({
+    release: release.value?.id,
+    user: currentUser.value?.id,
+    header: header.value,
+    content: content.value,
+    score: score.value,
+  });
 }
 
 definePageMeta({
@@ -138,83 +100,6 @@ definePageMeta({
           :placeholder="$t('review.header')"
         />
         <AppEditor v-model="content" class="mb-6" />
-
-        <UAccordion :items="advancedItems" color="white">
-          <template #advanced-scoring>
-            <UFormGroup :label="$t('review.useAdvancedScoring')" class="mb-3">
-              <UToggle v-model="advancedScoring" />
-            </UFormGroup>
-            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              <UFormGroup :label="$t('review.scoreStory')">
-                <UInput
-                  v-model="advancedScore.story"
-                  icon="i-fluent-number-symbol-20-filled"
-                  type="number"
-                  min="0"
-                  max="10"
-                  :disabled="!advancedScoring"
-                >
-                  <template #trailing>
-                    <span class="text-xs text-gray-500 dark:text-gray-400">
-                      /10
-                    </span>
-                  </template>
-                </UInput>
-              </UFormGroup>
-
-              <UFormGroup :label="$t('review.scoreArt')">
-                <UInput
-                  v-model="advancedScore.art"
-                  icon="i-fluent-number-symbol-20-filled"
-                  type="number"
-                  min="0"
-                  max="10"
-                  :disabled="!advancedScoring"
-                >
-                  <template #trailing>
-                    <span class="text-xs text-gray-500 dark:text-gray-400">
-                      /10
-                    </span>
-                  </template>
-                </UInput>
-              </UFormGroup>
-
-              <UFormGroup :label="$t('review.scoreTranslation')">
-                <UInput
-                  v-model="advancedScore.translation"
-                  icon="i-fluent-number-symbol-20-filled"
-                  type="number"
-                  min="0"
-                  max="10"
-                  :disabled="!advancedScoring"
-                >
-                  <template #trailing>
-                    <span class="text-xs text-gray-500 dark:text-gray-400">
-                      /10
-                    </span>
-                  </template>
-                </UInput>
-              </UFormGroup>
-
-              <UFormGroup :label="$t('review.scorePrint')">
-                <UInput
-                  v-model="advancedScore.print"
-                  icon="i-fluent-number-symbol-20-filled"
-                  type="number"
-                  min="0"
-                  max="10"
-                  :disabled="!advancedScoring"
-                >
-                  <template #trailing>
-                    <span class="text-xs text-gray-500 dark:text-gray-400">
-                      /10
-                    </span>
-                  </template>
-                </UInput>
-              </UFormGroup>
-            </div>
-          </template>
-        </UAccordion>
       </div>
       <div class="w-full flex-shrink-0 sm:w-64">
         <div class="space-y-6">
@@ -244,8 +129,6 @@ definePageMeta({
               type="number"
               min="0"
               max="10"
-              :value="advancedScoring ? averageScore : '0'"
-              :disabled="advancedScoring"
             >
               <template #trailing>
                 <span class="text-xs text-gray-500 dark:text-gray-400">
