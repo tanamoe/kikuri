@@ -23,11 +23,11 @@ const { data: releases } = await useAsyncData(() =>
 
 const { data: reviews } = await useAsyncData(
   () =>
-    $pb.collection(Collections.Review).getList<
+    $pb.collection(Collections.Review).getFullList<
       ReviewResponse<{
         user: UsersResponse;
       }>
-    >(1, 3, {
+    >({
       filter: `release.title = '${title.value!.id}'`,
       expand: "user",
     }),
@@ -128,17 +128,17 @@ definePageMeta({
 
     <div class="mt-6 flex flex-col-reverse gap-6 lg:flex-row">
       <div class="flex-1">
-        <div v-if="releases">
+        <div v-if="releases && releases.length > 0">
           <AppH3 class="mb-3 mt-12">{{ $t("general.releaseCalendar") }}</AppH3>
           <PageTitleReleases :releases="releases" />
         </div>
 
-        <div v-if="reviews">
+        <div v-if="reviews && reviews.length > 0">
           <AppH3 class="mb-3 mt-12">{{ $t("general.review") }}</AppH3>
-          <PageTitleReviews :reviews="reviews.items" />
+          <PageTitleReviews :reviews="reviews" />
         </div>
 
-        <div v-if="images">
+        <div v-if="images && images.length > 0">
           <AppH3 class="mb-3 mt-12">{{ $t("general.coverImages") }}</AppH3>
           <PageTitleCoverImages :images="images" />
         </div>

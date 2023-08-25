@@ -58,7 +58,11 @@ const {
       sort: "+name",
       filter: `name ~ '${search.value}'`,
     }),
-  { watch: [page], transform: (titles) => structuredClone(titles) },
+  {
+    server: false,
+    watch: [page],
+    transform: (titles) => structuredClone(titles),
+  },
 );
 </script>
 

@@ -33,7 +33,10 @@ defineProps<{
                 height="24"
               />
               <span class="overflow-hidden text-ellipsis whitespace-nowrap">
-                {{ review.expand?.user.displayName }}
+                {{
+                  review.expand?.user.displayName ||
+                  review.expand?.user.username
+                }}
               </span>
             </div>
             <UBadge v-if="review.score >= 7">
