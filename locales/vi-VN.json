@@ -184,7 +184,14 @@
     "passwordShort": "Mật khẩu phải từ 8 ký tự",
     "passwordNotMatch": "Xác nhận mật khẩu không trùng",
     "displayNameLength": "Tên hiển thị phải từ 1-32 ký tự",
-    "bioLength": "Giới thiệu không được dài quá 280 ký tự"
+    "bioLength": "Giới thiệu không được dài quá 280 ký tự",
+    "review": {
+      "releaseInvalid": "Chưa chọn bản in",
+      "headerInvalidMin": "Tiêu đề phải tối thiểu từ 1 ký tự",
+      "headerInvalidMax": "Tiêu đề tối đa 120 ký tự",
+      "scoreInvalidMin": "Điểm phải cao hơn hoặc bằng 1",
+      "scoreInvalidMax": "Điểm tối đa là 10"
+    }
   },
   "sort": {
     "latest": "Mới cập nhật",
