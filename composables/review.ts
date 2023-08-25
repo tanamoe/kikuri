@@ -22,6 +22,8 @@ export function useReview() {
         icon: "i-fluent-checkmark-circle-20-filled",
       });
 
+      localStorage.setItem("review-content", "");
+
       return navigateTo("/review/" + res.id);
     } catch (error) {
       if (error instanceof ClientResponseError) {
