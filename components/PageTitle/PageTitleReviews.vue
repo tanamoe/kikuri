@@ -23,7 +23,7 @@ defineProps<{
             <div class="flex items-center gap-2">
               <NuxtImg
                 :src="
-                  getPockerBaseImagePath(
+                  getPocketBaseImagePath(
                     review.expand!.user,
                     review.expand!.user.avatar,
                   )
