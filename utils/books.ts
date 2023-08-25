@@ -14,7 +14,7 @@ export const getRecentBooks = async (count: number) => {
       title: TitleResponse;
     }>
   >(1, count, {
-    sort: "-created",
+    sort: "-updated",
     expand: "title",
   });
 
