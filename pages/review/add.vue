@@ -29,7 +29,7 @@ const { data: title } = await useAsyncData(
   },
 );
 
-const { data: releases, pending: releasesPending } = await useAsyncData(
+const { data: releases, pending: releasesPending } = await useLazyAsyncData(
   () => {
     state.value.release = undefined;
     return $pb.collection(Collections.Release).getFullList<
