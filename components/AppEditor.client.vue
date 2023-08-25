@@ -93,7 +93,7 @@ function setYoutube(e: Event) {
       class="flex divide-x divide-gray-300 overflow-auto border-b border-gray-300 dark:divide-gray-700 dark:border-gray-700"
     >
       <div class="flex gap-1 px-2.5 py-1.5">
-        <UTooltip :text="$t('editor.bold')" :shortcuts="[metaSymbol, 'O']">
+        <UTooltip :text="$t('editor.bold')" :shortcuts="[metaSymbol, 'B']">
           <UButton
             color="gray"
             :variant="editor.isActive('bold') ? 'soft' : 'ghost'"
