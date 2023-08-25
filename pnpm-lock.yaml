@@ -20,12 +20,6 @@ dependencies:
   '@tiptap/extension-character-count':
     specifier: ^2.1.6
     version: 2.1.6(@tiptap/core@2.1.6)(@tiptap/pm@2.1.6)
-  '@tiptap/extension-dropcursor':
-    specifier: ^2.1.7
-    version: 2.1.7(@tiptap/core@2.1.6)(@tiptap/pm@2.1.6)
-  '@tiptap/extension-gapcursor':
-    specifier: ^2.1.7
-    version: 2.1.7(@tiptap/core@2.1.6)(@tiptap/pm@2.1.6)
   '@tiptap/extension-image':
     specifier: ^2.1.6
     version: 2.1.6(@tiptap/core@2.1.6)
