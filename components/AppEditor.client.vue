@@ -6,8 +6,6 @@ import ExtensionImage from "@tiptap/extension-image";
 import ExtensionCharacterCount from "@tiptap/extension-character-count";
 import ExtensionYoutube from "@tiptap/extension-youtube";
 import ExtensionLink from "@tiptap/extension-link";
-import ExtensionDropcursor from "@tiptap/extension-dropcursor";
-import ExtensionGapcursor from "@tiptap/extension-gapcursor";
 
 const props = defineProps<{
   modelValue: string;
@@ -38,8 +36,6 @@ const editor = useEditor({
     ExtensionLink.configure({
       openOnClick: false,
     }),
-    ExtensionDropcursor,
-    ExtensionGapcursor,
   ],
   onUpdate: () => {
     content.value = editor.value!.getHTML();
@@ -93,7 +89,7 @@ function setYoutube(e: Event) {
       class="flex divide-x divide-gray-300 overflow-auto border-b border-gray-300 dark:divide-gray-700 dark:border-gray-700"
     >
       <div class="flex gap-1 px-2.5 py-1.5">
-        <UTooltip :text="$t('editor.bold')" :shortcuts="[metaSymbol, 'O']">
+        <UTooltip :text="$t('editor.bold')" :shortcuts="[metaSymbol, 'B']">
           <UButton
             color="gray"
             :variant="editor.isActive('bold') ? 'soft' : 'ghost'"
