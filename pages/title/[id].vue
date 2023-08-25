@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Collections, ReviewResponse, UsersResponse } from "@/types/pb";
+
 /* eslint-disable vue/no-v-html */
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
@@ -17,6 +19,19 @@ const { data: works } = await useAsyncData(() => getWorks(title.value!.id));
 
 const { data: releases } = await useAsyncData(() =>
   getReleases(title.value!.id),
+);
+
+const { data: reviews } = await useAsyncData(
+  () =>
+    $pb.collection(Collections.Review).getFullList<
+      ReviewResponse<{
+        user: UsersResponse;
+      }>
+    >({
+      filter: `release.title = '${title.value!.id}'`,
+      expand: "user",
+    }),
+  { transform: (reviews) => structuredClone(reviews) },
 );
 
 const { data: images } = await useAsyncData(() =>
@@ -42,9 +57,9 @@ if (title.value.cover)
 
 useSeoMeta({
   title: title.value.name,
-  description: title.value.description.replace(/<[^>]*>/g, ""),
+  description: title.value.description.replace(/<[^>]*>/g, "").slice(0, 200),
   ogTitle: title.value.name,
-  ogDescription: title.value.description.replace(/<[^>]*>/g, ""),
+  ogDescription: title.value.description.replace(/<[^>]*>/g, "").slice(0, 200),
   ogImage: ogImage.toString(),
   ogImageAlt: title.value.name,
 });
@@ -113,12 +128,17 @@ definePageMeta({
 
     <div class="mt-6 flex flex-col-reverse gap-6 lg:flex-row">
       <div class="flex-1">
-        <div v-if="releases">
+        <div v-if="releases && releases.length > 0">
           <AppH3 class="mb-3 mt-12">{{ $t("general.releaseCalendar") }}</AppH3>
           <PageTitleReleases :releases="releases" />
         </div>
 
-        <div v-if="images">
+        <div v-if="reviews && reviews.length > 0">
+          <AppH3 class="mb-3 mt-12">{{ $t("general.review") }}</AppH3>
+          <PageTitleReviews :reviews="reviews" />
+        </div>
+
+        <div v-if="images && images.length > 0">
           <AppH3 class="mb-3 mt-12">{{ $t("general.coverImages") }}</AppH3>
           <PageTitleCoverImages :images="images" />
         </div>
@@ -165,6 +185,13 @@ definePageMeta({
             </ULink>
           </div>
         </UCard>
+        <UButton
+          :to="`/review/add?title=${title.id}`"
+          color="gray"
+          icon="i-fluent-pen-20-filled"
+          block
+          >{{ $t("review.create") }}</UButton
+        >
       </div>
     </div>
   </UContainer>

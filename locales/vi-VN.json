@@ -11,6 +11,8 @@
     "changePassword": "Đổi mật khẩu",
     "top": "Top",
     "toNearest": "Gần nhất",
+    "confirm": "Xác nhận",
+    "return": "Quay lại",
     "filter": "Lọc",
     "options": "Tuỳ chọn",
     "print": "In",
@@ -59,16 +61,24 @@
   },
   "review": {
     "recommend": "Ấn tượng",
-    "create": "Tạo đánh giá",
-    "post": "Gửi đánh giá",
+    "create": "Đăng đánh giá",
+    "post": "Đăng bài",
+    "postSuccess": "Đăng thành công!",
+    "postPrompt": "Bạn đã sẵn sàng đăng bài?",
     "title": "Tựa truyện",
     "titleSelect": "Chọn tựa truyện",
     "release": "Bản in",
     "releaseSelect": "Chọn bản in",
     "score": "Điểm",
+    "scoreStory": "Nội dung",
+    "scoreArt": "Art",
+    "scoreTranslation": "Bản dịch",
+    "scorePrint": "Hình thức",
+    "advancedScoring": "Điểm chi tiết",
+    "useAdvancedScoring": "Dùng hệ thống tính điểm chi tiết",
     "header": "Tiêu đề",
-    "termsTitle": "Trước khi đăng",
-    "termsDescription": "Bạn hãy kiểm tra thật kỹ nội dung và xem nội quy đăng bài nha."
+    "termsTitle": "Trước khi tiếp tục",
+    "termsDescription": "Hãy kiểm tra thật kỹ nội dung bài và xem qua nội quy đăng bài."
   },
   "editor": {
     "add": "Thêm",
@@ -174,7 +184,14 @@
     "passwordShort": "Mật khẩu phải từ 8 ký tự",
     "passwordNotMatch": "Xác nhận mật khẩu không trùng",
     "displayNameLength": "Tên hiển thị phải từ 1-32 ký tự",
-    "bioLength": "Giới thiệu không được dài quá 280 ký tự"
+    "bioLength": "Giới thiệu không được dài quá 280 ký tự",
+    "review": {
+      "releaseInvalid": "Chưa chọn bản in",
+      "headerInvalidMin": "Tiêu đề phải tối thiểu từ 1 ký tự",
+      "headerInvalidMax": "Tiêu đề tối đa 120 ký tự",
+      "scoreInvalidMin": "Điểm phải cao hơn hoặc bằng 1",
+      "scoreInvalidMax": "Điểm tối đa là 10"
+    }
   },
   "sort": {
     "latest": "Mới cập nhật",
@@ -189,6 +206,7 @@
   },
   "seo": {
     "description": "Tana.moe là một \"tủ truyện trực tuyến\" giúp theo dõi các tựa truyện sắp ra mắt dễ dàng hơn và khám phá những bộ truyện bạn có thể đã bỏ lỡ!",
-    "calendarDescription": "Lịch phát hành manga, light-novel tổng hợp từ các nhà xuất bản, phát hành trên toàn quốc, được cập nhật thường xuyên trên Tana.moe"
+    "calendarDescription": "Lịch phát hành manga, light-novel tổng hợp từ các nhà xuất bản, phát hành trên toàn quốc, được cập nhật thường xuyên trên Tana.moe",
+    "reviewTitle": "{user} đánh giá {title}"
   }
 }
