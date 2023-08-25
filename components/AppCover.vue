@@ -15,7 +15,7 @@ defineProps<{
     v-if="fileName"
     loading="lazy"
     class="aspect-[2/3] h-full w-full object-cover"
-    :src="getPockerBaseImagePath(book, fileName)"
+    :src="getPocketBaseImagePath(book, fileName)"
     :sizes="sizes"
   />
   <div

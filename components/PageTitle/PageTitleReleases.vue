@@ -21,7 +21,7 @@ const items = props.releases.map((release) => ({
       <UButton color="gray" variant="ghost">
         <template #leading>
           <NuxtImg
-            :src="getPockerBaseImagePath(item.publisher, item.publisher.logo)"
+            :src="getPocketBaseImagePath(item.publisher, item.publisher.logo)"
             width="20px"
             height="20px"
             class="rounded"

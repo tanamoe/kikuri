@@ -11,7 +11,7 @@ defineProps<{
     <NuxtImg
       v-if="user.banner"
       class="aspect-[21/9] h-auto w-full rounded-md object-cover"
-      :src="getPockerBaseImagePath(user, user.banner)"
+      :src="getPocketBaseImagePath(user, user.banner)"
       sizes="sm:90vw md:70vw lg:40vw"
     />
     <div
@@ -29,7 +29,7 @@ defineProps<{
         class="aspect-square h-32 w-32 rounded-full border-4 border-gray-100 object-cover dark:border-gray-800"
         width="128px"
         height="128px"
-        :src="getPockerBaseImagePath(user, user.avatar)"
+        :src="getPocketBaseImagePath(user, user.avatar)"
       />
     </div>
     <div class="space-y-3 p-4">

@@ -15,7 +15,7 @@ const avatar = computed(() => {
       return joinURL(
         runtimeConfig.public.pocketbaseUrl,
         "/api/files",
-        getPockerBaseImagePath(currentUser.value, currentUser.value.avatar),
+        getPocketBaseImagePath(currentUser.value, currentUser.value.avatar),
         "?thumb=20x20",
       );
     else return "/avatar.jpg";

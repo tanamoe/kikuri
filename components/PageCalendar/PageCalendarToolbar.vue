@@ -21,7 +21,7 @@ const { data: publisherOptions } = useAsyncData(
               src: joinURL(
                 runtimeConfig.public.pocketbaseUrl,
                 "/api/files",
-                getPockerBaseImagePath(publisher, publisher.logo),
+                getPocketBaseImagePath(publisher, publisher.logo),
                 "?thumb=24x24",
               ),
             }
