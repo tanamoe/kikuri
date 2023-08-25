@@ -57,9 +57,9 @@ if (title.value.cover)
 
 useSeoMeta({
   title: title.value.name,
-  description: title.value.description.replace(/<[^>]*>/g, ""),
+  description: title.value.description.replace(/<[^>]*>/g, "").slice(0, 200),
   ogTitle: title.value.name,
-  ogDescription: title.value.description.replace(/<[^>]*>/g, ""),
+  ogDescription: title.value.description.replace(/<[^>]*>/g, "").slice(0, 200),
   ogImage: ogImage.toString(),
   ogImageAlt: title.value.name,
 });
@@ -185,6 +185,13 @@ definePageMeta({
             </ULink>
           </div>
         </UCard>
+        <UButton
+          :to="`/review/add?title=${title.id}`"
+          color="gray"
+          icon="i-fluent-pen-20-filled"
+          block
+          >{{ $t("review.create") }}</UButton
+        >
       </div>
     </div>
   </UContainer>
