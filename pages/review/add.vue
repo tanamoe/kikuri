@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { z } from "zod";
 import { storeToRefs } from "pinia";
+import { useStorage } from "@vueuse/core";
+import type { Form } from "@nuxthq/ui/dist/runtime/types";
 import {
   Collections,
   type PublisherResponse,
@@ -12,6 +15,7 @@ const route = useRoute();
 const { $pb } = useNuxtApp();
 const { pending, post } = useReview();
 const store = useUserStore();
+const { t } = useI18n({ useScope: "global" });
 
 const { currentUser } = storeToRefs(store);
 
@@ -21,59 +25,79 @@ const { data: title } = await useAsyncData(
       .collection(Collections.Title)
       .getOne<TitleResponse>(route.query.title as string),
   {
-    immediate: typeof route.query.title === "string",
     transform: (title) => structuredClone(title),
   },
 );
 
-const release = ref<ReleaseResponse>();
 const { data: releases, pending: releasesPending } = await useAsyncData(
   () => {
-    release.value = undefined;
+    state.value.release = undefined;
     return $pb.collection(Collections.Release).getFullList<
       ReleaseResponse<{
         publisher: PublisherResponse;
       }>
     >({
-      filter: `title = '${title.value?.id}'`,
-      expand: "publisher",
-      pick: "id,name,publisher",
+      filter: `title = '${route.query.title || title.value?.id}'`,
+      expand: "publisher,title",
+      pick: "id,name,publisher,title",
     });
   },
   {
+    server: false,
     watch: [title],
-    transform: (releases) => {
-      if (releases)
-        return structuredClone(releases).map((release) => ({
-          id: release.id,
-          label: release.name,
-          avatar: {
-            src: release.expand?.publisher
-              ? $pb.files.getUrl(
-                  release.expand?.publisher,
-                  release.expand?.publisher.logo,
-                )
-              : "",
-          },
-        }));
-    },
+    transform: (releases) =>
+      structuredClone(releases).map((release) => ({
+        id: release.id,
+        label: release.name,
+        avatar: {
+          src: release.expand?.publisher
+            ? $pb.files.getUrl(
+                release.expand?.publisher,
+                release.expand?.publisher.logo,
+              )
+            : "",
+        },
+      })),
   },
 );
 
-const header = ref<string>();
-const content = ref<string>("");
-const score = ref<number>();
+const schema = z.object({
+  release: z.string().min(1, t("error.review.releaseInvalid")),
+  user: z.string(),
+  header: z
+    .string()
+    .min(1, t("error.review.headerInvalidMin"))
+    .max(120, t("error.review.headerInvalidMax")),
+  score: z.coerce
+    .number()
+    .min(1, t("error.review.scoreInvalidMin"))
+    .max(10, t("error.review.scoreInvalidMax")),
+});
+type Schema = z.output<typeof schema>;
+
+const state = ref<Partial<Schema>>({
+  release: "",
+  user: currentUser.value?.id,
+  header: "",
+  score: 0,
+});
+
+const content = useStorage("review-content", "");
+const currentRelease = computed(
+  () => releases.value?.find((release) => release.id === state.value.release),
+);
+
+const form = ref<Form<Schema>>();
 
 const titleSelectOpen = ref(false);
 const postPromptOpen = ref(false);
 
-function handlePost() {
+async function submit() {
+  const data: Schema = await form.value!.validate();
+
   post({
-    release: release.value?.id,
-    user: currentUser.value?.id,
-    header: header.value,
+    ...data,
     content: content.value,
-    score: score.value,
   });
 }
 
@@ -86,7 +110,12 @@ definePageMeta({
   <UContainer>
     <AppH1 class="mb-6">{{ $t("review.create") }}</AppH1>
 
-    <div class="flex flex-col-reverse gap-6 sm:flex-row">
+    <UForm
+      ref="form"
+      :schema="schema"
+      :state="state"
+      class="flex flex-col-reverse gap-6 sm:flex-row"
+    >
       <div class="flex-1">
         <UAlert
           :title="$t('review.termsTitle')"
@@ -94,11 +123,13 @@ definePageMeta({
           icon="i-fluent-document-endnote-20-filled"
           class="mb-6"
         />
-        <UInput
-          v-model="header"
-          class="mb-6"
-          :placeholder="$t('review.header')"
-        />
+        <UFormGroup name="header" class="mb-6">
+          <UInput
+            v-model="state.header"
+            name="header"
+            :placeholder="$t('review.header')"
+          />
+        </UFormGroup>
         <AppEditor v-model="content" class="mb-6" />
       </div>
       <div class="w-full flex-shrink-0 sm:w-64">
@@ -112,18 +143,24 @@ definePageMeta({
               @click="titleSelectOpen = true"
             />
           </UFormGroup>
-          <UFormGroup :label="$t('review.release')">
+          <UFormGroup :label="$t('review.release')" name="release">
             <USelectMenu
-              v-model="release"
+              v-model="state.release"
               :options="releases || []"
               :loading="releasesPending"
-              :disabled="title === null"
-              :placeholder="$t('review.releaseSelect')"
-            />
+              :disabled="!releases || releases.length == 0"
+              value-attribute="id"
+              option-attribute="label"
+            >
+              <template #label>
+                <span v-if="currentRelease">{{ currentRelease.label }}</span>
+                <span v-else>{{ $t("review.releaseSelect") }}</span>
+              </template>
+            </USelectMenu>
           </UFormGroup>
-          <UFormGroup :label="$t('review.score')">
+          <UFormGroup :label="$t('review.score')" name="score">
             <UInput
-              v-model="score"
+              v-model="state.score"
               placeholder="8.5"
               icon="i-fluent-number-symbol-20-filled"
               type="number"
@@ -146,7 +183,7 @@ definePageMeta({
           </UButton>
         </div>
       </div>
-    </div>
+    </UForm>
 
     <UModal v-model="postPromptOpen">
       <UCard>
@@ -160,7 +197,7 @@ definePageMeta({
             >
               {{ $t("general.return") }}
             </UButton>
-            <UButton :loading="pending" @click="handlePost">
+            <UButton :loading="pending" @click="submit">
               {{ $t("general.confirm") }}
             </UButton>
           </div>
