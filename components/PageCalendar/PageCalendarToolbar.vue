@@ -16,14 +16,16 @@ const { data: publisherOptions } = useAsyncData(
       publishers.map((publisher) => ({
         id: publisher.id,
         label: publisher.name,
-        avatar: {
-          src: joinURL(
-            runtimeConfig.public.pocketbaseUrl,
-            "/api/files",
-            getPockerBaseImagePath(publisher, publisher.logo),
-            "?thumb=24x24",
-          ),
-        },
+        avatar: publisher.logo
+          ? {
+              src: joinURL(
+                runtimeConfig.public.pocketbaseUrl,
+                "/api/files",
+                getPockerBaseImagePath(publisher, publisher.logo),
+                "?thumb=24x24",
+              ),
+            }
+          : undefined,
       })),
   },
 );
@@ -114,7 +116,7 @@ onMounted(() => {
                   <UAvatar
                     v-for="publisher in currentPublishers"
                     :key="publisher.id"
-                    :src="publisher.avatar.src"
+                    :src="publisher.avatar?.src"
                     :alt="publisher.label"
                   />
                 </UAvatarGroup>
