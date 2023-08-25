@@ -12,7 +12,7 @@ const parsedImages = computed(() => {
 
   props.images.map((image) =>
     image.cover.map((cover) =>
-      images.push(getPockerBaseImagePath(image, cover)),
+      images.push(getPocketBaseImagePath(image, cover)),
     ),
   );
 
