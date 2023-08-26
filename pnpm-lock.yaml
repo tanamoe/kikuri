@@ -57,8 +57,8 @@ dependencies:
     specifier: ^2.1.4
     version: 2.1.4(typescript@5.1.6)(vue@3.3.4)
   pocketbase:
-    specifier: ^0.16.0
-    version: 0.16.0
+    specifier: ^0.17.0
+    version: 0.17.0
   zod:
     specifier: ^3.21.4
     version: 3.21.4
@@ -8242,8 +8242,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /pocketbase@0.16.0:
-    resolution: {integrity: sha512-sndPu4Mbu1Y2VefvO2gIa/No5aIdP6E5br9HUGomvDYSfkmGfBxJNkivJSSKlr9KwWnaF8otf14304UUeFGOrA==}
+  /pocketbase@0.17.0:
+    resolution: {integrity: sha512-icsdgI35o/ewjwpJbhkkUAyWpkvPNYXV0iy8XJBMl64yR16YHMIFzfoLwukk86WZ13ojGpupr+/WscXVDiPKDQ==}
     dev: false
 
   /portfinder@1.0.32:
