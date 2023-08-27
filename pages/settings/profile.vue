@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import type { Form } from "@nuxthq/ui/dist/runtime/types";
 import { z } from "zod";
-import { storeToRefs } from "pinia";
-import { useUserStore } from "@/stores/user";
+import type { Form } from "@nuxthq/ui/dist/runtime/types";
+import type { UsersResponse } from "@/types/pb";
 
-const store = useUserStore();
+const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const { pending, update } = useUpdateAccount();
+
+const currentUser = ref($pb.authStore.model! as UsersResponse);
 
 const schema = z.object({
   displayName: z
@@ -18,39 +19,34 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>;
 
-const { currentUser } = storeToRefs(store);
 const form = ref<Form<Schema>>();
 const state = ref({
-  displayName: currentUser.value?.displayName,
-  bio: currentUser.value?.bio,
+  displayName: currentUser.value.displayName,
+  bio: currentUser.value.bio,
 });
 
-const submit = async () => {
+async function submit() {
   const data = await form.value!.validate();
-  update(0, { id: currentUser.value!.id, record: data });
-};
+  const res = await update({ id: currentUser.value.id, record: data });
+  if (res) currentUser.value = res;
+}
 
-const upload = (e: Event) => {
+async function upload(e: Event) {
   const formData = new FormData(e.target as HTMLFormElement);
-  update(0, { id: currentUser.value!.id, record: formData });
-};
-
-const removeAvatar = () =>
-  update(0, { id: currentUser.value!.id, record: { avatar: "" } });
-
-const removeBanner = () =>
-  update(0, { id: currentUser.value!.id, record: { banner: "" } });
+  const res = await update({ id: currentUser.value.id, record: formData });
+  if (res) currentUser.value = res;
+}
 
 definePageMeta({
   layout: "setting",
-  middleware: "auth",
+  middleware: "with-auth",
 });
 </script>
 
 <template>
   <div class="flex flex-col gap-6 lg:flex-row-reverse">
     <AppCard class="w-full lg:max-w-sm" :hoverable="false">
-      <AppUserProfile v-if="currentUser" :user="currentUser" />
+      <AppUserProfile :user="currentUser" />
     </AppCard>
 
     <div class="flex-1 space-y-6">
@@ -82,17 +78,19 @@ definePageMeta({
         <div class="mt-3 space-x-3">
           <UButton
             :loading="pending"
+            color="gray"
             icon="i-fluent-arrow-upload-20-filled"
             type="submit"
           >
             {{ $t("account.upload") }}
           </UButton>
           <UButton
-            v-if="currentUser?.avatar"
+            v-if="currentUser.avatar"
             :loading="pending"
             color="red"
+            variant="ghost"
             icon="i-fluent-delete-20-filled"
-            @click="removeAvatar"
+            @click="update({ id: currentUser.id, record: { avatar: '' } })"
           >
             {{ $t("account.removeAvatar") }}
           </UButton>
@@ -107,17 +105,19 @@ definePageMeta({
         <div class="mt-3 space-x-3">
           <UButton
             :loading="pending"
+            color="gray"
             icon="i-fluent-arrow-upload-20-filled"
             type="submit"
           >
             {{ $t("account.upload") }}
           </UButton>
           <UButton
-            v-if="currentUser?.banner"
+            v-if="currentUser.banner"
             :loading="pending"
             color="red"
+            variant="ghost"
             icon="i-fluent-delete-20-filled"
-            @click="removeBanner"
+            @click="update({ id: currentUser.id, record: { banner: '' } })"
           >
             {{ $t("account.removeBanner") }}
           </UButton>

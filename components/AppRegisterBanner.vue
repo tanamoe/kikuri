@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-import { useUserStore } from "@/stores/user";
-
-const store = useUserStore();
-const { isAuthenticated } = storeToRefs(store);
+const { $pb } = useNuxtApp();
 
 const cookie = useCookie<boolean>("tana_register_banner", {
   default: () => true,
@@ -12,7 +8,7 @@ const cookie = useCookie<boolean>("tana_register_banner", {
 </script>
 
 <template>
-  <section v-if="cookie && !isAuthenticated">
+  <section v-if="cookie && !$pb.authStore.isAuthRecord">
     <AppCard class="p-6">
       <UButton
         class="absolute right-3 top-3"

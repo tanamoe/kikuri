@@ -1,14 +1,6 @@
 import { ClientResponseError } from "pocketbase";
 import { Collections, type UsersResponse } from "@/types/pb";
 
-export async function getAuthMethods() {
-  const { $pb } = useNuxtApp();
-
-  const authMethods = await $pb.collection("users").listAuthMethods();
-
-  return structuredClone(authMethods);
-}
-
 export async function loginWithOAuth2(
   provider: string,
   code: string,

@@ -1,11 +1,12 @@
-import PocketBase, { type Admin, type Record } from "pocketbase";
+import PocketBase, { type AuthModel } from "pocketbase";
 
 export default defineNuxtPlugin(async () => {
-  const pb = new PocketBase(useRuntimeConfig().public.pocketbaseUrl);
+  const runtimeConfig = useRuntimeConfig();
+  const pb = new PocketBase(runtimeConfig.public.pocketbaseUrl);
 
   const cookie = useCookie<{
     token: string;
-    model: Record | Admin | null;
+    model: AuthModel;
   }>("pb_auth", {
     path: "/",
     secure: true,

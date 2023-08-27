@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Form } from "@nuxthq/ui/dist/runtime/types";
-import { Record } from "pocketbase";
 import { z } from "zod";
 
 const { pending, requestPasswordReset } = usePasswordReset();
@@ -19,19 +18,11 @@ const state = ref({
 
 const submit = async () => {
   const data = await form.value!.validate();
-  requestPasswordReset(0, data);
+  requestPasswordReset(data);
 };
 
 definePageMeta({
-  middleware: [
-    () => {
-      const { $pb } = useNuxtApp();
-
-      if ($pb.authStore.model instanceof Record) {
-        return navigateTo("/");
-      }
-    },
-  ],
+  middleware: ["without-auth"],
 });
 </script>
 

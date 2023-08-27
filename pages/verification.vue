@@ -1,22 +1,12 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-import { useUserStore } from "@/stores/user";
+import { UsersResponse } from "@/types/pb";
 
 const { pending, requestEmail } = useRequestVerification();
 
-const store = useUserStore();
-
-const { currentUser } = storeToRefs(store);
+const { $pb } = useNuxtApp();
 
 definePageMeta({
-  middleware: [
-    "auth",
-    () => {
-      const { $pb } = useNuxtApp();
-
-      if ($pb.authStore.model?.verified === true) return navigateTo("/");
-    },
-  ],
+  middleware: ["without-auth"],
 });
 </script>
 
@@ -35,7 +25,11 @@ definePageMeta({
         <UButton
           :loading="pending"
           block
-          @click="requestEmail(0, { email: currentUser!.email })"
+          @click="
+            requestEmail({
+              email: ($pb.authStore.model! as UsersResponse).email,
+            })
+          "
         >
           {{ $t("account.sendVerificationEmail") }}
         </UButton>

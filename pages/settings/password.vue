@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import type { Form } from "@nuxthq/ui/dist/runtime/types";
 import { z } from "zod";
-import { storeToRefs } from "pinia";
-import { useUserStore } from "@/stores/user";
 
-const store = useUserStore();
+const { $pb } = useNuxtApp();
 const { pending, update } = useUpdateAccount();
 const { t } = useI18n({ useScope: "global" });
 
@@ -22,7 +20,6 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>;
 
-const { currentUser } = storeToRefs(store);
 const form = ref<Form<Schema>>();
 const state = ref({
   oldPassword: "",
@@ -32,12 +29,12 @@ const state = ref({
 
 const submit = async () => {
   const data = await form.value!.validate();
-  update(0, { id: currentUser.value!.id, record: data });
+  update({ id: $pb.authStore.model!.id, record: data });
 };
 
 definePageMeta({
   layout: "setting",
-  middleware: "auth",
+  middleware: "with-auth",
 });
 </script>
 

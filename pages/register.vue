@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Form } from "@nuxthq/ui/dist/runtime/types";
-import { Record } from "pocketbase";
 import { z } from "zod";
 
 const { pending, register } = useRegister();
@@ -9,16 +8,17 @@ const { t } = useI18n({ useScope: "global" });
 const schema = z.object({
   username: z
     .string()
-    .min(1, t("error.usernameEmpty"))
-    .regex(/^[^\s]*$/, t("error.usernameIncludesSpace")),
-  email: z.string().email(t("error.emailInvalid")),
-  password: z.string().min(8, t("error.passwordShort")),
+    .min(3, t("error.account.usernameInvalidMin"))
+    .max(150, t("error.account.usernameInvalidMax"))
+    .regex(/^[^\s]*$/, t("error.account.usernameIncludedSpace")),
+  email: z.string().email(t("error.account.emailInvalid")),
+  password: z.string().min(8, t("error.account.passwordInvalidMin")),
   passwordConfirm: z
     .string()
-    .min(8, t("error.passwordShort"))
+    .min(8, t("error.account.passwordInvalidMin"))
     .refine(
       (val) => val === state.value.password,
-      () => ({ message: t("error.passwordNotMatch") }),
+      () => ({ message: t("error.account.passwordNotMatch") }),
     ),
 });
 
@@ -34,19 +34,11 @@ const state = ref({
 
 const submit = async () => {
   const data = await form.value!.validate();
-  register(0, data);
+  register(data);
 };
 
 definePageMeta({
-  middleware: [
-    () => {
-      const { $pb } = useNuxtApp();
-
-      if ($pb.authStore.model instanceof Record) {
-        return navigateTo("/");
-      }
-    },
-  ],
+  middleware: ["without-auth"],
 });
 </script>
 
