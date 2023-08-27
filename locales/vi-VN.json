@@ -178,13 +178,16 @@
     "notFoundMessage": "Không tìm thấy đường dẫn",
     "generalMessage": "Đã có lỗi xảy ra",
     "returnHome": "Trở về trang chủ",
-    "usernameEmpty": "Tên tài khoản không được để trống",
-    "usernameIncludesSpace": "Tên tài khoản không được có dấu cách",
-    "emailInvalid": "Email không đúng định dạng",
-    "passwordShort": "Mật khẩu phải từ 8 ký tự",
-    "passwordNotMatch": "Xác nhận mật khẩu không trùng",
     "displayNameLength": "Tên hiển thị phải từ 1-32 ký tự",
     "bioLength": "Giới thiệu không được dài quá 280 ký tự",
+    "account": {
+      "usernameInvalidMin": "Tên tài khoản phải tối thiểu từ 3 ký tự",
+      "usernameInvalidMax": "Tên tài khoản tối đa 150 ký tự",
+      "usernameIncludedSpace": "Tên tài khoản không được có dấu cách",
+      "emailInvalid": "Email không đúng định dạng",
+      "passwordInvalidMin": "Mật khẩu phải từ 8 ký tự",
+      "passwordNotMatch": "Xác nhận mật khẩu không trùng"
+    },
     "review": {
       "releaseInvalid": "Chưa chọn bản in",
       "headerInvalidMin": "Tiêu đề phải tối thiểu từ 1 ký tự",
