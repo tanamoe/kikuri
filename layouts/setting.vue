@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { useUserStore } from "@/stores/user";
-
+const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
-const { isAuthenticated } = useUserStore();
 const route = useRoute();
 
 const general = [
@@ -42,11 +40,14 @@ const sticky = computed(() => route.meta.stickyNav as boolean);
         <div
           class="flex gap-3 overflow-x-scroll whitespace-nowrap sm:w-48 sm:flex-col"
         >
-          <UVerticalNavigation v-if="isAuthenticated" :links="general" />
-          <hr v-if="isAuthenticated" class="dark:border-gray-700" />
+          <div v-if="$pb.authStore.isAuthRecord">
+            <UVerticalNavigation :links="general" />
+            <hr class="dark:border-gray-700" />
+          </div>
           <UVerticalNavigation :links="site" />
-          <hr v-if="isAuthenticated" class="dark:border-gray-700" />
-          <UVerticalNavigation v-if="isAuthenticated" :links="account" />
+          <div v-if="$pb.authStore.isAuthRecord">
+            <UVerticalNavigation :links="account" />
+          </div>
         </div>
         <div class="flex-1">
           <slot />

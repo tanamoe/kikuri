@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import {
   Collections,
   type BookDetailedResponse,
@@ -24,7 +23,7 @@ function groupBy<T>(arr: T[], fn: (item: T) => any) {
   }, {});
 }
 
-export const getCalendarReleases = async (
+export async function getCalendarReleases(
   from: string,
   to: string,
   filters?: {
@@ -32,7 +31,7 @@ export const getCalendarReleases = async (
     digital?: FilterDigital;
     edition?: boolean;
   },
-) => {
+) {
   const { $pb } = useNuxtApp();
 
   const filter = [`publishDate >= '${from}'`, `publishDate <= '${to}'`];
@@ -69,18 +68,18 @@ export const getCalendarReleases = async (
       publisher: PublisherResponse;
     }>
   >(
-    structuredClone(data).map((release) => ({
+    data.map((release) => ({
       ...release,
       volume: parseVolume(release.volume),
     })),
     (p) => p.publishDate,
   );
-};
+}
 
-export const getReleases = async (id: string) => {
+export async function getReleases(id: string) {
   const { $pb } = useNuxtApp();
 
-  const data = await $pb.collection(Collections.Release).getFullList<
+  return await $pb.collection(Collections.Release).getFullList<
     ReleaseResponse<{
       publisher: PublisherResponse;
     }>
@@ -88,30 +87,4 @@ export const getReleases = async (id: string) => {
     filter: `title='${id}'`,
     expand: "publisher",
   });
-
-  return structuredClone(data);
-};
-
-export const getRecentReleases = async () => {
-  const { $pb } = useNuxtApp();
-  const now = dayjs.tz();
-
-  const data = await $pb.collection(Collections.BookDetailed).getFullList<
-    BookDetailedResponse<{
-      publisher: PublisherResponse;
-    }>
-  >({
-    sort: "+publishDate",
-    filter: `publishDate >= '${now.startOf("day").format("YYYY-MM-DD")}'
-    && publishDate <= '${now
-      .add(3, "days")
-      .endOf("day")
-      .format("YYYY-MM-DD")}'`,
-    expand: "publisher",
-  });
-
-  return structuredClone(data).map((book) => ({
-    ...book,
-    volume: Math.floor(book.volume / 10000) + (book.volume % 10) * 0.1,
-  }));
-};
+}

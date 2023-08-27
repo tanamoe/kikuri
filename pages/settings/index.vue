@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import { useUserStore } from "@/stores/user";
-
-const { isAuthenticated } = useUserStore();
-
-if (isAuthenticated) navigateTo("/settings/profile");
-else navigateTo("/settings/interface");
-
 definePageMeta({
   layout: "setting",
+  middleware: [
+    () => {
+      const { $pb } = useNuxtApp();
+
+      if ($pb.authStore.isAuthRecord) {
+        return navigateTo("/settings/profile");
+      } else {
+        return navigateTo("/settings/interface");
+      }
+    },
+  ],
 });
 </script>

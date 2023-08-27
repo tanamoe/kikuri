@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import type { Form } from "@nuxthq/ui/dist/runtime/types";
-import { type AuthProviderInfo, Record } from "pocketbase";
+import { type AuthProviderInfo } from "pocketbase";
 import { joinURL } from "ufo";
 import { z } from "zod";
-import { getAuthMethods } from "@/utils/auth";
 
+const { $pb } = useNuxtApp();
+const { t } = useI18n({ useScope: "global" });
+const { pending, login } = useLogin();
 const runtimeConfig = useRuntimeConfig();
 const authProvider = useCookie<AuthProviderInfo>("auth_provider");
-const { pending, login } = useLogin();
-const { t } = useI18n({ useScope: "global" });
 
-const authMethods = await getAuthMethods();
+const { data: authMethods } = await useLazyAsyncData(
+  () => $pb.collection("users").listAuthMethods(),
+  { server: false },
+);
+
 const redirectUrl = joinURL(runtimeConfig.public.siteUrl, "redirect");
 
 const schema = z.object({
@@ -31,7 +35,7 @@ const state = ref<Schema>({
 
 const submit = async () => {
   const data = await form.value!.validate();
-  await login(0, data);
+  await login(data);
 };
 
 function parseIcon(name: string) {
@@ -46,15 +50,7 @@ function parseIcon(name: string) {
 }
 
 definePageMeta({
-  middleware: [
-    () => {
-      const { $pb } = useNuxtApp();
-
-      if ($pb.authStore.model instanceof Record) {
-        return navigateTo("/");
-      }
-    },
-  ],
+  middleware: ["without-auth"],
 });
 </script>
 
@@ -122,48 +118,50 @@ definePageMeta({
         </div>
       </div>
 
-      <div
-        class="relative text-center text-sm text-gray-600 dark:text-gray-400"
-      >
-        <hr
-          class="absolute inset-x-0 top-1/2 w-full -translate-y-1/2 transform border border-gray-600 dark:border-gray-600"
-        />
-        <span class="relative bg-gray-100 px-1 dark:bg-gray-800">
-          {{ $t("auth.or") }}
-        </span>
-      </div>
+      <div v-if="authMethods" class="space-y-6">
+        <div
+          class="relative text-center text-sm text-gray-600 dark:text-gray-400"
+        >
+          <hr
+            class="absolute inset-x-0 top-1/2 w-full -translate-y-1/2 transform border border-gray-600 dark:border-gray-600"
+          />
+          <span class="relative bg-gray-100 px-1 dark:bg-gray-800">
+            {{ $t("auth.or") }}
+          </span>
+        </div>
 
-      <div>
-        <ul class="space-y-3">
-          <li
-            v-for="provider in authMethods.authProviders"
-            :key="provider.name"
-          >
-            <UButton
-              :icon="parseIcon(provider.name)"
-              :ui="{
-                variant: {
-                  solid:
-                    'shadow-sm text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 dark:focus-visible:outline-gray-400',
-                },
-              }"
-              :class="{
-                'bg-black': provider.name === 'twitter',
-                'bg-[#1877F2]': provider.name === 'facebook',
-                'bg-[#5865F2]': provider.name === 'discord',
-              }"
-              block
-              :to="provider.authUrl + redirectUrl"
-              @click="authProvider = provider"
+        <div>
+          <ul class="space-y-3">
+            <li
+              v-for="provider in authMethods.authProviders"
+              :key="provider.name"
             >
-              {{
-                $t("auth.loginWith", {
-                  name: $t(`provider.${provider.name}`),
-                })
-              }}
-            </UButton>
-          </li>
-        </ul>
+              <UButton
+                :icon="parseIcon(provider.name)"
+                :ui="{
+                  variant: {
+                    solid:
+                      'shadow-sm text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 dark:focus-visible:outline-gray-400',
+                  },
+                }"
+                :class="{
+                  'bg-black': provider.name === 'twitter',
+                  'bg-[#1877F2]': provider.name === 'facebook',
+                  'bg-[#5865F2]': provider.name === 'discord',
+                }"
+                block
+                :to="provider.authUrl + redirectUrl"
+                @click="authProvider = provider"
+              >
+                {{
+                  $t("auth.loginWith", {
+                    name: $t(`provider.${provider.name}`),
+                  })
+                }}
+              </UButton>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </UContainer>

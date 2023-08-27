@@ -33,8 +33,6 @@ export function useReview() {
           description: error.message,
           icon: "i-fluent-error-circle-20-filled",
         });
-      } else {
-        console.error(error);
       }
     } finally {
       pending.value = false;

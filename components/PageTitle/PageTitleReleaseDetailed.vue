@@ -1,15 +1,30 @@
 <script setup lang="ts">
+import { type BookDetailedResponse, Collections } from "@/types/pb";
+
 const props = defineProps<{
   open: boolean;
   releaseId: string;
 }>();
 
+const { $pb } = useNuxtApp();
 const { t } = useI18n();
 const {
   pending,
   data: rows,
   execute,
-} = useAsyncData(() => getBooks(props.releaseId));
+} = await useLazyAsyncData(
+  () =>
+    $pb.collection(Collections.BookDetailed).getFullList<BookDetailedResponse>({
+      filter: `release='${props.releaseId}'`,
+    }),
+  {
+    transform: (books) =>
+      books.map((book) => ({
+        ...book,
+        volume: parseVolume(book.volume),
+      })),
+  },
+);
 
 const columns = [
   {

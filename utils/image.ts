@@ -1,25 +1,17 @@
 import { joinURL } from "ufo";
-import { FileQueryParams } from "pocketbase";
+import { FileOptions } from "pocketbase";
 import type { BaseSystemFields } from "@/types/pb";
 
 export function getPocketbaseImageURL(
   record: Pick<BaseSystemFields, "id" | "collectionId" | "collectionName">,
   fileName: string,
-  options?: FileQueryParams,
+  options?: FileOptions,
 ) {
+  const { $pb } = useNuxtApp();
   const runtimeConfig = useRuntimeConfig();
 
   if (options) {
-    const searchParams = new URLSearchParams(options);
-
-    return joinURL(
-      runtimeConfig.public.pocketbaseUrl,
-      "/api/files",
-      record.collectionId,
-      record.id,
-      fileName,
-      "?" + searchParams.toString(),
-    );
+    return $pb.files.getUrl(record, fileName, options);
   }
 
   return joinURL(

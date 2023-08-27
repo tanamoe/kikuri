@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { z } from "zod";
-import { storeToRefs } from "pinia";
 import { useStorage } from "@vueuse/core";
 import type { Form } from "@nuxthq/ui/dist/runtime/types";
 import {
@@ -9,24 +8,16 @@ import {
   type ReleaseResponse,
   type TitleResponse,
 } from "@/types/pb";
-import { useUserStore } from "@/stores/user";
 
 const route = useRoute();
 const { $pb } = useNuxtApp();
 const { pending, post } = useReview();
-const store = useUserStore();
 const { t } = useI18n({ useScope: "global" });
 
-const { currentUser } = storeToRefs(store);
-
-const { data: title } = await useAsyncData(
-  () =>
-    $pb
-      .collection(Collections.Title)
-      .getOne<TitleResponse>(route.query.title as string),
-  {
-    transform: (title) => structuredClone(title),
-  },
+const { data: title } = await useAsyncData(() =>
+  $pb
+    .collection(Collections.Title)
+    .getOne<TitleResponse>(route.query.title as string),
 );
 
 const { data: releases, pending: releasesPending } = await useLazyAsyncData(
@@ -46,7 +37,7 @@ const { data: releases, pending: releasesPending } = await useLazyAsyncData(
     server: false,
     watch: [title],
     transform: (releases) =>
-      structuredClone(releases).map((release) => ({
+      releases.map((release) => ({
         id: release.id,
         label: release.name,
         avatar: {
@@ -55,7 +46,7 @@ const { data: releases, pending: releasesPending } = await useLazyAsyncData(
                 release.expand?.publisher,
                 release.expand?.publisher.logo,
               )
-            : "",
+            : undefined,
         },
       })),
   },
@@ -77,7 +68,7 @@ type Schema = z.output<typeof schema>;
 
 const state = ref<Partial<Schema>>({
   release: "",
-  user: currentUser.value?.id,
+  user: $pb.authStore.model!.id,
   header: "",
   score: 0,
 });
@@ -102,7 +93,7 @@ async function submit() {
 }
 
 definePageMeta({
-  middleware: "auth",
+  middleware: "with-auth",
 });
 </script>
 

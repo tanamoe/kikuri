@@ -1,16 +1,9 @@
 <!-- eslint-disable import/no-named-as-default-member -->
 <script setup lang="ts">
-import { useUserStore } from "@/stores/user";
-
 const runtimeConfig = useRuntimeConfig();
-const { $pb } = useNuxtApp();
 const i18nHead = useLocaleHead({
   addSeoAttributes: true,
 });
-const userStore = useUserStore();
-
-await userStore.updateCurrentUser();
-$pb.authStore.onChange(() => userStore.updateCurrentUser());
 
 useHead({
   htmlAttrs: {

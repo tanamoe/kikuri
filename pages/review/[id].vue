@@ -14,21 +14,17 @@ const runtimeConfig = useRuntimeConfig();
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 
-const { data: review } = await useAsyncData(
-  () =>
-    $pb.collection(Collections.Review).getOne<
-      ReviewResponse<{
-        user: UsersResponse;
-        release: ReleaseResponse<{
-          title: TitleResponse;
-        }>;
-      }>
-    >(route.params.id as string, {
-      expand: "release.title,user",
-    }),
-  {
-    transform: (review) => structuredClone(review),
-  },
+const { data: review } = await useAsyncData(() =>
+  $pb.collection(Collections.Review).getOne<
+    ReviewResponse<{
+      user: UsersResponse;
+      release: ReleaseResponse<{
+        title: TitleResponse;
+      }>;
+    }>
+  >(route.params.id as string, {
+    expand: "release.title,user",
+  }),
 );
 
 if (!review.value) throw createError({ statusCode: 404 });

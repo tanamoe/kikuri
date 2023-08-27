@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Record, type AuthProviderInfo } from "pocketbase";
+import { type AuthProviderInfo } from "pocketbase";
 import { joinURL } from "ufo";
 
 const runtimeConfig = useRuntimeConfig();
@@ -22,15 +22,7 @@ const res = await loginWithOAuth2(
 if (res) navigateTo("/");
 
 definePageMeta({
-  middleware: [
-    () => {
-      const { $pb } = useNuxtApp();
-
-      if ($pb.authStore.model instanceof Record) {
-        return navigateTo("/");
-      }
-    },
-  ],
+  middleware: ["without-auth"],
 });
 </script>
 

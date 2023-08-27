@@ -1,9 +1,7 @@
-import { Record } from "pocketbase";
-
 export default defineNuxtRouteMiddleware(() => {
   const { $pb } = useNuxtApp();
 
-  if (!($pb.authStore.model instanceof Record)) {
+  if (!$pb.authStore.isAuthRecord) {
     return navigateTo("/login");
   }
 });
