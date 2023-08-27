@@ -1,10 +1,65 @@
 <script setup lang="ts">
+import dayjs from "dayjs";
+import type { PostsOrPages } from "@tryghost/content-api";
+import {
+  type BookDetailedResponse,
+  Collections,
+  type PublisherResponse,
+  type TitleResponse,
+} from "@/types/pb";
+
 const runtimeConfig = useRuntimeConfig();
+const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 
-const { data: recentReleases } = await useAsyncData(() => getRecentReleases());
-const { data: recentBooks } = await useAsyncData(() => getRecentBooks(6));
-const { data: recentPosts } = await useAsyncData(() => getRecentGhostPosts());
+const now = dayjs.tz();
+
+const { data: recentReleases } = await useAsyncData(
+  () =>
+    $pb.collection(Collections.BookDetailed).getFullList<
+      BookDetailedResponse<{
+        publisher: PublisherResponse;
+      }>
+    >({
+      sort: "+publishDate",
+      filter: `publishDate >= '${now.startOf("day").format("YYYY-MM-DD")}'
+    && publishDate <= '${now
+      .add(3, "days")
+      .endOf("day")
+      .format("YYYY-MM-DD")}'`,
+      expand: "publisher",
+    }),
+  {
+    transform: (books) =>
+      books.map((book) => ({
+        ...book,
+        volume: parseVolume(book.volume),
+      })),
+  },
+);
+
+const { data: recentPosts } = await useFetch<PostsOrPages>(
+  `${runtimeConfig.public.blogUrl}/api/home`,
+);
+
+const { data: recentBooks } = await useAsyncData(
+  () =>
+    $pb.collection(Collections.BookDetailed).getList<
+      BookDetailedResponse<{
+        title: TitleResponse;
+      }>
+    >(1, 6, {
+      sort: "-updated",
+      expand: "title",
+    }),
+  {
+    transform: (books) =>
+      books.items.map((book) => ({
+        ...book,
+        volume: parseVolume(book.volume),
+      })),
+  },
+);
 
 useSeoMeta({
   description: t("seo.description"),

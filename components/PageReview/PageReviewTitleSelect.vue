@@ -61,7 +61,6 @@ const {
   {
     server: false,
     watch: [page],
-    transform: (titles) => structuredClone(titles),
   },
 );
 </script>

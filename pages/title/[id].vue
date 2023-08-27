@@ -1,7 +1,17 @@
 <script setup lang="ts">
-import { Collections, ReviewResponse, UsersResponse } from "@/types/pb";
-
 /* eslint-disable vue/no-v-html */
+import {
+  Collections,
+  type WorkResponse,
+  type FormatResponse,
+  type ReviewResponse,
+  type TitleResponse,
+  type UsersResponse,
+  type StaffResponse,
+  type PublisherResponse,
+  type ReleaseResponse,
+} from "@/types/pb";
+
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const { $pb } = useNuxtApp();
@@ -11,27 +21,51 @@ const { copy, copied, isSupported: clipboardSupported } = useClipboard();
 const synopsisOpen = ref(false);
 
 const { data: title } = await useAsyncData(() =>
-  getTitle(route.params.id as string),
+  $pb.collection(Collections.Title).getOne<
+    TitleResponse<
+      {},
+      {
+        format: FormatResponse;
+      }
+    >
+  >(route.params.id as string, {
+    expand: "format",
+  }),
 );
 if (!title.value) throw createError({ statusCode: 404 });
 
-const { data: works } = await useAsyncData(() => getWorks(title.value!.id));
-
-const { data: releases } = await useAsyncData(() =>
-  getReleases(title.value!.id),
+const { data: works } = await useAsyncData(() =>
+  $pb.collection(Collections.Work).getFullList<
+    WorkResponse<{
+      staff: StaffResponse;
+    }>
+  >({
+    filter: `title = '${title.value!.id}'`,
+    sort: "+created",
+    expand: "staff",
+  }),
 );
 
-const { data: reviews } = await useAsyncData(
-  () =>
-    $pb.collection(Collections.Review).getFullList<
-      ReviewResponse<{
-        user: UsersResponse;
-      }>
-    >({
-      filter: `release.title = '${title.value!.id}'`,
-      expand: "user",
-    }),
-  { transform: (reviews) => structuredClone(reviews) },
+const { data: releases } = await useAsyncData(() =>
+  $pb.collection(Collections.Release).getFullList<
+    ReleaseResponse<{
+      publisher: PublisherResponse;
+    }>
+  >({
+    filter: `title='${title.value!.id}'`,
+    expand: "publisher",
+  }),
+);
+
+const { data: reviews } = await useAsyncData(() =>
+  $pb.collection(Collections.Review).getFullList<
+    ReviewResponse<{
+      user: UsersResponse;
+    }>
+  >({
+    filter: `release.title = '${title.value!.id}'`,
+    expand: "user",
+  }),
 );
 
 const { data: images } = await useAsyncData(() =>
