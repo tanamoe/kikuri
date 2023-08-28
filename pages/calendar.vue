@@ -4,8 +4,15 @@ import { joinURL } from "ufo";
 import { storeToRefs } from "pinia";
 import { useSettingsStore } from "@/stores/settings";
 import type { FilterPublishers } from "@/utils/releases";
+import {
+  BookDetailedResponse,
+  Collections,
+  PublisherResponse,
+  TitleResponse,
+} from "@/types/pb";
 
 const runtimeConfig = useRuntimeConfig();
+const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const store = useSettingsStore();
 const { showDigital, showEditionedBook, datePosition } = storeToRefs(store);
@@ -14,25 +21,53 @@ const month = ref(dayjs.tz());
 const publishers = ref<FilterPublishers[]>([]);
 const currentPosition = ref<HTMLDivElement>();
 
-const {
-  pending,
-  data: releases,
-  error,
-} = await useAsyncData(
+const filter = computed(() =>
+  parseCalendarFilter(
+    month.value.startOf("month").format("YYYY-MM-DD"),
+    month.value.endOf("month").format("YYYY-MM-DD"),
+    {
+      publishers: publishers.value.map((publisher) => publisher.id),
+      digital: showDigital.value,
+      edition: showEditionedBook.value,
+    },
+  ),
+);
+
+const { pending, data, error } = await useAsyncData(
   () =>
-    getCalendarReleases(
-      month.value.startOf("month").format("YYYY-MM-DD"),
-      month.value.endOf("month").format("YYYY-MM-DD"),
-      {
-        publishers: publishers.value.map((publisher) => publisher.id),
-        digital: showDigital.value,
-        edition: showEditionedBook.value,
-      },
-    ),
+    $pb.collection(Collections.BookDetailed).getFullList<
+      BookDetailedResponse<{
+        title: TitleResponse;
+        publisher: PublisherResponse;
+      }>
+    >({
+      filter: filter.value,
+      sort: "+publishDate,+name,-edition",
+      expand: "title, publisher",
+    }),
   {
-    watch: [month, publishers, showDigital, showEditionedBook],
+    watch: [filter],
   },
 );
+
+const releases = computed(() => {
+  if (data.value) {
+    return groupBy<
+      BookDetailedResponse<{
+        title: TitleResponse;
+        publisher: PublisherResponse;
+      }>
+    >(
+      data.value.map((release) => ({
+        ...release,
+        volume: parseVolume(release.volume),
+      })),
+      (p) => p.publishDate,
+    );
+  }
+
+  return null;
+});
 
 const dates = computed(() => {
   if (releases.value) {
@@ -41,6 +76,11 @@ const dates = computed(() => {
     );
   } else return [];
 });
+
+function download() {
+  if (data.value)
+    downloadReleasesXLSX(data.value, month.value.format("MM_YYYY"));
+}
 
 const doScroll = (position: string) => {
   const el = document.getElementById(position) as HTMLDivElement;
@@ -91,6 +131,8 @@ useSeoMeta({
     <PageCalendarToolbar
       v-model:month="month"
       v-model:publishers="publishers"
+      :disable-download="!releases || Object.keys(releases).length === 0"
+      @download="download"
     />
 
     <UContainer v-if="pending">
@@ -120,7 +162,7 @@ useSeoMeta({
     </UContainer>
 
     <UContainer
-      v-if="releases === null"
+      v-else-if="!releases || Object.keys(releases).length === 0"
       class="my-12 flex items-center justify-center"
     >
       <div class="text-center">
@@ -132,7 +174,10 @@ useSeoMeta({
       </div>
     </UContainer>
 
-    <UContainer v-if="error" class="my-12 flex items-center justify-center">
+    <UContainer
+      v-else-if="error"
+      class="my-12 flex items-center justify-center"
+    >
       <div class="text-center">
         <p>{{ "~(>_<~)" }}</p>
         <h1 class="my-3 font-lexend text-4xl font-black">
@@ -142,7 +187,7 @@ useSeoMeta({
       </div>
     </UContainer>
 
-    <UContainer>
+    <UContainer v-else>
       <div
         v-for="(group, key) in releases"
         :id="dayjs(key).format('YYYY-MM-DD')"

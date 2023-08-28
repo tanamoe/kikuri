@@ -33,11 +33,13 @@ const { data: publisherOptions } = useAsyncData(
 const props = defineProps<{
   month: Dayjs;
   publishers: FilterPublishers[];
+  disableDownload: boolean;
 }>();
 
 const emit = defineEmits<{
   "update:month": [month: Dayjs];
   "update:publishers": [publishers: FilterPublishers[]];
+  download: [void];
 }>();
 
 const currentMonth = computed({
@@ -127,7 +129,10 @@ onMounted(() => {
               </span>
             </UButton>
           </USelectMenu>
-          <PageCalendarOptions />
+          <PageCalendarOptions
+            :disable-download="disableDownload"
+            @download="emit('download')"
+          />
         </div>
       </div>
     </div>

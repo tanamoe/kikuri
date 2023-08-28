@@ -1,9 +1,18 @@
 <script setup lang="ts">
+import type { DropdownItem } from "@nuxthq/ui/dist/runtime/types";
 import { storeToRefs } from "pinia";
 import { useSettingsStore } from "@/stores/settings";
 
 const { t } = useI18n({ useScope: "global" });
 const store = useSettingsStore();
+
+const props = defineProps<{
+  disableDownload: boolean;
+}>();
+
+const emit = defineEmits<{
+  download: [void];
+}>();
 
 const isOpen = ref(false);
 const {
@@ -14,7 +23,7 @@ const {
   datePosition,
 } = storeToRefs(store);
 
-const options = computed(() => [
+const options = computed<DropdownItem[][]>(() => [
   [
     {
       label: t("general.print"),
@@ -24,7 +33,8 @@ const options = computed(() => [
     {
       label: t("general.download"),
       icon: "i-fluent-arrow-download-20-filled",
-      disabled: true,
+      disabled: props.disableDownload,
+      click: () => emit("download"),
     },
   ],
   [
