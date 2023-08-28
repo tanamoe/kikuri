@@ -23,7 +23,7 @@ const nearestDay = computed(() => {
       .reduceRight((acc, val) => {
         if (val.isSameOrAfter(dayjs.tz().startOf("day")) && val.isBefore(acc))
           return val;
-        else return acc;
+        return acc;
       })
       .format("YYYY-MM-DD");
   }

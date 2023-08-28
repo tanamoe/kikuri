@@ -57,6 +57,7 @@
     "nuxt-swiper": "^1.1.1",
     "pinia": "^2.1.4",
     "pocketbase": "^0.17.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz",
     "zod": "^3.21.4"
   }
 }
