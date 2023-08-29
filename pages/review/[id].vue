@@ -81,20 +81,32 @@ useSeoMeta({
 
       <AppH1 class="mb-6">{{ review.header }}</AppH1>
 
-      <div class="flex items-center gap-3">
-        <UAvatar
-          :src="
-            getPocketbaseImageURL(
-              review.expand!.user,
-              review.expand!.user.avatar,
-              { thumb: '100x100' },
-            )
-          "
-          :alt="review.expand!.user.displayName"
-        />
-        <ULink :to="joinURL('/profile', review.user)">
-          {{ review.expand!.user.displayName }}
-        </ULink>
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <UAvatar
+            :src="
+              getPocketbaseImageURL(
+                review.expand!.user,
+                review.expand!.user.avatar,
+                { thumb: '100x100' },
+              )
+            "
+            :alt="review.expand!.user.displayName"
+          />
+          <ULink :to="joinURL('/profile', review.user)">
+            {{ review.expand!.user.displayName }}
+          </ULink>
+        </div>
+        <div class="flex items-center gap-3">
+          <UButton
+            trailing-icon="i-fluent-edit-20-filled"
+            color="gray"
+            variant="link"
+            :to="'/review/edit?id=' + review.id"
+          >
+            {{ $t("review.edit") }}
+          </UButton>
+        </div>
       </div>
 
       <div v-html="review.content" />
