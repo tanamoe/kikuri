@@ -15,6 +15,7 @@ import {
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const { $pb } = useNuxtApp();
+const { t } = useI18n({ useScope: "global" });
 const { share, isSupported: shareSupported } = useShare();
 const { copy, copied, isSupported: clipboardSupported } = useClipboard();
 
@@ -32,7 +33,11 @@ const { data: title } = await useAsyncData(() =>
     expand: "format",
   }),
 );
-if (!title.value) throw createError({ statusCode: 404 });
+if (!title.value)
+  throw createError({
+    statusCode: 404,
+    statusMessage: t("error.notFoundMessage"),
+  });
 
 const { data: works } = await useAsyncData(() =>
   $pb.collection(Collections.Work).getFullList<

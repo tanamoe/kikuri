@@ -4,6 +4,7 @@ import { useStorage } from "@vueuse/core";
 import type { Form } from "@nuxthq/ui/dist/runtime/types";
 import {
   Collections,
+  type UsersResponse,
   type PublisherResponse,
   type ReleaseResponse,
   type TitleResponse,
@@ -11,8 +12,14 @@ import {
 
 const route = useRoute();
 const { $pb } = useNuxtApp();
-const { pending, post } = useCreateReview();
+const { pending, post } = useReview();
 const { t } = useI18n({ useScope: "global" });
+
+if (!($pb.authStore.model as UsersResponse | null)?.verified)
+  throw createError({
+    statusCode: 401,
+    statusMessage: t("error.unverifiedMessage"),
+  });
 
 const { data: title } = await useAsyncData(() =>
   $pb

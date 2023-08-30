@@ -1,7 +1,11 @@
 import { ClientResponseError } from "pocketbase";
-import { Collections, ReviewResponse, type ReviewRecord } from "@/types/pb";
+import {
+  Collections,
+  type ReviewResponse,
+  type ReviewRecord,
+} from "@/types/pb";
 
-export function useCreateReview() {
+export function useReview() {
   const { $pb } = useNuxtApp();
   const { t } = useI18n({ useScope: "global" });
   const toast = useToast();
@@ -38,16 +42,6 @@ export function useCreateReview() {
       pending.value = false;
     }
   }
-
-  return { pending, post };
-}
-
-export function useEditReview() {
-  const { $pb } = useNuxtApp();
-  const { t } = useI18n({ useScope: "global" });
-  const toast = useToast();
-
-  const pending = ref(false);
 
   async function edit(id: string, data: FormData | Partial<ReviewRecord>) {
     pending.value = true;
@@ -109,5 +103,5 @@ export function useEditReview() {
     }
   }
 
-  return { pending, edit, remove };
+  return { pending, post, edit, remove };
 }

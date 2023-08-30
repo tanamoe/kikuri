@@ -184,7 +184,9 @@
   },
   "error": {
     "notFoundMessage": "Không tìm thấy đường dẫn",
+    "unauthorizedMessage": "Không có quyền truy cập trang này",
     "generalMessage": "Đã có lỗi xảy ra",
+    "unverifiedMessage": "Tài khoản chưa được xác nhận",
     "returnHome": "Trở về trang chủ",
     "displayNameLength": "Tên hiển thị phải từ 1-32 ký tự",
     "bioLength": "Giới thiệu không được dài quá 280 ký tự",

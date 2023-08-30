@@ -3,16 +3,18 @@
 import { joinURL } from "ufo";
 import {
   Collections,
-  ReleaseResponse,
-  TitleResponse,
+  type ReleaseResponse,
+  type TitleResponse,
   type ReviewResponse,
-  UsersResponse,
+  type UsersResponse,
 } from "@/types/pb";
 
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
+
+const currentUser = computed(() => $pb.authStore.model as UsersResponse | null);
 
 const { data: review } = await useAsyncData(() =>
   $pb.collection(Collections.Review).getOne<
@@ -27,7 +29,11 @@ const { data: review } = await useAsyncData(() =>
   }),
 );
 
-if (!review.value) throw createError({ statusCode: 404 });
+if (!review.value)
+  throw createError({
+    statusCode: 404,
+    statusMessage: t("error.notFoundMessage"),
+  });
 if (!review.value.expand || !review.value.expand.release.expand)
   throw createError({ statusCode: 500 });
 
@@ -97,7 +103,10 @@ useSeoMeta({
             {{ review.expand!.user.displayName }}
           </ULink>
         </div>
-        <div class="flex items-center gap-3">
+        <div
+          v-if="review.user == currentUser?.id"
+          class="flex items-center gap-3"
+        >
           <UButton
             trailing-icon="i-fluent-edit-20-filled"
             color="gray"
