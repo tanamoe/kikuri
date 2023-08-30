@@ -3,10 +3,10 @@
 import { joinURL } from "ufo";
 import {
   Collections,
-  ReleaseResponse,
-  TitleResponse,
+  type ReleaseResponse,
+  type TitleResponse,
   type ReviewResponse,
-  UsersResponse,
+  type UsersResponse,
 } from "@/types/pb";
 
 const route = useRoute();
