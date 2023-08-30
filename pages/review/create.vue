@@ -11,7 +11,7 @@ import {
 
 const route = useRoute();
 const { $pb } = useNuxtApp();
-const { pending, post } = useReview();
+const { pending, post } = useCreateReview();
 const { t } = useI18n({ useScope: "global" });
 
 const { data: title } = await useAsyncData(() =>
@@ -170,7 +170,7 @@ definePageMeta({
             block
             @click="postPromptOpen = true"
           >
-            {{ $t("review.post") }}
+            {{ $t("review.action.create") }}
           </UButton>
         </div>
       </div>
@@ -178,7 +178,7 @@ definePageMeta({
 
     <UModal v-model="postPromptOpen">
       <UCard>
-        {{ $t("review.postPrompt") }}
+        {{ $t("review.createPrompt") }}
         <template #footer>
           <div class="flex justify-end gap-3">
             <UButton

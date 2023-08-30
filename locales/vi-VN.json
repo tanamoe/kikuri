@@ -60,11 +60,19 @@
     "cancelled": "Huỷ"
   },
   "review": {
+    "action": {
+      "create": "Đăng bài",
+      "edit": "Sửa bài"
+    },
     "recommend": "Ấn tượng",
     "create": "Đăng đánh giá",
-    "post": "Đăng bài",
-    "postSuccess": "Đăng thành công!",
-    "postPrompt": "Bạn đã sẵn sàng đăng bài?",
+    "createSuccess": "Đăng thành công!",
+    "createPrompt": "Bạn đã sẵn sàng đăng bài?",
+    "edit": "Sửa đánh giá",
+    "editSuccess": "Sửa thành công!",
+    "editPrompt": "Sửa bài đánh giá?",
+    "removeSuccess": "Xoá thành công",
+    "removePrompt": "Bạn chắc chắn muốn xoá bài đánh giá này?",
     "title": "Tựa truyện",
     "titleSelect": "Chọn tựa truyện",
     "release": "Bản in",

@@ -220,7 +220,7 @@ definePageMeta({
           </div>
         </UCard>
         <UButton
-          :to="`/review/add?title=${title.id}`"
+          :to="`/review/create?title=${title.id}`"
           color="gray"
           icon="i-fluent-pen-20-filled"
           block
