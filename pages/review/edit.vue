@@ -2,11 +2,15 @@
 import { z } from "zod";
 import { useStorage } from "@vueuse/core";
 import type { Form } from "@nuxthq/ui/dist/runtime/types";
-import { Collections, type ReviewResponse } from "@/types/pb";
+import {
+  Collections,
+  type UsersResponse,
+  type ReviewResponse,
+} from "@/types/pb";
 
 const route = useRoute();
 const { $pb } = useNuxtApp();
-const { pending, edit, remove } = useEditReview();
+const { pending, edit, remove } = useReview();
 const { t } = useI18n({ useScope: "global" });
 
 if (typeof route.query.id !== "string" || !route.query.id) {
@@ -19,7 +23,17 @@ const { data: review } = await useAsyncData(() =>
     .getOne<ReviewResponse>(route.query.id as string),
 );
 
-if (!review.value) throw createError({ statusCode: 404 });
+if (!review.value)
+  throw createError({
+    statusCode: 404,
+    statusMessage: t("error.notFoundMessage"),
+  });
+
+if (review.value.user !== ($pb.authStore.model as UsersResponse)?.id)
+  throw createError({
+    statusCode: 401,
+    statusMessage: t("error.unauthorizedMessage"),
+  });
 
 const schema = z.object({
   id: z.string(),
