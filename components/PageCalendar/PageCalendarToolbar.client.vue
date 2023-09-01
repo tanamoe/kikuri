@@ -2,14 +2,18 @@
 import { joinURL } from "ufo";
 import { type Dayjs } from "dayjs";
 import type { FilterPublishers } from "@/utils/releases";
-import { Collections, type PublisherResponse } from "@/types/pb";
+import {
+  type BookDetailedResponse,
+  Collections,
+  type PublisherResponse,
+} from "@/types/pb";
 
 const runtimeConfig = useRuntimeConfig();
 const { $pb } = useNuxtApp();
 
 const toolbar = ref<HTMLDivElement>();
 
-const { data: publisherOptions } = useAsyncData(
+const { data: publisherOptions } = await useAsyncData(
   () => $pb.collection(Collections.Publisher).getFullList<PublisherResponse>(),
   {
     transform: (publishers) =>
@@ -31,15 +35,16 @@ const { data: publisherOptions } = useAsyncData(
 );
 
 const props = defineProps<{
+  releases: BookDetailedResponse<{
+    publisher: PublisherResponse;
+  }>[];
   month: Dayjs;
   publishers: FilterPublishers[];
-  disableDownload: boolean;
 }>();
 
 const emit = defineEmits<{
   "update:month": [month: Dayjs];
   "update:publishers": [publishers: FilterPublishers[]];
-  download: [void];
 }>();
 
 const currentMonth = computed({
@@ -52,7 +57,8 @@ const currentPublishers = computed({
   set: (value) => emit("update:publishers", value),
 });
 
-onMounted(() => {
+onMounted(async () => {
+  await nextTick();
   if (toolbar.value)
     document.documentElement.style.setProperty(
       "--toolbar-height",
@@ -130,8 +136,8 @@ onMounted(() => {
             </UButton>
           </USelectMenu>
           <PageCalendarOptions
-            :disable-download="disableDownload"
-            @download="emit('download')"
+            :disable-download="releases.length == 0"
+            @download="() => null"
           />
         </div>
       </div>
