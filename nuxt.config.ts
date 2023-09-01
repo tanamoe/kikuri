@@ -63,18 +63,6 @@ export default defineNuxtConfig({
     icons: ["fluent", "simple-icons"],
   },
   i18n: {
-    strategy: "no_prefix",
-    locales: [
-      {
-        code: "vi",
-        icon: "🇻🇳",
-        iso: "vi-VN",
-        name: "Tiếng Việt",
-        file: "vi-VN.json",
-      },
-    ],
-    langDir: "locales",
-    defaultLocale: "vi",
     detectBrowserLanguage: false,
   },
   content: {
