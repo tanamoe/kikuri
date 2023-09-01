@@ -72,9 +72,12 @@ useSeoMeta({
 
 <template>
   <div class="space-y-24">
-    <div class="overflow-y-hidden sm:h-fit">
+    <div
+      v-if="recentReleases && recentReleases.length > 0"
+      class="overflow-y-hidden sm:h-fit"
+    >
       <UContainer>
-        <PageIndexSwiper v-if="recentReleases" :data="recentReleases" />
+        <PageIndexSwiper :data="recentReleases" />
       </UContainer>
     </div>
 

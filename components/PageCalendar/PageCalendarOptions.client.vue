@@ -33,7 +33,7 @@ const options = computed<DropdownItem[][]>(() => [
     {
       label: t("general.download"),
       icon: "i-fluent-arrow-download-20-filled",
-      disabled: props.disableDownload,
+      disabled: true,
       click: () => emit("download"),
     },
   ],

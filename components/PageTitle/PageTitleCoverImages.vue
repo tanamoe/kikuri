@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BaseSystemFields } from "types/pb";
+import type { BaseSystemFields } from "@/types/pb";
 
 const props = defineProps<{
   images: (Pick<BaseSystemFields, "id" | "collectionId"> & {

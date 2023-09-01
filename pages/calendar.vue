@@ -5,10 +5,10 @@ import { storeToRefs } from "pinia";
 import { useSettingsStore } from "@/stores/settings";
 import type { FilterPublishers } from "@/utils/releases";
 import {
-  BookDetailedResponse,
+  type BookDetailedResponse,
   Collections,
-  PublisherResponse,
-  TitleResponse,
+  type PublisherResponse,
+  type TitleResponse,
 } from "@/types/pb";
 
 const runtimeConfig = useRuntimeConfig();
@@ -19,7 +19,6 @@ const { showDigital, showEditionedBook, datePosition } = storeToRefs(store);
 
 const month = ref(dayjs.tz());
 const publishers = ref<FilterPublishers[]>([]);
-const currentPosition = ref<HTMLDivElement>();
 
 const filter = computed(() =>
   parseCalendarFilter(
@@ -77,40 +76,6 @@ const dates = computed(() => {
   } else return [];
 });
 
-function download() {
-  if (data.value)
-    downloadReleasesXLSX(data.value, month.value.format("MM_YYYY"));
-}
-
-const doScroll = (position: string) => {
-  const el = document.getElementById(position) as HTMLDivElement;
-
-  if (el) {
-    el.scrollIntoView({
-      behavior: "smooth",
-    });
-  }
-};
-
-const onScroll = () => {
-  const els = document.getElementsByClassName("release-day");
-  currentPosition.value = Array.from(els as HTMLCollectionOf<HTMLDivElement>)
-    .filter((el) => el.getBoundingClientRect().bottom > 100)
-    .sort(
-      (el1, el2) =>
-        el1.getBoundingClientRect().bottom - el2.getBoundingClientRect().bottom,
-    )[0];
-};
-
-onMounted(() => {
-  onScroll();
-  window.addEventListener("scroll", onScroll);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("scroll", onScroll);
-});
-
 definePageMeta({
   layout: "full",
   stickyNav: false,
@@ -131,8 +96,7 @@ useSeoMeta({
     <PageCalendarToolbar
       v-model:month="month"
       v-model:publishers="publishers"
-      :disable-download="!releases || Object.keys(releases).length === 0"
-      @download="download"
+      :releases="data || []"
     />
 
     <UContainer v-if="pending">
@@ -219,10 +183,6 @@ useSeoMeta({
       </div>
     </UContainer>
 
-    <PageCalendarQuickNavigation
-      :current-day="currentPosition?.id || ''"
-      :dates="dates"
-      :scroll="doScroll"
-    />
+    <PageCalendarQuickNavigation :dates="dates" />
   </div>
 </template>

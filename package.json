@@ -31,7 +31,7 @@
     "eslint-config-prettier": "^9.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.0",
-    "nuxt": "^3.6.2",
+    "nuxt": "^3.7.0",
     "prettier": "3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.1",
     "typescript": "^5.1.6",
@@ -57,7 +57,6 @@
     "nuxt-swiper": "^1.1.1",
     "pinia": "^2.1.4",
     "pocketbase": "^0.17.0",
-    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz",
     "zod": "^3.21.4"
   }
 }

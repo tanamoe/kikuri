@@ -11,10 +11,10 @@ const floatingButton = {
 };
 
 const props = defineProps<{
-  currentDay: string;
   dates: string[];
-  scroll: (position: string) => void;
 }>();
+
+const position = ref();
 
 const nearestDay = computed(() => {
   if (dayjs().isSame(props.dates[0], "month")) {
@@ -29,12 +29,24 @@ const nearestDay = computed(() => {
   }
 });
 
-function scrollUp() {
-  props.scroll(props.dates[props.dates.indexOf(props.currentDay) - 1]);
+function doScroll(position: string) {
+  const el = document.getElementById(position) as HTMLDivElement;
+
+  if (el) {
+    el.scrollIntoView({
+      behavior: "smooth",
+    });
+  }
 }
 
-function scrollDown() {
-  props.scroll(props.dates[props.dates.indexOf(props.currentDay) + 1]);
+function onScroll() {
+  const els = document.getElementsByClassName("release-day");
+  position.value = Array.from(els as HTMLCollectionOf<HTMLDivElement>)
+    .filter((el) => el.getBoundingClientRect().bottom > 100)
+    .sort(
+      (el1, el2) =>
+        el1.getBoundingClientRect().bottom - el2.getBoundingClientRect().bottom,
+    )[0].id;
 }
 
 function scrollToTop() {
@@ -43,8 +55,17 @@ function scrollToTop() {
 
 function scrollToNearest() {
   if (nearestDay.value)
-    props.scroll(props.dates[props.dates.indexOf(nearestDay.value)]);
+    doScroll(props.dates[props.dates.indexOf(nearestDay.value)]);
 }
+
+onMounted(() => {
+  onScroll();
+  window.addEventListener("scroll", onScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", onScroll);
+});
 </script>
 
 <template>
@@ -53,10 +74,10 @@ function scrollToNearest() {
       <UButton
         color="gray"
         icon="i-fluent-chevron-up-20-filled"
-        :disabled="dates.indexOf(currentDay) === -1"
+        :disabled="dates.indexOf(position) === -1"
         square
         :ui="floatingButton"
-        @click="scrollUp"
+        @click="doScroll(dates[dates.indexOf(position) - 1])"
       />
       <UButton
         icon="i-fluent-arrow-up-20-filled"
@@ -79,10 +100,10 @@ function scrollToNearest() {
       <UButton
         color="gray"
         icon="i-fluent-chevron-down-20-filled"
-        :disabled="dates.indexOf(currentDay) === dates.length - 0"
+        :disabled="dates.indexOf(position) === dates.length - 0"
         square
         :ui="floatingButton"
-        @click="scrollDown"
+        @click="doScroll(dates[dates.indexOf(position) + 1])"
       />
     </div>
   </div>
