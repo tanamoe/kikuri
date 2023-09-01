@@ -59,34 +59,11 @@ export default defineNuxtConfig({
   swiper: {
     modules: ["autoplay", "effect-creative"],
   },
-  // TODO: remove this in the future after Netlify done fixing.
-  // ref: https://answers.netlify.com/t/javascript-heap-out-of-memory-when-trying-to-build-a-nuxt-app/93138/13
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-      cssnano:
-        process.env.NODE_ENV === "production"
-          ? { preset: ["default", { discardComments: { removeAll: true } }] }
-          : false, // disable cssnano when not in production
-    },
-  },
   ui: {
     icons: ["fluent", "simple-icons"],
   },
   i18n: {
-    strategy: "no_prefix",
-    locales: [
-      {
-        code: "vi",
-        icon: "🇻🇳",
-        iso: "vi-VN",
-        name: "Tiếng Việt",
-        file: "vi-VN.json",
-      },
-    ],
-    langDir: "locales",
-    defaultLocale: "vi",
+    detectBrowserLanguage: false,
   },
   content: {
     locales: ["vi"],
