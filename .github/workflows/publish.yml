@@ -1,0 +1,49 @@
+name: Publish deployment
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  POCKETBASE_URL: ${{ vars.POCKETBASE_URL }}
+  SITE_URL: ${{ vars.SITE_URL }}
+  BLOG_URL: ${{ vars.BLOG_URL }}
+  OG_URL: ${{ vars.OG_URL }}
+  NITRO_PRESET: ${{ vars.NITRO_PRESET }}
+  FB_APP_ID: ${{ vars.FB_APP_ID }}
+  UMAMI_SITE_ID: ${{ vars.UMAMI_SITE_ID }}
+  UMAMI_URL: ${{ vars.UMAMI_URL }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://tana.moe
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        run: bun run build
+
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: tanamoe
+          directory: dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
