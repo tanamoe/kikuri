@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Form } from "@nuxthq/ui/dist/runtime/types";
+import type { Form } from "@nuxt/ui/dist/runtime/types";
 import { z } from "zod";
 
 const { pending, register } = useRegister();

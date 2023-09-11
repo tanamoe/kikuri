@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     "@nuxtjs/i18n",
     "@nuxtjs/google-fonts",
     "@nuxt/image",
-    "@nuxthq/ui",
+    "@nuxt/ui",
     "nuxt-swiper",
     "@nuxt/content",
   ],
