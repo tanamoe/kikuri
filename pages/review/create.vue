@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { z } from "zod";
 import { useStorage } from "@vueuse/core";
-import type { Form } from "@nuxthq/ui/dist/runtime/types";
+import type { Form } from "@nuxt/ui/dist/runtime/types";
 import {
   Collections,
   type UsersResponse,

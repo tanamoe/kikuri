@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { z } from "zod";
-import type { Form } from "@nuxthq/ui/dist/runtime/types";
+import type { Form } from "@nuxt/ui/dist/runtime/types";
 import type { UsersResponse } from "@/types/pb";
 
 const { $pb } = useNuxtApp();

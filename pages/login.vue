@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Form } from "@nuxthq/ui/dist/runtime/types";
+import type { Form } from "@nuxt/ui/dist/runtime/types";
 import { type AuthProviderInfo } from "pocketbase";
 import { joinURL } from "ufo";
 import { z } from "zod";
@@ -20,9 +20,10 @@ const redirectUrl = joinURL(runtimeConfig.public.siteUrl, "redirect");
 const schema = z.object({
   user: z
     .string()
-    .min(1, t("error.usernameEmpty"))
-    .regex(/^[^\s]*$/, t("error.usernameIncludesSpace")),
-  password: z.string(),
+    .min(3, t("error.account.usernameInvalidMin"))
+    .max(150, t("error.account.usernameInvalidMax"))
+    .regex(/^[^\s]*$/, t("error.account.usernameIncludedSpace")),
+  password: z.string().min(8, t("error.account.passwordInvalidMin")),
 });
 
 type Schema = z.output<typeof schema>;
@@ -138,18 +139,15 @@ definePageMeta({
             >
               <UButton
                 :icon="parseIcon(provider.name)"
+                color="gray"
+                block
                 :ui="{
-                  variant: {
-                    solid:
-                      'shadow-sm text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 dark:focus-visible:outline-gray-400',
+                  color: {
+                    gray: {
+                      solid: 'ring-0 bg-gray-50 dark:bg-gray-900',
+                    },
                   },
                 }"
-                :class="{
-                  'bg-black': provider.name === 'twitter',
-                  'bg-[#1877F2]': provider.name === 'facebook',
-                  'bg-[#5865F2]': provider.name === 'discord',
-                }"
-                block
                 :to="provider.authUrl + redirectUrl"
                 @click="authProvider = provider"
               >
