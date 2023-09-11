@@ -1,8 +1,9 @@
-name: Publish deployment
+name: Preview deployment
 
 on:
+  pull_request:
   push:
-    branches:
+    branches-ignore:
       - main
 
 env:
@@ -12,15 +13,11 @@ env:
   OG_URL: ${{ vars.OG_URL }}
   NITRO_PRESET: ${{ vars.NITRO_PRESET }}
   FB_APP_ID: ${{ vars.FB_APP_ID }}
-  UMAMI_SITE_ID: ${{ vars.UMAMI_SITE_ID }}
-  UMAMI_URL: ${{ vars.UMAMI_URL }}
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: https://tana.moe
+    environment: preview
     permissions:
       contents: read
       deployments: write
