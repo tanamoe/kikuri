@@ -1,4 +1,28 @@
 export default defineAppConfig({
+  tana: {
+    socials: [
+      {
+        name: "Facebook",
+        url: "https://www.facebook.com/tanamoee",
+        icon: "i-simple-icons-facebook",
+      },
+      {
+        name: "X",
+        url: "https://x.com/tanamoeeee",
+        icon: "i-simple-icons-x",
+      },
+      {
+        name: "Discord",
+        url: "https://via.tana.moe/discord",
+        icon: "i-simple-icons-discord",
+      },
+      {
+        name: "GitHub",
+        url: "https://github.com/tanamoe",
+        icon: "i-simple-icons-github",
+      },
+    ],
+  },
   ui: {
     primary: "tanablue",
     gray: "zinc",

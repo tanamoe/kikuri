@@ -108,44 +108,7 @@ const currentTheme = computed({
         class="mt-6 flex items-center justify-between border-t border-gray-200 pt-6 text-gray-500 dark:border-gray-700"
       >
         <div>Tana.moe &copy; {{ new Date().getFullYear() }}</div>
-        <ul class="flex gap-3">
-          <li>
-            <ULink
-              to="https://facebook.com/mangaglhf/"
-              target="_blank"
-              class="text-xl transition-colors duration-100 ease-linear hover:text-[#1877f2]"
-            >
-              <UIcon name="i-simple-icons-facebook" />
-            </ULink>
-          </li>
-          <li>
-            <ULink
-              to="https://x.com/tanamoeeee/"
-              target="_blank"
-              class="text-xl transition-colors duration-100 ease-linear hover:text-black dark:hover:text-white"
-            >
-              <UIcon name="i-simple-icons-x" />
-            </ULink>
-          </li>
-          <li>
-            <ULink
-              to="https://via.tana.moe/discord"
-              target="_blank"
-              class="text-xl transition-colors duration-100 ease-linear hover:text-[#5865f2]"
-            >
-              <UIcon name="i-simple-icons-discord" />
-            </ULink>
-          </li>
-          <li>
-            <ULink
-              to="https://github.com/tanamoe"
-              target="_blank"
-              class="text-xl transition-colors duration-100 ease-linear hover:text-[#161b22] dark:hover:text-[#f0f6fc]"
-            >
-              <UIcon name="i-simple-icons-github" />
-            </ULink>
-          </li>
-        </ul>
+        <AppSocialLinks />
       </div>
     </div>
   </footer>
