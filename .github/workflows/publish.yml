@@ -24,7 +24,6 @@ jobs:
     permissions:
       contents: read
       deployments: write
-    name: Publish
     steps:
       - name: Checkout
         uses: actions/checkout@v3

@@ -1,7 +1,6 @@
 name: Preview deployment
 
 on:
-  pull_request:
   push:
     branches-ignore:
       - main
@@ -15,13 +14,12 @@ env:
   FB_APP_ID: ${{ vars.FB_APP_ID }}
 
 jobs:
-  publish:
+  preview:
     runs-on: ubuntu-latest
     environment: preview
     permissions:
       contents: read
       deployments: write
-    name: Publish
     steps:
       - name: Checkout
         uses: actions/checkout@v3
