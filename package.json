@@ -56,7 +56,7 @@
     "dayjs": "^1.11.9",
     "nuxt-swiper": "^1.1.1",
     "pinia": "^2.1.4",
-    "pocketbase": "^0.17.0",
+    "pocketbase": "^0.18.0",
     "zod": "^3.21.4"
   }
 }
