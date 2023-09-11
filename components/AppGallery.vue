@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import { joinURL } from "ufo";
+import {
+  Dialog,
+  DialogPanel,
+  TransitionRoot,
+  TransitionChild,
+} from "@headlessui/vue";
 
 const runtimeConfig = useRuntimeConfig();
 
@@ -26,27 +32,6 @@ const currentIndex = computed({
   get: () => props.currentIndex,
   set: (value) => emit("update:currentIndex", value),
 });
-
-const ui = {
-  inner: "fixed inset-0",
-  container: "flex items-center justify-center h-full",
-  base: "h-auto",
-  width: "w-fit",
-  background: "",
-  padding: "p-6",
-  rounded: "",
-  overlay: {
-    background: "bg-black/80 backdrop-blur",
-  },
-  transition: {
-    enter: "ease-out duration-200 delay-200",
-    enterFrom: "opacity-0",
-    enterTo: "opacity-100",
-    leave: "ease-in-out duration-300",
-    leaveFrom: "opacity-100",
-    leaveTo: "opacity-0",
-  },
-};
 
 function handlePrev() {
   transitionName.value = "slide-ltr";
@@ -78,62 +63,103 @@ defineShortcuts({
 </script>
 
 <template>
-  <UModal v-model="isOpen" :ui="ui">
-    <div class="fixed right-3 top-3 flex gap-3">
-      <UButton
-        icon="i-fluent-arrow-download-20-filled"
-        color="gray"
-        square
-        :to="
-          joinURL(
-            runtimeConfig.public.pocketbaseUrl,
-            '/api/files',
-            images[currentIndex],
-            '?download=1',
-          )
-        "
+  <TransitionRoot
+    :show="isOpen"
+    as="template"
+    enter="duration-300 ease-out"
+    enter-from="opacity-0"
+    enter-to="opacity-100"
+    leave="duration-200 ease-in"
+    leave-from="opacity-100"
+    leave-to="opacity-0"
+  >
+    <Dialog class="relative z-50" @close="isOpen = false">
+      <TransitionChild
+        enter="duration-300 ease-out"
+        enter-from="opacity-0"
+        enter-to="opacity-100"
+        leave="duration-200 ease-in"
+        leave-from="opacity-100"
+        leave-to="opacity-0"
       >
-        {{ $t("general.download") }}
-      </UButton>
-      <UButton
-        icon="i-fluent-dismiss-20-filled"
-        color="gray"
-        square
-        @click="isOpen = false"
-      />
-    </div>
-    <UButton
-      class="fixed left-3 top-1/2 z-10 -translate-y-1/2 transform"
-      icon="i-fluent-chevron-left-20-filled"
-      color="gray"
-      size="md"
-      square
-      @click="handlePrev"
-    />
-    <UButton
-      class="fixed right-3 top-1/2 z-10 -translate-y-1/2 transform"
-      icon="i-fluent-chevron-right-20-filled"
-      color="gray"
-      size="md"
-      square
-      @click="handleNext"
-    />
-    <Transition
-      mode="out-in"
-      :name="transitionName"
-      enter-active-class="transition-all duration-200"
-      leave-active-class="transition-all duration-200"
-    >
-      <NuxtImg
-        ref="modal"
-        :key="currentIndex"
-        provider="pocketbase"
-        :src="images[currentIndex]"
-        class="h-auto max-h-[80dvh] w-auto rounded-md"
-        draggable="false"
-      />
-    </Transition>
-  </UModal>
+        <div
+          class="fixed inset-0 bg-black/80 backdrop-blur transition-opacity"
+        />
+      </TransitionChild>
+
+      <TransitionChild
+        enter="ease-out duration-200 delay-200"
+        enter-from="opacity-0"
+        enter-to="opacity-100"
+        leave="ease-in-out duration-300"
+        leave-from="opacity-100"
+        leave-to="opacity-0"
+      >
+        <div
+          class="fixed inset-0 flex w-screen items-center justify-center p-6"
+        >
+          <DialogPanel>
+            <div class="fixed right-3 top-3 flex gap-3">
+              <UButton
+                icon="i-fluent-arrow-download-20-filled"
+                color="gray"
+                square
+                :to="
+                  joinURL(
+                    runtimeConfig.public.pocketbaseUrl,
+                    '/api/files',
+                    images[currentIndex],
+                    '?download=1',
+                  )
+                "
+              >
+                {{ $t("general.download") }}
+              </UButton>
+              <UButton
+                icon="i-fluent-dismiss-20-filled"
+                color="gray"
+                square
+                @click="isOpen = false"
+              />
+            </div>
+
+            <UButton
+              class="fixed left-3 top-1/2 z-10 -translate-y-1/2 transform"
+              icon="i-fluent-chevron-left-20-filled"
+              color="gray"
+              size="md"
+              square
+              @click="handlePrev"
+            />
+            <UButton
+              class="fixed right-3 top-1/2 z-10 -translate-y-1/2 transform"
+              icon="i-fluent-chevron-right-20-filled"
+              color="gray"
+              size="md"
+              square
+              @click="handleNext"
+            />
+
+            <Transition
+              mode="out-in"
+              :name="transitionName"
+              enter-active-class="transition-all duration-200"
+              leave-active-class="transition-all duration-200"
+            >
+              <NuxtImg
+                ref="modal"
+                :key="currentIndex"
+                provider="pocketbase"
+                :src="images[currentIndex]"
+                class="h-auto max-h-[80dvh] w-auto rounded-md"
+                draggable="false"
+              />
+            </Transition>
+          </DialogPanel>
+        </div>
+      </TransitionChild>
+    </Dialog>
+  </TransitionRoot>
 </template>
 
 <style>
