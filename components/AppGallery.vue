@@ -82,9 +82,7 @@ defineShortcuts({
         leave-from="opacity-100"
         leave-to="opacity-0"
       >
-        <div
-          class="fixed inset-0 bg-black/80 backdrop-blur transition-opacity"
-        />
+        <div class="fixed inset-0 bg-black/90" />
       </TransitionChild>
 
       <TransitionChild
