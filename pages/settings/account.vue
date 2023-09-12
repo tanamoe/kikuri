@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { z } from "zod";
-import type { Form } from "@nuxt/ui/dist/runtime/types";
-import type { UsersResponse } from "@/types/pb";
+import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 
-const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const { pending, update } = useUpdateAccount();
 
-const currentUser = ref<UsersResponse>($pb.authStore.model! as UsersResponse);
+const { currentUser } = useAuthentication();
 
 const schema = z.object({
   username: z
@@ -19,14 +17,12 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>;
 
-const form = ref<Form<Schema>>();
 const state = ref({
-  username: currentUser.value.username,
+  username: currentUser.value!.username,
 });
 
-async function handleUpdate() {
-  const data = await form.value!.validate();
-  const res = await update({ id: currentUser.value.id, record: data });
+async function submit(event: FormSubmitEvent<Schema>) {
+  const res = await update({ id: currentUser.value!.id, record: event.data });
   if (res) currentUser.value = res;
 }
 
@@ -38,13 +34,7 @@ definePageMeta({
 
 <template>
   <div>
-    <UForm
-      ref="form"
-      :schema="schema"
-      :state="state"
-      class="space-y-6"
-      @submit.prevent="handleUpdate"
-    >
+    <UForm :schema="schema" :state="state" class="space-y-6" @submit="submit">
       <UFormGroup name="username" :label="$t('account.username')">
         <UInput v-model="state.username" icon="i-fluent-person-20-filled" />
       </UFormGroup>

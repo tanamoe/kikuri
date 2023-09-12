@@ -14,7 +14,7 @@ const runtimeConfig = useRuntimeConfig();
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 
-const currentUser = computed(() => $pb.authStore.model as UsersResponse | null);
+const { currentUser } = useAuthentication();
 
 const { data: review } = await useAsyncData(() =>
   $pb.collection(Collections.Review).getOne<

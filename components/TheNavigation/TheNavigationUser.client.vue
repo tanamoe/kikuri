@@ -1,16 +1,8 @@
 <script setup lang="ts">
-import { UsersResponse } from "@/types/pb";
-
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 
-const isAuthenticated = ref($pb.authStore.isAuthRecord);
-const currentUser = ref($pb.authStore.model as UsersResponse | null);
-
-$pb.authStore.onChange(() => {
-  isAuthenticated.value = $pb.authStore.isAuthRecord;
-  currentUser.value = $pb.authStore.model as UsersResponse | null;
-});
+const { isAuthenticated, currentUser } = useAuthentication();
 
 const avatar = computed(() => {
   return currentUser.value?.avatar !== ""
