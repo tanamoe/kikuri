@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Form } from "@nuxt/ui/dist/runtime/types";
 import { type AuthProviderInfo } from "pocketbase";
 import { joinURL } from "ufo";
 import { z } from "zod";
+import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
-const { pending, login } = useLogin();
+const { pending, login } = useAuthentication();
 const runtimeConfig = useRuntimeConfig();
 const authProvider = useCookie<AuthProviderInfo>("auth_provider");
 
@@ -28,16 +28,14 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>;
 
-const form = ref<Form<Schema>>();
 const state = ref<Schema>({
   user: "",
   password: "",
 });
 
-const submit = async () => {
-  const data = await form.value!.validate();
-  await login(data);
-};
+async function submit(event: FormSubmitEvent<Schema>) {
+  await login(event.data);
+}
 
 function parseIcon(name: string) {
   switch (name) {
@@ -70,11 +68,10 @@ definePageMeta({
 
       <div>
         <UForm
-          ref="form"
           class="space-y-6"
           :schema="schema"
           :state="state"
-          @submit.prevent="submit"
+          @submit="submit"
         >
           <div class="space-y-3">
             <UFormGroup name="user" :label="$t('account.usernameOrEmail')">

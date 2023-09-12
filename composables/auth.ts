@@ -1,12 +1,23 @@
 import { ClientResponseError } from "pocketbase";
 import { Collections, UsersResponse } from "@/types/pb";
 
-export const useRegister = () => {
+export function useAuthentication() {
   const { $pb } = useNuxtApp();
   const { t } = useI18n({ useScope: "global" });
   const toast = useToast();
 
-  const pending = ref(false);
+  const pending = useState(() => false);
+
+  const isAuthenticated = useState(() => $pb.authStore.isAuthRecord);
+
+  const currentUser = useState(
+    () => $pb.authStore.model as UsersResponse | null,
+  );
+
+  $pb.authStore.onChange(() => {
+    isAuthenticated.value = $pb.authStore.isAuthRecord;
+    currentUser.value = $pb.authStore.model as UsersResponse | null;
+  });
 
   async function register(args: {
     username: string;
@@ -54,16 +65,6 @@ export const useRegister = () => {
     }
   }
 
-  return { pending, register };
-};
-
-export const useLogin = () => {
-  const { $pb } = useNuxtApp();
-  const { t } = useI18n({ useScope: "global" });
-  const toast = useToast();
-
-  const pending = ref(false);
-
   async function login(args: { user: string; password: string }) {
     const { user, password } = args;
 
@@ -96,40 +97,22 @@ export const useLogin = () => {
     }
   }
 
-  return { pending, login };
-};
-
-export const useOAuthLogin = () => {
-  const { $pb } = useNuxtApp();
-  const { t } = useI18n({ useScope: "global" });
-  const toast = useToast();
-
-  const pending = ref(false);
-
-  async function login(args: { provider: string }) {
-    const { provider } = args;
+  async function requestPasswordReset(args: { email: string }) {
+    const { email } = args;
 
     pending.value = true;
 
     try {
-      const newWindow = window.open();
-      if (!newWindow) throw new Error("Cannot open new window");
-
-      await $pb.collection(Collections.Users).authWithOAuth2<UsersResponse>({
-        provider,
-        urlCallback: (url) => {
-          newWindow.location = url;
-        },
-      });
+      await $pb.collection(Collections.Users).requestPasswordReset(email);
 
       toast.add({
         color: "primary",
-        title: t("auth.loginSuccessful"),
-        description: t("auth.redirecting"),
+        title: t("auth.requestSuccessful"),
+        description: t("auth.checkEmailInbox"),
         icon: "i-fluent-checkmark-circle-20-filled",
       });
 
-      return navigateTo("/");
+      return navigateTo("/login");
     } catch (err) {
       if (err instanceof ClientResponseError) {
         toast.add({
@@ -144,54 +127,12 @@ export const useOAuthLogin = () => {
     }
   }
 
-  return { pending, login };
-};
-
-export const usePasswordReset = () => {
-  const { $pb } = useNuxtApp();
-  const { t } = useI18n({ useScope: "global" });
-  const toast = useToast();
-
-  const pending = ref(false);
-
-  async function requestPasswordReset(args: { email: string }) {
-    const { email } = args;
-
-    pending.value = true;
-
-    if (email === "") {
-      toast.add({
-        color: "red",
-        title: t("general.error"),
-        description: t("auth.emailCannotBeEmpty"),
-        icon: "i-fluent-error-circle-20-filled",
-      });
-    } else {
-      try {
-        await $pb.collection(Collections.Users).requestPasswordReset(email);
-
-        toast.add({
-          color: "primary",
-          title: t("auth.requestSuccessful"),
-          description: t("auth.checkEmailInbox"),
-          icon: "i-fluent-checkmark-circle-20-filled",
-        });
-
-        return navigateTo("/login");
-      } catch (err) {
-        if (err instanceof ClientResponseError) {
-          toast.add({
-            color: "red",
-            title: t("general.error"),
-            description: err.message,
-            icon: "i-fluent-error-circle-20-filled",
-          });
-        }
-      } finally {
-        pending.value = false;
-      }
-    }
-  }
-
-  return { pending, requestPasswordReset };
-};
+  return {
+    pending,
+    isAuthenticated,
+    currentUser,
+    register,
+    login,
+    requestPasswordReset,
+  };
+}

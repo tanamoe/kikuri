@@ -1,25 +1,23 @@
 <script setup lang="ts">
-import type { Form } from "@nuxt/ui/dist/runtime/types";
 import { z } from "zod";
+import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 
-const { pending, requestPasswordReset } = usePasswordReset();
+const { pending, requestPasswordReset } = useAuthentication();
 const { t } = useI18n({ useScope: "global" });
 
 const schema = z.object({
-  email: z.string().email(t("error.emailInvalid")),
+  email: z.string().email(t("error.account.emailInvalid")),
 });
 
 type Schema = z.output<typeof schema>;
 
-const form = ref<Form<Schema>>();
 const state = ref({
   email: "",
 });
 
-const submit = async () => {
-  const data = await form.value!.validate();
-  requestPasswordReset(data);
-};
+async function submit(event: FormSubmitEvent<Schema>) {
+  await requestPasswordReset(event.data);
+}
 
 definePageMeta({
   middleware: ["without-auth"],
@@ -36,13 +34,7 @@ definePageMeta({
 
     <div class="w-full max-w-sm rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
       <AppH1 class="mb-6">{{ $t("account.forgetPassword") }}</AppH1>
-      <UForm
-        ref="form"
-        class="space-y-6"
-        :state="state"
-        :schema="schema"
-        @submit.prevent="submit"
-      >
+      <UForm class="space-y-6" :state="state" :schema="schema" @submit="submit">
         <UFormGroup name="email" :label="$t('account.email')">
           <UInput
             v-model="state.email"
