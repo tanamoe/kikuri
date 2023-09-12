@@ -39,6 +39,12 @@ const columns = [
     sortable: true,
   },
   {
+    key: "status",
+    label: t("general.status"),
+    class: "whitespace-nowrap w-0",
+    sortable: true,
+  },
+  {
     key: "publishDate",
     label: t("general.releaseDate"),
     class: "whitespace-nowrap w-0",
