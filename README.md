@@ -6,20 +6,33 @@
 <a href="https://tana.moe/">Homepage</a> | <a href="https://blog.tana.moe/">Blog</a>
 </p>
 
-<p align="center">
-<img src="https://api.netlify.com/api/v1/badges/6d3d0f60-dbdb-4ce2-ab2e-08c038dc54c0/deploy-status"/>
-</p>
-
-Kikuri (Hiroi) is a Nuxt-based front-end for [momoka](https://github.com/tanamoe/momoka), using [arisu](https://github.com/tanamoe/arisu) container in production.
+kikuri (hiroi) is a Nuxt-based front-end for [momoka-lite](https://github.com/tanamoe/momoka-lite), using [arisu](https://github.com/tanamoe/arisu) container in production.
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
+## Get Started
+
+<p align="center">
+<img src="public/register_banner.png" />
+</p>
+
+Define some required variable in the project `.env` file, including:
+
+```
+POCKETBASE_URL=
+SITE_URL=
+BLOG_URL=
+OG_URL=
+```
+
 ## Setup
 
-Make sure to install the dependencies:
+We use [Bun](https://bun.sh) for managing dependencies instead of pnpm/npm/yarn. Currently, Node.js is still needed for building and running the application, as Bun's runtime is not stable (for Nuxt) yet.
+
+Install the dependencies:
 
 ```bash
-pnpm install
+bun install
 ```
 
 ## Development Server
@@ -27,7 +40,7 @@ pnpm install
 Start the development server on `http://localhost:3000`
 
 ```bash
-pnpm run dev
+bun run dev
 ```
 
 ## Production
@@ -35,13 +48,13 @@ pnpm run dev
 Build the application for production:
 
 ```bash
-pnpm run build
+bun run build
 ```
 
 Locally preview production build:
 
 ```bash
-pnpm run preview
+bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
