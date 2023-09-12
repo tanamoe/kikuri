@@ -159,10 +159,6 @@
     "requestSuccessful": "Yêu cầu thành công",
     "redirecting": "Đang chuyển hướng...",
     "checkEmailInbox": "Bạn vui lòng kiểm tra hộp thư...",
-    "usernameCannotBeEmpty": "Tên tài khoản không được để trống",
-    "emailCannotBeEmpty": "Email không được để trống",
-    "passwordCannotBeEmpty": "Mật khẩu không được để trống",
-    "passwordNotMatch": "Xác nhận mật khẩu không đúng",
     "or": "hoặc",
     "oauthInvalidState": "Tham biến trạng thái không phù hợp",
     "oauthPending": "Đang kiểm tra để hoàn tất đăng nhập...",
@@ -252,5 +248,12 @@
     "calendarDescription": "Lịch phát hành manga, light-novel tổng hợp từ các nhà xuất bản, phát hành trên toàn quốc, được cập nhật thường xuyên trên Tana.moe",
     "browseDescription": "Tìm kiếm, xem lịch phát hành và thông tin các bộ truyện manga, light-novel",
     "reviewTitle": "{user} đánh giá {title}"
+  },
+  "library": {
+    "collection": "Bộ sưu tập",
+    "chooseCollection": "Chọn bộ sưu tập",
+    "quantity": "Số lượng",
+    "status": "Trạng thái",
+    "addToLibrary": "Thêm vào thư viện"
   }
 }
