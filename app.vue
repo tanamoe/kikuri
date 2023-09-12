@@ -66,6 +66,7 @@ useSeoMeta({
 
     <NuxtPage />
 
+    <TheLibraryPrompt />
     <UNotifications />
   </NuxtLayout>
 </template>
