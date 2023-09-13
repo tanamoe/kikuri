@@ -254,6 +254,8 @@
     "chooseCollection": "Chọn bộ sưu tập",
     "quantity": "Số lượng",
     "status": "Trạng thái",
-    "addToLibrary": "Thêm vào thư viện"
+    "addToLibrary": "Thêm vào thư viện",
+    "addQuick": "Thêm nhanh",
+    "addManual": "Lựa chọn khác"
   }
 }

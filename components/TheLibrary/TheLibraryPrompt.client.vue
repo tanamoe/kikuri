@@ -4,7 +4,7 @@ import { z } from "zod";
 import { Collections, type CollectionResponse } from "~/types/pb";
 
 const { $pb } = useNuxtApp();
-const { isOpen, book, state } = useLibraryPrompt();
+const { promptOpen, book, state } = useLibraryPrompt();
 const { isAuthenticated, currentUser } = useAuthentication();
 
 const { data: collections } = await useLazyAsyncData(
@@ -44,7 +44,7 @@ async function submit(event: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-  <UModal v-if="isAuthenticated && book" v-model="isOpen">
+  <UModal v-if="isAuthenticated && book" v-model="promptOpen">
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <template #header>
         <div class="flex items-center justify-between">
@@ -54,7 +54,7 @@ async function submit(event: FormSubmitEvent<Schema>) {
             variant="ghost"
             icon="i-fluent-dismiss-20-filled"
             class="-my-1"
-            @click="isOpen = false"
+            @click="promptOpen = false"
           />
         </div>
       </template>
@@ -97,7 +97,7 @@ async function submit(event: FormSubmitEvent<Schema>) {
         </div>
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="isOpen = false">
+          <UButton color="red" variant="ghost" @click="promptOpen = false">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit">
