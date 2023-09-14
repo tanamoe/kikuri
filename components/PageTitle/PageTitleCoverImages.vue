@@ -41,6 +41,7 @@ const handleOpen = (i: number) => {
         class="aspect-[2/3] h-full w-full object-cover"
         :src="cover"
         sizes="sm:50vw md:30vw lg:20vw"
+        :placeholder="[60, 90, 75, 5]"
       />
     </AppCard>
 

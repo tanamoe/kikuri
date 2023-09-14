@@ -17,6 +17,7 @@ defineProps<{
     class="aspect-[2/3] h-full w-full object-cover"
     :src="getPocketBaseImagePath(book, fileName)"
     :sizes="sizes"
+    :placeholder="[60, 90, 75, 5]"
   />
   <div
     v-else

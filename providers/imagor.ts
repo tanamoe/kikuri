@@ -4,15 +4,20 @@ import type { ProviderGetImage } from "@nuxt/image";
 export const getImage: ProviderGetImage = (
   src,
   { modifiers = {}, baseURL } = {},
+  { options },
 ) => {
-  let url = baseURL;
-  const { width, height, quality } = modifiers;
+  const { width, height, quality, ...providerModifiers } = modifiers;
 
-  if (width || height) {
-    url = joinURL(url, `/${width || 0}x${height || 0}`);
+  let url = baseURL;
+
+  if (width || height) url = joinURL(url, `/${width || 0}x${height || 0}`);
+
+  const filters: string[] = [`quality(${quality || options.quality || 90})`];
+  for (const [modifier, value] of Object.entries(providerModifiers)) {
+    if (value) filters.push(`${modifier}:(${value})`);
   }
 
-  url = joinURL(url, `/filters:quality(${quality || 90})`);
+  if (filters.length > 0) url = joinURL(url, `/filters:${filters.join(":")}`);
 
   return {
     url: joinURL(url, src),
