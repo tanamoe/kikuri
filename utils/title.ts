@@ -21,6 +21,7 @@ export async function getTitleCoverImages(id: string) {
     >({
       filter: `title='${id}'`,
       fields: "id,collectionId,edition,cover,baseCover",
+      sort: "+edition,+volume",
     });
 
   data.forEach(({ id, collectionId, edition, cover, baseCover }) => {
