@@ -10,7 +10,7 @@ export const useUpdateAccount = () => {
 
   async function update(args: {
     id: string;
-    record: Partial<UsersRecord> | FormData | { [k: string]: string };
+    record: Partial<UsersRecord> | FormData | { [k: string]: any };
   }) {
     const { id, record } = args;
 
