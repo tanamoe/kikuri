@@ -2,7 +2,7 @@
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 
-const { isAuthenticated, currentUser } = useAuthentication();
+const { isAuthenticated, currentUser, logout } = useAuthentication();
 
 const avatar = computed(() => {
   return currentUser.value?.avatar !== ""
@@ -30,11 +30,7 @@ const authenticatedItems = computed(() => [
     {
       label: t("account.logout"),
       icon: "i-fluent-sign-out-20-filled",
-      click: () => {
-        const { $pb } = useNuxtApp();
-        $pb.authStore.clear();
-        return navigateTo("/");
-      },
+      click: logout,
     },
   ],
 ]);
