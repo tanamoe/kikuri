@@ -62,6 +62,14 @@ withDefaults(
 
       <div class="flex items-center justify-end gap-3 whitespace-nowrap">
         <TheSearchToggle />
+        <UButton
+          class="sm:hidden"
+          color="gray"
+          variant="ghost"
+          icon="i-fluent-calendar-20-filled"
+          to="/calendar"
+          square
+        />
         <TheNavigationUser />
       </div>
     </div>
