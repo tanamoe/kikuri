@@ -1,27 +1,38 @@
 <script setup lang="ts">
-import { cva, type VariantProps } from "class-variance-authority";
+const { t } = useI18n({ useScope: "global" });
 
-const navigationContainer = cva("top-0 z-30 bg-gray-50 dark:bg-gray-900", {
-  variants: {
-    sticky: {
-      true: "sticky mb-6",
-    },
+const links = computed(() => [
+  {
+    label: t("general.releaseCalendar"),
+    to: "/calendar",
   },
-  defaultVariants: {
+  {
+    label: t("general.browse"),
+    to: "/title",
+  },
+  {
+    label: t("general.library"),
+    to: "/library",
+  },
+]);
+
+withDefaults(
+  defineProps<{
+    sticky?: boolean;
+  }>(),
+  {
     sticky: true,
   },
-});
-
-type NavigationContainerProps = VariantProps<typeof navigationContainer>;
-
-defineProps<{
-  sticky?: NavigationContainerProps["sticky"];
-  disabled?: boolean;
-}>();
+);
 </script>
 
 <template>
-  <nav :class="navigationContainer({ sticky })">
+  <nav
+    class="top-0 z-30 bg-gray-50 dark:bg-gray-900"
+    :class="{
+      'sticky mb-6': sticky,
+    }"
+  >
     <div
       class="container mx-auto grid grid-cols-2 items-center px-6 py-3 lg:grid-cols-6"
     >
@@ -38,32 +49,13 @@ defineProps<{
       </div>
 
       <ul class="col-span-4 hidden items-center justify-center gap-3 lg:flex">
-        <li>
+        <li v-for="link in links" :key="link.to">
           <ULink
-            class="navigation"
-            active-class="navigation-active"
-            to="/calendar"
+            class="rounded-lg px-3 py-2 text-gray-600 transition-all hover:bg-gray-200 dark:text-gray-400 hover:dark:bg-gray-800"
+            active-class="bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100"
+            :to="link.to"
           >
-            {{ $t("general.releaseCalendar") }}
-          </ULink>
-          <NuxtLink to="/calendar" class=""> </NuxtLink>
-        </li>
-        <li>
-          <ULink
-            class="navigation"
-            active-class="navigation-active"
-            to="/title"
-          >
-            {{ $t("general.browse") }}
-          </ULink>
-        </li>
-        <li>
-          <ULink
-            class="navigation"
-            active-class="navigation-active"
-            to="/profile"
-          >
-            {{ $t("general.library") }}
+            {{ link.label }}
           </ULink>
         </li>
       </ul>
@@ -75,13 +67,3 @@ defineProps<{
     </div>
   </nav>
 </template>
-
-<style>
-.navigation {
-  @apply rounded-lg px-3 py-2 text-gray-600 transition-all hover:bg-gray-200 dark:text-gray-400 hover:dark:bg-gray-800;
-}
-
-.navigation-active {
-  @apply bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-200;
-}
-</style>
