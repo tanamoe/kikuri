@@ -45,7 +45,7 @@ const { data: works } = await useAsyncData(() =>
     }>
   >({
     filter: `title = '${title.value!.id}'`,
-    sort: "+created",
+    sort: "+priority",
     expand: "staff",
   }),
 );
