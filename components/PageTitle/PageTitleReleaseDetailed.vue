@@ -13,6 +13,7 @@ const {
   data: rows,
   execute,
 } = await useLazyAsyncData(
+  props.releaseId,
   () =>
     $pb.collection(Collections.BookDetailed).getFullList<BookDetailedResponse>({
       filter: `release='${props.releaseId}'`,
