@@ -5,9 +5,9 @@ import type { Form } from "@nuxt/ui/dist/runtime/types";
 import {
   Collections,
   type UsersResponse,
-  type PublisherResponse,
-  type ReleaseResponse,
-  type TitleResponse,
+  type PublishersResponse,
+  type ReleasesResponse,
+  type TitlesResponse,
 } from "@/types/pb";
 
 const route = useRoute();
@@ -23,16 +23,16 @@ if (!($pb.authStore.model as UsersResponse | null)?.verified)
 
 const { data: title } = await useAsyncData(() =>
   $pb
-    .collection(Collections.Title)
-    .getOne<TitleResponse>(route.query.title as string),
+    .collection(Collections.Titles)
+    .getOne<TitlesResponse>(route.query.title as string),
 );
 
 const { data: releases, pending: releasesPending } = await useLazyAsyncData(
   () => {
     state.value.release = undefined;
-    return $pb.collection(Collections.Release).getFullList<
-      ReleaseResponse<{
-        publisher: PublisherResponse;
+    return $pb.collection(Collections.Releases).getFullList<
+      ReleasesResponse<{
+        publisher: PublishersResponse;
       }>
     >({
       filter: `title = '${route.query.title || title.value?.id}'`,

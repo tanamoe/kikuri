@@ -5,10 +5,10 @@ import { storeToRefs } from "pinia";
 import { useSettingsStore } from "@/stores/settings";
 import type { FilterPublishers } from "@/utils/releases";
 import {
-  type BookDetailedResponse,
+  type BooksDetailsResponse,
   Collections,
-  type PublisherResponse,
-  type TitleResponse,
+  type PublishersResponse,
+  type TitlesResponse,
 } from "@/types/pb";
 
 const runtimeConfig = useRuntimeConfig();
@@ -34,10 +34,10 @@ const filter = computed(() =>
 
 const { pending, data, error } = await useAsyncData(
   () =>
-    $pb.collection(Collections.BookDetailed).getFullList<
-      BookDetailedResponse<{
-        title: TitleResponse;
-        publisher: PublisherResponse;
+    $pb.collection(Collections.BooksDetails).getFullList<
+      BooksDetailsResponse<{
+        title: TitlesResponse;
+        publisher: PublishersResponse;
       }>
     >({
       filter: filter.value,
@@ -52,9 +52,9 @@ const { pending, data, error } = await useAsyncData(
 const releases = computed(() => {
   if (data.value) {
     return groupBy<
-      BookDetailedResponse<{
-        title: TitleResponse;
-        publisher: PublisherResponse;
+      BooksDetailsResponse<{
+        title: TitlesResponse;
+        publisher: PublishersResponse;
       }>
     >(
       data.value.map((release) => ({

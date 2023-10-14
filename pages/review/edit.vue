@@ -5,7 +5,7 @@ import type { Form } from "@nuxt/ui/dist/runtime/types";
 import {
   Collections,
   type UsersResponse,
-  type ReviewResponse,
+  type ReviewsResponse,
 } from "@/types/pb";
 
 const route = useRoute();
@@ -19,8 +19,8 @@ if (typeof route.query.id !== "string" || !route.query.id) {
 
 const { data: review } = await useAsyncData(() =>
   $pb
-    .collection(Collections.Review)
-    .getOne<ReviewResponse>(route.query.id as string),
+    .collection(Collections.Reviews)
+    .getOne<ReviewsResponse>(route.query.id as string),
 );
 
 if (!review.value)

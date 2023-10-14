@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { ReviewResponse, UsersResponse } from "@/types/pb";
+import type { ReviewsResponse, UsersResponse } from "@/types/pb";
 
 defineProps<{
-  reviews: ReviewResponse<{
+  reviews: ReviewsResponse<{
     user: UsersResponse;
   }>[];
 }>();

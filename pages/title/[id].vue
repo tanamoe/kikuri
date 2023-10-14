@@ -2,14 +2,14 @@
 /* eslint-disable vue/no-v-html */
 import {
   Collections,
-  type WorkResponse,
-  type FormatResponse,
-  type ReviewResponse,
-  type TitleResponse,
   type UsersResponse,
-  type StaffResponse,
-  type PublisherResponse,
-  type ReleaseResponse,
+  type TitlesResponse,
+  type FormatsResponse,
+  type WorksResponse,
+  type StaffsResponse,
+  type ReleasesResponse,
+  type PublishersResponse,
+  type ReviewsResponse,
 } from "@/types/pb";
 
 const route = useRoute();
@@ -21,11 +21,11 @@ const { copy, copied, isSupported: clipboardSupported } = useClipboard();
 const toast = useToast();
 
 const { data: title } = await useAsyncData(() =>
-  $pb.collection(Collections.Title).getOne<
-    TitleResponse<
+  $pb.collection(Collections.Titles).getOne<
+    TitlesResponse<
       {},
       {
-        format: FormatResponse;
+        format: FormatsResponse;
       }
     >
   >(route.params.id as string, {
@@ -39,9 +39,9 @@ if (!title.value)
   });
 
 const { data: works } = await useAsyncData(() =>
-  $pb.collection(Collections.Work).getFullList<
-    WorkResponse<{
-      staff: StaffResponse;
+  $pb.collection(Collections.Works).getFullList<
+    WorksResponse<{
+      staff: StaffsResponse;
     }>
   >({
     filter: `title = '${title.value!.id}'`,
@@ -51,9 +51,9 @@ const { data: works } = await useAsyncData(() =>
 );
 
 const { data: releases } = await useAsyncData(() =>
-  $pb.collection(Collections.Release).getFullList<
-    ReleaseResponse<{
-      publisher: PublisherResponse;
+  $pb.collection(Collections.Releases).getFullList<
+    ReleasesResponse<{
+      publisher: PublishersResponse;
     }>
   >({
     filter: `title='${title.value!.id}'`,
@@ -62,8 +62,8 @@ const { data: releases } = await useAsyncData(() =>
 );
 
 const { data: reviews } = await useAsyncData(() =>
-  $pb.collection(Collections.Review).getFullList<
-    ReviewResponse<{
+  $pb.collection(Collections.Reviews).getFullList<
+    ReviewsResponse<{
       user: UsersResponse;
     }>
   >({

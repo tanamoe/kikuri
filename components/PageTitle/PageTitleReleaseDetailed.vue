@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type BookDetailedResponse, Collections } from "@/types/pb";
+import { type BooksDetailsResponse, Collections } from "@/types/pb";
 
 const props = defineProps<{
   open: boolean;
@@ -15,7 +15,7 @@ const {
 } = await useLazyAsyncData(
   props.releaseId,
   () =>
-    $pb.collection(Collections.BookDetailed).getFullList<BookDetailedResponse>({
+    $pb.collection(Collections.BooksDetails).getFullList<BooksDetailsResponse>({
       filter: `release='${props.releaseId}'`,
     }),
   {

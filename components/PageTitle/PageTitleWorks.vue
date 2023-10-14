@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { WorkResponse, StaffResponse } from "@/types/pb";
+import type { WorksResponse, StaffsResponse } from "@/types/pb";
 
 defineProps<{
-  works: WorkResponse<{
-    staff: StaffResponse;
+  works: WorksResponse<{
+    staff: StaffsResponse;
   }>[];
 }>();
 </script>
