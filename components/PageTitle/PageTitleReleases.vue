@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { PublisherResponse, ReleaseResponse } from "@/types/pb";
+import type { PublishersResponse, ReleasesResponse } from "@/types/pb";
 
 const props = defineProps<{
-  releases: ReleaseResponse<{
-    publisher: PublisherResponse;
+  releases: ReleasesResponse<{
+    publisher: PublishersResponse;
   }>[];
 }>();
 

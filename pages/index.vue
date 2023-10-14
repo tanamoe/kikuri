@@ -2,10 +2,10 @@
 import dayjs from "dayjs";
 import type { PostsOrPages } from "@tryghost/content-api";
 import {
-  type BookDetailedResponse,
+  type BooksDetailsResponse,
   Collections,
-  type PublisherResponse,
-  type TitleResponse,
+  type PublishersResponse,
+  type TitlesResponse,
 } from "@/types/pb";
 
 const runtimeConfig = useRuntimeConfig();
@@ -16,9 +16,9 @@ const now = dayjs.tz();
 
 const { data: recentReleases } = await useAsyncData(
   () =>
-    $pb.collection(Collections.BookDetailed).getFullList<
-      BookDetailedResponse<{
-        publisher: PublisherResponse;
+    $pb.collection(Collections.BooksDetails).getFullList<
+      BooksDetailsResponse<{
+        publisher: PublishersResponse;
       }>
     >({
       sort: "+publishDate",
@@ -44,9 +44,9 @@ const { data: recentPosts } = await useFetch<PostsOrPages>(
 
 const { data: recentBooks } = await useAsyncData(
   () =>
-    $pb.collection(Collections.BookDetailed).getList<
-      BookDetailedResponse<{
-        title: TitleResponse;
+    $pb.collection(Collections.BooksDetails).getList<
+      BooksDetailsResponse<{
+        title: TitlesResponse;
       }>
     >(1, 6, {
       sort: "-updated",

@@ -1,8 +1,8 @@
 import { ClientResponseError } from "pocketbase";
 import {
   Collections,
-  type ReviewResponse,
-  type ReviewRecord,
+  type ReviewsResponse,
+  type ReviewsRecord,
 } from "@/types/pb";
 
 export function useReview() {
@@ -12,13 +12,13 @@ export function useReview() {
 
   const pending = ref(false);
 
-  async function post(data: FormData | Partial<ReviewRecord>) {
+  async function post(data: FormData | Partial<ReviewsRecord>) {
     pending.value = true;
 
     try {
       const res = await $pb
-        .collection(Collections.Review)
-        .create<ReviewResponse>(data);
+        .collection(Collections.Reviews)
+        .create<ReviewsResponse>(data);
 
       toast.add({
         color: "primary",
@@ -43,13 +43,13 @@ export function useReview() {
     }
   }
 
-  async function edit(id: string, data: FormData | Partial<ReviewRecord>) {
+  async function edit(id: string, data: FormData | Partial<ReviewsRecord>) {
     pending.value = true;
 
     try {
       const res = await $pb
-        .collection(Collections.Review)
-        .update<ReviewResponse>(id, data);
+        .collection(Collections.Reviews)
+        .update<ReviewsResponse>(id, data);
 
       toast.add({
         color: "primary",
@@ -78,7 +78,7 @@ export function useReview() {
     pending.value = true;
 
     try {
-      await $pb.collection(Collections.Review).delete(id);
+      await $pb.collection(Collections.Reviews).delete(id);
 
       toast.add({
         color: "primary",

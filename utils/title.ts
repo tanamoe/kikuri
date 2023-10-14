@@ -1,6 +1,6 @@
 import {
   type BaseSystemFields,
-  type BookDetailedResponse,
+  type BooksDetailsResponse,
   Collections,
 } from "@/types/pb";
 
@@ -12,10 +12,10 @@ export async function getTitleCoverImages(id: string) {
   })[] = [];
 
   const data = await $pb
-    .collection(Collections.BookDetailed)
+    .collection(Collections.BooksDetails)
     .getFullList<
       Pick<
-        BookDetailedResponse,
+        BooksDetailsResponse,
         "id" | "collectionId" | "edition" | "cover" | "baseCover"
       >
     >({

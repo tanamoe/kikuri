@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { FormatResponse, TitleResponse } from "@/types/pb";
+import type { FormatsResponse, TitlesResponse } from "@/types/pb";
 
 defineProps<{
-  title: TitleResponse<
+  title: TitlesResponse<
     {},
     {
-      format: FormatResponse;
+      format: FormatsResponse;
     }
   >;
 }>();

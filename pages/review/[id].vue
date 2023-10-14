@@ -3,10 +3,10 @@
 import { joinURL } from "ufo";
 import {
   Collections,
-  type ReleaseResponse,
-  type TitleResponse,
-  type ReviewResponse,
   type UsersResponse,
+  type ReleasesResponse,
+  type ReviewsResponse,
+  type TitlesResponse,
 } from "@/types/pb";
 
 const route = useRoute();
@@ -17,11 +17,11 @@ const { t } = useI18n({ useScope: "global" });
 const { currentUser } = useAuthentication();
 
 const { data: review } = await useAsyncData(() =>
-  $pb.collection(Collections.Review).getOne<
-    ReviewResponse<{
+  $pb.collection(Collections.Reviews).getOne<
+    ReviewsResponse<{
       user: UsersResponse;
-      release: ReleaseResponse<{
-        title: TitleResponse;
+      release: ReleasesResponse<{
+        title: TitlesResponse;
       }>;
     }>
   >(route.params.id as string, {

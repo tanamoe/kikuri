@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useSearchStore } from "@/stores/search";
-import { Collections, TitleResponse } from "@/types/pb";
+import { Collections, TitlesResponse } from "@/types/pb";
 
 const { $pb } = useNuxtApp();
 const router = useRouter();
@@ -25,8 +25,8 @@ const groups = computed(() => {
 
         const { data } = await useAsyncData(() => {
           return $pb
-            .collection(Collections.Title)
-            .getFullList<TitleResponse>({ filter: `name ~ '${q}'` });
+            .collection(Collections.Titles)
+            .getFullList<TitlesResponse>({ filter: `name ~ '${q}'` });
         });
 
         if (data.value == null) return [];

@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { Collections, FormatResponse, TitleResponse } from "@/types/pb";
+import { Collections, FormatsResponse, TitlesResponse } from "@/types/pb";
 
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 
 const props = defineProps<{
   modelValue: boolean;
-  title: TitleResponse | null;
+  title: TitlesResponse | null;
 }>();
 
 const emit = defineEmits<{
   "update:modelValue": [boolean];
-  "update:title": [TitleResponse];
+  "update:title": [TitlesResponse];
 }>();
 
 const columns = computed(() => [
@@ -49,9 +49,9 @@ const {
   execute,
 } = await useAsyncData(
   () =>
-    $pb.collection(Collections.Title).getList<
-      TitleResponse<{
-        format: FormatResponse;
+    $pb.collection(Collections.Titles).getList<
+      TitlesResponse<{
+        format: FormatsResponse;
       }>
     >(page.value, 5, {
       expand: "format",
@@ -85,7 +85,7 @@ const {
       :columns="columns"
       :rows="titles.items"
       :loading="pending"
-      @select="(row: TitleResponse) => (title = row)"
+      @select="(row: TitlesResponse) => (title = row)"
     >
       <template #cover-data="{ row }">
         <div v-if="row.cover" class="flex justify-center">

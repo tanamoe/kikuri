@@ -3,9 +3,9 @@ import { joinURL } from "ufo";
 import { type Dayjs } from "dayjs";
 import type { FilterPublishers } from "@/utils/releases";
 import {
-  type BookDetailedResponse,
+  type BooksDetailsResponse,
   Collections,
-  type PublisherResponse,
+  type PublishersResponse,
 } from "@/types/pb";
 
 const runtimeConfig = useRuntimeConfig();
@@ -14,7 +14,8 @@ const { $pb } = useNuxtApp();
 const toolbar = ref<HTMLDivElement>();
 
 const { data: publisherOptions } = await useAsyncData(
-  () => $pb.collection(Collections.Publisher).getFullList<PublisherResponse>(),
+  () =>
+    $pb.collection(Collections.Publishers).getFullList<PublishersResponse>(),
   {
     transform: (publishers) =>
       publishers.map((publisher) => ({
@@ -35,8 +36,8 @@ const { data: publisherOptions } = await useAsyncData(
 );
 
 const props = defineProps<{
-  releases: BookDetailedResponse<{
-    publisher: PublisherResponse;
+  releases: BooksDetailsResponse<{
+    publisher: PublishersResponse;
   }>[];
   month: Dayjs;
   publishers: FilterPublishers[];
