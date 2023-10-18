@@ -2,14 +2,12 @@
 /* eslint-disable vue/no-v-html */
 import {
   Collections,
-  type UsersResponse,
   type TitlesResponse,
   type FormatsResponse,
   type WorksResponse,
   type StaffsResponse,
   type ReleasesResponse,
   type PublishersResponse,
-  type ReviewsResponse,
 } from "@/types/pb";
 
 const route = useRoute();
@@ -17,7 +15,7 @@ const runtimeConfig = useRuntimeConfig();
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 
-const { data } = await useAsyncData(() =>
+const { data: title } = await useAsyncData(() =>
   $pb.collection(Collections.Titles).getOne<
     TitlesResponse<
       {},
@@ -36,46 +34,31 @@ const { data } = await useAsyncData(() =>
   }),
 );
 
-const releases = computed(() => data.value?.expand?.["releases(title)"]);
-const works = computed(() => data.value?.expand?.["works(title)"]);
+const releases = computed(() => title.value?.expand?.["releases(title)"]);
+const works = computed(() => title.value?.expand?.["works(title)"]);
 
-if (!data.value)
+if (!title.value)
   throw createError({
     statusCode: 404,
     statusMessage: t("error.notFoundMessage"),
   });
 
-const { data: reviews } = await useLazyAsyncData(() =>
-  $pb.collection(Collections.Reviews).getFullList<
-    ReviewsResponse<{
-      user: UsersResponse;
-    }>
-  >({
-    filter: `release.title = '${data.value!.id}'`,
-    expand: "user",
-  }),
-);
-
-const { data: images } = await useLazyAsyncData(() =>
-  getTitleCoverImages(data.value!.id),
-);
-
 const ogImage = new URL("/title", runtimeConfig.public.ogUrl);
-ogImage.searchParams.set("name", data.value.name);
-ogImage.searchParams.set("format", data.value.expand!.format.name);
-if (data.value.cover)
+ogImage.searchParams.set("name", title.value.name);
+ogImage.searchParams.set("format", title.value.expand!.format.name);
+if (title.value.cover)
   ogImage.searchParams.set(
     "image",
-    $pb.files.getUrl(data.value, data.value.cover),
+    $pb.files.getUrl(title.value, title.value.cover),
   );
 
 useSeoMeta({
-  title: data.value.name,
-  description: data.value.description.replace(/<[^>]*>/g, "").slice(0, 200),
-  ogTitle: data.value.name,
-  ogDescription: data.value.description.replace(/<[^>]*>/g, "").slice(0, 200),
+  title: title.value.name,
+  description: title.value.description.replace(/<[^>]*>/g, "").slice(0, 200),
+  ogTitle: title.value.name,
+  ogDescription: title.value.description.replace(/<[^>]*>/g, "").slice(0, 200),
   ogImage: ogImage.toString(),
-  ogImageAlt: data.value.name,
+  ogImageAlt: title.value.name,
 });
 
 definePageMeta({
@@ -84,25 +67,16 @@ definePageMeta({
 </script>
 
 <template>
-  <UContainer v-if="data">
-    <PageTitleHeader :title="data" />
+  <UContainer v-if="title">
+    <PageTitleHeader :title="title" />
 
     <div class="mt-6 flex flex-col-reverse gap-6 lg:flex-row">
       <div class="flex-1">
-        <div v-if="releases && releases.length > 0">
-          <AppH3 class="mb-3 mt-12">{{ $t("general.releaseCalendar") }}</AppH3>
-          <PageTitleReleases :releases="releases" />
-        </div>
+        <PageTitleSectionReleases v-if="releases" :releases="releases" />
 
-        <div v-if="reviews && reviews.length > 0">
-          <AppH3 class="mb-3 mt-12">{{ $t("general.review") }}</AppH3>
-          <PageTitleReviews :reviews="reviews" />
-        </div>
+        <PageTitleSectionReviews :title-id="title.id" />
 
-        <div v-if="images && images.length > 0">
-          <AppH3 class="mb-3 mt-12">{{ $t("general.coverImages") }}</AppH3>
-          <PageTitleCoverImages :images="images" />
-        </div>
+        <PageTitleSectionCovers :title-id="title.id" />
       </div>
 
       <div class="w-full flex-shrink-0 space-y-6 lg:w-64">
@@ -110,13 +84,16 @@ definePageMeta({
           <UButton class="flex-1" block disabled>
             {{ $t("general.follow") }}
           </UButton>
-          <AppShareButton :title="data.name" />
+          <AppShareButton :title="title.name" />
         </div>
 
-        <PageTitleWorks v-if="works && works.length > 0" :works="works" />
+        <PageTitleSectionWorks
+          v-if="works && works.length > 0"
+          :works="works"
+        />
 
         <UButton
-          :to="`/review/create?title=${data.id}`"
+          :to="`/review/create?title=${title.id}`"
           color="gray"
           icon="i-fluent-pen-20-filled"
           block

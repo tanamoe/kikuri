@@ -10,6 +10,7 @@ export enum Collections {
   CollectionMembers = "collectionMembers",
   Collections = "collections",
   Formats = "formats",
+  Genres = "genres",
   LinkSources = "linkSources",
   Links = "links",
   Publications = "publications",
@@ -17,6 +18,7 @@ export enum Collections {
   Releases = "releases",
   Reviews = "reviews",
   Staffs = "staffs",
+  TitleCovers = "titleCovers",
   Titles = "titles",
   Users = "users",
   Works = "works",
@@ -63,6 +65,7 @@ export type BooksDetailsRecord = {
   digital?: boolean;
   edition?: string;
   name: string;
+  note?: HTMLString;
   price?: number;
   publishDate?: IsoDateString;
   publisher: RecordIdString;
@@ -133,6 +136,11 @@ export type FormatsRecord = {
   thumbnail?: string;
 };
 
+export type GenresRecord = {
+  name: string;
+  slug: string;
+};
+
 export type LinkSourcesRecord = {
   color: string;
   icon?: string;
@@ -191,10 +199,23 @@ export type StaffsRecord = {
   name: string;
 };
 
+export type TitleCoversRecord<
+  Tcover = unknown,
+  TparentCollection = unknown,
+  Ttitle = unknown,
+  Tvolume = unknown,
+> = {
+  cover?: null | Tcover;
+  parentCollection?: null | TparentCollection;
+  title?: null | Ttitle;
+  volume?: null | Tvolume;
+};
+
 export type TitlesRecord<Tmetadata = unknown> = {
   cover?: string;
   description?: HTMLString;
   format: RecordIdString;
+  genres?: RecordIdString[];
   metadata?: null | Tmetadata;
   name: string;
 };
@@ -230,6 +251,8 @@ export type CollectionsResponse<Texpand = unknown> =
   Required<CollectionsRecord> & BaseSystemFields<Texpand>;
 export type FormatsResponse<Texpand = unknown> = Required<FormatsRecord> &
   BaseSystemFields<Texpand>;
+export type GenresResponse<Texpand = unknown> = Required<GenresRecord> &
+  BaseSystemFields<Texpand>;
 export type LinkSourcesResponse<Texpand = unknown> =
   Required<LinkSourcesRecord> & BaseSystemFields<Texpand>;
 export type LinksResponse<Texpand = unknown> = Required<LinksRecord> &
@@ -245,6 +268,14 @@ export type ReleasesResponse<Texpand = unknown> = Required<ReleasesRecord> &
 export type ReviewsResponse<Texpand = unknown> = Required<ReviewsRecord> &
   BaseSystemFields<Texpand>;
 export type StaffsResponse<Texpand = unknown> = Required<StaffsRecord> &
+  BaseSystemFields<Texpand>;
+export type TitleCoversResponse<
+  Tcover = unknown,
+  TparentCollection = unknown,
+  Ttitle = unknown,
+  Tvolume = unknown,
+  Texpand = unknown,
+> = Required<TitleCoversRecord<Tcover, TparentCollection, Ttitle, Tvolume>> &
   BaseSystemFields<Texpand>;
 export type TitlesResponse<Tmetadata = unknown, Texpand = unknown> = Required<
   TitlesRecord<Tmetadata>
@@ -265,6 +296,7 @@ export type CollectionRecords = {
   collectionMembers: CollectionMembersRecord;
   collections: CollectionsRecord;
   formats: FormatsRecord;
+  genres: GenresRecord;
   linkSources: LinkSourcesRecord;
   links: LinksRecord;
   publications: PublicationsRecord;
@@ -272,6 +304,7 @@ export type CollectionRecords = {
   releases: ReleasesRecord;
   reviews: ReviewsRecord;
   staffs: StaffsRecord;
+  titleCovers: TitleCoversRecord;
   titles: TitlesRecord;
   users: UsersRecord;
   works: WorksRecord;
@@ -285,6 +318,7 @@ export type CollectionResponses = {
   collectionMembers: CollectionMembersResponse;
   collections: CollectionsResponse;
   formats: FormatsResponse;
+  genres: GenresResponse;
   linkSources: LinkSourcesResponse;
   links: LinksResponse;
   publications: PublicationsResponse;
@@ -292,6 +326,7 @@ export type CollectionResponses = {
   releases: ReleasesResponse;
   reviews: ReviewsResponse;
   staffs: StaffsResponse;
+  titleCovers: TitleCoversResponse;
   titles: TitlesResponse;
   users: UsersResponse;
   works: WorksResponse;
