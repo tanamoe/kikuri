@@ -2,6 +2,9 @@
  * This file was @generated using pocketbase-typegen
  */
 
+import type PocketBase from "pocketbase";
+import { type RecordService } from "pocketbase";
+
 export enum Collections {
   Books = "books",
   BooksDetails = "booksDetails",
@@ -49,7 +52,7 @@ export type AuthSystemFields<T = never> = {
 // Record types for each collection
 
 export type BooksRecord<Tmetadata = unknown> = {
-  cover?: string[];
+  covers?: string[];
   edition?: string;
   metadata?: null | Tmetadata;
   note?: HTMLString;
@@ -154,7 +157,7 @@ export type LinksRecord = {
 };
 
 export type PublicationsRecord<Tmetadata = unknown> = {
-  cover?: string[];
+  covers?: string[];
   digital?: boolean;
   metadata?: null | Tmetadata;
   name: string;
@@ -200,12 +203,12 @@ export type StaffsRecord = {
 };
 
 export type TitleCoversRecord<
-  Tcover = unknown,
+  Tcovers = unknown,
   TparentCollection = unknown,
   Ttitle = unknown,
   Tvolume = unknown,
 > = {
-  cover?: null | Tcover;
+  covers?: null | Tcovers;
   parentCollection?: null | TparentCollection;
   title?: null | Ttitle;
   volume?: null | Tvolume;
@@ -270,12 +273,12 @@ export type ReviewsResponse<Texpand = unknown> = Required<ReviewsRecord> &
 export type StaffsResponse<Texpand = unknown> = Required<StaffsRecord> &
   BaseSystemFields<Texpand>;
 export type TitleCoversResponse<
-  Tcover = unknown,
+  Tcovers = unknown,
   TparentCollection = unknown,
   Ttitle = unknown,
   Tvolume = unknown,
   Texpand = unknown,
-> = Required<TitleCoversRecord<Tcover, TparentCollection, Ttitle, Tvolume>> &
+> = Required<TitleCoversRecord<Tcovers, TparentCollection, Ttitle, Tvolume>> &
   BaseSystemFields<Texpand>;
 export type TitlesResponse<Tmetadata = unknown, Texpand = unknown> = Required<
   TitlesRecord<Tmetadata>
@@ -330,4 +333,35 @@ export type CollectionResponses = {
   titles: TitlesResponse;
   users: UsersResponse;
   works: WorksResponse;
+};
+
+// Type for usage with type asserted PocketBase instance
+// https://github.com/pocketbase/js-sdk#specify-typescript-definitions
+
+export type TypedPocketBase = PocketBase & {
+  collection(idOrName: "books"): RecordService<BooksResponse>;
+  collection(idOrName: "booksDetails"): RecordService<BooksDetailsResponse>;
+  collection(
+    idOrName: "collectionBooks",
+  ): RecordService<CollectionBooksResponse>;
+  collection(
+    idOrName: "collectionBooksDetails",
+  ): RecordService<CollectionBooksDetailsResponse>;
+  collection(
+    idOrName: "collectionMembers",
+  ): RecordService<CollectionMembersResponse>;
+  collection(idOrName: "collections"): RecordService<CollectionsResponse>;
+  collection(idOrName: "formats"): RecordService<FormatsResponse>;
+  collection(idOrName: "genres"): RecordService<GenresResponse>;
+  collection(idOrName: "linkSources"): RecordService<LinkSourcesResponse>;
+  collection(idOrName: "links"): RecordService<LinksResponse>;
+  collection(idOrName: "publications"): RecordService<PublicationsResponse>;
+  collection(idOrName: "publishers"): RecordService<PublishersResponse>;
+  collection(idOrName: "releases"): RecordService<ReleasesResponse>;
+  collection(idOrName: "reviews"): RecordService<ReviewsResponse>;
+  collection(idOrName: "staffs"): RecordService<StaffsResponse>;
+  collection(idOrName: "titleCovers"): RecordService<TitleCoversResponse>;
+  collection(idOrName: "titles"): RecordService<TitlesResponse>;
+  collection(idOrName: "users"): RecordService<UsersResponse>;
+  collection(idOrName: "works"): RecordService<WorksResponse>;
 };

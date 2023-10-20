@@ -17,10 +17,10 @@ const { data: images } = await useAsyncData(
       }),
   {
     transform: (images) =>
-      images.reduce((r, { parentCollection, id, cover }) => {
-        if (parentCollection && cover) {
-          for (const c of cover) {
-            r.push(joinURL(parentCollection, id, c));
+      images.reduce((r, { parentCollection, id, covers }) => {
+        if (parentCollection && covers) {
+          for (const cover of covers) {
+            r.push(joinURL(parentCollection, id, cover));
           }
         }
         return r;
