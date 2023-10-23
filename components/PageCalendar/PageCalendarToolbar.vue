@@ -136,7 +136,7 @@ onMounted(async () => {
               </span>
             </UButton>
           </USelectMenu>
-          <PageCalendarOptions :disable-download="releases.length == 0" />
+          <CalendarOptions :disable-download="releases.length == 0" />
         </div>
       </div>
     </div>
