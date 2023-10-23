@@ -113,7 +113,7 @@ defineProps<{
         />
         <AppCover
           class="rounded-md"
-          :book="book"
+          :record="book"
           :file-name="book.cover[0] || book.baseCover[0]"
           sizes="sm:80vw md:300px"
         />
