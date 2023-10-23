@@ -64,7 +64,7 @@ const isOpen = ref(false);
       />
       <AppCover
         class="rounded-lg"
-        :book="title"
+        :record="title"
         :file-name="title.cover"
         sizes="sm:80vw md:300px"
       />

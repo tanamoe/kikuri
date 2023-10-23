@@ -2,7 +2,7 @@
 import type { BaseSystemFields } from "@/types/pb";
 
 defineProps<{
-  book: Pick<BaseSystemFields, "id" | "collectionId"> & {
+  record: Pick<BaseSystemFields, "id" | "collectionId"> & {
     name: string;
   };
   fileName?: string;
@@ -15,7 +15,7 @@ defineProps<{
     v-if="fileName"
     loading="lazy"
     class="aspect-[2/3] h-full w-full object-cover"
-    :src="getPocketBaseImagePath(book, fileName)"
+    :src="getPocketBaseImagePath(record, fileName)"
     :sizes="sizes"
     :placeholder="[60, 90, 75, 5]"
   />
@@ -30,6 +30,6 @@ defineProps<{
       'aspect-[2/3]',
     ]"
   >
-    {{ book.name }}
+    {{ record.name }}
   </div>
 </template>

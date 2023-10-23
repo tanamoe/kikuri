@@ -36,7 +36,7 @@ defineProps<{
         {{ book.edition }}
       </UBadge>
       <AppCover
-        :book="book"
+        :record="book"
         :file-name="book.cover[0] || book.baseCover[0]"
         :sizes="sizes"
       />
