@@ -41,7 +41,7 @@
   "dependencies": {
     "@iconify-json/fluent": "^1.1.36",
     "@iconify-json/simple-icons": "^1.1.72",
-    "@pinia/nuxt": "^0.4.11",
+    "@pinia/nuxt": "^0.5.0",
     "@popperjs/core": "^2.11.8",
     "@tiptap/extension-character-count": "^2.1.8",
     "@tiptap/extension-image": "^2.1.8",
