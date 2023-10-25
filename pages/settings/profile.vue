@@ -41,7 +41,7 @@ async function submit(event: FormSubmitEvent<Schema>) {
 
 definePageMeta({
   layout: "setting",
-  middleware: "with-auth",
+  middleware: "auth",
 });
 </script>
 

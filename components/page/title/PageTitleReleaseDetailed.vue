@@ -56,6 +56,11 @@ const columns = [
     class: "whitespace-nowrap w-0",
   },
   {
+    key: "note",
+    label: "",
+    class: "whitespace-nowrap w-0",
+  },
+  {
     key: "actions",
   },
 ];
@@ -82,7 +87,11 @@ const watcher = watch(
     }"
   >
     <template #edition-data="{ row }">
-      <UBadge v-if="row.edition" color="tanaamber" variant="overlay">
+      <UBadge
+        v-if="row.edition"
+        color="tanaamber"
+        class="bg-opacity-50 text-gray-900 backdrop-blur"
+      >
         {{ row.edition }}
       </UBadge>
     </template>
@@ -92,8 +101,19 @@ const watcher = watch(
     <template #price-data="{ row }">
       <span>{{ $n(row.price, "currency", "vi") }}</span>
     </template>
+    <template #note-data="{ row }">
+      <UTooltip
+        v-if="row.note"
+        :ui="{ base: 'whitespace-normal overflow-visible h-[unset]' }"
+      >
+        <UButton color="gray" icon="i-fluent-note-20-filled" />
+        <template #text>
+          <div>{{ row.note }}</div>
+        </template>
+      </UTooltip>
+    </template>
     <template #actions-data>
-      <div class="text-right">
+      <div class="whitespace-nowrap text-right">
         <UButton
           icon="i-fluent-add-20-filled"
           color="gray"

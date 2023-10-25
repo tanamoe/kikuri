@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { UsersResponse } from "@/types/pb";
+import type { UsersResponse } from "@/types/pb";
 
 const { pending, requestEmail } = useRequestVerification();
 
 const { $pb } = useNuxtApp();
 
 definePageMeta({
-  middleware: ["without-auth"],
+  middleware: ["guest"],
 });
 </script>
 

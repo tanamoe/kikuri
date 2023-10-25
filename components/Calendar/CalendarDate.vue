@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useSettingsStore } from "@/stores/settings";
 
 const store = useSettingsStore();
 const { datePosition } = storeToRefs(store);

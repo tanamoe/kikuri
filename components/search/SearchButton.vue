@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useSearchStore } from "@/stores/search";
 const { metaSymbol } = useShortcuts();
 
 const { open } = useSearchStore();

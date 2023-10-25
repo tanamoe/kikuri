@@ -1,8 +1,11 @@
 import PocketBase, { type AuthModel } from "pocketbase";
+import type { TypedPocketBase } from "~/types/pb";
 
 export default defineNuxtPlugin(async () => {
   const runtimeConfig = useRuntimeConfig();
-  const pb = new PocketBase(runtimeConfig.public.pocketbaseUrl);
+  const pb = new PocketBase(
+    runtimeConfig.public.pocketbaseUrl,
+  ) as TypedPocketBase;
 
   const cookie = useCookie<{
     token: string;

@@ -1,18 +1,51 @@
 <script setup lang="ts">
-import { Collections, FormatsResponse, TitlesResponse } from "@/types/pb";
+import {
+  Collections,
+  type FormatsResponse,
+  type TitlesResponse,
+} from "@/types/pb";
 
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 
 const props = defineProps<{
-  modelValue: boolean;
-  title: TitlesResponse | null;
+  modelValue: string;
+  initialName?: string;
 }>();
 
 const emit = defineEmits<{
-  "update:modelValue": [boolean];
-  "update:title": [TitlesResponse];
+  "update:modelValue": [string];
 }>();
+
+const page = ref(1);
+const query = ref("");
+const isOpen = ref(false);
+const name = ref<string>(props.initialName || "");
+
+const {
+  data: titles,
+  pending,
+  execute,
+} = await useAsyncData(
+  () =>
+    $pb.collection(Collections.Titles).getList<
+      TitlesResponse<{
+        format: FormatsResponse;
+      }>
+    >(page.value, 5, {
+      expand: "format",
+      sort: "+name",
+      filter: `name~'${query.value}'`,
+    }),
+  {
+    watch: [page],
+  },
+);
+
+const id = computed({
+  get: () => props.modelValue,
+  set: (v) => emit("update:modelValue", v),
+});
 
 const columns = computed(() => [
   {
@@ -29,54 +62,29 @@ const columns = computed(() => [
   },
 ]);
 
-const page = ref(1);
-const search = ref("");
-const isOpen = computed({
-  get: () => props.modelValue,
-  set: (v) => emit("update:modelValue", v),
-});
-const title = computed({
-  get: () => props.title,
-  set: (v) => {
-    if (v) emit("update:title", v);
-    isOpen.value = false;
-  },
-});
+function search() {
+  page.value = 1;
+  execute();
+}
 
-const {
-  data: titles,
-  pending,
-  execute,
-} = await useAsyncData(
-  () =>
-    $pb.collection(Collections.Titles).getList<
-      TitlesResponse<{
-        format: FormatsResponse;
-      }>
-    >(page.value, 5, {
-      expand: "format",
-      sort: "+name",
-      filter: `name ~ '${search.value}'`,
-    }),
-  {
-    server: false,
-    watch: [page],
-  },
-);
+function select(row: TitlesResponse) {
+  name.value = row.name;
+  id.value = row.id;
+  isOpen.value = false;
+}
 </script>
 
 <template>
+  <UButton color="white" variant="solid" block @click="isOpen = true">
+    <span v-if="name">{{ name }}</span>
+    <span v-else>{{ $t("review.titleSelect") }}</span>
+  </UButton>
   <UModal v-model="isOpen">
     <form
       class="flex items-center justify-start gap-3 border-b border-gray-300 p-3 dark:border-gray-700"
-      @submit.prevent="
-        () => {
-          page = 1;
-          execute();
-        }
-      "
+      @submit.prevent="search"
     >
-      <UInput v-model="search" :placeholder="$t('general.searchPlaceholder')" />
+      <UInput v-model="query" :placeholder="$t('general.searchPlaceholder')" />
       <UButton color="gray" icon="i-fluent-search-20-filled" type="submit" />
     </form>
 
@@ -85,7 +93,7 @@ const {
       :columns="columns"
       :rows="titles.items"
       :loading="pending"
-      @select="(row: TitlesResponse) => (title = row)"
+      @select="select"
     >
       <template #cover-data="{ row }">
         <div v-if="row.cover" class="flex justify-center">

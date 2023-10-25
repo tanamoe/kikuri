@@ -72,4 +72,5 @@ export default defineNuxtConfig({
       anchorLinks: false,
     },
   },
+  experimental: { appManifest: false },
 });

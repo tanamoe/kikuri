@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { joinURL } from "ufo";
 import { storeToRefs } from "pinia";
-import { useSettingsStore } from "@/stores/settings";
 import type { BooksDetailsResponse, TitlesResponse } from "@/types/pb";
 
 const store = useSettingsStore();
@@ -21,17 +20,15 @@ defineProps<{
     <AppCard>
       <UBadge
         v-if="book.digital == true"
-        class="absolute right-2 top-2 backdrop-blur"
+        class="absolute right-2 top-2 text-gray-900"
         color="red"
-        variant="overlay"
       >
         Digital
       </UBadge>
       <UBadge
         v-else-if="book.edition !== ''"
-        class="absolute right-2 top-2 backdrop-blur"
+        class="absolute right-2 top-2 text-gray-900"
         color="tanaamber"
-        variant="overlay"
       >
         {{ book.edition }}
       </UBadge>

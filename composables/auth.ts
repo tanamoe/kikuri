@@ -1,5 +1,5 @@
 import { ClientResponseError } from "pocketbase";
-import { Collections, UsersResponse } from "@/types/pb";
+import { Collections, type UsersResponse } from "@/types/pb";
 
 export function useAuthentication() {
   const { $pb } = useNuxtApp();

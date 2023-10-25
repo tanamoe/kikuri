@@ -17,7 +17,7 @@
     "@commitlint/config-conventional": "^17.8.0",
     "@nuxt/content": "^2.8.5",
     "@nuxt/image": "1.0.0",
-    "@nuxt/ui": "^2.8.1",
+    "@nuxt/ui": "^2.9.0",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@nuxtjs/google-fonts": "^3.0.2",
     "@nuxtjs/i18n": "8.0.0-rc.5",
@@ -31,7 +31,7 @@
     "eslint-config-prettier": "^9.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.0.1",
-    "nuxt": "^3.7.4",
+    "nuxt": "^3.8.0",
     "prettier": "3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.6",
     "typescript": "^5.2.2",
@@ -41,7 +41,7 @@
   "dependencies": {
     "@iconify-json/fluent": "^1.1.36",
     "@iconify-json/simple-icons": "^1.1.72",
-    "@pinia/nuxt": "^0.4.11",
+    "@pinia/nuxt": "^0.5.1",
     "@popperjs/core": "^2.11.8",
     "@tiptap/extension-character-count": "^2.1.8",
     "@tiptap/extension-image": "^2.1.8",
@@ -55,7 +55,7 @@
     "class-variance-authority": "^0.7.0",
     "dayjs": "^1.11.10",
     "nuxt-swiper": "^1.2.2",
-    "pinia": "^2.1.6",
+    "pinia": "^2.1.7",
     "pocketbase": "^0.19.0",
     "zod": "^3.22.2"
   }

@@ -28,13 +28,8 @@ export default defineAppConfig({
     gray: "zinc",
     container: {
       base: "mx-auto",
-      padding: "px-6",
-      constrained: "container",
-    },
-    badge: {
-      variant: {
-        overlay: "bg-{color}-400 bg-opacity-50 backdrop-blur text-gray-900",
-      },
+      padding: "px-6 sm:px-6 lg:px-6",
+      constrained: "container max-w-[auto]",
     },
     button: {
       variant: {

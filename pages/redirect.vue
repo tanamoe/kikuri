@@ -22,7 +22,7 @@ const res = await loginWithOAuth2(
 if (res) navigateTo("/");
 
 definePageMeta({
-  middleware: ["without-auth"],
+  middleware: ["guest"],
 });
 </script>
 

@@ -6,7 +6,7 @@ const sticky = computed(() => route.meta.stickyNav as boolean);
 
 <template>
   <div>
-    <TheNavigation :sticky="sticky" />
+    <NavigationBar :sticky="sticky" />
     <main class="container mx-auto min-h-[80vh] overflow-x-hidden px-6 pb-6">
       <AppH1 class="mb-6">{{ $t("general.settings") }}</AppH1>
       <div class="flex flex-col gap-6 sm:flex-row">
@@ -17,6 +17,6 @@ const sticky = computed(() => route.meta.stickyNav as boolean);
       </div>
     </main>
     <TheFooter />
-    <TheSearch />
+    <SearchBar />
   </div>
 </template>

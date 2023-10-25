@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { z } from "zod";
 import { useStorage } from "@vueuse/core";
-import type { Form } from "@nuxt/ui/dist/runtime/types";
+import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 import {
   Collections,
   type UsersResponse,
@@ -13,27 +13,32 @@ const { $pb } = useNuxtApp();
 const { pending, edit, remove } = useReview();
 const { t } = useI18n({ useScope: "global" });
 
-if (typeof route.query.id !== "string" || !route.query.id) {
-  await navigateTo("/");
+if (!route.query.id || Array.isArray(route.query.id)) {
+  throw createError({
+    statusCode: 400,
+    statusMessage: t("error.badRequestMessage"),
+  });
 }
 
+const id = route.query.id;
+
 const { data: review } = await useAsyncData(() =>
-  $pb
-    .collection(Collections.Reviews)
-    .getOne<ReviewsResponse>(route.query.id as string),
+  $pb.collection(Collections.Reviews).getOne<ReviewsResponse>(id),
 );
 
-if (!review.value)
+if (!review.value) {
   throw createError({
     statusCode: 404,
     statusMessage: t("error.notFoundMessage"),
   });
+}
 
-if (review.value.user !== ($pb.authStore.model as UsersResponse)?.id)
+if (review.value.user !== ($pb.authStore.model as UsersResponse)?.id) {
   throw createError({
     statusCode: 401,
     statusMessage: t("error.unauthorizedMessage"),
   });
+}
 
 const schema = z.object({
   id: z.string(),
@@ -59,22 +64,17 @@ const content = useStorage(
   review.value.content,
 );
 
-const form = ref<Form<Schema>>();
-
-const editPromptOpen = ref(false);
 const removePromptOpen = ref(false);
 
-async function submit() {
-  const data: Schema = await form.value!.validate();
-
-  edit(review.value!.id, {
-    ...data,
+async function submit(event: FormSubmitEvent<Schema>) {
+  await edit(review.value!.id, {
+    ...event.data,
     content: content.value,
   });
 }
 
 definePageMeta({
-  middleware: "with-auth",
+  middleware: "verified",
 });
 </script>
 
@@ -83,10 +83,10 @@ definePageMeta({
     <AppH1 class="mb-6">{{ $t("review.edit") }}</AppH1>
 
     <UForm
-      ref="form"
       :schema="schema"
       :state="state"
       class="flex flex-col-reverse gap-6 sm:flex-row"
+      @submit="submit"
     >
       <div class="flex-1">
         <UFormGroup name="header" class="mb-6">
@@ -120,7 +120,7 @@ definePageMeta({
             <UButton
               class="flex flex-1 items-center justify-center"
               trailing-icon="i-fluent-edit-20-filled"
-              @click="editPromptOpen = true"
+              type="submit"
             >
               {{ $t("review.action.edit") }}
             </UButton>
@@ -135,26 +135,6 @@ definePageMeta({
         </div>
       </div>
     </UForm>
-
-    <UModal v-model="editPromptOpen">
-      <UCard>
-        {{ $t("review.editPrompt") }}
-        <template #footer>
-          <div class="flex justify-end gap-3">
-            <UButton
-              color="red"
-              variant="ghost"
-              @click="editPromptOpen = false"
-            >
-              {{ $t("general.return") }}
-            </UButton>
-            <UButton :loading="pending" @click="submit">
-              {{ $t("general.confirm") }}
-            </UButton>
-          </div>
-        </template>
-      </UCard>
-    </UModal>
 
     <UModal v-model="removePromptOpen">
       <UCard>

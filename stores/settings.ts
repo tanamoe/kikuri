@@ -1,4 +1,3 @@
-import { defineStore } from "pinia";
 import type { FilterDigital } from "@/utils/releases";
 
 export const useSettingsStore = defineStore(
