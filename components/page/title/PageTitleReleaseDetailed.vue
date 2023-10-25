@@ -57,7 +57,7 @@ const columns = [
   },
   {
     key: "note",
-    label: t("general.note"),
+    label: "",
     class: "whitespace-nowrap w-0",
   },
   {
@@ -113,7 +113,7 @@ const watcher = watch(
       </UTooltip>
     </template>
     <template #actions-data>
-      <div class="text-right">
+      <div class="whitespace-nowrap text-right">
         <UButton
           icon="i-fluent-add-20-filled"
           color="gray"
