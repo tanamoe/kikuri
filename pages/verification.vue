@@ -6,7 +6,7 @@ const { pending, requestEmail } = useRequestVerification();
 const { $pb } = useNuxtApp();
 
 definePageMeta({
-  middleware: ["without-auth"],
+  middleware: ["guest"],
 });
 </script>
 
