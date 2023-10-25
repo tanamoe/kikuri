@@ -23,8 +23,8 @@ const { t } = useI18n({ useScope: "global" });
 
 const titleId = ref("");
 
-if (!Array.isArray(route.params.id)) {
-  titleId.value = route.params.id;
+if (route.query.title && !Array.isArray(route.query.title)) {
+  titleId.value = route.query.title;
 }
 
 const { data: title } = await useAsyncData(
