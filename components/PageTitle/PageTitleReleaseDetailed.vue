@@ -56,6 +56,11 @@ const columns = [
     class: "whitespace-nowrap w-0",
   },
   {
+    key: "note",
+    label: t("general.note"),
+    class: "whitespace-nowrap w-0",
+  },
+  {
     key: "actions",
   },
 ];
@@ -91,6 +96,17 @@ const watcher = watch(
     </template>
     <template #price-data="{ row }">
       <span>{{ $n(row.price, "currency", "vi") }}</span>
+    </template>
+    <template #note-data="{ row }">
+      <UTooltip
+        v-if="row.note"
+        :ui="{ base: 'whitespace-normal overflow-visible h-[unset]' }"
+      >
+        <UButton color="gray" icon="i-fluent-note-20-filled" />
+        <template #text>
+          <div>{{ row.note }}</div>
+        </template>
+      </UTooltip>
     </template>
     <template #actions-data>
       <div class="text-right">

@@ -1,5 +1,5 @@
 import { ClientResponseError } from "pocketbase";
-import { Collections, UsersRecord, UsersResponse } from "@/types/pb";
+import { Collections, type UsersRecord, type UsersResponse } from "@/types/pb";
 
 export const useUpdateAccount = () => {
   const { $pb } = useNuxtApp();

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { UsersResponse } from "@/types/pb";
+import type { UsersResponse } from "@/types/pb";
 
 const { pending, requestEmail } = useRequestVerification();
 

@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { Collections, FormatsResponse, TitlesResponse } from "@/types/pb";
+import {
+  Collections,
+  type FormatsResponse,
+  type TitlesResponse,
+} from "@/types/pb";
 
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });

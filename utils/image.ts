@@ -1,5 +1,5 @@
 import { joinURL } from "ufo";
-import { FileOptions } from "pocketbase";
+import type { FileOptions } from "pocketbase";
 import type { BaseSystemFields } from "@/types/pb";
 
 export function getPocketbaseImageURL(

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useSearchStore } from "@/stores/search";
-import { Collections, TitlesResponse } from "@/types/pb";
+import { Collections, type TitlesResponse } from "@/types/pb";
 
 const { $pb } = useNuxtApp();
 const router = useRouter();
