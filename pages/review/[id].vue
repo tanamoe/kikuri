@@ -124,9 +124,8 @@ useSeoMeta({
 
       <div class="mt-6 text-center">
         <UBadge
-          size="score"
           :ui="{
-            size: { score: 'font-condensed text-bold text-3xl px-2.5 py-1.5' },
+            size: { md: 'font-condensed text-bold text-3xl px-2.5 py-1.5' },
           }"
         >
           {{ review.score }}/10

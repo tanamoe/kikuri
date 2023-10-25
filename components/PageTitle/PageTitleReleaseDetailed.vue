@@ -87,7 +87,11 @@ const watcher = watch(
     }"
   >
     <template #edition-data="{ row }">
-      <UBadge v-if="row.edition" color="tanaamber" variant="overlay">
+      <UBadge
+        v-if="row.edition"
+        color="tanaamber"
+        class="bg-opacity-50 text-gray-900 backdrop-blur"
+      >
         {{ row.edition }}
       </UBadge>
     </template>

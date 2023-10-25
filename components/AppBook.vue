@@ -21,17 +21,15 @@ defineProps<{
     <AppCard>
       <UBadge
         v-if="book.digital == true"
-        class="absolute right-2 top-2 backdrop-blur"
+        class="absolute right-2 top-2 bg-opacity-50 text-gray-900 backdrop-blur"
         color="red"
-        variant="overlay"
       >
         Digital
       </UBadge>
       <UBadge
         v-else-if="book.edition !== ''"
-        class="absolute right-2 top-2 backdrop-blur"
+        class="absolute right-2 top-2 bg-opacity-50 text-gray-900 backdrop-blur"
         color="tanaamber"
-        variant="overlay"
       >
         {{ book.edition }}
       </UBadge>

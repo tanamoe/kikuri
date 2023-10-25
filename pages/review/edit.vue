@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { z } from "zod";
 import { useStorage } from "@vueuse/core";
-import type { Form } from "@nuxt/ui/dist/runtime/types";
+import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 import {
   Collections,
   type UsersResponse,
@@ -59,16 +59,12 @@ const content = useStorage(
   review.value.content,
 );
 
-const form = ref<Form<Schema>>();
-
 const editPromptOpen = ref(false);
 const removePromptOpen = ref(false);
 
-async function submit() {
-  const data: Schema = await form.value!.validate();
-
-  edit(review.value!.id, {
-    ...data,
+async function submit(event: FormSubmitEvent<Schema>) {
+  await edit(review.value!.id, {
+    ...event.data,
     content: content.value,
   });
 }
@@ -83,7 +79,6 @@ definePageMeta({
     <AppH1 class="mb-6">{{ $t("review.edit") }}</AppH1>
 
     <UForm
-      ref="form"
       :schema="schema"
       :state="state"
       class="flex flex-col-reverse gap-6 sm:flex-row"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { z } from "zod";
 import { useStorage } from "@vueuse/core";
-import type { Form } from "@nuxt/ui/dist/runtime/types";
+import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 import {
   Collections,
   type UsersResponse,
@@ -85,16 +85,12 @@ const currentRelease = computed(
   () => releases.value?.find((release) => release.id === state.value.release),
 );
 
-const form = ref<Form<Schema>>();
-
 const titleSelectOpen = ref(false);
 const postPromptOpen = ref(false);
 
-async function submit() {
-  const data: Schema = await form.value!.validate();
-
-  post({
-    ...data,
+async function submit(event: FormSubmitEvent<Schema>) {
+  await post({
+    ...event.data,
     content: content.value,
   });
 }
@@ -109,7 +105,6 @@ definePageMeta({
     <AppH1 class="mb-6">{{ $t("review.create") }}</AppH1>
 
     <UForm
-      ref="form"
       :schema="schema"
       :state="state"
       class="flex flex-col-reverse gap-6 sm:flex-row"

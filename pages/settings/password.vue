@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Form } from "@nuxt/ui/dist/runtime/types";
+import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 import { z } from "zod";
 
 const { $pb } = useNuxtApp();
@@ -20,17 +20,15 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>;
 
-const form = ref<Form<Schema>>();
 const state = ref({
   oldPassword: "",
   password: "",
   passwordConfirm: "",
 });
 
-const submit = async () => {
-  const data = await form.value!.validate();
-  update({ id: $pb.authStore.model!.id, record: data });
-};
+async function submit(event: FormSubmitEvent<Schema>) {
+  await update({ id: $pb.authStore.model!.id, record: event.data });
+}
 
 definePageMeta({
   layout: "setting",
@@ -41,7 +39,6 @@ definePageMeta({
 <template>
   <div>
     <UForm
-      ref="form"
       class="space-y-6"
       :schema="schema"
       :state="state"
