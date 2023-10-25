@@ -13,8 +13,8 @@
     "**/*.{vue,js,ts}": "prettier --write --ignore-unknown"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.8.0",
-    "@commitlint/config-conventional": "^17.8.0",
+    "@commitlint/cli": "^18.0.0",
+    "@commitlint/config-conventional": "^18.0.0",
     "@nuxt/content": "^2.8.5",
     "@nuxt/image": "1.0.0",
     "@nuxt/ui": "^2.9.0",
