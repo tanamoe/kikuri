@@ -96,6 +96,7 @@ function setYoutube(e: Event) {
             icon="i-fluent-text-bold-20-filled"
             :disabled="!editor.can().chain().focus().toggleBold().run()"
             square
+            tabindex="-1"
             @click="editor.chain().focus().toggleBold().run()"
           />
         </UTooltip>
@@ -106,6 +107,7 @@ function setYoutube(e: Event) {
             icon="i-fluent-text-italic-20-filled"
             :disabled="!editor.can().chain().focus().toggleItalic().run()"
             square
+            tabindex="-1"
             @click="editor.chain().focus().toggleItalic().run()"
           />
         </UTooltip>
@@ -116,6 +118,7 @@ function setYoutube(e: Event) {
             icon="i-fluent-text-underline-20-filled"
             :disabled="!editor.can().chain().focus().toggleUnderline().run()"
             square
+            tabindex="-1"
             @click="editor.chain().focus().toggleUnderline().run()"
           />
         </UTooltip>
@@ -129,6 +132,7 @@ function setYoutube(e: Event) {
             icon="i-fluent-text-strikethrough-20-filled"
             :disabled="!editor.can().chain().focus().toggleStrike().run()"
             square
+            tabindex="-1"
             @click="editor.chain().focus().toggleStrike().run()"
           />
         </UTooltip>
@@ -143,6 +147,7 @@ function setYoutube(e: Event) {
             variant="ghost"
             icon="i-fluent-text-quote-20-filled"
             square
+            tabindex="-1"
             @click="editor.chain().focus().toggleBlockquote().run()"
           />
         </UTooltip>
@@ -151,6 +156,7 @@ function setYoutube(e: Event) {
           variant="ghost"
           icon="i-fluent-line-horizontal-1-20-filled"
           square
+          tabindex="-1"
           @click="editor.chain().focus().setHorizontalRule().run()"
         />
       </div>
@@ -160,6 +166,7 @@ function setYoutube(e: Event) {
           :variant="editor.isActive('heading', { level: 1 }) ? 'soft' : 'ghost'"
           icon="i-fluent-text-header-1-20-filled"
           square
+          tabindex="-1"
           @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
         />
         <UButton
@@ -167,6 +174,7 @@ function setYoutube(e: Event) {
           :variant="editor.isActive('heading', { level: 2 }) ? 'soft' : 'ghost'"
           icon="i-fluent-text-header-2-20-filled"
           square
+          tabindex="-1"
           @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
         />
         <UButton
@@ -174,6 +182,7 @@ function setYoutube(e: Event) {
           :variant="editor.isActive('heading', { level: 3 }) ? 'soft' : 'ghost'"
           icon="i-fluent-text-header-3-20-filled"
           square
+          tabindex="-1"
           @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
         />
       </div>
@@ -184,6 +193,7 @@ function setYoutube(e: Event) {
             variant="ghost"
             icon="i-fluent-link-20-filled"
             square
+            tabindex="-1"
           />
           <template #panel>
             <form class="space-y-3 p-3 text-right" @submit.prevent="setLink">
@@ -222,6 +232,7 @@ function setYoutube(e: Event) {
             variant="ghost"
             icon="i-fluent-image-add-20-filled"
             square
+            tabindex="-1"
           />
           <template #panel>
             <form class="space-y-3 p-3 text-right" @submit.prevent="setImage">
@@ -240,6 +251,7 @@ function setYoutube(e: Event) {
             variant="ghost"
             icon="i-fluent-video-add-20-filled"
             square
+            tabindex="-1"
           />
           <template #panel>
             <form class="space-y-3 p-3 text-right" @submit.prevent="setYoutube">

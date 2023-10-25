@@ -6,11 +6,11 @@ const sticky = computed(() => route.meta.stickyNav as boolean);
 
 <template>
   <div>
-    <TheNavigation :sticky="sticky" />
+    <NavigationBar :sticky="sticky" />
     <main class="pb-6">
       <slot />
     </main>
     <TheFooter />
-    <TheSearch />
+    <SearchBar />
   </div>
 </template>
