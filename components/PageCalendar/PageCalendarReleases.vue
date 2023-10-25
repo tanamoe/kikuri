@@ -2,8 +2,6 @@
 import dayjs from "dayjs";
 import { storeToRefs } from "pinia";
 
-import { useSettingsStore } from "@/stores/settings";
-
 import type {
   BooksDetailsResponse,
   PublishersResponse,
