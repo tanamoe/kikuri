@@ -4,64 +4,59 @@ import { useStorage } from "@vueuse/core";
 import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 import {
   Collections,
-  type UsersResponse,
   type PublishersResponse,
   type ReleasesResponse,
   type TitlesResponse,
 } from "@/types/pb";
+
+type Tmetadata = {};
+type Texpand = {
+  "releases(title)": ReleasesResponse<{
+    publisher: PublishersResponse;
+  }>[];
+};
 
 const route = useRoute();
 const { $pb } = useNuxtApp();
 const { pending, post } = useReview();
 const { t } = useI18n({ useScope: "global" });
 
-if (!($pb.authStore.model as UsersResponse | null)?.verified)
-  throw createError({
-    statusCode: 401,
-    statusMessage: t("error.unverifiedMessage"),
-  });
+const titleId = ref("");
 
-const { data: title } = await useAsyncData(() =>
-  $pb
-    .collection(Collections.Titles)
-    .getOne<TitlesResponse>(route.query.title as string),
+if (route.query.title && !Array.isArray(route.query.title)) {
+  titleId.value = route.query.title;
+}
+
+const { data: title } = await useAsyncData(
+  () =>
+    $pb
+      .collection(Collections.Titles)
+      .getOne<TitlesResponse<Tmetadata, Texpand>>(titleId.value, {
+        expand: "releases(title),releases(title).publisher",
+      }),
+  {
+    watch: [titleId],
+  },
 );
 
-const { data: releases, pending: releasesPending } = await useLazyAsyncData(
-  () => {
-    state.value.release = undefined;
-    return $pb.collection(Collections.Releases).getFullList<
-      ReleasesResponse<{
-        publisher: PublishersResponse;
-      }>
-    >({
-      filter: `title = '${route.query.title || title.value?.id}'`,
-      expand: "publisher,title",
-      pick: "id,name,publisher,title",
-    });
-  },
-  {
-    server: false,
-    watch: [title],
-    transform: (releases) =>
-      releases.map((release) => ({
-        id: release.id,
-        label: release.name,
-        avatar: {
-          src: release.expand?.publisher
-            ? $pb.files.getUrl(
-                release.expand?.publisher,
-                release.expand?.publisher.logo,
-              )
-            : undefined,
-        },
-      })),
-  },
+const releases = computed(
+  () =>
+    title.value?.expand?.["releases(title)"].map((release) => ({
+      id: release.id,
+      label: release.name,
+      avatar: {
+        src: release.expand?.publisher
+          ? $pb.files.getUrl(
+              release.expand?.publisher,
+              release.expand?.publisher.logo,
+            )
+          : undefined,
+      },
+    })),
 );
 
 const schema = z.object({
   release: z.string().min(1, t("error.review.releaseInvalid")),
-  user: z.string(),
   header: z
     .string()
     .min(1, t("error.review.headerInvalidMin"))
@@ -74,10 +69,9 @@ const schema = z.object({
 type Schema = z.output<typeof schema>;
 
 const state = ref<Partial<Schema>>({
-  release: "",
-  user: $pb.authStore.model!.id,
-  header: "",
-  score: 0,
+  release: undefined,
+  header: undefined,
+  score: undefined,
 });
 
 const content = useStorage("review-content", "");
@@ -85,18 +79,16 @@ const currentRelease = computed(
   () => releases.value?.find((release) => release.id === state.value.release),
 );
 
-const titleSelectOpen = ref(false);
-const postPromptOpen = ref(false);
-
 async function submit(event: FormSubmitEvent<Schema>) {
   await post({
     ...event.data,
+    user: $pb.authStore.model!.id,
     content: content.value,
   });
 }
 
 definePageMeta({
-  middleware: "with-auth",
+  middleware: ["verified"],
 });
 </script>
 
@@ -108,6 +100,7 @@ definePageMeta({
       :schema="schema"
       :state="state"
       class="flex flex-col-reverse gap-6 sm:flex-row"
+      @submit="submit"
     >
       <div class="flex-1">
         <UAlert
@@ -128,19 +121,13 @@ definePageMeta({
       <div class="w-full flex-shrink-0 sm:w-64">
         <div class="space-y-6">
           <UFormGroup :label="$t('review.title')">
-            <UButton
-              color="white"
-              variant="solid"
-              :label="title?.name || $t('review.titleSelect')"
-              block
-              @click="titleSelectOpen = true"
-            />
+            <AppTitleSelect v-model="titleId" :initial-name="title?.name" />
           </UFormGroup>
           <UFormGroup :label="$t('review.release')" name="release">
             <USelectMenu
               v-model="state.release"
               :options="releases || []"
-              :loading="releasesPending"
+              :loading="pending"
               :disabled="!releases || releases.length == 0"
               value-attribute="id"
               option-attribute="label"
@@ -167,37 +154,11 @@ definePageMeta({
               </template>
             </UInput>
           </UFormGroup>
-          <UButton
-            trailing-icon="i-fluent-send-20-filled"
-            block
-            @click="postPromptOpen = true"
-          >
+          <UButton trailing-icon="i-fluent-send-20-filled" block type="submit">
             {{ $t("review.action.create") }}
           </UButton>
         </div>
       </div>
     </UForm>
-
-    <UModal v-model="postPromptOpen">
-      <UCard>
-        {{ $t("review.createPrompt") }}
-        <template #footer>
-          <div class="flex justify-end gap-3">
-            <UButton
-              color="red"
-              variant="ghost"
-              @click="postPromptOpen = false"
-            >
-              {{ $t("general.return") }}
-            </UButton>
-            <UButton :loading="pending" @click="submit">
-              {{ $t("general.confirm") }}
-            </UButton>
-          </div>
-        </template>
-      </UCard>
-    </UModal>
-
-    <PageReviewTitleSelect v-model="titleSelectOpen" v-model:title="title" />
   </UContainer>
 </template>

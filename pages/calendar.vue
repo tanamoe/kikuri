@@ -2,7 +2,6 @@
 import dayjs from "dayjs";
 import { joinURL } from "ufo";
 import { storeToRefs } from "pinia";
-import { useSettingsStore } from "@/stores/settings";
 import type { FilterPublishers } from "@/utils/releases";
 import {
   type BooksDetailsResponse,

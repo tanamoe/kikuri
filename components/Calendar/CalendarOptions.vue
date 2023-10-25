@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { DropdownItem } from "@nuxt/ui/dist/runtime/types";
 import { storeToRefs } from "pinia";
-import { useSettingsStore } from "@/stores/settings";
 
 const { t } = useI18n({ useScope: "global" });
 const store = useSettingsStore();

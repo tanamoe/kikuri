@@ -20,7 +20,7 @@ async function submit(event: FormSubmitEvent<Schema>) {
 }
 
 definePageMeta({
-  middleware: ["without-auth"],
+  middleware: ["guest"],
 });
 </script>
 

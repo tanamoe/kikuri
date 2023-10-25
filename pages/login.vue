@@ -49,7 +49,7 @@ function parseIcon(name: string) {
 }
 
 definePageMeta({
-  middleware: ["without-auth"],
+  middleware: ["guest"],
 });
 </script>
 

@@ -38,7 +38,7 @@ withDefaults(
     >
       <div class="flex items-center justify-start gap-3">
         <div class="block lg:hidden">
-          <TheNavigationSidebar />
+          <NavigationSidebar />
         </div>
         <ULink to="/" class="flex items-center gap-2">
           <img src="/logo.svg" class="h-6" />
@@ -61,7 +61,7 @@ withDefaults(
       </ul>
 
       <div class="flex items-center justify-end gap-3 whitespace-nowrap">
-        <TheSearchToggle />
+        <SearchButton />
         <UButton
           class="sm:hidden"
           color="gray"
@@ -70,7 +70,7 @@ withDefaults(
           to="/calendar"
           square
         />
-        <TheNavigationUser />
+        <NavigationUser />
       </div>
     </div>
   </nav>

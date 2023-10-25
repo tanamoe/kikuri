@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useSearchStore } from "@/stores/search";
 import { Collections, type TitlesResponse } from "@/types/pb";
 
 const { $pb } = useNuxtApp();
