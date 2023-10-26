@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { type BooksDetailsResponse, Collections } from "@/types/pb";
+import {
+  Collections,
+  type BookDetailsResponse,
+  type PublicationsResponse,
+} from "@/types/pb";
+import type { MetadataCommon } from "~/types/common";
 
 const props = defineProps<{
   open: boolean;
@@ -15,14 +20,29 @@ const {
 } = await useLazyAsyncData(
   props.releaseId,
   () =>
-    $pb.collection(Collections.BooksDetails).getFullList<BooksDetailsResponse>({
+    $pb.collection(Collections.BookDetails).getFullList<
+      BookDetailsResponse<
+        MetadataCommon,
+        string,
+        {
+          publication: PublicationsResponse;
+        }
+      >
+    >({
       filter: `release='${props.releaseId}'`,
+      expand: "publication",
     }),
   {
     transform: (books) =>
       books.map((book) => ({
-        ...book,
-        volume: parseVolume(book.volume),
+        volume: book.expand?.publication.volume
+          ? parseVolume(book.expand?.publication.volume)
+          : 0,
+        name: book.expand?.publication.name,
+        edition: book.edition,
+        publishDate: book.publishDate,
+        price: book.price,
+        note: book.note,
       })),
   },
 );

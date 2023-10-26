@@ -4,7 +4,6 @@ export default defineNuxtRouteMiddleware((to) => {
     case "/credits":
     case "/contact":
     case "/sitemap.xml":
-    case "/title":
     case "/profile":
       return navigateTo("/coming-soon");
   }

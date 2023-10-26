@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { joinURL } from "ufo";
-import { Collections, type TitleCoversResponse } from "@/types/pb";
+import { Collections } from "@/types/pb";
+
+import type { TitleCoversCommon } from "@/types/common";
 
 const props = defineProps<{
   titleId: string;
@@ -10,58 +11,40 @@ const { $pb } = useNuxtApp();
 
 const { data: images } = await useAsyncData(
   () =>
-    $pb
-      .collection(Collections.TitleCovers)
-      .getFullList<TitleCoversResponse<string[], string, string, number>>({
-        filter: `title='${props.titleId}'`,
-      }),
+    $pb.collection(Collections.TitleCovers).getFullList<TitleCoversCommon>({
+      filter: `title='${props.titleId}'`,
+    }),
   {
     transform: (images) =>
-      images.reduce((r, { parentCollection, id, covers }) => {
+      images.reduce((r, { parentCollection, id, covers, title, metadata }) => {
         if (parentCollection && covers) {
-          for (const cover of covers) {
-            r.push(joinURL(parentCollection, id, cover));
+          for (const i in covers) {
+            r.push({
+              alt: title,
+              src: $pb.files.getUrl(
+                {
+                  id,
+                  collectionName: parentCollection,
+                },
+                covers[i],
+              ),
+              srcset:
+                metadata && Array.isArray(metadata.images)
+                  ? joinSrcset(metadata.images[i])
+                  : undefined,
+            });
           }
         }
         return r;
-      }, [] as string[]),
+      }, [] as any[]),
   },
 );
-
-const isOpen = ref(false);
-const currentIndex = ref(0);
-
-const handleOpen = (i: number) => {
-  isOpen.value = true;
-  currentIndex.value = i;
-};
 </script>
 
 <template>
   <div v-if="images && images.length > 0">
     <AppH3 class="mb-3 mt-12">{{ $t("general.coverImages") }}</AppH3>
 
-    <div class="grid grid-cols-2 gap-6 sm:grid-cols-4 xl:grid-cols-6">
-      <AppCard
-        v-for="(image, i) in images"
-        :key="i"
-        class="cursor-zoom-in"
-        @click="handleOpen(i)"
-      >
-        <NuxtImg
-          loading="lazy"
-          class="aspect-[2/3] h-full w-full object-cover"
-          :src="image"
-          sizes="sm:50vw md:30vw lg:20vw"
-          :placeholder="[60, 90, 75, 5]"
-        />
-      </AppCard>
-
-      <AppGallery
-        v-model="isOpen"
-        v-model:current-index="currentIndex"
-        :images="images"
-      />
-    </div>
+    <AppGallery :items="images" />
   </div>
 </template>

@@ -9,6 +9,7 @@ import {
   type ReleasesResponse,
   type PublishersResponse,
 } from "@/types/pb";
+import type { MetadataCommon } from "@/types/common";
 
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
@@ -18,7 +19,7 @@ const { t } = useI18n({ useScope: "global" });
 const { data: title } = await useAsyncData(() =>
   $pb.collection(Collections.Titles).getOne<
     TitlesResponse<
-      {},
+      MetadataCommon,
       {
         "works(title)": WorksResponse<{
           staff: StaffsResponse;

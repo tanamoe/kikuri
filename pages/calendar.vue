@@ -2,13 +2,11 @@
 import dayjs from "dayjs";
 import { joinURL } from "ufo";
 import { storeToRefs } from "pinia";
+
+import { Collections } from "@/types/pb";
+
 import type { FilterPublishers } from "@/utils/releases";
-import {
-  type BooksDetailsResponse,
-  Collections,
-  type PublishersResponse,
-  type TitlesResponse,
-} from "@/types/pb";
+import type { BookDetailsCommon } from "@/types/common";
 
 const runtimeConfig = useRuntimeConfig();
 const { $pb } = useNuxtApp();
@@ -33,15 +31,15 @@ const filter = computed(() =>
 
 const { pending, data, error } = await useAsyncData(
   () =>
-    $pb.collection(Collections.BooksDetails).getFullList<
-      BooksDetailsResponse<{
-        title: TitlesResponse;
-        publisher: PublishersResponse;
-      }>
-    >({
-      filter: filter.value,
-      sort: "+publishDate,+name,-edition",
-      expand: "title, publisher",
+    $pb.collection(Collections.BookDetails).getFullList<BookDetailsCommon>({
+      filter: $pb.filter("publishDate >= {:from} && publishDate <= {:to}", {
+        from: month.value.startOf("month").format("YYYY-MM-DD"),
+        to: month.value.endOf("month").format("YYYY-MM-DD"),
+      }),
+      sort: "+publishDate, -edition",
+      expand: "publication, release, release.title",
+      fields:
+        "*, expand.publication.volume, expand.publication.name, expand.publication.digital, expand.release.title, expand.release.expand.title.name",
     }),
   {
     watch: [filter],
@@ -50,18 +48,7 @@ const { pending, data, error } = await useAsyncData(
 
 const releases = computed(() => {
   if (data.value) {
-    return groupBy<
-      BooksDetailsResponse<{
-        title: TitlesResponse;
-        publisher: PublishersResponse;
-      }>
-    >(
-      data.value.map((release) => ({
-        ...release,
-        volume: parseVolume(release.volume),
-      })),
-      (p) => p.publishDate,
-    );
+    return groupBy<BookDetailsCommon>(data.value, (p) => p.publishDate);
   }
 
   return null;
@@ -95,7 +82,6 @@ useSeoMeta({
     <PageCalendarToolbar
       v-model:month="month"
       v-model:publishers="publishers"
-      :releases="data || []"
     />
 
     <PageCalendarPending v-if="pending" />
@@ -106,8 +92,10 @@ useSeoMeta({
 
     <PageCalendarError v-else-if="error" :error="error" />
 
-    <PageCalendarReleases v-else :releases="releases" />
+    <template v-else>
+      <PageCalendarReleases :releases="releases" />
 
-    <PageCalendarQuickNavigation :dates="dates" />
+      <PageCalendarQuickNavigation :dates="dates" />
+    </template>
   </div>
 </template>

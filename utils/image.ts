@@ -1,31 +1,24 @@
 import { joinURL } from "ufo";
-import type { FileOptions } from "pocketbase";
-import type { BaseSystemFields } from "@/types/pb";
+import type { MetadataImages } from "~/types/common";
 
-export function getPocketbaseImageURL(
-  record: Pick<BaseSystemFields, "id" | "collectionId" | "collectionName">,
-  fileName: string,
-  options?: FileOptions,
-) {
-  const { $pb } = useNuxtApp();
-  const runtimeConfig = useRuntimeConfig();
+export function joinSrc(image: string) {
+  const {
+    public: { imageUrl },
+  } = useRuntimeConfig();
 
-  if (options) {
-    return $pb.files.getUrl(record, fileName, options);
-  }
-
-  return joinURL(
-    runtimeConfig.public.pocketbaseUrl,
-    "/api/files",
-    record.collectionId,
-    record.id,
-    fileName,
-  );
+  return joinURL(imageUrl, image);
 }
 
-export function getPocketBaseImagePath(
-  record: Pick<BaseSystemFields, "id" | "collectionId">,
-  fileName: string,
-) {
-  return joinURL(record.collectionId, record.id, fileName);
+export function joinSrcset(images: MetadataImages) {
+  const {
+    public: { imageUrl },
+  } = useRuntimeConfig();
+  const ss: string[] = [];
+  let src: keyof typeof images;
+
+  for (src in images) {
+    ss.push(joinURL(imageUrl, images[src]) + " " + src);
+  }
+
+  return ss.join(", ");
 }

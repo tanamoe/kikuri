@@ -22,11 +22,13 @@ const items = props.releases.map((release) => ({
       <template #default="{ item, open }">
         <UButton color="gray" variant="ghost">
           <template #leading>
-            <NuxtImg
-              :src="getPocketBaseImagePath(item.publisher, item.publisher.logo)"
-              width="20px"
-              height="20px"
-              class="rounded"
+            <img
+              :src="
+                $pb.files.getUrl(item.publisher, item.publisher.logo, {
+                  thumb: '24x24',
+                })
+              "
+              class="h-5 w-5 rounded"
             />
           </template>
 

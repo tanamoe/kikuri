@@ -1,23 +1,20 @@
 <script setup lang="ts">
-import type { BaseSystemFields } from "@/types/pb";
+import type { MetadataImages } from "@/types/common";
 
 defineProps<{
-  record: Pick<BaseSystemFields, "id" | "collectionId"> & {
-    name: string;
-  };
-  fileName?: string;
-  sizes?: string;
+  name?: string;
+  src?: string;
+  srcset?: MetadataImages;
 }>();
 </script>
 
 <template>
-  <NuxtImg
-    v-if="fileName"
-    loading="lazy"
+  <AppImage
+    v-if="src"
     class="aspect-[2/3] h-full w-full object-cover"
-    :src="getPocketBaseImagePath(record, fileName)"
-    :sizes="sizes"
-    :placeholder="[60, 90, 75, 5]"
+    :src="src"
+    :srcset="srcset"
+    :alt="name"
   />
   <div
     v-else
@@ -30,6 +27,7 @@ defineProps<{
       'aspect-[2/3]',
     ]"
   >
-    {{ record.name }}
+    <span v-if="name">{{ name }}</span>
+    <span v-else>{{ $t("general.tba") }}</span>
   </div>
 </template>

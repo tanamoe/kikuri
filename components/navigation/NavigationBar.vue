@@ -8,7 +8,7 @@ const links = computed(() => [
   },
   {
     label: t("general.browse"),
-    to: "/title",
+    to: "/browse",
   },
   {
     label: t("general.library"),
