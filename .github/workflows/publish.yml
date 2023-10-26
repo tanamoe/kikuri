@@ -10,6 +10,7 @@ env:
   SITE_URL: ${{ vars.SITE_URL }}
   BLOG_URL: ${{ vars.BLOG_URL }}
   OG_URL: ${{ vars.OG_URL }}
+  IMAGE_URL: ${{ vars.IMAGE_URL }}
   NITRO_PRESET: ${{ vars.NITRO_PRESET }}
   FB_APP_ID: ${{ vars.FB_APP_ID }}
   UMAMI_SITE_ID: ${{ vars.UMAMI_SITE_ID }}
