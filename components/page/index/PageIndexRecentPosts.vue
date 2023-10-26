@@ -5,7 +5,7 @@ const {
   public: { blogUrl },
 } = useRuntimeConfig();
 
-const { data: posts } = await useFetch<PostsOrPages>(`${blogUrl}/api/home`);
+const { data: posts } = await useLazyFetch<PostsOrPages>(`${blogUrl}/api/home`);
 </script>
 
 <template>

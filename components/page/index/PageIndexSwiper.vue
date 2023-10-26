@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import dayjs from "dayjs";
 import {
-  Collections,
   type BookDetailsResponse,
   type PublicationsResponse,
   type ReleasesResponse,
@@ -19,26 +17,12 @@ type Texpand = {
   >;
 };
 
-const { $pb } = useNuxtApp();
+defineProps<{
+  releases: BookDetailsResponse<MetadataCommon, string, Texpand>[];
+}>();
 
 const index = ref(0);
 const swiperEl = ref();
-
-const now = dayjs.tz();
-
-const { data: releases } = await useAsyncData(() =>
-  $pb
-    .collection(Collections.BookDetails)
-    .getFullList<BookDetailsResponse<MetadataCommon, string, Texpand>>({
-      filter: `publishDate >= '${now.startOf("day").format("YYYY-MM-DD")}'
-         && publishDate <= '${now
-           .add(3, "days")
-           .endOf("day")
-           .format("YYYY-MM-DD")}'`,
-      sort: "+publishDate",
-      expand: "publication,release.publisher",
-    }),
-);
 </script>
 
 <template>
@@ -124,7 +108,7 @@ const { data: releases } = await useAsyncData(() =>
                 ? book.metadata.images[0]
                 : undefined
             "
-            sizes="sm:80vw md:300px"
+            sizes="(max-width: 640px) 80vw, 300px"
           />
         </SwiperSlide>
       </Swiper>

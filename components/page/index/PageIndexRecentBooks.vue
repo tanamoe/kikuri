@@ -4,7 +4,7 @@ import type { BookDetailsCommon } from "@/types/common";
 
 const { $pb } = useNuxtApp();
 
-const { data: books } = await useAsyncData(() =>
+const { data: books } = await useLazyAsyncData(() =>
   $pb.collection(Collections.BookDetails).getList<BookDetailsCommon>(1, 6, {
     sort: "+publishDate, -edition",
     expand: "publication, release, release.title",
