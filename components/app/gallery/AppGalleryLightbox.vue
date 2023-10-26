@@ -7,63 +7,32 @@ import {
   TransitionChild,
 } from "@headlessui/vue";
 
-const runtimeConfig = useRuntimeConfig();
-
-const props = defineProps<{
-  modelValue: boolean;
-  currentIndex: number;
-  images: string[];
-}>();
-
-const emit = defineEmits<{
-  "update:modelValue": [boolean];
-  "update:currentIndex": [number];
-}>();
+const store = useGalleryStore();
+const { prev, next } = store;
+const { isOpen, images, currentIndex, transitionName } = storeToRefs(store);
 
 const modal = ref<HTMLElement>();
-const transitionName = ref<"slide-rtl" | "slide-ltr">("slide-rtl");
-
-const isOpen = computed({
-  get: () => props.modelValue,
-  set: (value) => emit("update:modelValue", value),
-});
-
-const currentIndex = computed({
-  get: () => props.currentIndex,
-  set: (value) => emit("update:currentIndex", value),
-});
-
-function handlePrev() {
-  transitionName.value = "slide-ltr";
-  if (currentIndex.value - 1 >= 0) currentIndex.value--;
-  else currentIndex.value = props.images.length - 1;
-}
-
-function handleNext() {
-  transitionName.value = "slide-rtl";
-  if (currentIndex.value + 1 < props.images.length) currentIndex.value++;
-  else currentIndex.value = 0;
-}
 
 const { direction } = usePointerSwipe(modal, {
   onSwipeEnd: () => {
-    if (direction.value === "right") handlePrev();
-    else if (direction.value === "left") handleNext();
+    if (direction.value === "right") prev();
+    else if (direction.value === "left") next();
   },
 });
 
 defineShortcuts({
   arrowleft: {
-    handler: handlePrev,
+    handler: prev,
   },
   arrowright: {
-    handler: handleNext,
+    handler: next,
   },
 });
 </script>
 
 <template>
   <TransitionRoot
+    v-if="images"
     :show="isOpen"
     as="template"
     enter="duration-300 ease-out"
@@ -102,14 +71,7 @@ defineShortcuts({
                 icon="i-fluent-arrow-download-20-filled"
                 color="gray"
                 square
-                :to="
-                  joinURL(
-                    runtimeConfig.public.pocketbaseUrl,
-                    '/api/files',
-                    images[currentIndex],
-                    '?download=1',
-                  )
-                "
+                :to="joinURL(images[currentIndex].src, '?download=1')"
               >
                 {{ $t("general.download") }}
               </UButton>
@@ -127,7 +89,7 @@ defineShortcuts({
               color="gray"
               size="md"
               square
-              @click="handlePrev"
+              @click="prev"
             />
             <UButton
               class="fixed right-3 top-1/2 z-10 -translate-y-1/2 transform"
@@ -135,7 +97,7 @@ defineShortcuts({
               color="gray"
               size="md"
               square
-              @click="handleNext"
+              @click="next"
             />
 
             <Transition
@@ -144,14 +106,7 @@ defineShortcuts({
               enter-active-class="transition-all duration-200"
               leave-active-class="transition-all duration-200"
             >
-              <NuxtImg
-                ref="modal"
-                :key="currentIndex"
-                provider="pocketbase"
-                :src="images[currentIndex]"
-                class="h-auto max-h-[80dvh] w-auto rounded-md"
-                draggable="false"
-              />
+              <AppGalleryImage :key="currentIndex" ref="modal" />
             </Transition>
           </DialogPanel>
         </div>

@@ -97,9 +97,9 @@ function select(row: TitlesResponse) {
     >
       <template #cover-data="{ row }">
         <div v-if="row.cover" class="flex justify-center">
-          <NuxtImg
+          <img
             class="aspect-[2/3] h-14 rounded object-cover"
-            :src="getPocketBaseImagePath(row, row.cover)"
+            :src="$pb.files.getUrl(row, row.cover)"
           />
         </div>
       </template>

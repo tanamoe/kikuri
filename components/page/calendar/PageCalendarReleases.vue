@@ -1,24 +1,13 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
-import { storeToRefs } from "pinia";
 
-import type {
-  BooksDetailsResponse,
-  PublishersResponse,
-  TitlesResponse,
-} from "~/types/pb";
+import type { BookDetailsCommon } from "@/types/common";
 
 const store = useSettingsStore();
 const { datePosition } = storeToRefs(store);
 
 defineProps<{
-  releases: Record<
-    string,
-    BooksDetailsResponse<{
-      title: TitlesResponse;
-      publisher: PublishersResponse;
-    }>[]
-  >;
+  releases: Record<string, BookDetailsCommon[]>;
 }>();
 </script>
 
@@ -47,7 +36,10 @@ defineProps<{
       </div>
       <div class="grid w-full grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-6">
         <div v-for="book in group" :key="book.id">
-          <AppBook :book="book" sizes="sm:30vw md:25vw lg:20vw xl:25vw" />
+          <AppBook
+            :book="book"
+            sizes="(max-width: 640px) 40vw, (max-width: 768px) 30vw, 20vw"
+          />
         </div>
       </div>
     </div>

@@ -40,16 +40,17 @@ const { data: reviews } = await useAsyncData(() =>
               class="flex items-center justify-between gap-2 overflow-hidden"
             >
               <div class="flex items-center gap-2">
-                <NuxtImg
+                <img
                   :src="
-                    getPocketBaseImagePath(
+                    $pb.files.getUrl(
                       review.expand!.user,
                       review.expand!.user.avatar,
+                      {
+                        thumb: '24x24',
+                      },
                     )
                   "
                   class="rounded-full"
-                  width="24"
-                  height="24"
                 />
                 <span class="overflow-hidden text-ellipsis whitespace-nowrap">
                   {{

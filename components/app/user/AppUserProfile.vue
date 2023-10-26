@@ -8,11 +8,10 @@ defineProps<{
 
 <template>
   <div>
-    <NuxtImg
+    <img
       v-if="user.banner"
       class="aspect-[21/9] h-auto w-full rounded-md object-cover"
-      :src="getPocketBaseImagePath(user, user.banner)"
-      sizes="sm:90vw md:70vw lg:40vw"
+      :src="$pb.files.getUrl(user, user.banner)"
     />
     <div
       v-else
@@ -24,12 +23,10 @@ defineProps<{
         class="aspect-square h-32 w-32 rounded-full border-4 border-gray-100 object-cover dark:border-gray-800"
         src="/avatar.jpg"
       />
-      <NuxtImg
+      <img
         v-else
         class="aspect-square h-32 w-32 rounded-full border-4 border-gray-100 object-cover dark:border-gray-800"
-        width="128px"
-        height="128px"
-        :src="getPocketBaseImagePath(user, user.avatar)"
+        :src="$pb.files.getUrl(user, user.avatar, { thumb: '128x128' })"
       />
     </div>
     <div class="space-y-3 p-4">

@@ -1,14 +1,8 @@
 <script setup lang="ts">
-import { joinURL } from "ufo";
 import { type Dayjs } from "dayjs";
 import type { FilterPublishers } from "@/utils/releases";
-import {
-  type BooksDetailsResponse,
-  Collections,
-  type PublishersResponse,
-} from "@/types/pb";
+import { Collections, type PublishersResponse } from "@/types/pb";
 
-const runtimeConfig = useRuntimeConfig();
 const { $pb } = useNuxtApp();
 
 const toolbar = ref<HTMLDivElement>();
@@ -23,12 +17,9 @@ const { data: publisherOptions } = await useAsyncData(
         label: publisher.name,
         avatar: publisher.logo
           ? {
-              src: joinURL(
-                runtimeConfig.public.pocketbaseUrl,
-                "/api/files",
-                getPocketBaseImagePath(publisher, publisher.logo),
-                "?thumb=24x24",
-              ),
+              src: $pb.files.getUrl(publisher, publisher.logo, {
+                thumb: "24x24",
+              }),
             }
           : undefined,
       })),
@@ -36,9 +27,6 @@ const { data: publisherOptions } = await useAsyncData(
 );
 
 const props = defineProps<{
-  releases: BooksDetailsResponse<{
-    publisher: PublishersResponse;
-  }>[];
   month: Dayjs;
   publishers: FilterPublishers[];
 }>();
@@ -136,7 +124,7 @@ onMounted(async () => {
               </span>
             </UButton>
           </USelectMenu>
-          <CalendarOptions :disable-download="releases.length == 0" />
+          <CalendarOptions />
         </div>
       </div>
     </div>

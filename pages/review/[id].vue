@@ -91,7 +91,7 @@ useSeoMeta({
         <div class="flex items-center gap-3">
           <UAvatar
             :src="
-              getPocketbaseImageURL(
+              $pb.files.getUrl(
                 review.expand!.user,
                 review.expand!.user.avatar,
                 { thumb: '100x100' },

@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { FormatsResponse, TitlesResponse } from "@/types/pb";
+import type { MetadataCommon } from "@/types/common";
 
 defineProps<{
   title: TitlesResponse<
-    {},
+    MetadataCommon,
     {
       format: FormatsResponse;
     }
@@ -64,9 +65,18 @@ const isOpen = ref(false);
       />
       <AppCover
         class="rounded-lg"
-        :record="title"
-        :file-name="title.cover"
-        sizes="sm:80vw md:300px"
+        :src="
+          title.metadata?.images && !Array.isArray(title.metadata.images)
+            ? title.metadata.images['1920w']
+            : undefined
+        "
+        :srcset="
+          title.metadata?.images && !Array.isArray(title.metadata.images)
+            ? title.metadata.images
+            : undefined
+        "
+        :name="title.name"
+        sizes="(max-width: 640px) 80vw, 300px"
       />
     </div>
   </header>
