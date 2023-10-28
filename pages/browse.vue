@@ -1,6 +1,25 @@
 <script setup lang="ts">
-import { Collections, type TitlesResponse } from "@/types/pb";
+import {
+  Collections,
+  type FormatsResponse,
+  type PublishersResponse,
+  type ReleaseDetailsResponse,
+  type TitlesResponse,
+} from "@/types/pb";
 import type { MetadataCommon } from "@/types/common";
+
+type ResponseType = ReleaseDetailsResponse<
+  MetadataCommon,
+  {
+    title: TitlesResponse<
+      unknown,
+      {
+        format: FormatsResponse;
+      }
+    >;
+    publisher: PublishersResponse;
+  }
+>;
 
 const { $pb } = useNuxtApp();
 const store = useAdvancedFilterStore();
@@ -10,21 +29,40 @@ const query = ref("");
 const queryDebounced = refDebounced(query, 500);
 const page = ref(1);
 
-const filter = computed(() => ({
-  name: queryDebounced.value,
-  publishers: publishers.value.map((publishers) => publishers.id),
-}));
+const filter = computed(() => {
+  let q = `title.name ~ '${queryDebounced.value}'`;
 
-const { data: titles, pending } = await useAsyncData(
+  if (publishers.value.length > 0) {
+    q += ` && (${publishers.value
+      .map((publishers) => `publisher = '${publishers.id}'`)
+      .join(" || ")})`;
+  }
+
+  if (formats.value.length > 0) {
+    q += ` && (${formats.value
+      .map((format) => `title.format = '${format.id}'`)
+      .join(" || ")})`;
+  }
+
+  return q;
+});
+const sort = ref("-updated");
+
+const {
+  data: releases,
+  pending,
+  execute,
+} = await useAsyncData(
   () =>
     $pb
-      .collection(Collections.Titles)
-      .getList<TitlesResponse<MetadataCommon>>(page.value, 24, {
-        filter: $pb.filter("name ~ {:name}", filter.value),
-        expand: "title",
+      .collection(Collections.ReleaseDetails)
+      .getList<ResponseType>(page.value, 24, {
+        filter: filter.value,
+        expand: "title,title.format,publisher",
+        sort: sort.value,
       }),
   {
-    watch: [filter],
+    watch: [queryDebounced],
   },
 );
 </script>
@@ -41,7 +79,7 @@ const { data: titles, pending } = await useAsyncData(
         :placeholder="$t('general.searchPlaceholder')"
       />
       <div class="flex justify-between gap-3">
-        <AppFilterAdvanced />
+        <AppFilterAdvanced @change="execute" />
         <USelect
           class="flex-shrink-0"
           :placeholder="$t('general.sortBy')"
@@ -56,8 +94,16 @@ const { data: titles, pending } = await useAsyncData(
       </div>
     </div>
 
-    <div v-else-if="titles" class="mt-6 grid grid-cols-6 gap-x-6 gap-y-12">
-      <AppTitle v-for="title in titles.items" :key="title.id" :title="title" />
+    <div
+      v-else-if="releases"
+      class="mt-6 grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-4 lg:grid-cols-6"
+    >
+      <div v-for="release in releases.items" :key="release.id">
+        <AppRelease
+          :release="release"
+          sizes="(max-width: 640px) 40vw, (max-width: 768px) 30vw, 20vw"
+        />
+      </div>
     </div>
   </UContainer>
 </template>
