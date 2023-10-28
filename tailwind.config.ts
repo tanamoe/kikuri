@@ -4,6 +4,14 @@ import defaultTheme from "tailwindcss/defaultTheme";
 export default {
   content: [],
   theme: {
+    fontFamily: {
+      sans: [
+        ["Inter", ...defaultTheme.fontFamily.sans],
+        {
+          fontFeatureSettings: "'ss01'",
+        },
+      ],
+    },
     extend: {
       colors: {
         tanablue: {
@@ -32,7 +40,6 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["Inter", ...defaultTheme.fontFamily.sans],
         lexend: "Lexend",
         condensed: "IBM Plex Sans Condensed",
       },
