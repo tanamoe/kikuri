@@ -48,7 +48,7 @@ const items = props.releases.map((release) => ({
       </template>
 
       <template #item="{ item, open }">
-        <PageTitleReleaseDetailed :release-id="item.id" :open="open" />
+        <PageTitleSectionReleaseDetails :release-id="item.id" :open="open" />
       </template>
     </UAccordion>
   </div>

@@ -101,9 +101,12 @@ const watcher = watch(
     :columns="columns"
     :rows="rows || []"
     :loading="pending"
+    class="[font-feature-settings:'ss01']"
     :ui="{
       wrapper: 'relative overflow-x-auto',
-      td: { base: 'whitespace-nowrap lg:whitespace-normal' },
+      td: {
+        base: 'whitespace-nowrap lg:whitespace-normal',
+      },
     }"
   >
     <template #edition-data="{ row }">
