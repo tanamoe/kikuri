@@ -17,11 +17,10 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxtjs/i18n",
-    "@nuxtjs/google-fonts",
     "@nuxt/image",
     "@nuxt/ui",
-    "nuxt-swiper",
     "@nuxt/content",
+    "nuxt-swiper",
   ],
   // https://nuxt.com/docs/getting-started/installation#prerequisites
   typescript: {
@@ -29,6 +28,11 @@ export default defineNuxtConfig({
     shim: false,
     typeCheck: true,
   },
+  css: [
+    "~/assets/fonts/inter.css",
+    "~/assets/fonts/ibm-plex.css",
+    "~/assets/fonts/lexend.css",
+  ],
   routeRules: {
     "/": { prerender: true, isr: 3600 },
     "/calendar": { prerender: true, isr: 3600 },
@@ -49,13 +53,6 @@ export default defineNuxtConfig({
           baseURL: "https://pb.tana.moe/api/files",
         },
       },
-    },
-  },
-  googleFonts: {
-    families: {
-      Inter: [400, 700],
-      Lexend: [700, 900],
-      "IBM+Plex+Sans+Condensed": [700, 900],
     },
   },
   swiper: {
