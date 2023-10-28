@@ -5,12 +5,7 @@ export default {
   content: [],
   theme: {
     fontFamily: {
-      sans: [
-        ["Inter", ...defaultTheme.fontFamily.sans],
-        {
-          fontFeatureSettings: "'ss01'",
-        },
-      ],
+      sans: ["Inter", ...defaultTheme.fontFamily.sans],
     },
     extend: {
       colors: {
