@@ -8,6 +8,9 @@ import {
   type StaffsResponse,
   type ReleasesResponse,
   type PublishersResponse,
+  type LinksResponse,
+  type LinkSourcesResponse,
+  type GenresResponse,
 } from "@/types/pb";
 import type { MetadataCommon } from "@/types/common";
 
@@ -27,22 +30,28 @@ const { data: title } = await useAsyncData(() =>
         "releases(title)": ReleasesResponse<{
           publisher: PublishersResponse;
         }>[];
+        "links(title)": LinksResponse<{
+          source: LinkSourcesResponse;
+        }>[];
         format: FormatsResponse;
+        genres: GenresResponse[];
       }
     >
   >(route.params.id as string, {
-    expand: "works(title).staff,releases(title).publisher,format",
+    expand:
+      "works(title).staff,releases(title).publisher,links(title).source,format,genres",
   }),
 );
-
-const releases = computed(() => title.value?.expand?.["releases(title)"]);
-const works = computed(() => title.value?.expand?.["works(title)"]);
 
 if (!title.value)
   throw createError({
     statusCode: 404,
     statusMessage: t("error.notFoundMessage"),
   });
+
+const releases = computed(() => title.value?.expand?.["releases(title)"]);
+const works = computed(() => title.value?.expand?.["works(title)"]);
+const links = computed(() => title.value?.expand?.["links(title)"]);
 
 const ogImage = new URL("/title", runtimeConfig.public.ogUrl);
 ogImage.searchParams.set("name", title.value.name);
@@ -88,9 +97,14 @@ definePageMeta({
           <AppShareButton :title="title.name" />
         </div>
 
-        <PageTitleSectionWorks
-          v-if="works && works.length > 0"
+        <PageTitleSectionDetails
           :works="works"
+          :genres="title.expand?.genres"
+        />
+
+        <PageTitleSectionLinks
+          v-if="links && links.length > 0"
+          :links="links"
         />
 
         <UButton
