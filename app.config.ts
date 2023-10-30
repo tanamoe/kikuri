@@ -36,7 +36,7 @@ export default defineAppConfig({
         soft: "text-{color}-500 dark:text-{color}-400 bg-{color}-100 hover:bg-{color}-100 disabled:bg-{color}-50 dark:bg-{color}-800 dark:hover:bg-{color}-900 dark:disabled:bg-{color}-950 focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-{color}-500 dark:focus-visible:ring-{color}-400",
       },
       default: {
-        loadingIcon: "i-fluent-arrow-clockwise-24-filled",
+        loadingIcon: "i-fluent-arrow-clockwise-20-filled",
       },
     },
     formGroup: {
@@ -50,33 +50,33 @@ export default defineAppConfig({
         base: "whitespace-normal",
       },
       default: {
-        sortAscIcon: "i-fluent-arrow-sort-down-24-filled",
-        sortDescIcon: "i-fluent-arrow-sort-up-24-filled",
+        sortAscIcon: "i-fluent-arrow-sort-down-20-filled",
+        sortDescIcon: "i-fluent-arrow-sort-up-20-filled",
         sortButton: {
-          icon: "i-fluent-arrow-sort-24-filled",
+          icon: "i-fluent-arrow-sort-20-filled",
         },
         loadingState: {
-          icon: "i-fluent-arrow-clockwise-24-filled",
+          icon: "i-fluent-arrow-clockwise-20-filled",
         },
         emptyState: {
-          icon: "i-fluent-database-24-filled",
+          icon: "i-fluent-database-20-filled",
         },
       },
     },
     input: {
       default: {
-        loadingIcon: "i-fluent-arrow-clockwise-24-filled",
+        loadingIcon: "i-fluent-arrow-clockwise-20-filled",
       },
     },
     select: {
       default: {
-        loadingIcon: "i-fluent-arrow-clockwise-24-filled",
-        trailingIcon: "i-fluent-chevron-down-24-filled",
+        loadingIcon: "i-fluent-arrow-clockwise-20-filled",
+        trailingIcon: "i-fluent-chevron-down-20-filled",
       },
     },
     selectMenu: {
       default: {
-        selectedIcon: "i-fluent-checkmark-24-filled",
+        selectedIcon: "i-fluent-checkmark-20-filled",
       },
     },
     notification: {
@@ -88,21 +88,21 @@ export default defineAppConfig({
     },
     commandPalette: {
       default: {
-        icon: "i-fluent-search-24-filled",
-        loadingIcon: "i-fluent-arrow-clockwise-24-filled",
-        selectedIcon: "i-fluent-checkmark-24-filled",
+        icon: "i-fluent-search-20-filled",
+        loadingIcon: "i-fluent-arrow-clockwise-20-filled",
+        selectedIcon: "i-fluent-checkmark-20-filled",
         emptyState: {
-          icon: "i-fluent-search-24-filled",
+          icon: "i-fluent-search-20-filled",
         },
       },
     },
     pagination: {
       default: {
         prevButton: {
-          icon: "i-octicon-arrow-left-24",
+          icon: "i-fluent-chevron-left-20-filled",
         },
         nextButton: {
-          icon: "i-octicon-arrow-right-24",
+          icon: "i-fluent-chevron-right-20-filled",
         },
       },
     },
