@@ -67,6 +67,15 @@ const filter = computed(() => {
       .join(" || ")})`;
   }
 
+  if (store.genres.length > 0) {
+    q += ` && (${store.genres
+      .reduce((a, v) => {
+        if (v) a.push(`title.genres.id ?= '${v}'`);
+        return a;
+      }, [] as string[])
+      .join(" || ")})`;
+  }
+
   return q;
 });
 
