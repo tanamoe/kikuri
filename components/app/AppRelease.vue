@@ -47,7 +47,7 @@ defineProps<{
         v-bind="$attrs"
       />
     </AppCard>
-    <div class="space-y-2">
+    <div class="space-y-1">
       <div>
         <UBadge color="gray" class="mb-1 mr-1">
           {{ release.expand.title.expand.format.name }}
@@ -63,6 +63,9 @@ defineProps<{
       >
         {{ release.expand.title.name }}
       </h3>
+      <h4 class="text-gray-500 dark:text-gray-400">
+        {{ release.name }}
+      </h4>
     </div>
   </NuxtLink>
 </template>

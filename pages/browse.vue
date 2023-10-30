@@ -22,31 +22,53 @@ type ResponseType = ReleaseDetailsResponse<
 >;
 
 const { $pb } = useNuxtApp();
-const store = useAdvancedFilterStore();
+const store = useBrowseStore();
+const { page, query, sort } = storeToRefs(store);
 
-const { formats, publishers } = storeToRefs(store);
-const query = ref("");
-const queryDebounced = refDebounced(query, 500);
-const page = ref(1);
+const toolbar = ref<HTMLElement>();
 
 const filter = computed(() => {
-  let q = `title.name ~ '${queryDebounced.value}'`;
+  let q = `title.name ~ '${store.query}'`;
 
-  if (publishers.value.length > 0) {
-    q += ` && (${publishers.value
-      .map((publishers) => `publisher = '${publishers.id}'`)
+  if (store.publishers.length > 0) {
+    q += ` && (${store.publishers
+      .reduce((a, v) => {
+        if (v) a.push(`publisher = '${v}'`);
+        return a;
+      }, [] as string[])
       .join(" || ")})`;
   }
 
-  if (formats.value.length > 0) {
-    q += ` && (${formats.value
-      .map((format) => `title.format = '${format.id}'`)
+  if (store.formats.length > 0) {
+    q += ` && (${store.formats
+      .filter((format) => format)
+      .reduce((a, v) => {
+        if (v) a.push(`title.format = '${v}'`);
+        return a;
+      }, [] as string[])
+      .join(" || ")})`;
+  }
+
+  if (store.demographics.length > 0) {
+    q += ` && (${store.demographics
+      .reduce((a, v) => {
+        if (v) a.push(`title.demographic = '${v}'`);
+        return a;
+      }, [] as string[])
+      .join(" || ")})`;
+  }
+
+  if (store.status.length > 0) {
+    q += ` && (${store.status
+      .reduce((a, v) => {
+        if (v) a.push(`status = '${v}'`);
+        return a;
+      }, [] as string[])
       .join(" || ")})`;
   }
 
   return q;
 });
-const sort = ref("-updated");
 
 const {
   data: releases,
@@ -62,16 +84,22 @@ const {
         sort: sort.value,
       }),
   {
-    watch: [queryDebounced],
+    watch: [page, sort],
   },
 );
+
+watchDebounced(query, () => execute(), { debounce: 500 });
+
+watch([releases], () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
 </script>
 
 <template>
   <UContainer>
     <AppH1 class="mb-6">{{ $t("general.browse") }}</AppH1>
 
-    <div class="space-y-6">
+    <div ref="toolbar" class="space-y-6">
       <UInput
         v-model="query"
         size="lg"
@@ -79,18 +107,32 @@ const {
         :placeholder="$t('general.searchPlaceholder')"
       />
       <div class="flex justify-between gap-3">
-        <AppFilterAdvanced @change="execute" />
-        <USelect
-          class="flex-shrink-0"
-          :placeholder="$t('general.sortBy')"
-          icon="i-fluent-arrow-sort-down-lines-20-filled"
-        />
+        <PageBrowseFilter @change="execute" />
+        <PageBrowseSort />
       </div>
     </div>
 
-    <div v-if="pending" class="mt-6 grid grid-cols-6 gap-x-6 gap-y-12">
+    <div
+      v-if="pending"
+      class="mt-6 grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-4 lg:grid-cols-6"
+    >
       <div v-for="i in 24" :key="i">
         <USkeleton class="aspect-[2/3] h-full w-full" />
+      </div>
+    </div>
+
+    <div
+      v-else-if="releases && releases.totalItems == 0"
+      class="mt-6 flex items-center justify-center"
+    >
+      <div class="text-center">
+        <p>{{ "~(>_<~)" }}</p>
+        <h2 class="my-3 font-lexend text-4xl font-bold">
+          {{ $t("general.empty") }}
+        </h2>
+        <p>
+          {{ $t("general.emptyMessage") }}
+        </p>
       </div>
     </div>
 
@@ -104,6 +146,15 @@ const {
           sizes="(max-width: 640px) 40vw, (max-width: 768px) 30vw, 20vw"
         />
       </div>
+    </div>
+
+    <div class="mt-12 flex justify-center">
+      <UPagination
+        v-if="releases"
+        v-model="page"
+        :page-count="24"
+        :total="releases.totalItems"
+      />
     </div>
   </UContainer>
 </template>
