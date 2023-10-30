@@ -31,7 +31,7 @@ const { data: demographics, pending } = await useLazyAsyncData(
           $t("general.demographicCount", { count: store.demographics.length })
         }}
       </span>
-      <span v-else>
+      <span v-else class="truncate">
         {{ $t("general.demographicSelect") }}
       </span>
     </template>

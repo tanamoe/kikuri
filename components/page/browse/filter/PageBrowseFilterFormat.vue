@@ -29,7 +29,7 @@ const { data: formats, pending } = await useLazyAsyncData(
       <span v-if="store.formats.length > 0" class="truncate">
         {{ $t("general.formatCount", { count: store.formats.length }) }}
       </span>
-      <span v-else>
+      <span v-else class="truncate">
         {{ $t("general.formatSelect") }}
       </span>
     </template>
