@@ -8,8 +8,8 @@ const { data: formats, pending } = await useLazyAsyncData(
   () => $pb.collection(Collections.Formats).getFullList(),
   {
     transform: (formats) =>
-      formats.map(({ id, name }) => ({
-        id,
+      formats.map(({ slug, name }) => ({
+        id: slug,
         label: name,
       })),
     default: () => [],

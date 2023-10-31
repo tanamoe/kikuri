@@ -33,7 +33,7 @@ const filter = computed(() => {
   if (store.publishers.length > 0) {
     q += ` && (${store.publishers
       .reduce((a, v) => {
-        if (v) a.push(`publisher = '${v}'`);
+        if (v) a.push(`publisher.slug = '${v}'`);
         return a;
       }, [] as string[])
       .join(" || ")})`;
@@ -43,7 +43,7 @@ const filter = computed(() => {
     q += ` && (${store.formats
       .filter((format) => format)
       .reduce((a, v) => {
-        if (v) a.push(`title.format = '${v}'`);
+        if (v) a.push(`title.format.slug = '${v}'`);
         return a;
       }, [] as string[])
       .join(" || ")})`;
@@ -52,7 +52,7 @@ const filter = computed(() => {
   if (store.demographics.length > 0) {
     q += ` && (${store.demographics
       .reduce((a, v) => {
-        if (v) a.push(`title.demographic = '${v}'`);
+        if (v) a.push(`title.demographic.slug = '${v}'`);
         return a;
       }, [] as string[])
       .join(" || ")})`;
@@ -70,7 +70,7 @@ const filter = computed(() => {
   if (store.genres.length > 0) {
     q += ` && (${store.genres
       .reduce((a, v) => {
-        if (v) a.push(`title.genres.id ?= '${v}'`);
+        if (v) a.push(`title.genres.slug ?= '${v}'`);
         return a;
       }, [] as string[])
       .join(" || ")})`;

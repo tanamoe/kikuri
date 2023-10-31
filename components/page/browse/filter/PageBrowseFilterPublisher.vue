@@ -9,7 +9,7 @@ const { data: publishers, pending } = await useLazyAsyncData(
   {
     transform: (publishers) =>
       publishers.map((publisher) => ({
-        id: publisher.id,
+        id: publisher.slug,
         label: publisher.name,
         color: publisher.color,
         avatar:
