@@ -60,6 +60,6 @@ useSeoMeta({
 
     <PageIndexRecentPosts />
 
-    <PageIndexRecentBooks />
+    <PageIndexRecentReleases />
   </div>
 </template>
