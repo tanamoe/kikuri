@@ -11,6 +11,7 @@ import {
   type LinksResponse,
   type LinkSourcesResponse,
   type GenresResponse,
+  type DemographicsResponse,
 } from "@/types/pb";
 import type { MetadataCommon } from "@/types/common";
 
@@ -35,11 +36,12 @@ const { data: title } = await useAsyncData(() =>
         }>[];
         format: FormatsResponse;
         genres: GenresResponse[];
+        demographic: DemographicsResponse;
       }
     >
   >(route.params.id as string, {
     expand:
-      "works(title).staff,releases(title).publisher,links(title).source,format,genres",
+      "works(title).staff,releases(title).publisher,links(title).source,format,genres,demographic",
   }),
 );
 
@@ -48,10 +50,6 @@ if (!title.value)
     statusCode: 404,
     statusMessage: t("error.notFoundMessage"),
   });
-
-const releases = computed(() => title.value?.expand?.["releases(title)"]);
-const works = computed(() => title.value?.expand?.["works(title)"]);
-const links = computed(() => title.value?.expand?.["links(title)"]);
 
 const ogImage = new URL("/title", runtimeConfig.public.ogUrl);
 ogImage.searchParams.set("name", title.value.name);
@@ -82,7 +80,10 @@ definePageMeta({
 
     <div class="mt-6 flex flex-col-reverse gap-6 lg:flex-row">
       <div class="flex-1">
-        <PageTitleSectionReleases v-if="releases" :releases="releases" />
+        <PageTitleSectionReleases
+          v-if="title.expand?.['releases(title)']"
+          :releases="title.expand?.['releases(title)']"
+        />
 
         <PageTitleSectionReviews :title-id="title.id" />
 
@@ -98,13 +99,17 @@ definePageMeta({
         </div>
 
         <PageTitleSectionDetails
-          :works="works"
           :genres="title.expand?.genres"
+          :demographic="title.expand?.demographic"
+          :works="title.expand?.['works(title)']"
         />
 
         <PageTitleSectionLinks
-          v-if="links && links.length > 0"
-          :links="links"
+          v-if="
+            title.expand?.['links(title)'] &&
+            title.expand?.['links(title)'].length > 0
+          "
+          :links="title.expand?.['links(title)']"
         />
 
         <UButton
