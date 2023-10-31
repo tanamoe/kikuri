@@ -8,9 +8,9 @@ const { data: genres, pending } = await useLazyAsyncData(
   () => $pb.collection(Collections.Genres).getFullList(),
   {
     transform: (genres) =>
-      genres.map((genre) => ({
-        id: genre.id,
-        label: genre.name,
+      genres.map(({ slug, name }) => ({
+        id: slug,
+        label: name,
       })),
     default: () => [],
   },

@@ -8,9 +8,9 @@ const { data: demographics, pending } = await useLazyAsyncData(
   () => $pb.collection(Collections.Demographics).getFullList(),
   {
     transform: (demographics) =>
-      demographics.map((demographic) => ({
-        id: demographic.id,
-        label: demographic.name,
+      demographics.map(({ slug, name }) => ({
+        id: slug,
+        label: name,
       })),
     default: () => [],
   },
