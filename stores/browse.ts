@@ -61,24 +61,27 @@ export const useBrowseStore = defineStore("browse", () => {
     genres.value = [];
   }
 
-  watch([page, query, sort, formats, demographics, publishers, genres], () => {
-    router.replace({
-      path: route.path,
-      query: {
-        p: page.value,
-        q: query.value,
-        s: sort.value,
-        format: formats.value,
-        demographic: demographics.value,
-        status: status.value,
-        publisher: publishers.value,
-        genre: genres.value,
-      },
-    });
-  });
+  watch(
+    [page, query, sort, formats, demographics, publishers, status, genres],
+    () => {
+      router.replace({
+        path: route.path,
+        query: {
+          p: page.value,
+          q: query.value,
+          s: sort.value,
+          format: formats.value,
+          demographic: demographics.value,
+          status: status.value,
+          publisher: publishers.value,
+          genre: genres.value,
+        },
+      });
+    },
+  );
 
   watch(
-    [query, formats, demographics, publishers, genres],
+    [query, formats, demographics, publishers, status, genres],
     () => (page.value = 1),
   );
 
