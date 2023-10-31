@@ -1,6 +1,5 @@
 export const useBrowseStore = defineStore("browse", () => {
   const route = useRoute();
-  const router = useRouter();
 
   const page = ref(
     route.query.p && !Array.isArray(route.query.p)
@@ -60,25 +59,6 @@ export const useBrowseStore = defineStore("browse", () => {
     status.value = [];
     genres.value = [];
   }
-
-  watch(
-    [page, query, sort, formats, demographics, publishers, status, genres],
-    () => {
-      router.replace({
-        path: route.path,
-        query: {
-          p: page.value,
-          q: query.value,
-          s: sort.value,
-          format: formats.value,
-          demographic: demographics.value,
-          status: status.value,
-          publisher: publishers.value,
-          genre: genres.value,
-        },
-      });
-    },
-  );
 
   watch(
     [query, formats, demographics, publishers, status, genres],

@@ -1,7 +1,9 @@
 <script setup lang="ts">
+const route = useRoute();
+const router = useRouter();
 const store = useBrowseStore();
 
-defineEmits<{
+const emit = defineEmits<{
   change: [void];
 }>();
 
@@ -10,8 +12,27 @@ const filterCount = computed(
     store.publishers.length +
     store.formats.length +
     store.status.length +
-    store.demographics.length,
+    store.demographics.length +
+    store.genres.length,
 );
+
+function apply() {
+  router.replace({
+    path: route.path,
+    query: {
+      p: store.page,
+      q: store.query,
+      s: store.status,
+      format: store.formats,
+      demographic: store.demographics,
+      status: store.status,
+      publisher: store.publishers,
+      genre: store.genres,
+    },
+  });
+
+  emit("change");
+}
 </script>
 
 <template>
@@ -56,7 +77,7 @@ const filterCount = computed(
           <UButton variant="ghost" color="red" @click="store.reset">
             {{ $t("general.reset") }}
           </UButton>
-          <UButton @click="$emit('change')">{{ $t("general.apply") }}</UButton>
+          <UButton @click="apply">{{ $t("general.apply") }}</UButton>
         </div>
       </UCard>
     </template>
