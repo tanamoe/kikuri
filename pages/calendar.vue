@@ -32,10 +32,7 @@ const filter = computed(() =>
 const { pending, data, error } = await useAsyncData(
   () =>
     $pb.collection(Collections.BookDetails).getFullList<BookDetailsCommon>({
-      filter: $pb.filter("publishDate >= {:from} && publishDate <= {:to}", {
-        from: month.value.startOf("month").format("YYYY-MM-DD"),
-        to: month.value.endOf("month").format("YYYY-MM-DD"),
-      }),
+      filter: filter.value,
       sort: "+publishDate, -edition",
       expand: "publication, release, release.title",
       fields:
