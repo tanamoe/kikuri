@@ -23,16 +23,16 @@ export function parseCalendarFilter(
     query.push(
       "(" +
         publishers
-          .map((publisher) => `publisher = '${publisher}'`)
+          .map((publisher) => `release.publisher = '${publisher}'`)
           .join(" || ") +
         ")",
     );
   }
 
   if (digital === "hide") {
-    query.push("digital = false");
+    query.push("publication.digital = false");
   } else if (digital === "only") {
-    query.push("digital = true");
+    query.push("publication.digital = true");
   }
 
   if (edition === false) {
