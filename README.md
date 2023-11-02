@@ -13,7 +13,7 @@ Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introdu
 ## Get Started
 
 <p align="center">
-<img src="public/register_banner.png" />
+<img src="public/images/calendar.png" />
 </p>
 
 Define some required variable in the project `.env` file, including:

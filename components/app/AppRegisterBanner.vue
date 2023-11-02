@@ -30,10 +30,11 @@ const cookie = useCookie<boolean>("tana_register_banner", {
           <UButton to="/register">{{ $t("account.register") }}</UButton>
         </div>
         <div class="-mb-16 flex flex-1 items-end xl:-mb-48">
-          <img
-            src="/register_banner.png"
+          <NuxtImg
+            src="/images/calendar.png"
             width="970"
             height="720"
+            :alt="$t('general.registerBanner')"
             sizes="40vw sm:80vw md:60vw"
           />
         </div>
