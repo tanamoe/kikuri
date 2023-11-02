@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { joinURL } from "ufo";
 import {
   Collections,
   type FormatsResponse,
@@ -22,6 +23,10 @@ type ResponseType = ReleaseDetailsResponse<
 >;
 
 const { $pb } = useNuxtApp();
+const { t } = useI18n({ useScope: "global" });
+const {
+  public: { ogUrl },
+} = useRuntimeConfig();
 const store = useBrowseStore();
 const { page, query, sort } = storeToRefs(store);
 
@@ -101,6 +106,15 @@ watchDebounced(query, () => execute(), { debounce: 500 });
 
 watch([releases], () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+useSeoMeta({
+  title: t("general.browse"),
+  description: t("seo.browseDescription"),
+  ogTitle: t("general.browse"),
+  ogDescription: t("seo.browseDescription"),
+  ogImage: joinURL(ogUrl, "browse"),
+  ogImageAlt: t("general.browse"),
 });
 </script>
 

@@ -54,6 +54,14 @@ if (!title.value)
 const ogImage = new URL("/title", runtimeConfig.public.ogUrl);
 ogImage.searchParams.set("name", title.value.name);
 ogImage.searchParams.set("format", title.value.expand!.format.name);
+if (title.value.expand?.demographic) {
+  ogImage.searchParams.set("demographic", title.value.expand.demographic.name);
+}
+if (title.value.expand?.genres) {
+  title.value.expand.genres.forEach((genre) =>
+    ogImage.searchParams.append("genre", genre.name),
+  );
+}
 if (title.value.cover)
   ogImage.searchParams.set(
     "image",
