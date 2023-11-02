@@ -31,10 +31,10 @@ const cookie = useCookie<boolean>("tana_register_banner", {
         </div>
         <div class="-mb-16 flex flex-1 items-end xl:-mb-48">
           <img
-            src="/register_banner.png"
-            width="970"
-            height="720"
-            sizes="40vw sm:80vw md:60vw"
+            src="/img/calendar.png"
+            width="720"
+            height="535"
+            :alt="$t('general.registerBanner')"
           />
         </div>
       </div>
