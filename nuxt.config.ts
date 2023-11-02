@@ -38,23 +38,6 @@ export default defineNuxtConfig({
     "/calendar": { prerender: true, isr: 3600 },
     "/title/*": { isr: 3600 },
   },
-  image: {
-    provider: "imagor",
-    providers: {
-      imagor: {
-        provider: "~/providers/imagor",
-        options: {
-          baseURL: "https://image.tana.moe/unsafe",
-        },
-      },
-      pocketbase: {
-        provider: "~/providers/pocketbase",
-        options: {
-          baseURL: "https://pb.tana.moe/api/files",
-        },
-      },
-    },
-  },
   swiper: {
     modules: ["autoplay", "effect-creative"],
   },
