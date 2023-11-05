@@ -27,9 +27,7 @@ definePageMeta({
 </script>
 
 <template>
-  <UContainer
-    class="my-12 flex h-[80vh] flex-col items-center justify-center gap-6"
-  >
+  <div class="my-12 flex h-[80vh] flex-col items-center justify-center gap-6">
     <Head>
       <Title>{{ $t("account.login") }}</Title>
     </Head>
@@ -39,5 +37,5 @@ definePageMeta({
       <p class="mb-6">{{ $t("auth.oauthPending") }}</p>
       <UButton to="/login">{{ $t("auth.oauthStuck") }}</UButton>
     </div>
-  </UContainer>
+  </div>
 </template>
