@@ -10,7 +10,7 @@ const { pending, login } = useAuthentication();
 const runtimeConfig = useRuntimeConfig();
 const authProvider = useCookie<AuthProviderInfo>("auth_provider");
 
-const { data: authMethods } = await useLazyAsyncData(
+const { data: authMethods, pending: authPending } = await useLazyAsyncData(
   () => $pb.collection("users").listAuthMethods(),
   { server: false },
 );
@@ -54,9 +54,7 @@ definePageMeta({
 </script>
 
 <template>
-  <UContainer
-    class="my-12 flex h-[80vh] flex-col items-center justify-center gap-6"
-  >
+  <div class="my-12 flex h-[80vh] flex-col items-center justify-center gap-6">
     <Head>
       <Title>{{ $t("account.login") }}</Title>
     </Head>
@@ -116,20 +114,29 @@ definePageMeta({
         </div>
       </div>
 
-      <div v-if="authMethods" class="space-y-6">
-        <div
-          class="relative text-center text-sm text-gray-600 dark:text-gray-400"
-        >
-          <hr
-            class="absolute inset-x-0 top-1/2 w-full -translate-y-1/2 transform border border-gray-600 dark:border-gray-600"
-          />
-          <span class="relative bg-gray-100 px-1 dark:bg-gray-800">
-            {{ $t("auth.or") }}
-          </span>
-        </div>
+      <div class="space-y-6">
+        <UDivider
+          :label="$t('auth.or')"
+          color="gray"
+          :ui="{ border: { base: 'border-gray-200 dark:border-gray-700' } }"
+        />
 
         <div>
-          <ul class="space-y-3">
+          <div v-if="authPending" class="space-y-3">
+            <USkeleton
+              class="h-8 w-full"
+              :ui="{ background: 'bg-gray-200 dark:bg-gray-700' }"
+            />
+            <USkeleton
+              class="h-8 w-full"
+              :ui="{ background: 'bg-gray-200 dark:bg-gray-700' }"
+            />
+            <USkeleton
+              class="h-8 w-full"
+              :ui="{ background: 'bg-gray-200 dark:bg-gray-700' }"
+            />
+          </div>
+          <ul v-else-if="authMethods" class="space-y-3">
             <li
               v-for="provider in authMethods.authProviders"
               :key="provider.name"
@@ -141,7 +148,7 @@ definePageMeta({
                 :ui="{
                   color: {
                     gray: {
-                      solid: 'ring-0 bg-gray-50 dark:bg-gray-900',
+                      solid: 'ring-0 bg-gray-200 dark:bg-gray-700',
                     },
                   },
                 }"
@@ -159,5 +166,5 @@ definePageMeta({
         </div>
       </div>
     </div>
-  </UContainer>
+  </div>
 </template>

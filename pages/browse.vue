@@ -13,7 +13,7 @@ type ResponseType = ReleaseDetailsResponse<
   MetadataCommon,
   {
     title: TitlesResponse<
-      unknown,
+      MetadataCommon,
       {
         format: FormatsResponse;
       }
@@ -119,7 +119,7 @@ useSeoMeta({
 </script>
 
 <template>
-  <UContainer>
+  <div>
     <AppH1 class="mb-6">{{ $t("general.browse") }}</AppH1>
 
     <div ref="toolbar" class="space-y-6">
@@ -164,10 +164,41 @@ useSeoMeta({
       class="mt-6 grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-4 lg:grid-cols-6"
     >
       <div v-for="release in releases.items" :key="release.id">
-        <AppRelease
-          :release="release"
+        <AppTitle
+          v-if="release.expand?.title"
+          :title="release.expand.title"
+          :src="
+            release.metadata && !Array.isArray(release.metadata.images)
+              ? release.metadata.images['1920w']
+              : undefined
+          "
+          :srcset="
+            release.metadata && !Array.isArray(release.metadata.images)
+              ? release.metadata.images
+              : undefined
+          "
           sizes="(max-width: 640px) 40vw, (max-width: 768px) 30vw, 20vw"
-        />
+        >
+          <template #before>
+            <UBadge
+              v-if="release.expand.title.expand"
+              color="gray"
+              class="mb-1 mr-1"
+            >
+              {{ release.expand.title.expand.format.name }}
+            </UBadge>
+            <UBadge color="gray" class="mb-1 mr-1">
+              <div class="flex items-center gap-1">
+                {{ release.expand.publisher.name }}
+              </div>
+            </UBadge>
+          </template>
+          <template #after>
+            <span class="text-gray-500 dark:text-gray-400">
+              {{ release.name }}
+            </span>
+          </template>
+        </AppTitle>
       </div>
     </div>
 
@@ -179,5 +210,5 @@ useSeoMeta({
         :total="releases.totalItems"
       />
     </div>
-  </UContainer>
+  </div>
 </template>

@@ -21,7 +21,7 @@ const { data: posts } = await useLazyFetch<PostsOrPages>(`${blogUrl}/api/home`);
       </NuxtLink>
     </UContainer>
     <div
-      class="flex snap-x snap-mandatory gap-6 overflow-x-scroll sm:grid sm:grid-cols-3 sm:overflow-x-hidden sm:px-6"
+      class="mx-auto flex snap-x snap-mandatory gap-6 overflow-x-scroll sm:container sm:grid sm:grid-cols-3 sm:overflow-x-hidden sm:px-6"
     >
       <div
         v-for="(post, i) in posts"

@@ -12,7 +12,7 @@ type ResponseType = ReleaseDetailsResponse<
   MetadataCommon,
   {
     title: TitlesResponse<
-      unknown,
+      MetadataCommon,
       {
         format: FormatsResponse;
       }
@@ -45,7 +45,7 @@ const { data: releases } = await useLazyAsyncData(() =>
     </UContainer>
     <div
       v-if="releases"
-      class="flex snap-x snap-mandatory gap-6 overflow-x-scroll sm:grid sm:grid-cols-3 sm:overflow-x-hidden sm:px-6 md:grid-cols-6"
+      class="mx-auto flex snap-x snap-mandatory gap-6 overflow-x-scroll sm:container sm:grid sm:grid-cols-3 sm:overflow-x-hidden sm:px-6 lg:grid-cols-6"
     >
       <div
         v-for="(release, i) in releases.items"
@@ -56,10 +56,41 @@ const { data: releases } = await useLazyAsyncData(() =>
           i === releases.items.length - 1 && 'mr-6 sm:mr-0',
         ]"
       >
-        <AppRelease
-          :release="release"
+        <AppTitle
+          v-if="release.expand?.title"
+          :title="release.expand.title"
+          :src="
+            release.metadata && !Array.isArray(release.metadata.images)
+              ? release.metadata.images['1920w']
+              : undefined
+          "
+          :srcset="
+            release.metadata && !Array.isArray(release.metadata.images)
+              ? release.metadata.images
+              : undefined
+          "
           sizes="(max-width: 640px) 40vw, (max-width: 768px) 30vw, 20vw"
-        />
+        >
+          <template #before>
+            <UBadge
+              v-if="release.expand.title.expand"
+              color="gray"
+              class="mb-1 mr-1"
+            >
+              {{ release.expand.title.expand.format.name }}
+            </UBadge>
+            <UBadge color="gray" class="mb-1 mr-1">
+              <div class="flex items-center gap-1">
+                {{ release.expand.publisher.name }}
+              </div>
+            </UBadge>
+          </template>
+          <template #after>
+            <span class="text-gray-500 dark:text-gray-400">
+              {{ release.name }}
+            </span>
+          </template>
+        </AppTitle>
       </div>
     </div>
   </div>
