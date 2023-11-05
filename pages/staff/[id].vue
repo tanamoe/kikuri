@@ -35,14 +35,10 @@ if (!staff.value)
     statusMessage: t("error.notFoundMessage"),
   });
 
-// useSeoMeta({
-//   title: title.value.name,
-//   description: title.value.description.replace(/<[^>]*>/g, "").slice(0, 200),
-//   ogTitle: title.value.name,
-//   ogDescription: title.value.description.replace(/<[^>]*>/g, "").slice(0, 200),
-//   ogImage: ogImage.toString(),
-//   ogImageAlt: title.value.name,
-// });
+useSeoMeta({
+  title: staff.value.name,
+  ogTitle: staff.value.name,
+});
 </script>
 
 <template>
