@@ -76,14 +76,10 @@ useSeoMeta({
   ogImage: ogImage.toString(),
   ogImageAlt: title.value.name,
 });
-
-definePageMeta({
-  layout: "full",
-});
 </script>
 
 <template>
-  <UContainer v-if="title">
+  <div v-if="title">
     <PageTitleHeader :title="title" />
 
     <div class="mt-6 flex flex-col-reverse gap-6 lg:flex-row">
@@ -130,5 +126,5 @@ definePageMeta({
         </UButton>
       </div>
     </div>
-  </UContainer>
+  </div>
 </template>

@@ -1,6 +1,8 @@
 <!-- eslint-disable import/no-named-as-default-member -->
 <script setup lang="ts">
-const runtimeConfig = useRuntimeConfig();
+const {
+  public: { ogUrl, umamiUrl, umamiSiteId, fbAppId },
+} = useRuntimeConfig();
 const i18nHead = useLocaleHead({
   addSeoAttributes: true,
 });
@@ -15,8 +17,8 @@ useHead({
   script: [
     {
       async: true,
-      src: runtimeConfig.public.umamiUrl,
-      "data-website-id": runtimeConfig.public.umamiSiteId,
+      src: umamiUrl,
+      "data-website-id": umamiSiteId,
     },
   ],
   link: [
@@ -47,12 +49,14 @@ useSeoMeta({
   ogSiteName: "Tana.moe",
   ogLocale: "vi_VN",
   ogType: "website",
+  ogImage: ogUrl,
+  ogImageAlt: "Tana.moe",
   ogImageHeight: "630",
   ogImageWidth: "1200",
   themeColor: "#89c4f4",
   twitterSite: "@tanamoeeee",
   twitterCard: "summary_large_image",
-  fbAppId: runtimeConfig.public.fbAppId,
+  fbAppId,
 });
 </script>
 

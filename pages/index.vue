@@ -48,6 +48,10 @@ useSeoMeta({
   ogImage: ogUrl,
   ogImageAlt: "Tana.moe",
 });
+
+definePageMeta({
+  layout: "full",
+});
 </script>
 
 <template>

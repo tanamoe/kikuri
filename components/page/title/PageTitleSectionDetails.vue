@@ -20,7 +20,7 @@ defineProps<{
 <template>
   <UCard
     v-if="works || genres"
-    class="prose prose-sm dark:prose-invert prose-h4:my-0 prose-a:text-gray-800 prose-a:no-underline hover:prose-a:text-tanablue-500 hover:prose-a:underline prose-hr:my-3 dark:prose-a:text-gray-300 dark:hover:prose-a:text-tanablue-400"
+    class="prose prose-sm max-w-none dark:prose-invert prose-h4:my-0 prose-a:text-gray-800 prose-a:no-underline hover:prose-a:text-tanablue-500 hover:prose-a:underline prose-hr:my-3 dark:prose-a:text-gray-300 dark:hover:prose-a:text-tanablue-400"
     :ui="{
       body: {
         base: 'divide-y divide-gray-200 dark:divide-gray-800',

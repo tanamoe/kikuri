@@ -93,7 +93,7 @@ definePageMeta({
 </script>
 
 <template>
-  <UContainer>
+  <div>
     <AppH1 class="mb-6">{{ $t("review.create") }}</AppH1>
 
     <UForm
@@ -160,5 +160,5 @@ definePageMeta({
         </div>
       </div>
     </UForm>
-  </UContainer>
+  </div>
 </template>
