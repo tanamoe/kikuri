@@ -14,7 +14,7 @@ const isOpen = ref(false);
     <div class="p-6">
       <div class="mb-6 flex items-center justify-between">
         <NuxtLink to="/">
-          <img src="/logo.svg" class="h-6" />
+          <img src="/logo.svg" class="h-6" height="24" width="24" />
         </NuxtLink>
 
         <UButton

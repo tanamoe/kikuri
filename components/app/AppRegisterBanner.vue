@@ -20,7 +20,7 @@ const cookie = useCookie<boolean>("tana_register_banner", {
       />
       <div class="flex flex-col gap-6 md:flex-row">
         <div class="flex-1 space-y-6">
-          <img src="/icon.svg" class="h-auto w-8" />
+          <img src="/icon.svg" class="h-auto w-8" width="32" height="32" />
           <div class="prose prose-sm dark:prose-invert">
             <AppH2>{{ $t("general.registerBanner") }}</AppH2>
             <p>
