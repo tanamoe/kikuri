@@ -8,6 +8,7 @@ const isOpen = ref(false);
     color="gray"
     square
     variant="ghost"
+    :aria-label="$t('general.openNavigation')"
     @click="isOpen = true"
   />
   <USlideover v-model="isOpen" side="left">
@@ -22,6 +23,7 @@ const isOpen = ref(false);
           color="gray"
           square
           variant="ghost"
+          :aria-label="$t('general.close')"
           @click="isOpen = false"
         />
       </div>

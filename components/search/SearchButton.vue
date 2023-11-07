@@ -12,6 +12,7 @@ const { open } = useSearchStore();
       color="gray"
       class="flex sm:hidden"
       square
+      :aria-label="$t('general.search')"
       @click="open"
     />
     <UButton

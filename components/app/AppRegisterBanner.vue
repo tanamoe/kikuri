@@ -16,6 +16,7 @@ const cookie = useCookie<boolean>("tana_register_banner", {
         color="gray"
         icon="i-fluent-dismiss-20-filled"
         square
+        :aria-label="$t('general.close')"
         @click="cookie = false"
       />
       <div class="flex flex-col gap-6 md:flex-row">

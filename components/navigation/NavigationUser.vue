@@ -67,7 +67,12 @@ const items = computed(() => [
       container: 'z-30',
     }"
   >
-    <UButton color="gray" variant="ghost" square>
+    <UButton
+      color="gray"
+      variant="ghost"
+      square
+      :aria-label="$t('general.user')"
+    >
       <UAvatar :src="avatar" size="2xs" />
     </UButton>
   </UDropdown>
@@ -85,6 +90,7 @@ const items = computed(() => [
       color="gray"
       square
       variant="ghost"
+      :aria-label="$t('general.user')"
     />
   </UDropdown>
 </template>
