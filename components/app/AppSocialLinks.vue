@@ -13,6 +13,7 @@ const appConfig = useAppConfig();
         variant="ghost"
         size="sm"
         square
+        :aria-label="social.name"
       />
     </li>
   </ul>

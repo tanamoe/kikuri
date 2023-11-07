@@ -8,13 +8,20 @@ const isOpen = ref(false);
     color="gray"
     square
     variant="ghost"
+    :aria-label="$t('general.openNavigation')"
     @click="isOpen = true"
   />
   <USlideover v-model="isOpen" side="left">
     <div class="p-6">
       <div class="mb-6 flex items-center justify-between">
         <NuxtLink to="/">
-          <img src="/logo.svg" class="h-6" />
+          <img
+            src="/logo.svg"
+            class="h-6"
+            height="24"
+            width="24"
+            alt="Tana.moe logo"
+          />
         </NuxtLink>
 
         <UButton
@@ -22,6 +29,7 @@ const isOpen = ref(false);
           color="gray"
           square
           variant="ghost"
+          :aria-label="$t('general.close')"
           @click="isOpen = false"
         />
       </div>

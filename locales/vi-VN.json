@@ -4,6 +4,7 @@
     "browse": "Danh mục",
     "library": "Tủ truyện",
     "settings": "Cài đặt",
+    "search": "Tìm kiếm",
     "searchPlaceholder": "Tìm kiếm...",
     "searchResultFor": "Kết quả tìm kiếm cho \"{query}\"...",
     "searchNoResult": "Không tìm thấy kết quả, hãy thử lại",
@@ -68,7 +69,12 @@
     "copySuccess": "Đã sao chép đường dẫn!",
     "empty": "Không tìm thấy!",
     "emptyMessage": "Bạn hãy thử thay đổi các tùy chọn xem sao...",
-    "reset": "Đặt lại"
+    "reset": "Đặt lại",
+    "user": "Người dùng",
+    "close": "Đóng",
+    "navigation": "Menu",
+    "openNavigation": "Mở menu",
+    "home": "Trang chủ"
   },
   "status": {
     "waitingForApproval": "Chờ duyệt",

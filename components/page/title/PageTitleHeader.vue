@@ -65,6 +65,7 @@ const isOpen = ref(false);
       />
       <AppCover
         class="rounded-lg"
+        loading="eager"
         :src="
           title.metadata?.images && !Array.isArray(title.metadata.images)
             ? title.metadata.images['1920w']
