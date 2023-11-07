@@ -38,7 +38,13 @@ const { data: releases } = await useLazyAsyncData(() =>
         <AppH3
           class="flex items-center gap-3 underline decoration-tanablue-400 decoration-[.2rem] underline-offset-[.2rem]"
         >
-          <img src="/icon.svg" class="h-6" height="24" width="24" />
+          <img
+            src="/icon.svg"
+            class="h-6"
+            height="24"
+            width="24"
+            alt="Tana.moe logo"
+          />
           {{ $t("general.justUpdatedReleases") }}
         </AppH3>
       </NuxtLink>

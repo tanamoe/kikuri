@@ -15,7 +15,13 @@ const { data: posts } = await useLazyFetch<PostsOrPages>(`${blogUrl}/api/home`);
         <AppH3
           class="flex items-center gap-3 underline decoration-tanaamber-400 decoration-[.2rem] underline-offset-[.2rem]"
         >
-          <img src="/icon-blog.svg" class="h-6" height="24" width="24" />
+          <img
+            src="/icon-blog.svg"
+            class="h-6"
+            height="24"
+            width="24"
+            alt="Tana.moe logo"
+          />
           {{ $t("general.recentPosts") }}
         </AppH3>
       </NuxtLink>

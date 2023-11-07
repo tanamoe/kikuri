@@ -64,7 +64,13 @@ onMounted(async () => {
       >
         <div class="flex items-center gap-3">
           <div class="flex items-center gap-3 text-gray-500">
-            <img class="h-6 w-auto" src="/icon.svg" height="24" width="24" />
+            <img
+              class="h-6 w-auto"
+              src="/icon.svg"
+              height="24"
+              width="24"
+              alt="Tana.moe logo"
+            />
             <UIcon name="i-fluent-slash-forward-20-filled" class="text-2xl" />
           </div>
 

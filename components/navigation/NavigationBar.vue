@@ -45,7 +45,13 @@ withDefaults(
           class="flex items-center gap-2"
           :aria-label="$t('general.home')"
         >
-          <img src="/logo.svg" class="h-6" width="90" height="24" />
+          <img
+            src="/logo.svg"
+            class="h-6"
+            width="90"
+            height="24"
+            alt="Tana.moe logo"
+          />
           <UBadge variant="soft" size="xs" class="invisible sm:visible">
             Preview
           </UBadge>
