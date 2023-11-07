@@ -22,7 +22,7 @@ function apply() {
     query: {
       p: store.page,
       q: store.query,
-      s: store.status,
+      s: store.sort,
       format: store.formats,
       demographic: store.demographics,
       status: store.status,
