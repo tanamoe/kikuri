@@ -1,9 +1,5 @@
 <script setup lang="ts">
-import {
-  type CollectionBookDetailedResponse,
-  Collections,
-  type BookDetailedResponse,
-} from "@/types/pb";
+import { Collections } from "@/types/pb";
 
 const props = defineProps<{
   collectionId: string;
@@ -12,58 +8,14 @@ const props = defineProps<{
 const { $pb } = useNuxtApp();
 const { t } = useI18n();
 const { pending, data: rows } = await useLazyAsyncData(props.collectionId, () =>
-  $pb.collection(Collections.CollectionBookDetailed).getFullList<
-    CollectionBookDetailedResponse<{
-      detail: BookDetailedResponse;
-    }>
-  >({
+  $pb.collection(Collections.CollectionBooks).getFullList({
     filter: `collection = '${props.collectionId}'`,
-    expand: "detail",
   }),
 );
-
-const columns = [
-  {
-    key: "cover",
-    label: t("general.coverImages"),
-    class: "whitespace-nowrap w-0",
-  },
-  {
-    key: "name",
-    label: t("general.name"),
-  },
-  {
-    key: "edition",
-    label: t("general.edition"),
-    class: "whitespace-nowrap w-0",
-    sortable: true,
-  },
-  {
-    key: "status",
-    label: t("general.status"),
-    class: "whitespace-nowrap w-0",
-    sortable: true,
-  },
-  {
-    key: "publishDate",
-    label: t("general.releaseDate"),
-    class: "whitespace-nowrap w-0",
-    sortable: true,
-  },
-  {
-    key: "price",
-    label: t("general.price"),
-    class: "whitespace-nowrap w-0",
-  },
-  {
-    key: "actions",
-  },
-];
 </script>
 
 <template>
   <UTable
-    :columns="columns"
     :rows="rows || []"
     :loading="pending"
     :ui="{
@@ -71,15 +23,8 @@ const columns = [
       td: { base: 'whitespace-nowrap lg:whitespace-normal' },
     }"
   >
-    <template #cover-data="{ row }">
-      <AppCover
-        :book="row"
-        :file-name="row.cover[0] || row.baseCover[0]"
-        :width="200"
-      />
-    </template>
     <template #edition-data="{ row }">
-      <UBadge v-if="row.edition" color="tanaamber" variant="overlay">
+      <UBadge v-if="row.edition" color="tanaamber">
         {{ row.edition }}
       </UBadge>
     </template>

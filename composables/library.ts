@@ -1,5 +1,3 @@
-import { BookDetailedResponse } from "~/types/pb";
-
 export function useLibraryPrompt() {
   const promptOpen = useState(() => false);
   const quickPromptOpen = useState(() => false);
@@ -21,7 +19,10 @@ export function useLibraryPrompt() {
   }));
 
   function open(
-    data: Pick<BookDetailedResponse, "id" | "name">,
+    data: {
+      id: string;
+      name: string;
+    },
     mobile = false,
   ) {
     promptOpen.value = false;

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 import { z } from "zod";
-import { Collections, type CollectionResponse } from "~/types/pb";
+import { Collections } from "@/types/pb";
 
 const { $pb } = useNuxtApp();
 const { promptOpen, book, state } = useLibraryPrompt();
@@ -10,7 +9,7 @@ const { isAuthenticated, currentUser } = useAuthentication();
 const { data: collections } = await useLazyAsyncData(
   currentUser.value?.id || "unauthenticated",
   () =>
-    $pb.collection(Collections.Collection).getFullList<CollectionResponse>({
+    $pb.collection(Collections.Collections).getFullList({
       filter: `owner = '${currentUser.value?.id}'`,
     }),
   {
@@ -29,18 +28,12 @@ const schema = z.object({
   status: z.string(),
 });
 
-type Schema = z.output<typeof schema>;
-
 const currentCollection = computed(
   () =>
     collections.value?.find(
       (collection) => collection.id === state.value.collection,
     ),
 );
-
-async function submit(event: FormSubmitEvent<Schema>) {
-  // TODO: send this data to the CMS
-}
 </script>
 
 <template>
@@ -59,7 +52,7 @@ async function submit(event: FormSubmitEvent<Schema>) {
         </div>
       </template>
 
-      <UForm :schema="schema" :state="state" class="space-y-3" @submit="submit">
+      <UForm :schema="schema" :state="state" class="space-y-3">
         <div class="text-center">
           <UButton class="cursor-default" color="gray" block>
             {{ book.name }}

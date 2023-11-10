@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import { Collections, CollectionResponse, UsersResponse } from "@/types/pb";
+import {
+  Collections,
+  type CollectionsResponse,
+  type UsersResponse,
+} from "@/types/pb";
 
 const { $pb } = useNuxtApp();
 const route = useRoute();
 
 const { data: collection } = await useAsyncData(() =>
-  $pb.collection(Collections.Collection).getOne<
-    CollectionResponse<{
+  $pb.collection(Collections.Collections).getOne<
+    CollectionsResponse<{
       owner: UsersResponse;
     }>
   >(route.params.collectionId as string, {
@@ -18,7 +22,7 @@ if (!collection.value) throw createError({ statusCode: 404 });
 </script>
 
 <template>
-  <UContainer v-if="collection">
+  <div v-if="collection">
     <AppBreadcrumb
       v-if="collection.expand"
       class="mb-3"
@@ -42,5 +46,5 @@ if (!collection.value) throw createError({ statusCode: 404 });
     <div>
       <PageLibraryBooks :collection-id="collection.id" />
     </div>
-  </UContainer>
+  </div>
 </template>
