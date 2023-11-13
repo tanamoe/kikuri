@@ -32,7 +32,7 @@ const { data: reviews } = await useAsyncData(() =>
         :key="review.id"
         :to="'/review/' + review.id"
       >
-        <UCard :ui="{ body: { base: 'relative', padding: 'px-4 py-3' } }">
+        <UCard :ui="{ body: { base: 'relative' } }">
           <div class="relative z-10 space-y-3">
             <h4>{{ review.header }}</h4>
 
@@ -46,7 +46,7 @@ const { data: reviews } = await useAsyncData(() =>
                       review.expand!.user,
                       review.expand!.user.avatar,
                       {
-                        thumb: '24x24',
+                        thumb: '20x20',
                       },
                     )
                   "
@@ -59,7 +59,7 @@ const { data: reviews } = await useAsyncData(() =>
                   }}
                 </span>
               </div>
-              <UBadge v-if="review.score >= 7">
+              <UBadge v-if="review.score >= 7" variant="subtle">
                 {{ $t("review.recommend") }}
               </UBadge>
             </div>
