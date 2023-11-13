@@ -6,7 +6,7 @@ import {
   type TitlesResponse,
   type PublishersResponse,
 } from "@/types/pb";
-import type { MetadataCommon } from "~/types/common";
+import type { MetadataCommon } from "@/types/common";
 
 type ResponseType = ReleaseDetailsResponse<
   MetadataCommon,
