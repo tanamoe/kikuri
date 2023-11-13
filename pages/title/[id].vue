@@ -25,9 +25,6 @@ const { data: title } = await useAsyncData(() =>
     TitlesResponse<
       MetadataCommon,
       {
-        "works(title)": WorksResponse<{
-          staff: StaffsResponse;
-        }>[];
         "releases(title)": ReleasesResponse<{
           publisher: PublishersResponse;
         }>[];
@@ -41,7 +38,20 @@ const { data: title } = await useAsyncData(() =>
     >
   >(route.params.id as string, {
     expand:
-      "works(title).staff,releases(title).publisher,links(title).source,format,genres,demographic",
+      "works(title),works(title).staff,releases(title).publisher,links(title).source,format,genres,demographic",
+    sort: "+works(title)",
+  }),
+);
+
+const { data: works } = await useAsyncData(() =>
+  $pb.collection(Collections.Works).getFullList<
+    WorksResponse<{
+      staff: StaffsResponse;
+    }>
+  >({
+    filter: `title = '${title.value?.id}'`,
+    expand: "staff",
+    sort: "+priority",
   }),
 );
 
@@ -105,7 +115,7 @@ useSeoMeta({
         <PageTitleSectionDetails
           :genres="title.expand?.genres"
           :demographic="title.expand?.demographic"
-          :works="title.expand?.['works(title)']"
+          :works="works"
         />
 
         <PageTitleSectionLinks

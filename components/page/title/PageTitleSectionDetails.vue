@@ -11,9 +11,11 @@ import type {
 defineProps<{
   demographic?: DemographicsResponse;
   genres?: GenresResponse[];
-  works?: WorksResponse<{
-    staff: StaffsResponse;
-  }>[];
+  works:
+    | WorksResponse<{
+        staff: StaffsResponse;
+      }>[]
+    | null;
 }>();
 </script>
 
