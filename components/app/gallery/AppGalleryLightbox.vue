@@ -44,6 +44,7 @@ defineShortcuts({
   >
     <Dialog class="relative z-50" @close="isOpen = false">
       <TransitionChild
+        as="template"
         enter="duration-300 ease-out"
         enter-from="opacity-0"
         enter-to="opacity-100"
@@ -55,6 +56,7 @@ defineShortcuts({
       </TransitionChild>
 
       <TransitionChild
+        as="template"
         enter="ease-out duration-200 delay-200"
         enter-from="opacity-0"
         enter-to="opacity-100"
