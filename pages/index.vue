@@ -62,8 +62,6 @@ definePageMeta({
       <AppRegisterBanner />
     </UContainer>
 
-    <PageIndexRecentPosts />
-
     <PageIndexRecentReleases />
   </div>
 </template>
