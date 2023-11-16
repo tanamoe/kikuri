@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { type Dayjs } from "dayjs";
-import type { FilterPublishers } from "@/utils/releases";
 import { Collections, type PublishersResponse } from "@/types/pb";
 
 const { $pb } = useNuxtApp();
