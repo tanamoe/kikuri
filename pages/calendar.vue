@@ -13,14 +13,28 @@ const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const store = useSettingsStore();
 const { showDigital, showEditionedBook } = storeToRefs(store);
+const route = useRoute();
+const router = useRouter();
 
-const month = ref(dayjs.tz());
+const month = computed({
+  get: () =>
+    route.query.month ? dayjs.tz(route.query.month as string) : dayjs.tz(),
+  set: (v) => {
+    router.push({
+      query: {
+        ...route.query,
+        month: v.format("YYYY-MM"),
+      },
+    });
+  },
+});
+
 const publishers = ref<FilterPublishers[]>([]);
 
 const filter = computed(() =>
   parseCalendarFilter(
     month.value.startOf("month").format("YYYY-MM-DD"),
-    month.value.endOf("month").format("YYYY-MM-DD"),
+    month.value.startOf("month").add({ month: 1 }).format("YYYY-MM-DD"),
     {
       publishers: publishers.value.map((publisher) => publisher.id),
       digital: showDigital.value,
@@ -94,5 +108,7 @@ useSeoMeta({
 
       <PageCalendarQuickNavigation :dates="dates" />
     </template>
+
+    <PageCalendarNavigation v-model:month="month" />
   </div>
 </template>
