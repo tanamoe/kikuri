@@ -75,7 +75,9 @@
     "close": "Đóng",
     "navigation": "Menu",
     "openNavigation": "Mở menu",
-    "home": "Trang chủ"
+    "home": "Trang chủ",
+    "monthPrevious": "Tháng trước",
+    "monthAfter": "Tháng sau"
   },
   "status": {
     "waitingForApproval": "Chờ duyệt",
