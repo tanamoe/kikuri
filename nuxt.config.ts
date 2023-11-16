@@ -4,7 +4,6 @@ export default defineNuxtConfig({
     public: {
       siteUrl: process.env.SITE_URL,
       pocketbaseUrl: process.env.POCKETBASE_URL,
-      blogUrl: process.env.BLOG_URL,
       ogUrl: process.env.OG_URL,
       imageUrl: process.env.IMAGE_URL,
       fbAppId: process.env.FB_APP_ID,
