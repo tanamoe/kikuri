@@ -15,13 +15,7 @@ const isOpen = ref(false);
     <div class="p-6">
       <div class="mb-6 flex items-center justify-between">
         <NuxtLink to="/">
-          <img
-            src="/logo.svg"
-            class="h-6"
-            height="24"
-            width="24"
-            alt="Tana.moe logo"
-          />
+          <img src="/logo.svg" class="h-6" alt="Tana.moe logo" />
         </NuxtLink>
 
         <UButton
@@ -39,7 +33,11 @@ const isOpen = ref(false);
             {{ $t("general.releaseCalendar") }}
           </NuxtLink>
         </li>
-        <li>{{ $t("general.browse") }}</li>
+        <li>
+          <NuxtLink to="/browse">
+            {{ $t("general.browse") }}
+          </NuxtLink>
+        </li>
         <li>{{ $t("general.library") }}</li>
       </ul>
     </div>
