@@ -5,7 +5,7 @@ import {
   type BookDetailsResponse,
   type PublicationsResponse,
   type ReleasesResponse,
-  type TitlesResponse,
+  type PublishersResponse,
 } from "@/types/pb";
 import type { MetadataCommon } from "@/types/common";
 
@@ -21,7 +21,7 @@ type Texpand = {
   publication: Pick<PublicationsResponse, "name">;
   release: Pick<
     ReleasesResponse<{
-      title: TitlesResponse;
+      publisher: PublishersResponse;
     }>,
     "expand" | "title"
   >;

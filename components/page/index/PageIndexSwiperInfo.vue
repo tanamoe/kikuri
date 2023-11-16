@@ -2,8 +2,8 @@
 import {
   type BookDetailsResponse,
   type PublicationsResponse,
+  type PublishersResponse,
   type ReleasesResponse,
-  type TitlesResponse,
 } from "@/types/pb";
 import type { MetadataCommon } from "@/types/common";
 
@@ -15,7 +15,7 @@ defineProps<{
       publication: Pick<PublicationsResponse, "name">;
       release: Pick<
         ReleasesResponse<{
-          title: TitlesResponse;
+          publisher: PublishersResponse;
         }>,
         "expand" | "title"
       >;
@@ -40,7 +40,7 @@ defineProps<{
       <p class="mb-6 text-gray-500 dark:text-gray-300">
         <span>
           <b>{{ $t("general.publishedBy") }}</b>
-          {{ book.expand?.release.expand?.title }}
+          {{ book.expand?.release.expand?.publisher.name }}
         </span>
         <br />
         <span v-if="book.price !== 0">
