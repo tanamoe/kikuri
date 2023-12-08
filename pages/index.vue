@@ -56,7 +56,10 @@ definePageMeta({
 
 <template>
   <div class="space-y-24">
-    <PageIndexSwiper v-if="releases" :releases="releases" />
+    <PageIndexSwiper
+      v-if="releases && releases.length > 0"
+      :releases="releases"
+    />
 
     <UContainer>
       <AppRegisterBanner />
