@@ -57,7 +57,7 @@ export type UserCollectionResponse = BaseAPISingleResult<
  *
  * @see {@link UserCollectionBooksResponse}
  */
-export type CollectionBooksResponse = {
+export type CollectionBookResponse = {
   collectionId: string;
   bookId: string;
   collection?: CollectionsRecord & BaseAPIFields;
@@ -72,7 +72,7 @@ export type CollectionBooksResponse = {
  * @see {@link https://github.com/tanamoe/momoka-lite/blob/master/models/collection_book.go}
  */
 export type UserCollectionBooksResponse =
-  BaseAPIListResult<CollectionBooksResponse>;
+  BaseAPIListResult<CollectionBookResponse>;
 
 /**
  * Members items returned from `/api/user-collection/:userId/members`
@@ -83,7 +83,7 @@ export type UserCollectionBooksResponse =
  *
  * @see {@link UserCollectionMembersResponse}
  */
-export type CollectionMembersResponse = {
+export type CollectionMemberResponse = {
   collectionId: string;
   userId: string;
   collection?: CollectionsRecord & BaseAPIFields;
@@ -97,4 +97,4 @@ export type CollectionMembersResponse = {
  * @see {@link https://github.com/tanamoe/momoka-lite/blob/master/models/collection_member.go}
  */
 export type UserCollectionMembersResponse =
-  BaseAPIListResult<CollectionMembersResponse>;
+  BaseAPIListResult<CollectionMemberResponse>;
