@@ -87,7 +87,8 @@
     "onGoing": "Đang phát hành",
     "completed": "Hoàn thành",
     "hiatus": "Tạm dừng",
-    "cancelled": "Huỷ"
+    "cancelled": "Huỷ",
+    "planning": "Kế hoạch"
   },
   "review": {
     "action": {

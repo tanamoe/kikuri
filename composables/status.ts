@@ -1,4 +1,7 @@
-import type { ReleasesStatusOptions } from "~/types/pb";
+import type {
+  ReleasesStatusOptions,
+  CollectionBooksStatusOptions,
+} from "@/types/pb";
 
 export function useReleaseStatus() {
   const { t } = useI18n({ useScope: "global" });
@@ -34,6 +37,31 @@ export function useReleaseStatus() {
       id: "CANCELLED",
       label: t("status.cancelled"),
       icon: "i-fluent-book-exclamation-mark-20-filled",
+    },
+  ]);
+
+  return { status };
+}
+
+export function useLibraryStatus() {
+  const { t } = useI18n({ useScope: "global" });
+
+  const status = computed<
+    {
+      id: keyof typeof CollectionBooksStatusOptions;
+      label: string;
+      icon?: string;
+    }[]
+  >(() => [
+    {
+      id: "PLANNING",
+      label: t("status.planning"),
+      icon: "i-fluent-book-information-20-filled",
+    },
+    {
+      id: "COMPLETED",
+      label: t("status.completed"),
+      icon: "i-fluent-book-letter-20-filled",
     },
   ]);
 
