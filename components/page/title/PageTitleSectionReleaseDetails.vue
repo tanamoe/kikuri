@@ -66,7 +66,7 @@ const columns = [
   },
   {
     key: "publishDate",
-    label: t("general.releaseDate"),
+    label: t("general.publishDate"),
     class: "whitespace-nowrap w-0",
     sortable: true,
   },
@@ -119,7 +119,9 @@ const watcher = watch(
       </UBadge>
     </template>
     <template #publishDate-data="{ row }">
-      <span v-if="row.publishDate">{{ $d(new Date(row.publishDate)) }}</span>
+      <span v-if="row.publishDate">{{
+        $d(new Date(row.publishDate), "publishDate")
+      }}</span>
     </template>
     <template #price-data="{ row }">
       <span>{{ $n(row.price, "currency", "vi") }}</span>

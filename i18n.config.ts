@@ -23,6 +23,11 @@ export default defineI18nConfig(() => ({
         day: "numeric",
         weekday: "long",
       },
+      publishDate: {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      },
       weekdayShort: {
         weekday: "long",
       },
