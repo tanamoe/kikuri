@@ -1,21 +1,26 @@
 <script setup lang="ts">
 import { type UserCollectionsResponse } from "@/types/collections";
 
-const { status } = useLibraryStatus();
+const { $pb } = useNuxtApp();
+const libraryStatus = useLibraryStatus();
 
-const props = defineProps<{
-  collections: UserCollectionsResponse;
-}>();
-
-const c = computed(() =>
-  props.collections.items.map((item) => ({
-    label: item.collection?.name || "",
-    to: item.collection?.id,
-  })),
+const { data: collections } = await useAsyncData(
+  () =>
+    $pb.send<UserCollectionsResponse>(
+      `/api/user-collections/${$pb.authStore.model?.id}`,
+      { method: "GET", expand: "collection" },
+    ),
+  {
+    transform: (collections) =>
+      collections.items.map((item) => ({
+        label: item.collection?.name || "",
+        to: item.collection?.id,
+      })),
+  },
 );
 
-const s = computed(() =>
-  status.value.map((s) => ({
+const status = computed(() =>
+  libraryStatus.status.value.map((s) => ({
     ...s,
     to: `#${s.id}`,
     external: true,
@@ -25,10 +30,12 @@ const s = computed(() =>
 
 <template>
   <div class="space-y-3">
-    <UVerticalNavigation :links="c" />
+    <template v-if="collections">
+      <UVerticalNavigation :links="collections" />
 
-    <UDivider />
+      <UDivider />
+    </template>
 
-    <UVerticalNavigation :links="s" />
+    <UVerticalNavigation :links="status" />
   </div>
 </template>
