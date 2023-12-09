@@ -34,7 +34,7 @@
     "readMore": "Đọc thêm",
     "synopsis": "Nội dung",
     "printRelease": "Bản in",
-    "releaseDate": "Ngày phát hành",
+    "publishDate": "Ngày phát hành",
     "price": "Giá bìa",
     "name": "Tên",
     "volume": "Tập",
@@ -45,6 +45,8 @@
     "justUpdatedBooks": "Truyện vừa cập nhật",
     "justUpdatedReleases": "Bộ truyện vừa cập nhật",
     "dateRelease": "Phát hành ngày {date}",
+    "quantity": "Số lượng",
+    "title": "Tựa truyện",
     "viewTitleDetails": "Xem chi tiết",
     "bookPrice": "Giá dự kiến",
     "publishedBy": "Phát hành bởi",
@@ -252,11 +254,12 @@
   },
   "library": {
     "collection": "Bộ sưu tập",
-    "chooseCollection": "Chọn bộ sưu tập",
-    "quantity": "Số lượng",
-    "status": "Trạng thái",
+    "collectionSelect": "Chọn bộ sưu tập",
     "addToLibrary": "Thêm vào thư viện",
     "addQuick": "Thêm nhanh",
-    "addManual": "Lựa chọn khác"
+    "addManual": "Lựa chọn khác",
+    "member": "Thành viên",
+    "bookEdit": "Chỉnh sửa {name}",
+    "updateSuccessful": "Cập nhật thành công"
   }
 }
