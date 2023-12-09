@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { z } from "zod";
-import { Collections } from "@/types/pb";
+import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
+import { CollectionBooksStatusOptions, Collections } from "@/types/pb";
 
 const { $pb } = useNuxtApp();
-const { promptOpen, book, state } = useLibraryPrompt();
+const { pending, update } = useLibrary();
+const { isOpen, book, state } = useLibraryPrompt();
 const { isAuthenticated, currentUser } = useAuthentication();
 
 const { data: collections } = await useLazyAsyncData(
@@ -23,10 +25,12 @@ const { data: collections } = await useLazyAsyncData(
 );
 
 const schema = z.object({
-  quantity: z.number().min(0),
+  quantity: z.coerce.number().min(0),
   collection: z.string(),
-  status: z.string(),
+  status: z.nativeEnum(CollectionBooksStatusOptions),
 });
+
+type Schema = z.output<typeof schema>;
 
 const currentCollection = computed(
   () =>
@@ -34,10 +38,19 @@ const currentCollection = computed(
       (collection) => collection.id === state.value.collection,
     ),
 );
+
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+  await update({
+    collectionId: event.data.collection,
+    bookId: book.value!.id,
+    quantity: event.data.quantity,
+    status: event.data.status,
+  });
+}
 </script>
 
 <template>
-  <UModal v-if="isAuthenticated && book" v-model="promptOpen">
+  <UModal v-if="isAuthenticated && book" v-model="isOpen.add">
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <template #header>
         <div class="flex items-center justify-between">
@@ -47,12 +60,17 @@ const currentCollection = computed(
             variant="ghost"
             icon="i-fluent-dismiss-20-filled"
             class="-my-1"
-            @click="promptOpen = false"
+            @click="isOpen.add = false"
           />
         </div>
       </template>
 
-      <UForm :schema="schema" :state="state" class="space-y-3">
+      <UForm
+        :schema="schema"
+        :state="state"
+        class="space-y-3"
+        @submit="onSubmit"
+      >
         <div class="text-center">
           <UButton class="cursor-default" color="gray" block>
             {{ book.name }}
@@ -90,10 +108,10 @@ const currentCollection = computed(
         </div>
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="promptOpen = false">
+          <UButton color="red" variant="ghost" @click="isOpen.add = false">
             {{ $t("general.return") }}
           </UButton>
-          <UButton type="submit">
+          <UButton type="submit" :loading="pending">
             {{ $t("general.confirm") }}
           </UButton>
         </div>
