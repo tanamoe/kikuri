@@ -8,9 +8,11 @@ export type BaseAPIFields = Omit<
 
 export type BaseAPIListResult<T> = {
   success: boolean;
+  message?: string;
 } & ListResult<T & BaseAPIFields>;
 
 export type BaseAPISingleResult<T> = {
   success: boolean;
-  item: T;
+  message?: string;
+  item: T & BaseAPIFields;
 };
