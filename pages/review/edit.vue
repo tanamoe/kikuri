@@ -96,7 +96,9 @@ definePageMeta({
             :placeholder="$t('review.header')"
           />
         </UFormGroup>
-        <AppEditor v-model="content" class="mb-6" />
+        <ClientOnly>
+          <AppEditor v-model="content" class="mb-6" />
+        </ClientOnly>
       </div>
       <div class="w-full flex-shrink-0 sm:w-64">
         <div class="space-y-6">
