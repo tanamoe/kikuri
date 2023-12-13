@@ -48,12 +48,7 @@ definePageMeta({
 
     <div class="w-full max-w-sm rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
       <AppH1 class="mb-6">{{ $t("account.register") }}</AppH1>
-      <UForm
-        class="space-y-6"
-        :schema="schema"
-        :state="state"
-        @submit.prevent="submit"
-      >
+      <UForm class="space-y-6" :schema="schema" :state="state" @submit="submit">
         <div class="space-y-3">
           <UFormGroup name="username" :label="$t('account.username')">
             <UInput
