@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const store = useSettingsStore();
-const { datePosition } = storeToRefs(store);
 
 defineProps<{
   date: Date;
@@ -9,7 +8,7 @@ defineProps<{
 
 <template>
   <div
-    v-if="datePosition === 'left'"
+    v-if="store.display.datePosition === 'left'"
     class="text-center text-xs leading-none md:text-sm"
   >
     <div class="overflow-hidden text-ellipsis whitespace-nowrap">
@@ -27,7 +26,7 @@ defineProps<{
     <div class="mt-3 flex"></div>
   </div>
   <div
-    v-if="datePosition === 'top'"
+    v-if="store.display.datePosition === 'top'"
     class="py-2 font-lexend text-2xl font-bold"
   >
     {{ $d(date, "full") }}

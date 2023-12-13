@@ -4,7 +4,6 @@ import dayjs from "dayjs";
 import type { BookDetailsCommon } from "@/types/common";
 
 const store = useSettingsStore();
-const { datePosition } = storeToRefs(store);
 
 defineProps<{
   releases: Record<string, BookDetailsCommon[]>;
@@ -19,16 +18,16 @@ defineProps<{
       :key="key"
       class="release-day mb-24 flex scroll-mt-28 gap-6 sm:scroll-mt-16"
       :class="{
-        'flex-col': datePosition === 'top',
+        'flex-col': store.display.datePosition === 'top',
       }"
       style="scroll-margin-top: calc(var(--toolbar-height) + 1rem)"
     >
       <div
         class="sticky top-28 flex-shrink-0 self-start sm:top-16"
         :class="{
-          'w-12 md:w-20': datePosition === 'left',
+          'w-12 md:w-20': store.display.datePosition === 'left',
           'z-10 w-full bg-gray-50 ring-8 ring-gray-50 dark:bg-gray-900 dark:ring-gray-900':
-            datePosition === 'top',
+            store.display.datePosition === 'top',
         }"
         style="top: var(--toolbar-height)"
       >
