@@ -4,6 +4,7 @@ import { joinURL } from "ufo";
 import type { BookDetailsCommon } from "@/types/common";
 
 const { add } = useLibraryPrompt();
+const { currentUser } = useAuthentication();
 const store = useSettingsStore();
 
 const ui = {
@@ -45,7 +46,10 @@ defineProps<{
         {{ book.edition }}
       </UBadge>
 
-      <div class="absolute bottom-2 right-2 z-10 flex items-center gap-1">
+      <div
+        v-if="currentUser"
+        class="absolute bottom-2 right-2 z-10 flex items-center gap-1"
+      >
         <UPopover v-if="book.metadata?.inCollections" mode="hover">
           <UTooltip :text="$t('library.view')" :popper="{ placement: 'top' }">
             <UButton

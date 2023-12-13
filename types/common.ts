@@ -21,7 +21,7 @@ export type MetadataLibrary = {
 };
 
 export type MetadataCommon = {
-  images: MetadataImages | MetadataImages[];
+  images?: MetadataImages | MetadataImages[];
 };
 
 export type BookDetailsCommon = BookDetailsResponse<

@@ -18,13 +18,13 @@ defineProps<{
         :name="title.name"
         :src="
           src ||
-          (title.metadata && !Array.isArray(title.metadata.images)
+          (title.metadata?.images && !Array.isArray(title.metadata.images)
             ? title.metadata.images['1920w']
             : undefined)
         "
         :srcset="
           srcset ||
-          (title.metadata && !Array.isArray(title.metadata.images)
+          (title.metadata?.images && !Array.isArray(title.metadata.images)
             ? title.metadata.images
             : undefined)
         "
