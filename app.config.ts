@@ -117,4 +117,7 @@ export default defineAppConfig({
       },
     },
   },
+  // TODO: remove on upstream fix
+  // https://github.com/nuxt/ui/issues/1043
+  nuxtIcon: {},
 });
