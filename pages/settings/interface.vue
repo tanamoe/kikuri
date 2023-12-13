@@ -1,16 +1,6 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-
 const { t } = useI18n({ useScope: "global" });
 const store = useSettingsStore();
-
-const {
-  showBookDetails,
-  showBookPrice,
-  showDigital,
-  showEditionedBook,
-  datePosition,
-} = storeToRefs(store);
 
 const digitalOptions = computed(() => [
   {
@@ -46,27 +36,27 @@ definePageMeta({
 <template>
   <form class="space-y-6">
     <UFormGroup name="showBookDetails" :label="$t('settings.showBookDetails')">
-      <UToggle v-model="showBookDetails" />
+      <UToggle v-model="store.display.bookDetails" />
     </UFormGroup>
     <UFormGroup name="showBookPrice" :label="$t('settings.showBookPrice')">
-      <UToggle v-model="showBookPrice" />
+      <UToggle v-model="store.display.bookPrice" />
     </UFormGroup>
     <UFormGroup
       name="showEditionedBook"
       :label="$t('settings.showEditionedBook')"
     >
-      <UToggle v-model="showEditionedBook" />
+      <UToggle v-model="store.display.editionedBook" />
     </UFormGroup>
     <UFormGroup name="digital" :label="$t('settings.showDigital')">
       <USelect
-        v-model="showDigital"
+        v-model="store.display.digital"
         :options="digitalOptions"
         option-attribute="name"
       />
     </UFormGroup>
     <UFormGroup name="datePosition" :label="$t('settings.datePosition')">
       <USelect
-        v-model="datePosition"
+        v-model="store.display.datePosition"
         :options="positionOptions"
         option-attribute="name"
       />
