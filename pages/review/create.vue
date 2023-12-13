@@ -19,6 +19,7 @@ type Texpand = {
 const route = useRoute();
 const { $pb } = useNuxtApp();
 const { pending, post } = useReview();
+const { currentUser } = useAuthentication();
 const { t } = useI18n({ useScope: "global" });
 
 const titleId = ref("");
@@ -82,7 +83,7 @@ const currentRelease = computed(
 async function submit(event: FormSubmitEvent<Schema>) {
   await post({
     ...event.data,
-    user: $pb.authStore.model!.id,
+    user: currentUser.value!.id,
     content: content.value,
   });
 }
