@@ -80,7 +80,8 @@
     "openNavigation": "Mở menu",
     "home": "Trang chủ",
     "monthPrevious": "Tháng trước",
-    "monthAfter": "Tháng sau"
+    "monthAfter": "Tháng sau",
+    "clear": "Đặt lại"
   },
   "status": {
     "waitingForApproval": "Chờ duyệt",
@@ -155,11 +156,11 @@
     "verifyDescription": "Cảm ơn bạn đã tạo tài khoản tại Tana.moe! Hãy xác minh địa chỉ email để gia tăng trải nghiệm sử dụng.",
     "upload": "Tải lên",
     "removeAvatar": "Xóa ảnh đại diện",
-    "removeBanner": "Xóa ảnh bìa"
+    "removeBanner": "Xóa ảnh bìa",
+    "requestSuccessful": "Yêu cầu thành công"
   },
   "auth": {
     "loginSuccessful": "Đăng nhập thành công",
-    "requestSuccessful": "Yêu cầu thành công",
     "redirecting": "Đang chuyển hướng...",
     "checkEmailInbox": "Bạn vui lòng kiểm tra hộp thư...",
     "or": "hoặc",
@@ -173,6 +174,8 @@
     "account": "Tài khoản",
     "password": "Mật khẩu",
     "interface": "Hiển thị",
+    "library": "Tủ truyện",
+    "email": "Email",
     "showBookDetails": "Hiển thị thông tin sách bên dưới ảnh bìa",
     "showBookPrice": "Hiển thị giá bán",
     "showDigital": "Hiển thị lịch phát hành điện tử (e-book)",
@@ -186,7 +189,12 @@
     "position": {
       "left": "Bên trái",
       "top": "Bên trên"
-    }
+    },
+    "defaultCollection": "Bộ sưu tập mặc định",
+    "selectDefaultCollection": "Chọn bộ sưu tập",
+    "requestEmailChange": "Yêu cầu đổi email",
+    "libraryColumns": "Tùy chọn cột",
+    "columns": "{count} cột đã chọn"
   },
   "monthPicker": {
     "reset": "Hiện tại",
@@ -254,12 +262,22 @@
   },
   "library": {
     "collection": "Bộ sưu tập",
-    "collectionSelect": "Chọn bộ sưu tập",
+    "collectionName": "Tên bộ sưu tập",
+    "selectCollection": "Chọn bộ sưu tập",
+    "createCollection": "Tạo bộ sưu tập",
     "addToLibrary": "Thêm vào thư viện",
     "addQuick": "Thêm nhanh",
     "addManual": "Lựa chọn khác",
     "member": "Thành viên",
-    "bookEdit": "Chỉnh sửa {name}",
-    "updateSuccessful": "Cập nhật thành công"
+    "edit": "Chỉnh sửa",
+    "editBook": "Chỉnh sửa {name}",
+    "remove": "Xóa khỏi bộ sưu tập",
+    "confirmRemove": "Bạn chắc chắn muốn xóa {name} khỏi bộ sưu tập?",
+    "view": "Xem trong bộ sưu tập",
+    "updateSuccessful": "Cập nhật thành công",
+    "removeSuccessful": "Xóa thành công",
+    "created": "Thêm vào",
+    "updated": "Chỉnh sửa lần cuối",
+    "actions": "Hành động"
   }
 }
