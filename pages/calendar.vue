@@ -1,18 +1,15 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
 import { joinURL } from "ufo";
-import { storeToRefs } from "pinia";
-
 import { Collections } from "@/types/pb";
-
 import type { FilterPublishers } from "@/utils/releases";
 import type { BookDetailsCommon } from "@/types/common";
 
 const runtimeConfig = useRuntimeConfig();
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
+const { updateFn } = useLibraryPrompt();
 const store = useSettingsStore();
-const { showDigital, showEditionedBook } = storeToRefs(store);
 const route = useRoute();
 const router = useRouter();
 
@@ -37,13 +34,13 @@ const filter = computed(() =>
     month.value.startOf("month").add({ month: 1 }).format("YYYY-MM-DD"),
     {
       publishers: publishers.value.map((publisher) => publisher.id),
-      digital: showDigital.value,
-      edition: showEditionedBook.value,
+      digital: store.display.digital,
+      edition: store.display.editionedBook,
     },
   ),
 );
 
-const { pending, data, error } = await useAsyncData(
+const { pending, data, error, refresh } = await useAsyncData(
   () =>
     $pb.collection(Collections.BookDetails).getFullList<BookDetailsCommon>({
       filter: filter.value,
@@ -85,6 +82,14 @@ useSeoMeta({
   ogDescription: t("seo.calendarDescription"),
   ogImage: joinURL(runtimeConfig.public.ogUrl, "calendar"),
   ogImageAlt: t("general.releaseCalendar"),
+});
+
+onMounted(() => {
+  updateFn.value = refresh;
+});
+
+onUnmounted(() => {
+  updateFn.value = undefined;
 });
 </script>
 
