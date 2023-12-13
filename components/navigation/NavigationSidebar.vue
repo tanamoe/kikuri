@@ -38,7 +38,11 @@ const isOpen = ref(false);
             {{ $t("general.browse") }}
           </NuxtLink>
         </li>
-        <li>{{ $t("general.library") }}</li>
+        <li>
+          <NuxtLink to="/library">
+            {{ $t("general.library") }}
+          </NuxtLink>
+        </li>
       </ul>
     </div>
   </USlideover>
