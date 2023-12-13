@@ -2,7 +2,7 @@
 import { type UserCollectionsResponse } from "@/types/collections";
 
 const { $pb } = useNuxtApp();
-const libraryStatus = useLibraryStatus();
+const { t } = useI18n({ useScope: "global" });
 
 const { data: collections } = await useAsyncData(
   () =>
@@ -13,29 +13,29 @@ const { data: collections } = await useAsyncData(
   {
     transform: (collections) =>
       collections.items.map((item) => ({
-        label: item.collection?.name || "",
-        to: item.collection?.id,
+        label: item.collection!.name,
+        to: item.collection!.id,
       })),
   },
 );
 
-const status = computed(() =>
-  libraryStatus.status.value.map((s) => ({
-    ...s,
-    to: `#${s.id}`,
-    external: true,
-  })),
-);
+const links = computed(() => {
+  const l = [];
+
+  if (collections.value) l.push(collections.value);
+
+  l.push([
+    {
+      icon: "i-fluent-collections-20-filled",
+      label: t("library.createCollection"),
+      to: "/library/create",
+    },
+  ]);
+
+  return l;
+});
 </script>
 
 <template>
-  <div class="space-y-3">
-    <template v-if="collections">
-      <UVerticalNavigation :links="collections" />
-
-      <UDivider />
-    </template>
-
-    <UVerticalNavigation :links="status" />
-  </div>
+  <AppSideNavigation class="sm:w-48" :links="links" />
 </template>

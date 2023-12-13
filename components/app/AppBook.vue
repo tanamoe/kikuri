@@ -3,8 +3,17 @@ import { joinURL } from "ufo";
 
 import type { BookDetailsCommon } from "@/types/common";
 
+const libraryPrompt = useLibraryPrompt();
 const store = useSettingsStore();
 const { showBookDetails, showBookPrice } = storeToRefs(store);
+
+const ui = {
+  base: "relative",
+  shadow: "shadow",
+  body: {
+    padding: "p-0 sm:p-0",
+  },
+};
 
 defineProps<{
   book: BookDetailsCommon;
@@ -21,22 +30,35 @@ defineProps<{
     "
     class="group"
   >
-    <AppCard>
+    <UCard :ui="ui">
       <UBadge
         v-if="book.expand.publication.digital == true"
-        class="absolute right-2 top-2 text-gray-900"
+        class="absolute right-2 top-2 z-10 text-gray-900"
         color="red"
       >
         Digital
       </UBadge>
       <UBadge
         v-else-if="book.edition !== ''"
-        class="absolute right-2 top-2 text-gray-900"
+        class="absolute right-2 top-2 z-10 text-gray-900"
         color="tanaamber"
       >
         {{ book.edition }}
       </UBadge>
+
+      <UButton
+        class="absolute bottom-2 right-2 z-10 shadow-lg"
+        icon="i-fluent-add-20-filled"
+        @click.prevent="
+          libraryPrompt.add({
+            id: book.id,
+            name: book.expand.publication.name,
+          })
+        "
+      />
+
       <AppCover
+        class="transition-all group-hover:brightness-75"
         :name="book.expand.publication.name"
         :src="
           book.metadata?.images && Array.isArray(book.metadata.images)
@@ -50,7 +72,8 @@ defineProps<{
         "
         v-bind="$attrs"
       />
-    </AppCard>
+    </UCard>
+
     <div v-if="showBookDetails" class="mt-2">
       <div
         v-if="
@@ -81,6 +104,7 @@ defineProps<{
         </span>
       </div>
     </div>
+
     <div v-if="showBookPrice" :class="showBookDetails ? 'mt-1' : 'mt-2'">
       <span class="block text-gray-500 dark:text-gray-400">
         {{ $n(book.price, "currency", "vi") }}

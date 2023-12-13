@@ -1,9 +1,11 @@
+import type { CollectionResponse } from "@/types/collections";
 import type {
   BookDetailsResponse,
   PublicationsResponse,
   ReleasesResponse,
   TitleCoversResponse,
 } from "@/types/pb";
+import type { BaseAPIFields } from "@/types/api";
 
 export type MetadataImages = {
   "160w": string;
@@ -14,12 +16,16 @@ export type MetadataImages = {
   "1920w": string;
 };
 
+export type MetadataLibrary = {
+  inCollections: (CollectionResponse & BaseAPIFields)[];
+};
+
 export type MetadataCommon = {
   images: MetadataImages | MetadataImages[];
 };
 
 export type BookDetailsCommon = BookDetailsResponse<
-  MetadataCommon,
+  MetadataCommon & MetadataLibrary,
   string,
   {
     publication: Pick<PublicationsResponse, "volume" | "name" | "digital">;

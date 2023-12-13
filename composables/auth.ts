@@ -112,7 +112,7 @@ export function useAuthentication() {
 
       toast.add({
         color: "primary",
-        title: t("auth.requestSuccessful"),
+        title: t("account.requestSuccessful"),
         description: t("auth.checkEmailInbox"),
         icon: "i-fluent-checkmark-circle-20-filled",
       });

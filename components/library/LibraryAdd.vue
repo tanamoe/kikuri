@@ -1,24 +1,30 @@
 <script setup lang="ts">
 import { z } from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
-import { CollectionBooksStatusOptions, Collections } from "@/types/pb";
+import type { UserCollectionsResponse } from "@/types/collections";
+import { CollectionBooksStatusOptions } from "@/types/pb";
 
 const { $pb } = useNuxtApp();
 const { pending, update } = useLibrary();
-const { isOpen, book, state } = useLibraryPrompt();
+const { status } = useLibraryStatus();
+const { isOpen, book, state, updateFn } = useLibraryPrompt();
 const { isAuthenticated, currentUser } = useAuthentication();
 
+const emit = defineEmits<{
+  update: [void];
+}>();
+
 const { data: collections } = await useLazyAsyncData(
-  currentUser.value?.id || "unauthenticated",
   () =>
-    $pb.collection(Collections.Collections).getFullList({
-      filter: `owner = '${currentUser.value?.id}'`,
+    $pb.send<UserCollectionsResponse>("/api/user-collections", {
+      method: "GET",
+      expand: "collection",
     }),
   {
     transform: (collections) =>
-      collections.map((collection) => ({
-        id: collection.id,
-        label: collection.name,
+      collections.items.map((collection) => ({
+        id: collection.collectionId,
+        label: collection.collection?.name,
       })),
     watch: [currentUser],
   },
@@ -39,13 +45,23 @@ const currentCollection = computed(
     ),
 );
 
+const currentStatus = computed(
+  () => status.value?.find((status) => status.id === state.value.status),
+);
+
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  await update({
+  const res = await update({
     collectionId: event.data.collection,
     bookId: book.value!.id,
     quantity: event.data.quantity,
     status: event.data.status,
   });
+
+  if (res) {
+    emit("update");
+    isOpen.value.add = false;
+    if (updateFn.value) updateFn.value();
+  }
 }
 </script>
 
@@ -91,7 +107,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
                   {{ currentCollection.label }}
                 </span>
                 <span v-else>
-                  {{ $t("library.chooseCollection") }}
+                  {{ $t("library.selectCollection") }}
                 </span>
               </UButton>
             </USelectMenu>
@@ -99,10 +115,24 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         </div>
 
         <div class="grid grid-cols-2 gap-3">
-          <UFormGroup :label="$t('library.status')" name="status">
-            <USelect :options="['PLANNED', 'COMPLETED']" />
+          <UFormGroup :label="$t('general.status')" name="status">
+            <USelectMenu
+              v-model="state.status"
+              :options="status"
+              value-attribute="id"
+              option-attribute="label"
+            >
+              <template #label>
+                <span v-if="currentStatus">
+                  {{ currentStatus.label }}
+                </span>
+                <span v-else>
+                  {{ $t("general.statusSelect") }}
+                </span>
+              </template>
+            </USelectMenu>
           </UFormGroup>
-          <UFormGroup :label="$t('library.quantity')" name="quantity">
+          <UFormGroup :label="$t('general.quantity')" name="quantity">
             <AppNumberInput v-model="state.quantity" />
           </UFormGroup>
         </div>

@@ -1,33 +1,16 @@
 <script setup lang="ts">
 import { z } from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
-import { CollectionBooksStatusOptions, Collections } from "@/types/pb";
+import { CollectionBooksStatusOptions } from "@/types/pb";
 
-const { $pb } = useNuxtApp();
 const { pending, update } = useLibrary();
 const { status } = useLibraryStatus();
-const { isOpen, book, state } = useLibraryPrompt();
-const { isAuthenticated, currentUser } = useAuthentication();
+const { updateFn, isOpen, book, state } = useLibraryPrompt();
+const { isAuthenticated } = useAuthentication();
 
 const emit = defineEmits<{
   update: [void];
 }>();
-
-const { data: collections } = await useLazyAsyncData(
-  currentUser.value?.id || "unauthenticated",
-  () =>
-    $pb.collection(Collections.Collections).getFullList({
-      filter: `owner = '${currentUser.value?.id}'`,
-    }),
-  {
-    transform: (collections) =>
-      collections.map((collection) => ({
-        id: collection.id,
-        label: collection.name,
-      })),
-    watch: [currentUser],
-  },
-);
 
 const schema = z.object({
   quantity: z.coerce.number().min(0),
@@ -37,26 +20,25 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>;
 
-const currentCollection = computed(
-  () =>
-    collections.value?.find(
-      (collection) => collection.id === state.value.collection,
-    ),
-);
-
 const currentStatus = computed(
   () => status.value?.find((status) => status.id === state.value.status),
 );
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
+  if (!book.value) return;
+
   const res = await update({
     collectionId: event.data.collection,
-    bookId: book.value!.id,
+    bookId: book.value.id,
     quantity: event.data.quantity,
     status: event.data.status,
   });
 
-  if (res) emit("update");
+  if (res) {
+    emit("update");
+    isOpen.value.edit = false;
+    if (updateFn.value) updateFn.value();
+  }
 }
 </script>
 
@@ -65,7 +47,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <template #header>
         <div class="flex items-center justify-between">
-          {{ $t("library.bookEdit", { name: book.name }) }}
+          {{ $t("library.editBook", { name: book.name }) }}
           <UButton
             color="gray"
             variant="ghost"
@@ -82,28 +64,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         class="space-y-3"
         @submit="onSubmit"
       >
-        <div class="text-center">
-          <UFormGroup name="collection">
-            <USelectMenu
-              v-if="collections"
-              v-model="state.collection"
-              :options="collections"
-              value-attribute="id"
-              option-attribute="label"
-            >
-              <UButton color="gray" block>
-                <span v-if="currentCollection">
-                  <strong>{{ $t("library.collection") }}</strong>
-                  {{ currentCollection.label }}
-                </span>
-                <span v-else>
-                  {{ $t("general.collectionSelect") }}
-                </span>
-              </UButton>
-            </USelectMenu>
-          </UFormGroup>
-        </div>
-
         <div class="grid grid-cols-2 gap-3">
           <UFormGroup :label="$t('general.status')" name="status">
             <USelectMenu

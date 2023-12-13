@@ -6,6 +6,7 @@ const { t } = useI18n({ useScope: "global" });
 const libraryPrompt = useLibraryPrompt();
 
 const props = defineProps<{
+  pending: boolean;
   books: UserCollectionBooksResponse;
   editable: boolean;
 }>();
@@ -41,6 +42,8 @@ const rows = computed(() =>
 const columns = computed(() => [
   {
     key: "cover",
+    label: t("general.coverImages"),
+    class: "whitespace-nowrap",
   },
   {
     key: "name",
@@ -80,6 +83,7 @@ const columns = computed(() => [
   <UTable
     :rows="rows || []"
     :columns="columns"
+    :loading="pending"
     class="[font-feature-settings:'ss01']"
     :ui="{
       thead: 'bg-gray-200 dark:bg-gray-800',

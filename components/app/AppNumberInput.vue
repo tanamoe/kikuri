@@ -1,10 +1,15 @@
 <script setup lang="ts">
-const props = defineProps<{
-  modelValue: number;
-}>();
+const props = withDefaults(
+  defineProps<{
+    modelValue?: number;
+  }>(),
+  {
+    modelValue: 0,
+  },
+);
 
 const emit = defineEmits<{
-  "update:modelValue": [number];
+  "update:modelValue": [number | undefined];
 }>();
 
 const n = computed({
@@ -17,6 +22,7 @@ const n = computed({
   <UInput
     v-model="n"
     icon="i-heroicons-magnifying-glass-20-solid"
+    type="number"
     :ui="{ icon: { leading: { pointer: '' }, trailing: { pointer: '' } } }"
   >
     <template #leading>
