@@ -4,7 +4,7 @@ import {
   type BookDetailsResponse,
   type PublicationsResponse,
 } from "@/types/pb";
-import type { MetadataCommon } from "~/types/common";
+import type { MetadataCommon, MetadataLibrary } from "@/types/common";
 
 const props = defineProps<{
   open: boolean;
@@ -13,6 +13,8 @@ const props = defineProps<{
 
 const { $pb } = useNuxtApp();
 const { t } = useI18n();
+const { add } = useLibraryPrompt();
+
 const {
   pending,
   data: rows,
@@ -22,7 +24,7 @@ const {
   () =>
     $pb.collection(Collections.BookDetails).getFullList<
       BookDetailsResponse<
-        MetadataCommon,
+        MetadataCommon & MetadataLibrary,
         string,
         {
           publication: PublicationsResponse;
@@ -35,6 +37,7 @@ const {
   {
     transform: (books) =>
       books.map((book) => ({
+        id: book.id,
         volume: book.expand?.publication.volume
           ? parseVolume(book.expand?.publication.volume)
           : 0,
@@ -43,6 +46,7 @@ const {
         publishDate: book.publishDate,
         price: book.price,
         note: book.note,
+        metadata: book.metadata,
       })),
   },
 );
@@ -119,9 +123,9 @@ const watcher = watch(
       </UBadge>
     </template>
     <template #publishDate-data="{ row }">
-      <span v-if="row.publishDate">{{
-        $d(new Date(row.publishDate), "publishDate")
-      }}</span>
+      <span v-if="row.publishDate">
+        {{ $d(new Date(row.publishDate), "publishDate") }}
+      </span>
     </template>
     <template #price-data="{ row }">
       <span>{{ $n(row.price, "currency", "vi") }}</span>
@@ -137,30 +141,64 @@ const watcher = watch(
         </template>
       </UTooltip>
     </template>
-    <template #actions-data>
-      <div class="whitespace-nowrap text-right">
-        <UButton
-          icon="i-fluent-add-20-filled"
-          color="gray"
-          variant="ghost"
-          square
-          disabled
-        />
-        <UButton
-          icon="i-fluent-edit-20-filled"
-          color="gray"
-          variant="ghost"
-          square
-          disabled
-        />
-        <UButton
-          icon="i-fluent-delete-20-filled"
-          color="red"
-          variant="ghost"
-          square
-          disabled
-        />
+    <template #actions-data="{ row }">
+      <div
+        v-if="$pb.authStore.isValid"
+        class="flex items-center justify-end gap-1 whitespace-nowrap text-right"
+      >
+        <UPopover v-if="row.metadata?.inCollections" mode="hover">
+          <UTooltip :text="$t('library.view')" :popper="{ placement: 'top' }">
+            <UButton
+              icon="i-fluent-library-20-filled"
+              color="gray"
+              variant="ghost"
+              square
+            />
+          </UTooltip>
+
+          <template v-if="row.metadata?.inCollections" #panel>
+            <UCard
+              :ui="{
+                body: {
+                  padding: 'p-0 sm:p-0',
+                },
+                header: {
+                  padding: 'px-3 py-2 sm:px-3 sm:py-2',
+                },
+              }"
+            >
+              <template #header>
+                {{ $t("library.selectCollection") }}
+              </template>
+
+              <UButton
+                v-for="collection in row.metadata.inCollections"
+                :key="collection.id"
+                :to="`/library/${collection.id}`"
+                color="gray"
+                variant="ghost"
+                block
+              >
+                {{ collection.name }}
+              </UButton>
+            </UCard>
+          </template>
+        </UPopover>
+
+        <UTooltip
+          :text="$t('library.addToLibrary')"
+          :popper="{ placement: 'top' }"
+        >
+          <UButton
+            icon="i-fluent-book-add-20-filled"
+            color="gray"
+            variant="ghost"
+            square
+            @click="add(row)"
+          />
+        </UTooltip>
       </div>
+      <div v-else></div>
     </template>
   </UTable>
 </template>

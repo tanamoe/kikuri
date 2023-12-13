@@ -11,6 +11,8 @@ const { t } = useI18n({ useScope: "global" });
 const {
   params: { collectionId },
 } = useRoute();
+const { currentUser } = useAuthentication();
+const { updateFn } = useLibraryPrompt();
 
 const { data: collection } = await useAsyncData(() =>
   $pb.send<UserCollectionResponse>(`/api/user-collection/${collectionId}`, {
@@ -26,7 +28,11 @@ const { data: members } = await useAsyncData(() =>
   ),
 );
 
-const { data: books, refresh } = await useAsyncData(() =>
+const {
+  data: books,
+  pending,
+  refresh,
+} = await useAsyncData(() =>
   $pb.send<UserCollectionBooksResponse>(
     `/api/user-collection/${collectionId}/books`,
     {
@@ -37,10 +43,10 @@ const { data: books, refresh } = await useAsyncData(() =>
 );
 
 const editable = computed(() => {
-  if (!$pb.authStore.model) return false;
+  if (!currentUser.value) return false;
 
   const m = members.value?.items.find(
-    (member) => member.userId === $pb.authStore.model!.id,
+    (member) => member.userId === currentUser.value!.id,
   );
 
   if (!m) return false;
@@ -60,6 +66,14 @@ const links = computed<BreadcrumbLink[]>(() => [
     to: `/library`,
   },
 ]);
+
+onMounted(() => {
+  updateFn.value = refresh;
+});
+
+onUnmounted(() => {
+  updateFn.value = undefined;
+});
 </script>
 
 <template>
@@ -91,13 +105,11 @@ const links = computed<BreadcrumbLink[]>(() => [
       </UAvatarGroup>
     </div>
 
-    <div
+    <PageLibraryBooks
       v-if="books"
-      class="rounded-md border border-gray-200 dark:border-gray-800"
-    >
-      <PageLibraryBooks :editable="editable" :books="books" />
-    </div>
-
-    <LazyLibraryEdit @update="refresh" />
+      :pending="pending"
+      :editable="editable"
+      :books="books"
+    />
   </PageLibrary>
 </template>

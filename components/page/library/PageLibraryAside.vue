@@ -6,10 +6,10 @@ const { t } = useI18n({ useScope: "global" });
 
 const { data: collections } = await useAsyncData(
   () =>
-    $pb.send<UserCollectionsResponse>(
-      `/api/user-collections/${$pb.authStore.model?.id}`,
-      { method: "GET", expand: "collection" },
-    ),
+    $pb.send<UserCollectionsResponse>(`/api/user-collections`, {
+      method: "GET",
+      expand: "collection",
+    }),
   {
     transform: (collections) =>
       collections.items.map((item) => ({
@@ -37,5 +37,5 @@ const links = computed(() => {
 </script>
 
 <template>
-  <AppSideNavigation class="sm:w-48" :links="links" />
+  <AppSideNavigation :links="links" />
 </template>

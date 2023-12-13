@@ -3,9 +3,8 @@ import { joinURL } from "ufo";
 
 import type { BookDetailsCommon } from "@/types/common";
 
-const libraryPrompt = useLibraryPrompt();
+const { add } = useLibraryPrompt();
 const store = useSettingsStore();
-const { showBookDetails, showBookPrice } = storeToRefs(store);
 
 const ui = {
   base: "relative",
@@ -46,16 +45,63 @@ defineProps<{
         {{ book.edition }}
       </UBadge>
 
-      <UButton
-        class="absolute bottom-2 right-2 z-10 shadow-lg"
-        icon="i-fluent-add-20-filled"
-        @click.prevent="
-          libraryPrompt.add({
-            id: book.id,
-            name: book.expand.publication.name,
-          })
-        "
-      />
+      <div class="absolute bottom-2 right-2 z-10 flex items-center gap-1">
+        <UPopover v-if="book.metadata?.inCollections" mode="hover">
+          <UTooltip :text="$t('library.view')" :popper="{ placement: 'top' }">
+            <UButton
+              icon="i-fluent-library-20-filled"
+              class="shadow-lg"
+              color="white"
+              square
+            />
+          </UTooltip>
+
+          <template v-if="book.metadata?.inCollections" #panel>
+            <UCard
+              :ui="{
+                body: {
+                  padding: 'p-0 sm:p-0',
+                },
+                header: {
+                  padding: 'px-3 py-2 sm:px-3 sm:py-2',
+                },
+              }"
+            >
+              <template #header>
+                {{ $t("library.selectCollection") }}
+              </template>
+
+              <UButton
+                v-for="collection in book.metadata.inCollections"
+                :key="collection.id"
+                :to="`/library/${collection.id}`"
+                color="gray"
+                variant="ghost"
+                block
+              >
+                {{ collection.name }}
+              </UButton>
+            </UCard>
+          </template>
+        </UPopover>
+
+        <UTooltip
+          :text="$t('library.addToLibrary')"
+          :popper="{ placement: 'top' }"
+        >
+          <UButton
+            class="shadow-lg"
+            icon="i-fluent-add-20-filled"
+            color="white"
+            @click.prevent="
+              add({
+                id: book.id,
+                name: book.expand.publication.name,
+              })
+            "
+          />
+        </UTooltip>
+      </div>
 
       <AppCover
         class="transition-all group-hover:brightness-75"
@@ -74,7 +120,7 @@ defineProps<{
       />
     </UCard>
 
-    <div v-if="showBookDetails" class="mt-2">
+    <div v-if="store.display.bookDetails" class="mt-2">
       <div
         v-if="
           book.expand.publication.volume < 90000000 &&
@@ -105,7 +151,7 @@ defineProps<{
       </div>
     </div>
 
-    <div v-if="showBookPrice" :class="showBookDetails ? 'mt-1' : 'mt-2'">
+    <div v-if="store.display.bookPrice" class="mt-1">
       <span class="block text-gray-500 dark:text-gray-400">
         {{ $n(book.price, "currency", "vi") }}
       </span>
