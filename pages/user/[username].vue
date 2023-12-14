@@ -81,7 +81,6 @@ useSeoMeta({
   ogImage: user.value.avatar
     ? $pb.files.getUrl(user.value, user.value.avatar)
     : undefined,
-  ogImageAlt: user.value.displayName || user.value.username,
   twitterCard: null,
 });
 </script>
