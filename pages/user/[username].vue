@@ -29,7 +29,7 @@ if (!user.value)
     statusMessage: t("error.notFoundMessage"),
   });
 
-const { data: reviews } = await useAsyncData(() =>
+const { data: reviews } = await useLazyAsyncData(() =>
   $pb.collection(Collections.Reviews).getFullList<
     ReviewsResponse<{
       release: ReleasesResponse<{
@@ -43,15 +43,20 @@ const { data: reviews } = await useAsyncData(() =>
   }),
 );
 
-const { data: collections } = await useAsyncData(() => {
-  return $pb.send<UserCollectionsResponse>(
-    `/api/user-collections/${user.value?.id}`,
-    {
-      method: "GET",
-      expand: "collection",
-    },
-  );
-});
+const { data: collections } = await useLazyAsyncData(
+  () => {
+    return $pb.send<UserCollectionsResponse>(
+      `/api/user-collections/${user.value?.id}`,
+      {
+        method: "GET",
+        expand: "collection",
+      },
+    );
+  },
+  {
+    server: false,
+  },
+);
 
 const items = computed(() => [
   {
@@ -73,6 +78,11 @@ useSeoMeta({
   description: user.value.bio.replace(/<[^>]*>/g, "").slice(0, 200),
   ogTitle: user.value.displayName || user.value.username,
   ogDescription: user.value.bio.replace(/<[^>]*>/g, "").slice(0, 200),
+  ogImage: user.value.avatar
+    ? $pb.files.getUrl(user.value, user.value.avatar)
+    : undefined,
+  ogImageAlt: user.value.displayName || user.value.username,
+  twitterCard: null,
 });
 </script>
 
