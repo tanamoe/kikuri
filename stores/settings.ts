@@ -39,6 +39,7 @@ export const useSettingsStore = defineStore(
         "status",
         "created",
         "updated",
+        "actions",
       ],
     });
 

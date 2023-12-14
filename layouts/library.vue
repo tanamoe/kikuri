@@ -3,21 +3,21 @@ import { type UserCollectionsResponse } from "@/types/collections";
 
 const { $pb } = useNuxtApp();
 const { currentUser } = useAuthentication();
-const { open } = useLibraryCollectionCreate();
+const { isOpen, open } = useLibraryCollectionCreate();
 
 const route = useRoute();
 
-const { data: links, refresh } = await useAsyncData(
-  () => {
-    return $pb.send<UserCollectionsResponse>(
+const { data: links } = await useAsyncData(
+  () =>
+    $pb.send<UserCollectionsResponse>(
       `/api/user-collections/${currentUser.value?.id}`,
       {
         method: "GET",
         expand: "collection",
       },
-    );
-  },
+    ),
   {
+    watch: [isOpen],
     transform: (collections) => [
       collections.items.map(
         (
@@ -54,7 +54,7 @@ const overflow = computed(() => route.meta.childOverflow ?? true);
             icon="i-fluent-collections-20-filled"
             color="gray"
             variant="ghost"
-            @click="() => open(refresh)"
+            @click="open"
           >
             {{ $t("library.createCollection") }}
           </UButton>

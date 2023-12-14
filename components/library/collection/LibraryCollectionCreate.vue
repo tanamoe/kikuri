@@ -7,7 +7,7 @@ const { t } = useI18n({ useScope: "global" });
 const { isAuthenticated } = useAuthentication();
 const { collectionVisibility } = useOptions();
 const { pending, create } = useLibraryCollection();
-const { isOpen, onSuccess, close } = useLibraryCollectionCreate();
+const { isOpen, close } = useLibraryCollectionCreate();
 
 const schema = z.object({
   name: z.string().min(1, t("error.review.releaseInvalid")),
@@ -29,7 +29,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   });
 
   if (res) {
-    if (onSuccess.value) onSuccess.value();
     close();
   }
 }
