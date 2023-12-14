@@ -32,6 +32,9 @@ export default defineAppConfig({
       constrained: "container max-w-[auto]",
     },
     card: {
+      header: {
+        padding: "p-4 sm:p-4",
+      },
       body: {
         padding: "p-4 sm:p-4",
       },
@@ -56,9 +59,6 @@ export default defineAppConfig({
       error: "mt-2 text-red-500 dark:text-red-400 text-sm",
     },
     table: {
-      td: {
-        base: "whitespace-normal",
-      },
       default: {
         sortAscIcon: "i-fluent-arrow-sort-down-20-filled",
         sortDescIcon: "i-fluent-arrow-sort-up-20-filled",
