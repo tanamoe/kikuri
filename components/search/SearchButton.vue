@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const { metaSymbol } = useShortcuts();
-
-const { open } = useSearchStore();
+const { open } = useSearch();
 </script>
 
 <template>
