@@ -33,7 +33,13 @@ export type CollectionResponse = {
   default: boolean;
   description: string;
   order: number;
-  owner?: UsersRecord & BaseAPIFields;
+  owner?: {
+    email: string;
+    emailVisibility: boolean;
+    username: string;
+    verified: boolean;
+  } & UsersRecord &
+    BaseAPIFields;
 };
 
 /**
@@ -72,6 +78,14 @@ export type CollectionBookResponse = {
  */
 export type UserCollectionBooksResponse =
   BaseAPIListResult<CollectionBookResponse>;
+
+/**
+ * User collection book returned from editing `/api/user-collection/:userId/books`
+ *
+ * @see {@link https://github.com/tanamoe/momoka-lite/blob/master/models/collection_book.go}
+ */
+export type UserCollectionBookResponse =
+  BaseAPISingleResult<CollectionBookResponse>;
 
 /**
  * Members items returned from `/api/user-collection/:userId/members` and `/api/user-collections/:userId`

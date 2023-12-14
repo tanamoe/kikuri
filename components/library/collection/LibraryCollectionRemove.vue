@@ -1,51 +1,60 @@
 <script setup lang="ts">
-const { isOpen, book, state, updateFn } = useLibraryPrompt();
-const { pending, remove } = useLibrary();
-const { isAuthenticated } = useAuthentication();
+const { pending, remove } = useLibraryCollection();
 
-const emit = defineEmits<{
-  update: [void];
+const props = defineProps<{
+  collection: {
+    id: string;
+    name: string;
+  };
 }>();
 
-async function onSubmit() {
-  if (!book.value || !state.value.collection) return;
+defineExpose({
+  open,
+  close,
+});
 
-  const res = await remove({
-    bookId: book.value.id,
-    collectionId: state.value.collection,
-  });
+const isOpen = ref(false);
+
+function open() {
+  isOpen.value = true;
+}
+
+function close() {
+  isOpen.value = false;
+}
+
+async function onSubmit() {
+  const res = await remove(props.collection.id);
 
   if (res) {
-    emit("update");
-    isOpen.value.remove = false;
-    if (updateFn.value) updateFn.value();
+    close();
   }
 }
 </script>
 
 <template>
-  <UModal v-if="isAuthenticated && book" v-model="isOpen.remove">
+  <UModal v-model="isOpen">
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <template #header>
         <div class="flex items-center justify-between">
-          {{ $t("library.remove") }}
+          {{ $t("library.removeCollection") }}
           <UButton
             color="gray"
             variant="ghost"
             icon="i-fluent-dismiss-20-filled"
             class="-my-1"
-            @click="isOpen.remove = false"
+            @click="close"
           />
         </div>
       </template>
 
       <div class="space-y-3">
         <div>
-          {{ $t("library.confirmRemove", { name: book.name }) }}
+          {{ $t("library.confirmRemoveCollection", { name: collection.name }) }}
         </div>
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="isOpen.remove = false">
+          <UButton color="red" variant="ghost" @click="close">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending" @click="onSubmit">

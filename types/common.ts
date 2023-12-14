@@ -17,7 +17,7 @@ export type MetadataImages = {
 };
 
 export type MetadataLibrary = {
-  inCollections: (CollectionResponse & BaseAPIFields)[];
+  inCollections?: (CollectionResponse & BaseAPIFields)[];
 };
 
 export type MetadataCommon = {

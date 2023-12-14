@@ -2,15 +2,22 @@
 import { z } from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 import { CollectionBooksStatusOptions } from "@/types/pb";
+import type { UserCollectionBookResponse } from "@/types/collections";
 
-const { pending, update } = useLibrary();
-const { status } = useLibraryStatus();
-const { updateFn, isOpen, book, state } = useLibraryPrompt();
+const { pending, update } = useLibraryBook();
+const { collectionBookStatus } = useOptions();
 const { isAuthenticated } = useAuthentication();
 
 const emit = defineEmits<{
-  update: [void];
+  update: [UserCollectionBookResponse];
 }>();
+
+defineExpose({
+  open,
+  close,
+});
+
+const isOpen = ref(false);
 
 const schema = z.object({
   quantity: z.coerce.number().min(0),
@@ -20,30 +27,50 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>;
 
-const currentStatus = computed(
-  () => status.value?.find((status) => status.id === state.value.status),
+const book = ref<{
+  id?: string;
+  name?: string;
+}>({});
+const state = ref<Partial<Schema>>({});
+
+const currentStatus = computed(() =>
+  collectionBookStatus.value.find((status) => status.id === state.value.status),
 );
 
-async function onSubmit(event: FormSubmitEvent<Schema>) {
-  if (!book.value) return;
+function open(
+  data: {
+    id: string;
+    name: string;
+  },
+  value: Schema,
+) {
+  isOpen.value = true;
+  book.value = data;
+  state.value = value;
+}
 
-  const res = await update({
-    collectionId: event.data.collection,
+function close() {
+  isOpen.value = false;
+}
+
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+  if (!book.value.id) return;
+
+  const res = await update(event.data.collection, {
     bookId: book.value.id,
     quantity: event.data.quantity,
     status: event.data.status,
   });
 
   if (res) {
-    emit("update");
-    isOpen.value.edit = false;
-    if (updateFn.value) updateFn.value();
+    emit("update", res);
+    close();
   }
 }
 </script>
 
 <template>
-  <UModal v-if="isAuthenticated && book" v-model="isOpen.edit">
+  <UModal v-if="isAuthenticated && book" v-model="isOpen">
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <template #header>
         <div class="flex items-center justify-between">
@@ -53,7 +80,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             variant="ghost"
             icon="i-fluent-dismiss-20-filled"
             class="-my-1"
-            @click="isOpen.edit = false"
+            @click="close"
           />
         </div>
       </template>
@@ -68,7 +95,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <UFormGroup :label="$t('general.status')" name="status">
             <USelectMenu
               v-model="state.status"
-              :options="status"
+              :options="collectionBookStatus"
               value-attribute="id"
               option-attribute="label"
             >
@@ -88,7 +115,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         </div>
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="isOpen.edit = false">
+          <UButton color="red" variant="ghost" @click="close">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending">

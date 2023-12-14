@@ -6,13 +6,14 @@ export type BaseAPIFields = Omit<
   "collectionId" | "collectionName" | "expand"
 >;
 
-export type BaseAPIListResult<T> = {
+export type BaseAPIResponse = {
   success: boolean;
   message?: string;
-} & ListResult<T & BaseAPIFields>;
+};
 
-export type BaseAPISingleResult<T> = {
-  success: boolean;
-  message?: string;
+export type BaseAPIListResult<T> = BaseAPIResponse &
+  ListResult<T & BaseAPIFields>;
+
+export type BaseAPISingleResult<T> = BaseAPIResponse & {
   item: T & BaseAPIFields;
 };

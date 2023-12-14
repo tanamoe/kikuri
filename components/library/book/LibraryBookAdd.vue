@@ -1,18 +1,29 @@
 <script setup lang="ts">
 import { z } from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
-import type { UserCollectionsResponse } from "@/types/collections";
+import type {
+  UserCollectionsResponse,
+  UserCollectionBookResponse,
+} from "@/types/collections";
 import { CollectionBooksStatusOptions } from "@/types/pb";
 
 const { $pb } = useNuxtApp();
-const { pending, update } = useLibrary();
-const { status } = useLibraryStatus();
-const { isOpen, book, state, updateFn } = useLibraryPrompt();
+const { pending, update } = useLibraryBook();
+const { collectionBookStatus } = useOptions();
 const { isAuthenticated, currentUser } = useAuthentication();
+const settingsStore = useSettingsStore();
 
 const emit = defineEmits<{
-  update: [void];
+  update: [UserCollectionBookResponse];
 }>();
+
+defineExpose({
+  open,
+  close,
+});
+
+const isOpen = ref(false);
+const inCollections = ref<string[]>([]);
 
 const { data: collections } = await useLazyAsyncData(
   () =>
@@ -25,18 +36,28 @@ const { data: collections } = await useLazyAsyncData(
       collections.items.map((collection) => ({
         id: collection.collectionId,
         label: collection.collection?.name,
+        disabled: inCollections.value.includes(collection.collectionId),
       })),
-    watch: [currentUser],
+    watch: [currentUser, inCollections],
   },
 );
 
 const schema = z.object({
-  quantity: z.coerce.number().min(0),
   collection: z.string(),
+  quantity: z.coerce.number().min(0),
   status: z.nativeEnum(CollectionBooksStatusOptions),
 });
-
 type Schema = z.output<typeof schema>;
+
+const book = ref<{
+  id?: string;
+  name?: string;
+}>({});
+const state = ref<Partial<Schema>>({
+  collection: settingsStore.library.defaultLibraryId,
+  quantity: 1,
+  status: CollectionBooksStatusOptions.COMPLETED,
+});
 
 const currentCollection = computed(
   () =>
@@ -44,29 +65,41 @@ const currentCollection = computed(
       (collection) => collection.id === state.value.collection,
     ),
 );
-
 const currentStatus = computed(
-  () => status.value?.find((status) => status.id === state.value.status),
+  () =>
+    collectionBookStatus.value?.find(
+      (status) => status.id === state.value.status,
+    ),
 );
 
+function open(data: { id: string; name: string }, collections?: string[]) {
+  isOpen.value = true;
+  book.value = data;
+  if (collections) inCollections.value = collections;
+}
+
+function close() {
+  isOpen.value = false;
+}
+
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  const res = await update({
-    collectionId: event.data.collection,
-    bookId: book.value!.id,
+  if (!book.value.id) return;
+
+  const res = await update(event.data.collection, {
+    bookId: book.value.id,
     quantity: event.data.quantity,
     status: event.data.status,
   });
 
   if (res) {
-    emit("update");
-    isOpen.value.add = false;
-    if (updateFn.value) updateFn.value();
+    emit("update", res);
+    close();
   }
 }
 </script>
 
 <template>
-  <UModal v-if="isAuthenticated && book" v-model="isOpen.add">
+  <UModal v-if="isAuthenticated && book" v-model="isOpen">
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <template #header>
         <div class="flex items-center justify-between">
@@ -76,7 +109,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             variant="ghost"
             icon="i-fluent-dismiss-20-filled"
             class="-my-1"
-            @click="isOpen.add = false"
+            @click="close"
           />
         </div>
       </template>
@@ -118,7 +151,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           <UFormGroup :label="$t('general.status')" name="status">
             <USelectMenu
               v-model="state.status"
-              :options="status"
+              :options="collectionBookStatus"
               value-attribute="id"
               option-attribute="label"
             >
@@ -138,7 +171,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         </div>
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="isOpen.add = false">
+          <UButton color="red" variant="ghost" @click="close">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending">
