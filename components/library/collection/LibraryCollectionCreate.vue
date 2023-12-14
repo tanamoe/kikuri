@@ -29,8 +29,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   });
 
   if (res) {
-    if (onSuccess.value) onSuccess.value();
     close();
+    if (onSuccess.value) onSuccess.value();
   }
 }
 </script>
