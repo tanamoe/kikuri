@@ -1,16 +1,16 @@
 <script setup lang="ts">
 const store = useBrowseStore();
-const { status } = useReleaseStatus();
+const { releaseStatus } = useOptions();
 
 const selected = computed(() => {
-  return status.value.filter((s) => store.status.includes(s.id));
+  return releaseStatus.value.filter((s) => store.status.includes(s.id));
 });
 </script>
 
 <template>
   <USelectMenu
     v-model="store.status"
-    :options="status"
+    :options="releaseStatus"
     multiple
     value-attribute="id"
   >

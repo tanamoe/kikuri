@@ -5,6 +5,7 @@ import {
   type PublicationsResponse,
 } from "@/types/pb";
 import type { MetadataCommon, MetadataLibrary } from "@/types/common";
+import type { LibraryBookAdd } from "#build/components";
 
 const props = defineProps<{
   open: boolean;
@@ -13,12 +14,11 @@ const props = defineProps<{
 
 const { $pb } = useNuxtApp();
 const { t } = useI18n();
-const { add } = useLibraryPrompt();
 
 const {
-  pending,
   data: rows,
   execute,
+  refresh,
 } = await useLazyAsyncData(
   props.releaseId,
   () =>
@@ -41,7 +41,7 @@ const {
         volume: book.expand?.publication.volume
           ? parseVolume(book.expand?.publication.volume)
           : 0,
-        name: book.expand?.publication.name,
+        name: book.expand!.publication.name,
         edition: book.edition,
         publishDate: book.publishDate,
         price: book.price,
@@ -50,6 +50,15 @@ const {
       })),
   },
 );
+
+const addModal = ref<undefined | InstanceType<typeof LibraryBookAdd>>();
+
+const ui = {
+  wrapper: "relative overflow-x-auto",
+  td: {
+    base: "whitespace-nowrap lg:whitespace-normal",
+  },
+};
 
 const columns = [
   {
@@ -89,6 +98,16 @@ const columns = [
   },
 ];
 
+function handleAdd(row: NonNullable<typeof rows.value>[0]) {
+  addModal.value?.open(
+    {
+      id: row.id,
+      name: row.name,
+    },
+    row.metadata?.inCollections?.map((c) => c.id),
+  );
+}
+
 const watcher = watch(
   () => props.open,
   () => {
@@ -104,14 +123,8 @@ const watcher = watch(
   <UTable
     :columns="columns"
     :rows="rows || []"
-    :loading="pending"
     class="[font-feature-settings:'ss01']"
-    :ui="{
-      wrapper: 'relative overflow-x-auto',
-      td: {
-        base: 'whitespace-nowrap lg:whitespace-normal',
-      },
-    }"
+    :ui="ui"
   >
     <template #edition-data="{ row }">
       <UBadge
@@ -128,7 +141,9 @@ const watcher = watch(
       </span>
     </template>
     <template #price-data="{ row }">
-      <span>{{ $n(row.price, "currency", "vi") }}</span>
+      <span>
+        {{ $n(row.price, "currency", "vi") }}
+      </span>
     </template>
     <template #note-data="{ row }">
       <UTooltip
@@ -141,7 +156,9 @@ const watcher = watch(
         </template>
       </UTooltip>
     </template>
-    <template #actions-data="{ row }">
+    <template
+      #actions-data="{ row }: { row: NonNullable<typeof rows.value>[0] }"
+    >
       <div
         v-if="$pb.authStore.isValid"
         class="flex items-center justify-end gap-1 whitespace-nowrap text-right"
@@ -167,10 +184,6 @@ const watcher = watch(
                 },
               }"
             >
-              <template #header>
-                {{ $t("library.selectCollection") }}
-              </template>
-
               <UButton
                 v-for="collection in row.metadata.inCollections"
                 :key="collection.id"
@@ -194,11 +207,13 @@ const watcher = watch(
             color="gray"
             variant="ghost"
             square
-            @click="add(row)"
+            @click="handleAdd(row)"
           />
         </UTooltip>
       </div>
       <div v-else></div>
     </template>
   </UTable>
+
+  <LazyLibraryBookAdd ref="addModal" @update="() => refresh()" />
 </template>

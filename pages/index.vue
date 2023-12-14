@@ -6,6 +6,7 @@ import {
   type PublicationsResponse,
   type ReleasesResponse,
   type PublishersResponse,
+  type TitlesResponse,
 } from "@/types/pb";
 import type { MetadataCommon } from "@/types/common";
 
@@ -22,6 +23,7 @@ type Texpand = {
   release: Pick<
     ReleasesResponse<{
       publisher: PublishersResponse;
+      title: Pick<TitlesResponse, "slug">;
     }>,
     "expand" | "title"
   >;
@@ -37,7 +39,7 @@ const { data: releases } = await useAsyncData(() =>
            .endOf("day")
            .format("YYYY-MM-DD")}'`,
       sort: "+publishDate",
-      expand: "publication,release.publisher",
+      expand: "publication,release.publisher,release.title",
     }),
 );
 

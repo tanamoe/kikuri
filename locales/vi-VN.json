@@ -71,7 +71,7 @@
     "localeChangedDescription": "Hãy tải lại trang để có trải nghiệm tốt nhất",
     "member": "Thành viên",
     "copySuccess": "Đã sao chép đường dẫn!",
-    "empty": "Không tìm thấy!",
+    "empty": "Không tìm thấy",
     "emptyMessage": "Bạn hãy thử thay đổi các tùy chọn xem sao...",
     "reset": "Đặt lại",
     "user": "Người dùng",
@@ -81,6 +81,7 @@
     "home": "Trang chủ",
     "monthPrevious": "Tháng trước",
     "monthAfter": "Tháng sau",
+    "create": "Tạo",
     "clear": "Đặt lại"
   },
   "status": {
@@ -120,7 +121,8 @@
     "useAdvancedScoring": "Dùng hệ thống tính điểm chi tiết",
     "header": "Tiêu đề",
     "termsTitle": "Trước khi tiếp tục",
-    "termsDescription": "Hãy kiểm tra thật kỹ nội dung bài và xem qua nội quy đăng bài."
+    "termsDescription": "Hãy kiểm tra thật kỹ nội dung bài và xem qua nội quy đăng bài.",
+    "noReview": "Hiện không có đánh giá nào"
   },
   "editor": {
     "add": "Thêm",
@@ -258,13 +260,20 @@
     "description": "Tana.moe là một \"tủ truyện trực tuyến\" giúp theo dõi các tựa truyện sắp ra mắt dễ dàng hơn và khám phá những bộ truyện bạn có thể đã bỏ lỡ!",
     "calendarDescription": "Lịch phát hành manga, light-novel tổng hợp từ các nhà xuất bản, phát hành trên toàn quốc, được cập nhật thường xuyên trên Tana.moe",
     "browseDescription": "Tìm kiếm, xem lịch phát hành và thông tin các bộ truyện manga, light-novel",
-    "reviewTitle": "{user} đánh giá {title}"
+    "reviewTitle": "{user} đánh giá {title}",
+    "collectionTitle": "Bộ sưu tập {name}",
+    "collectionTitleEdit": "Sửa bộ sưu tập {name}",
+    "collectionTitleCreate": "Tạo bộ sưu tập"
   },
   "library": {
     "collection": "Bộ sưu tập",
     "collectionName": "Tên bộ sưu tập",
     "selectCollection": "Chọn bộ sưu tập",
     "createCollection": "Tạo bộ sưu tập",
+    "editCollection": "Sửa bộ sưu tập",
+    "removeCollection": "Xóa bộ sưu tập",
+    "setDefaultCollection": "Đặt làm mặc định",
+    "noCollection": "Hiện không có bộ sưu tập nào",
     "addToLibrary": "Thêm vào thư viện",
     "addQuick": "Thêm nhanh",
     "addManual": "Lựa chọn khác",
@@ -272,12 +281,22 @@
     "edit": "Chỉnh sửa",
     "editBook": "Chỉnh sửa {name}",
     "remove": "Xóa khỏi bộ sưu tập",
-    "confirmRemove": "Bạn chắc chắn muốn xóa {name} khỏi bộ sưu tập?",
+    "confirmRemoveCollection": "Bạn chắc chắn muốn xóa bộ sưu tập {name}?",
+    "confirmRemoveBook": "Bạn chắc chắn muốn xóa truyện {name} khỏi bộ sưu tập?",
     "view": "Xem trong bộ sưu tập",
-    "updateSuccessful": "Cập nhật thành công",
-    "removeSuccessful": "Xóa thành công",
+    "createCollectionSuccess": "Tạo bộ sưu tập thành công",
+    "editCollectionSuccess": "Cập nhật bộ sưu tập thành công",
+    "removeCollectionSuccess": "Xóa bộ sưu tập thành công",
+    "updateBookSuccessful": "Cập nhật tập truyện thành công",
+    "removeBookSuccessful": "Xóa tập truyện thành công",
     "created": "Thêm vào",
     "updated": "Chỉnh sửa lần cuối",
-    "actions": "Hành động"
+    "actions": "Hành động",
+    "selectVisibility": "Chế độ riêng tư",
+    "visibility": {
+      "unlisted": "Đường dẫn",
+      "private": "Riêng tư",
+      "public": "Công khai"
+    }
   }
 }

@@ -4,6 +4,7 @@ import type {
   PublicationsResponse,
   ReleasesResponse,
   TitleCoversResponse,
+  TitlesResponse,
 } from "@/types/pb";
 import type { BaseAPIFields } from "@/types/api";
 
@@ -31,7 +32,7 @@ export type BookDetailsCommon = BookDetailsResponse<
     publication: Pick<PublicationsResponse, "volume" | "name" | "digital">;
     release: Pick<
       ReleasesResponse<{
-        title: Pick<ReleasesResponse, "name">;
+        title: Pick<TitlesResponse, "name" | "slug">;
       }>,
       "expand" | "title"
     >;

@@ -11,6 +11,7 @@ const { $pb } = useNuxtApp();
 const { pending, update } = useLibraryBook();
 const { collectionBookStatus } = useOptions();
 const { isAuthenticated, currentUser } = useAuthentication();
+const { open: createOpen } = useLibraryCollectionCreate();
 const settingsStore = useSettingsStore();
 
 const emit = defineEmits<{
@@ -25,7 +26,7 @@ defineExpose({
 const isOpen = ref(false);
 const inCollections = ref<string[]>([]);
 
-const { data: collections } = await useLazyAsyncData(
+const { data: collections, refresh } = await useLazyAsyncData(
   () =>
     $pb.send<UserCollectionsResponse>("/api/user-collections", {
       method: "GET",
@@ -82,6 +83,11 @@ function close() {
   isOpen.value = false;
 }
 
+function handleCreate() {
+  close();
+  createOpen(refresh);
+}
+
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   if (!book.value.id) return;
 
@@ -125,7 +131,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             {{ book.name }}
           </UButton>
           <UIcon class="my-3" name="i-fluent-arrow-down-20-filled" />
-          <UFormGroup name="collection">
+          <UFormGroup
+            v-if="collections && collections.length > 0"
+            name="collection"
+          >
             <USelectMenu
               v-if="collections"
               v-model="state.collection"
@@ -145,6 +154,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
               </UButton>
             </USelectMenu>
           </UFormGroup>
+          <UButton v-else color="gray" block @click="handleCreate">
+            {{ $t("library.createCollection") }}
+          </UButton>
         </div>
 
         <div class="grid grid-cols-2 gap-3">

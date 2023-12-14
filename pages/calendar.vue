@@ -4,11 +4,12 @@ import { joinURL } from "ufo";
 import { Collections } from "@/types/pb";
 import type { FilterPublishers } from "@/utils/releases";
 import type { BookDetailsCommon } from "@/types/common";
+import type { LibraryBookAdd } from "#build/components";
 
-const runtimeConfig = useRuntimeConfig();
-const { $pb } = useNuxtApp();
+const { ogUrl } = useRuntimeConfig().public;
+const nuxtApp = useNuxtApp();
+const { $pb } = nuxtApp;
 const { t } = useI18n({ useScope: "global" });
-const { updateFn } = useLibraryPrompt();
 const store = useSettingsStore();
 const route = useRoute();
 const router = useRouter();
@@ -27,6 +28,7 @@ const month = computed({
 });
 
 const publishers = ref<FilterPublishers[]>([]);
+const addModal = ref<undefined | InstanceType<typeof LibraryBookAdd>>();
 
 const filter = computed(() =>
   parseCalendarFilter(
@@ -40,27 +42,26 @@ const filter = computed(() =>
   ),
 );
 
-const { pending, data, error, refresh } = await useAsyncData(
+const {
+  data: releases,
+  error,
+  refresh,
+} = await useAsyncData(
   () =>
     $pb.collection(Collections.BookDetails).getFullList<BookDetailsCommon>({
       filter: filter.value,
       sort: "+publishDate, -edition",
       expand: "publication, release, release.title",
       fields:
-        "*, expand.publication.volume, expand.publication.name, expand.publication.digital, expand.release.title, expand.release.expand.title.name",
+        "*, expand.publication.volume, expand.publication.name, expand.publication.digital, expand.release.title, expand.release.expand.title.name, expand.release.expand.title.slug",
     }),
   {
+    transform: (releases) =>
+      groupBy<BookDetailsCommon>(releases, (p) => p.publishDate),
     watch: [filter],
+    deep: false,
   },
 );
-
-const releases = computed(() => {
-  if (data.value) {
-    return groupBy<BookDetailsCommon>(data.value, (p) => p.publishDate);
-  }
-
-  return null;
-});
 
 const dates = computed(() => {
   if (releases.value) {
@@ -80,16 +81,8 @@ useSeoMeta({
   description: t("seo.calendarDescription"),
   ogTitle: t("general.releaseCalendar"),
   ogDescription: t("seo.calendarDescription"),
-  ogImage: joinURL(runtimeConfig.public.ogUrl, "calendar"),
+  ogImage: joinURL(ogUrl, "calendar"),
   ogImageAlt: t("general.releaseCalendar"),
-});
-
-onMounted(() => {
-  updateFn.value = refresh;
-});
-
-onUnmounted(() => {
-  updateFn.value = undefined;
 });
 </script>
 
@@ -100,20 +93,18 @@ onUnmounted(() => {
       v-model:publishers="publishers"
     />
 
-    <PageCalendarPending v-if="pending" />
-
-    <PageCalendarEmpty
-      v-else-if="!releases || Object.keys(releases).length === 0"
-    />
+    <PageCalendarEmpty v-if="!releases || Object.keys(releases).length === 0" />
 
     <PageCalendarError v-else-if="error" :error="error" />
 
     <template v-else>
-      <PageCalendarReleases :releases="releases" />
+      <PageCalendarReleases :add-modal="addModal" :releases="releases" />
 
       <PageCalendarQuickNavigation :dates="dates" />
     </template>
 
     <PageCalendarNavigation v-model:month="month" />
+
+    <LazyLibraryBookAdd ref="addModal" @update="() => refresh()" />
   </div>
 </template>

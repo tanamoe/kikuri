@@ -29,7 +29,7 @@ const groups = computed(() => {
         return data.value.map((title) => ({
           id: title.id,
           label: title.name,
-          to: `/title/${title.id}`,
+          to: `/title/${title.slug}`,
         }));
       },
     },

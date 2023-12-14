@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
-
 import type { BookDetailsCommon } from "@/types/common";
+import type { LibraryBookAdd } from "#build/components";
 
 const store = useSettingsStore();
 
 defineProps<{
   releases: Record<string, BookDetailsCommon[]>;
+  addModal?: InstanceType<typeof LibraryBookAdd>;
 }>();
 </script>
 
@@ -36,6 +37,7 @@ defineProps<{
       <div class="grid w-full grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-6">
         <div v-for="book in group" :key="book.id">
           <AppBook
+            :add-modal="addModal"
             :book="book"
             sizes="(max-width: 640px) 40vw, (max-width: 768px) 30vw, 20vw"
           />

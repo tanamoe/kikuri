@@ -1,13 +1,14 @@
 <script setup lang="ts">
+import type { LibraryBookEdit, LibraryBookRemove } from "#build/components";
 import type { UserCollectionBooksResponse } from "@/types/collections";
 
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
-const libraryPrompt = useLibraryPrompt();
 const settingsStore = useSettingsStore();
 
 const props = defineProps<{
-  pending: boolean;
+  editModal?: InstanceType<typeof LibraryBookEdit>;
+  removeModal?: InstanceType<typeof LibraryBookRemove>;
   books: UserCollectionBooksResponse;
   editable: boolean;
 }>();
@@ -104,14 +105,45 @@ const columns = computed(() =>
     },
   ].filter((col) => settingsStore.library.columns.includes(col.key)),
 );
+
+function handleEdit(row: (typeof rows.value)[0]) {
+  if (props.editModal) {
+    props.editModal.open(
+      {
+        id: row.id,
+        name: row.name,
+      },
+      {
+        collection: row.collection,
+        quantity: row.quantity,
+        status: row.status,
+      },
+    );
+  }
+}
+
+function handleRemove(row: (typeof rows.value)[0]) {
+  if (props.removeModal) {
+    props.removeModal.open(
+      {
+        id: row.id,
+        name: row.name,
+      },
+      {
+        collection: row.collection,
+      },
+    );
+  }
+}
 </script>
 
 <template>
-  <div class="rounded-md border border-gray-200 dark:border-gray-800">
+  <div
+    class="overflow-hidden rounded-md border border-gray-200 dark:border-gray-800"
+  >
     <UTable
       :rows="rows || []"
       :columns="columns"
-      :loading="pending"
       class="[font-feature-settings:'ss01']"
       :ui="{
         thead: 'bg-gray-200 dark:bg-gray-800',
@@ -178,21 +210,23 @@ const columns = computed(() =>
         <span>{{ $t(`status.${row.status.toLowerCase()}`) }}</span>
       </template>
 
-      <template #actions-data="{ row }">
+      <template #actions-data="{ row }: { row: (typeof rows.value)[0] }">
         <div v-if="editable" class="whitespace-nowrap text-right">
           <UButton
+            v-if="editModal"
             icon="i-fluent-edit-20-filled"
             color="gray"
             variant="ghost"
             square
-            @click="libraryPrompt.edit(row)"
+            @click="handleEdit(row)"
           />
           <UButton
+            v-if="removeModal"
             icon="i-fluent-delete-20-filled"
             color="red"
             variant="ghost"
             square
-            @click="libraryPrompt.remove(row)"
+            @click="handleRemove(row)"
           />
         </div>
         <div v-else></div>

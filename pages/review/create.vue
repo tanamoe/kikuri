@@ -80,7 +80,7 @@ const currentRelease = computed(
   () => releases.value?.find((release) => release.id === state.value.release),
 );
 
-async function submit(event: FormSubmitEvent<Schema>) {
+async function onSubmit(event: FormSubmitEvent<Schema>) {
   await post({
     ...event.data,
     user: currentUser.value!.id,
@@ -101,7 +101,7 @@ definePageMeta({
       :schema="schema"
       :state="state"
       class="flex flex-col-reverse gap-6 sm:flex-row"
-      @submit="submit"
+      @submit="onSubmit"
     >
       <div class="flex-1">
         <UAlert

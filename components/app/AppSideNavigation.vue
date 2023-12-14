@@ -6,7 +6,8 @@ defineProps<{
     authenticated?: boolean;
     icon?: string;
     label: string;
-    to: string;
+    to?: string;
+    click?: () => void;
   }[][];
 }>();
 </script>
@@ -24,6 +25,7 @@ defineProps<{
           :icon="link.icon"
           color="gray"
           variant="ghost"
+          @click="link.click"
         >
           {{ link.label }}
         </UButton>

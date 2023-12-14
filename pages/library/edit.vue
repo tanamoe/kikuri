@@ -1,23 +1,47 @@
 <script setup lang="ts">
 import { z } from "zod";
+import { joinURL } from "ufo";
 import type {
   BreadcrumbLink,
   FormSubmitEvent,
 } from "@nuxt/ui/dist/runtime/types";
 import { CollectionsVisibilityOptions } from "@/types/pb";
+import type { UserCollectionResponse } from "@/types/collections";
 
+const route = useRoute();
+const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const { currentUser } = useAuthentication();
 const { collectionVisibility } = useOptions();
-const { pending, create } = useLibraryCollection();
+const { pending, edit } = useLibraryCollection();
+
+if (!route.query.id || Array.isArray(route.query.id)) {
+  throw createError({
+    statusCode: 400,
+    statusMessage: t("error.badRequestMessage"),
+  });
+}
+
+const { data: collection } = await useAsyncData(() =>
+  $pb.send<UserCollectionResponse>(`/api/user-collection/${route.query.id}`, {
+    expand: "owner",
+  }),
+);
+if (!collection.value) throw createError({ statusCode: 404 });
 
 const links = computed<BreadcrumbLink[]>(() => [
   {
     label: currentUser.value!.displayName || currentUser.value!.username,
-    to: `/user/${currentUser.value!.username}`,
+    to: collection.value?.item.owner
+      ? `/user/${collection.value.item.owner.username}`
+      : undefined,
   },
   {
     label: t("general.library"),
+  },
+  {
+    label: collection.value!.item.name,
+    to: joinURL("/library", collection.value!.item.id),
   },
 ]);
 
@@ -28,17 +52,19 @@ const schema = z.object({
 type Schema = z.output<typeof schema>;
 
 const state = ref<Partial<Schema>>({
-  name: undefined,
-  visibility: undefined,
+  name: collection.value.item.name,
+  visibility: collection.value.item.visibility,
 });
-const content = ref("");
+const content = ref(collection.value.item.description);
 
 const currentVisibility = computed(() =>
   collectionVisibility.value.find((v) => v.id === state.value.visibility),
 );
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  await create({
+  if (!collection.value) return;
+
+  await edit(collection.value.item.id, {
     ...event.data,
     description: content.value,
   });
@@ -51,8 +77,18 @@ definePageMeta({
 });
 
 useSeoMeta({
-  title: t("seo.collectionTitleCreate"),
-  ogTitle: t("seo.collectionTitleCreate"),
+  title: t("seo.collectionTitleEdit", {
+    name: collection.value.item.name,
+  }),
+  description: collection.value.item.description
+    .replace(/<[^>]*>/g, "")
+    .slice(0, 200),
+  ogTitle: t("seo.collectionTitleEdit", {
+    name: collection.value.item.name,
+  }),
+  ogDescription: collection.value.item.description
+    .replace(/<[^>]*>/g, "")
+    .slice(0, 200),
 });
 </script>
 
@@ -60,7 +96,7 @@ useSeoMeta({
   <div>
     <UBreadcrumb class="mb-3" :links="links" />
 
-    <AppH1 class="mb-6">{{ $t("library.createCollection") }}</AppH1>
+    <AppH1 class="mb-6">{{ $t("library.editCollection") }}</AppH1>
     <UForm :schema="schema" :state="state" class="space-y-6" @submit="onSubmit">
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <UFormGroup name="header">
@@ -93,7 +129,7 @@ useSeoMeta({
 
       <div class="text-right">
         <UButton type="submit" :loading="pending">
-          {{ $t("general.create") }}
+          {{ $t("general.save") }}
         </UButton>
       </div>
     </UForm>

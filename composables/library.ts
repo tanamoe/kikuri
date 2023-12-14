@@ -141,7 +141,7 @@ export function useLibraryCollection() {
           settingsStore.library.defaultLibraryId = res.item.id;
         }
 
-        return navigateTo("/library/" + res.item.id);
+        return res;
       }
 
       throw new ClientResponseError(res.message);
@@ -182,7 +182,9 @@ export function useLibraryCollection() {
           icon: "i-fluent-checkmark-circle-20-filled",
         });
 
-        return navigateTo("/library/" + res.item.id);
+        await navigateTo(joinURL("/library", res.item.id));
+
+        return res;
       }
 
       throw new ClientResponseError(res.message);
@@ -226,7 +228,9 @@ export function useLibraryCollection() {
           settingsStore.library.defaultLibraryId = undefined;
         }
 
-        return navigateTo("/");
+        await navigateTo("/");
+
+        return res;
       }
 
       throw new ClientResponseError(res.message);
@@ -245,4 +249,27 @@ export function useLibraryCollection() {
   }
 
   return { pending, create, edit, remove };
+}
+
+export function useLibraryCollectionCreate() {
+  const isOpen = useState(() => false);
+  const onSuccess = useState<() => void>();
+
+  function open(updateFn?: () => void) {
+    isOpen.value = true;
+
+    if (updateFn) {
+      onSuccess.value = updateFn;
+    }
+  }
+
+  function close() {
+    isOpen.value = false;
+
+    if (onSuccess.value) {
+      onSuccess.value = () => null;
+    }
+  }
+
+  return { isOpen, onSuccess, open, close };
 }

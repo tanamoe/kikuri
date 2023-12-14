@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { joinURL } from "ufo";
 import {
   type BookDetailsResponse,
   type PublicationsResponse,
   type PublishersResponse,
   type ReleasesResponse,
+  type TitlesResponse,
 } from "@/types/pb";
 import type { MetadataCommon } from "@/types/common";
 
@@ -16,6 +18,7 @@ defineProps<{
       release: Pick<
         ReleasesResponse<{
           publisher: PublishersResponse;
+          title: Pick<TitlesResponse, "slug">;
         }>,
         "expand" | "title"
       >;
@@ -49,7 +52,8 @@ defineProps<{
         </span>
       </p>
       <UButton
-        :to="`/title/${book.expand?.release.title}`"
+        v-if="book.expand?.release.expand?.title"
+        :to="joinURL('/title', book.expand.release.expand.title.slug)"
         icon="i-fluent-info-20-filled"
         color="gray"
       >

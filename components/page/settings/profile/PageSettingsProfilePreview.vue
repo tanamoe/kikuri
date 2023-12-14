@@ -17,7 +17,7 @@ const emit = defineEmits<{
   "change:banner": [File | string];
 }>();
 
-const items = [
+const items = computed(() => [
   [
     {
       label: t("account.removeAvatar"),
@@ -28,11 +28,11 @@ const items = [
       click: handleBannerRemove,
     },
   ],
-];
+]);
 
 const state = ref({
   avatar: props.user.avatar
-    ? $pb.getFileUrl(props.user, props.user.avatar)
+    ? $pb.getFileUrl(props.user, props.user.avatar, { thumb: "128x128" })
     : "/avatar.jpg",
   banner: props.user.banner
     ? $pb.getFileUrl(props.user, props.user.banner)

@@ -3,7 +3,7 @@
  */
 
 import type PocketBase from "pocketbase";
-import { type RecordService } from "pocketbase";
+import type { RecordService } from "pocketbase";
 
 export enum Collections {
   BookDetails = "bookDetails",
@@ -231,6 +231,8 @@ export type TitlesRecord<Tmetadata = unknown> = {
   genres?: RecordIdString[];
   metadata?: null | Tmetadata;
   name: string;
+  slug?: string;
+  slugGroup?: string;
 };
 
 export type UsersRecord = {

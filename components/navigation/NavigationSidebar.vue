@@ -1,5 +1,30 @@
 <script setup lang="ts">
+import type { UserCollectionsResponse } from "@/types/collections";
+
+const { $pb } = useNuxtApp();
+const settingsStore = useSettingsStore();
+const { isAuthenticated } = useAuthentication();
+
+const { data: collections } = await useLazyAsyncData(() =>
+  $pb.send<UserCollectionsResponse>("/api/user-collections", {
+    method: "GET",
+    expand: "collection",
+  }),
+);
+
 const isOpen = ref(false);
+
+const firstCollection = computed(() => {
+  if (!isAuthenticated.value) {
+    return "/login";
+  }
+
+  if (settingsStore.library.defaultLibraryId) {
+    return `/library/${settingsStore.library.defaultLibraryId}`;
+  } else if (collections.value?.items[0]?.collectionId) {
+    return `/library/${collections.value.items[0].collectionId}`;
+  }
+});
 </script>
 
 <template>
@@ -39,7 +64,7 @@ const isOpen = ref(false);
           </NuxtLink>
         </li>
         <li>
-          <NuxtLink to="/library">
+          <NuxtLink :to="firstCollection">
             {{ $t("general.library") }}
           </NuxtLink>
         </li>

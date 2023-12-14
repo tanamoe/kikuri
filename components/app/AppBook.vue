@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { joinURL } from "ufo";
-
 import type { BookDetailsCommon } from "@/types/common";
+import type { LibraryBookAdd } from "#build/components";
 
-const { add } = useLibraryPrompt();
 const { currentUser } = useAuthentication();
 const store = useSettingsStore();
 
@@ -15,17 +14,28 @@ const ui = {
   },
 };
 
-defineProps<{
+const props = defineProps<{
   book: BookDetailsCommon;
+  addModal?: InstanceType<typeof LibraryBookAdd>;
 }>();
+
+function handleAdd() {
+  props.addModal?.open(
+    {
+      id: props.book.id,
+      name: props.book.expand?.publication.name || props.book.id,
+    },
+    props.book.metadata?.inCollections?.map((c) => c.id),
+  );
+}
 </script>
 
 <template>
   <NuxtLink
     v-if="book.expand && book.expand.publication && book.expand.release"
     :to="
-      book.expand?.release.title
-        ? joinURL('/title/' + book.expand.release.title)
+      book.expand?.release.expand?.title
+        ? joinURL('/title/' + book.expand.release.expand.title.slug)
         : ''
     "
     class="group"
@@ -48,7 +58,7 @@ defineProps<{
 
       <div
         v-if="currentUser"
-        class="absolute bottom-2 right-2 z-10 flex items-center gap-1"
+        class="absolute bottom-2 right-2 z-20 flex items-center gap-1"
       >
         <UPopover v-if="book.metadata?.inCollections" mode="hover">
           <UTooltip :text="$t('library.view')" :popper="{ placement: 'top' }">
@@ -71,10 +81,6 @@ defineProps<{
                 },
               }"
             >
-              <template #header>
-                {{ $t("library.selectCollection") }}
-              </template>
-
               <UButton
                 v-for="collection in book.metadata.inCollections"
                 :key="collection.id"
@@ -90,6 +96,7 @@ defineProps<{
         </UPopover>
 
         <UTooltip
+          v-if="addModal"
           :text="$t('library.addToLibrary')"
           :popper="{ placement: 'top' }"
         >
@@ -97,18 +104,13 @@ defineProps<{
             class="shadow-lg"
             icon="i-fluent-add-20-filled"
             color="white"
-            @click.prevent="
-              add({
-                id: book.id,
-                name: book.expand.publication.name,
-              })
-            "
+            @click.prevent="handleAdd"
           />
         </UTooltip>
       </div>
 
       <AppCover
-        class="transition-all group-hover:brightness-75"
+        class="relative z-10 transition-all group-hover:brightness-75"
         :name="book.expand.publication.name"
         :src="
           book.metadata?.images && Array.isArray(book.metadata.images)
@@ -122,6 +124,8 @@ defineProps<{
         "
         v-bind="$attrs"
       />
+
+      <USkeleton class="absolute inset-0" />
     </UCard>
 
     <div v-if="store.display.bookDetails" class="mt-2">
@@ -134,7 +138,7 @@ defineProps<{
       >
         <div
           v-if="book.expand?.release.expand?.title.name"
-          class="decoration-primary-400 font-condensed text-xl font-black decoration-[.2rem] underline-offset-[.2rem] group-hover:underline"
+          class="decoration-primary-400 line-clamp-4 font-condensed text-xl font-black decoration-[.2rem] underline-offset-[.2rem] group-hover:underline"
         >
           {{ book.expand.release.expand.title.name }}
         </div>
