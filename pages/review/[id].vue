@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /* eslint-disable vue/no-v-html */
 import { joinURL } from "ufo";
+import type { BreadcrumbLink } from "@nuxt/ui/dist/runtime/types";
 import {
   Collections,
   type UsersResponse,
@@ -10,7 +11,7 @@ import {
 } from "@/types/pb";
 
 const route = useRoute();
-const runtimeConfig = useRuntimeConfig();
+const { ogUrl } = useRuntimeConfig().public;
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 
@@ -37,6 +38,23 @@ if (!review.value)
 if (!review.value.expand || !review.value.expand.release.expand)
   throw createError({ statusCode: 500 });
 
+const links = computed<BreadcrumbLink[]>(() => {
+  if (!review.value?.expand?.release.expand?.title) return [];
+
+  return [
+    {
+      label: review.value.expand.release.expand.title.name,
+      to: joinURL("/title", review.value?.expand?.release.expand?.title.slug),
+    },
+    {
+      label: review.value.expand.release.name,
+    },
+    {
+      label: t("general.review"),
+    },
+  ];
+});
+
 useSeoMeta({
   title: t("seo.reviewTitle", {
     user: review.value.expand.user.displayName,
@@ -48,59 +66,29 @@ useSeoMeta({
     title: review.value.expand.release.expand.title.name,
   }),
   ogDescription: review.value.content.replace(/<[^>]*>/g, "").slice(0, 200),
-  ogImage: runtimeConfig.public.ogUrl,
+  ogImage: ogUrl,
 });
 </script>
 
 <template>
   <UContainer v-if="review">
     <article class="prose mx-auto dark:prose-invert prose-img:mx-auto">
-      <nav class="chevron not-prose mb-3">
-        <ol role="list">
-          <li class="p-0">
-            <UButton
-              to="/"
-              icon="i-fluent-home-20-filled"
-              color="gray"
-              variant="link"
-              square
-            />
-            <UIcon name="i-fluent-slash-forward-20-filled" />
-          </li>
-          <li class="p-0">
-            <UButton
-              :to="joinURL('/title', review.expand!.release.title!)"
-              color="gray"
-              variant="link"
-            >
-              {{ review.expand!.release.expand!.title.name }}
-            </UButton>
-            <UIcon name="i-fluent-slash-forward-20-filled" />
-          </li>
-          <li class="p-0">
-            <UButton color="gray" variant="link">
-              {{ $t("general.review") }}
-            </UButton>
-          </li>
-        </ol>
-      </nav>
+      <UBreadcrumb class="not-prose mb-3" :links="links" />
 
       <AppH1 class="mb-6">{{ review.header }}</AppH1>
 
       <div class="flex items-center justify-between gap-3">
-        <div class="flex items-center gap-3">
+        <div v-if="review.expand?.user" class="flex items-center gap-3">
           <UAvatar
             :src="
-              $pb.files.getUrl(
-                review.expand!.user,
-                review.expand!.user.avatar,
-                { thumb: '100x100' },
-              )
+              $pb.files.getUrl(review.expand.user, review.expand.user.avatar, {
+                thumb: '32x32',
+              })
             "
-            :alt="review.expand!.user.displayName"
+            :alt="review.expand.user.displayName || review.expand.user.username"
           />
-          <ULink :to="joinURL('/profile', review.user)">
-            {{ review.expand!.user.displayName }}
+          <ULink :to="joinURL('/user', review.expand.user.username)">
+            {{ review.expand.user.displayName || review.expand.user.username }}
           </ULink>
         </div>
         <div
@@ -120,14 +108,10 @@ useSeoMeta({
 
       <div v-html="review.content" />
 
-      <hr />
+      <UDivider />
 
       <div class="mt-6 text-center">
-        <UBadge
-          :ui="{
-            size: { md: 'font-condensed text-bold text-3xl px-2.5 py-1.5' },
-          }"
-        >
+        <UBadge class="text-bold px-2.5 py-1.5 font-condensed text-3xl">
           {{ review.score }}/10
         </UBadge>
       </div>

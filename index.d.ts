@@ -1,6 +1,7 @@
 declare module "#app" {
   interface PageMeta {
     stickyNav?: boolean;
+    childOverflow?: boolean;
   }
 }
 

@@ -2,15 +2,12 @@
 import { z } from "zod";
 import { useStorage } from "@vueuse/core";
 import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
-import {
-  Collections,
-  type UsersResponse,
-  type ReviewsResponse,
-} from "@/types/pb";
+import { Collections, type ReviewsResponse } from "@/types/pb";
 
 const route = useRoute();
 const { $pb } = useNuxtApp();
 const { pending, edit, remove } = useReview();
+const { currentUser } = useAuthentication();
 const { t } = useI18n({ useScope: "global" });
 
 if (!route.query.id || Array.isArray(route.query.id)) {
@@ -33,7 +30,7 @@ if (!review.value) {
   });
 }
 
-if (review.value.user !== ($pb.authStore.model as UsersResponse)?.id) {
+if (review.value.user !== currentUser.value?.id) {
   throw createError({
     statusCode: 401,
     statusMessage: t("error.unauthorizedMessage"),

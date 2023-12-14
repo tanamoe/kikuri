@@ -34,7 +34,7 @@
     "readMore": "Đọc thêm",
     "synopsis": "Nội dung",
     "printRelease": "Bản in",
-    "releaseDate": "Ngày phát hành",
+    "publishDate": "Ngày phát hành",
     "price": "Giá bìa",
     "name": "Tên",
     "volume": "Tập",
@@ -45,6 +45,8 @@
     "justUpdatedBooks": "Truyện vừa cập nhật",
     "justUpdatedReleases": "Bộ truyện vừa cập nhật",
     "dateRelease": "Phát hành ngày {date}",
+    "quantity": "Số lượng",
+    "title": "Tựa truyện",
     "viewTitleDetails": "Xem chi tiết",
     "bookPrice": "Giá dự kiến",
     "publishedBy": "Phát hành bởi",
@@ -67,8 +69,9 @@
     "registerBannerDescription": "Hãy tạo một tài khoản tại Tana.moe để bắt đầu \"tủ truyện trực tuyến\" cho riêng mình, theo dõi các tựa truyện sắp ra mắt dễ dàng hơn, và khám phá những bộ truyện có thể bạn đã bỏ lỡ!",
     "localeChanged": "Đã thay đổi ngôn ngữ",
     "localeChangedDescription": "Hãy tải lại trang để có trải nghiệm tốt nhất",
+    "member": "Thành viên",
     "copySuccess": "Đã sao chép đường dẫn!",
-    "empty": "Không tìm thấy!",
+    "empty": "Không tìm thấy",
     "emptyMessage": "Bạn hãy thử thay đổi các tùy chọn xem sao...",
     "reset": "Đặt lại",
     "user": "Người dùng",
@@ -77,7 +80,9 @@
     "openNavigation": "Mở menu",
     "home": "Trang chủ",
     "monthPrevious": "Tháng trước",
-    "monthAfter": "Tháng sau"
+    "monthAfter": "Tháng sau",
+    "create": "Tạo",
+    "clear": "Đặt lại"
   },
   "status": {
     "waitingForApproval": "Chờ duyệt",
@@ -86,7 +91,8 @@
     "onGoing": "Đang phát hành",
     "completed": "Hoàn thành",
     "hiatus": "Tạm dừng",
-    "cancelled": "Huỷ"
+    "cancelled": "Huỷ",
+    "planning": "Kế hoạch"
   },
   "review": {
     "action": {
@@ -115,7 +121,8 @@
     "useAdvancedScoring": "Dùng hệ thống tính điểm chi tiết",
     "header": "Tiêu đề",
     "termsTitle": "Trước khi tiếp tục",
-    "termsDescription": "Hãy kiểm tra thật kỹ nội dung bài và xem qua nội quy đăng bài."
+    "termsDescription": "Hãy kiểm tra thật kỹ nội dung bài và xem qua nội quy đăng bài.",
+    "noReview": "Hiện không có đánh giá nào"
   },
   "editor": {
     "add": "Thêm",
@@ -151,17 +158,13 @@
     "verifyDescription": "Cảm ơn bạn đã tạo tài khoản tại Tana.moe! Hãy xác minh địa chỉ email để gia tăng trải nghiệm sử dụng.",
     "upload": "Tải lên",
     "removeAvatar": "Xóa ảnh đại diện",
-    "removeBanner": "Xóa ảnh bìa"
+    "removeBanner": "Xóa ảnh bìa",
+    "requestSuccessful": "Yêu cầu thành công"
   },
   "auth": {
     "loginSuccessful": "Đăng nhập thành công",
-    "requestSuccessful": "Yêu cầu thành công",
     "redirecting": "Đang chuyển hướng...",
     "checkEmailInbox": "Bạn vui lòng kiểm tra hộp thư...",
-    "usernameCannotBeEmpty": "Tên tài khoản không được để trống",
-    "emailCannotBeEmpty": "Email không được để trống",
-    "passwordCannotBeEmpty": "Mật khẩu không được để trống",
-    "passwordNotMatch": "Xác nhận mật khẩu không đúng",
     "or": "hoặc",
     "oauthInvalidState": "Tham biến trạng thái không phù hợp",
     "oauthPending": "Đang kiểm tra để hoàn tất đăng nhập...",
@@ -173,6 +176,8 @@
     "account": "Tài khoản",
     "password": "Mật khẩu",
     "interface": "Hiển thị",
+    "library": "Tủ truyện",
+    "email": "Email",
     "showBookDetails": "Hiển thị thông tin sách bên dưới ảnh bìa",
     "showBookPrice": "Hiển thị giá bán",
     "showDigital": "Hiển thị lịch phát hành điện tử (e-book)",
@@ -186,7 +191,12 @@
     "position": {
       "left": "Bên trái",
       "top": "Bên trên"
-    }
+    },
+    "defaultCollection": "Bộ sưu tập mặc định",
+    "selectDefaultCollection": "Chọn bộ sưu tập",
+    "requestEmailChange": "Yêu cầu đổi email",
+    "libraryColumns": "Tùy chọn cột",
+    "columns": "{count} cột đã chọn"
   },
   "monthPicker": {
     "reset": "Hiện tại",
@@ -250,6 +260,43 @@
     "description": "Tana.moe là một \"tủ truyện trực tuyến\" giúp theo dõi các tựa truyện sắp ra mắt dễ dàng hơn và khám phá những bộ truyện bạn có thể đã bỏ lỡ!",
     "calendarDescription": "Lịch phát hành manga, light-novel tổng hợp từ các nhà xuất bản, phát hành trên toàn quốc, được cập nhật thường xuyên trên Tana.moe",
     "browseDescription": "Tìm kiếm, xem lịch phát hành và thông tin các bộ truyện manga, light-novel",
-    "reviewTitle": "{user} đánh giá {title}"
+    "reviewTitle": "{user} đánh giá {title}",
+    "collectionTitle": "Bộ sưu tập {name}",
+    "collectionTitleEdit": "Sửa bộ sưu tập {name}",
+    "collectionTitleCreate": "Tạo bộ sưu tập"
+  },
+  "library": {
+    "collection": "Bộ sưu tập",
+    "collectionName": "Tên bộ sưu tập",
+    "selectCollection": "Chọn bộ sưu tập",
+    "createCollection": "Tạo bộ sưu tập",
+    "editCollection": "Sửa bộ sưu tập",
+    "removeCollection": "Xóa bộ sưu tập",
+    "setDefaultCollection": "Đặt làm mặc định",
+    "noCollection": "Hiện không có bộ sưu tập nào",
+    "addToLibrary": "Thêm vào thư viện",
+    "addQuick": "Thêm nhanh",
+    "addManual": "Lựa chọn khác",
+    "member": "Thành viên",
+    "edit": "Chỉnh sửa",
+    "editBook": "Chỉnh sửa {name}",
+    "remove": "Xóa khỏi bộ sưu tập",
+    "confirmRemoveCollection": "Bạn chắc chắn muốn xóa bộ sưu tập {name}?",
+    "confirmRemoveBook": "Bạn chắc chắn muốn xóa truyện {name} khỏi bộ sưu tập?",
+    "view": "Xem trong bộ sưu tập",
+    "createCollectionSuccess": "Tạo bộ sưu tập thành công",
+    "editCollectionSuccess": "Cập nhật bộ sưu tập thành công",
+    "removeCollectionSuccess": "Xóa bộ sưu tập thành công",
+    "updateBookSuccessful": "Cập nhật tập truyện thành công",
+    "removeBookSuccessful": "Xóa tập truyện thành công",
+    "created": "Thêm vào",
+    "updated": "Chỉnh sửa lần cuối",
+    "actions": "Hành động",
+    "selectVisibility": "Chế độ riêng tư",
+    "visibility": {
+      "unlisted": "Đường dẫn",
+      "private": "Riêng tư",
+      "public": "Công khai"
+    }
   }
 }

@@ -67,5 +67,8 @@ useSeoMeta({
     <NuxtPage />
 
     <UNotifications />
+    <SearchBar />
+
+    <LazyLibraryCollectionCreate />
   </NuxtLayout>
 </template>

@@ -31,7 +31,7 @@ const state = ref<{
   banner: currentUser.value!.banner,
 });
 
-async function submit(event: FormSubmitEvent<Schema>) {
+async function onSubmit(event: FormSubmitEvent<Schema>) {
   const res = await update({
     id: currentUser.value!.id,
     record: event.data,
@@ -57,7 +57,7 @@ definePageMeta({
       class="flex-1 space-y-6"
       :schema="schema"
       :state="state"
-      @submit="submit"
+      @submit="onSubmit"
     >
       <UFormGroup name="displayName" :label="$t('account.displayName')">
         <UInput v-model="state.displayName" />

@@ -2,32 +2,32 @@
 import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 import { z } from "zod";
 
-const { $pb } = useNuxtApp();
+const { currentUser } = useAuthentication();
 const { pending, update } = useUpdateAccount();
 const { t } = useI18n({ useScope: "global" });
 
 const schema = z.object({
-  oldPassword: z.string().min(8, t("error.passwordShort")),
-  password: z.string().min(8, t("error.passwordShort")),
+  oldPassword: z.string().min(8, t("error.account.passwordInvalidMin")),
+  password: z.string().min(8, t("error.account.passwordInvalidMin")),
   passwordConfirm: z
     .string()
-    .min(8, t("error.passwordShort"))
+    .min(8, t("error.account.passwordInvalidMin"))
     .refine(
       (val) => val === state.value.password,
-      () => ({ message: t("error.passwordNotMatch") }),
+      () => ({ message: t("error.account.passwordNotMatch") }),
     ),
 });
 
 type Schema = z.output<typeof schema>;
 
 const state = ref({
-  oldPassword: "",
-  password: "",
-  passwordConfirm: "",
+  oldPassword: undefined,
+  password: undefined,
+  passwordConfirm: undefined,
 });
 
-async function submit(event: FormSubmitEvent<Schema>) {
-  await update({ id: $pb.authStore.model!.id, record: event.data });
+async function onSubmit(event: FormSubmitEvent<Schema>) {
+  await update({ id: currentUser.value!.id, record: event.data });
 }
 
 definePageMeta({
@@ -38,12 +38,7 @@ definePageMeta({
 
 <template>
   <div>
-    <UForm
-      class="space-y-6"
-      :schema="schema"
-      :state="state"
-      @submit.prevent="submit"
-    >
+    <UForm class="space-y-6" :schema="schema" :state="state" @submit="onSubmit">
       <UFormGroup name="oldPassword" :label="$t('account.oldPassword')">
         <UInput v-model="state.oldPassword" type="password" />
       </UFormGroup>

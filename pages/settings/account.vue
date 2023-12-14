@@ -21,7 +21,7 @@ const state = ref({
   username: currentUser.value!.username,
 });
 
-async function submit(event: FormSubmitEvent<Schema>) {
+async function onSubmit(event: FormSubmitEvent<Schema>) {
   const res = await update({ id: currentUser.value!.id, record: event.data });
   if (res) currentUser.value = res;
 }
@@ -34,7 +34,7 @@ definePageMeta({
 
 <template>
   <div>
-    <UForm :schema="schema" :state="state" class="space-y-6" @submit="submit">
+    <UForm :schema="schema" :state="state" class="space-y-6" @submit="onSubmit">
       <UFormGroup name="username" :label="$t('account.username')">
         <UInput v-model="state.username" icon="i-fluent-person-20-filled" />
       </UFormGroup>

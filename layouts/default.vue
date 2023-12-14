@@ -8,11 +8,10 @@ const sticky = computed(() => route.meta.stickyNav as boolean);
   <div>
     <NavigationBar :sticky="sticky" />
 
-    <UContainer>
+    <UContainer class="min-h-[80vh]">
       <slot />
     </UContainer>
 
     <TheFooter />
-    <SearchBar />
   </div>
 </template>

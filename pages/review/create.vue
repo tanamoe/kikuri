@@ -19,6 +19,7 @@ type Texpand = {
 const route = useRoute();
 const { $pb } = useNuxtApp();
 const { pending, post } = useReview();
+const { currentUser } = useAuthentication();
 const { t } = useI18n({ useScope: "global" });
 
 const titleId = ref("");
@@ -79,10 +80,10 @@ const currentRelease = computed(
   () => releases.value?.find((release) => release.id === state.value.release),
 );
 
-async function submit(event: FormSubmitEvent<Schema>) {
+async function onSubmit(event: FormSubmitEvent<Schema>) {
   await post({
     ...event.data,
-    user: $pb.authStore.model!.id,
+    user: currentUser.value!.id,
     content: content.value,
   });
 }
@@ -100,7 +101,7 @@ definePageMeta({
       :schema="schema"
       :state="state"
       class="flex flex-col-reverse gap-6 sm:flex-row"
-      @submit="submit"
+      @submit="onSubmit"
     >
       <div class="flex-1">
         <UAlert

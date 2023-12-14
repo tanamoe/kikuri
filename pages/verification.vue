@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import type { UsersResponse } from "@/types/pb";
-
+const { currentUser } = useAuthentication();
 const { pending, requestEmail } = useRequestVerification();
 
-const { $pb } = useNuxtApp();
-
 definePageMeta({
-  middleware: ["guest"],
+  middleware: "auth",
 });
 </script>
 
@@ -25,13 +22,13 @@ definePageMeta({
           block
           @click="
             requestEmail({
-              email: ($pb.authStore.model! as UsersResponse).email,
+              email: currentUser!.email,
             })
           "
         >
           {{ $t("account.sendVerificationEmail") }}
         </UButton>
-        <UButton variant="soft" to="/" block>
+        <UButton color="gray" to="/" block>
           {{ $t("account.verifyLater") }}
         </UButton>
       </div>

@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
 import { Collections, type TitlesResponse } from "@/types/pb";
 
 const { $pb } = useNuxtApp();
-const router = useRouter();
 const { t } = useI18n({ useScope: "global" });
-const search = useSearchStore();
-
-const { isActive } = storeToRefs(search);
+const { isActive, close } = useSearch();
 
 const groups = computed(() => {
   return [
@@ -33,23 +29,28 @@ const groups = computed(() => {
         return data.value.map((title) => ({
           id: title.id,
           label: title.name,
-          to: `/title/${title.id}`,
+          to: `/title/${title.slug}`,
         }));
       },
     },
   ];
 });
 
-function onSelect(option: any) {
+const ui = computed(() => ({
+  container:
+    "flex min-h-full items-start sm:items-center justify-center text-center",
+}));
+
+async function onSelect(option: any) {
   if (option.click) {
     option.click();
   } else if (option.to) {
-    router.push(option.to);
+    await navigateTo(option.to);
   } else if (option.href) {
-    window.open(option.href, "_blank");
+    await navigateTo(option.href, { external: true });
   }
 
-  isActive.value = false;
+  close();
 }
 
 defineShortcuts({
@@ -63,13 +64,7 @@ defineShortcuts({
 </script>
 
 <template>
-  <UModal
-    v-model="isActive"
-    :ui="{
-      container:
-        'flex min-h-full items-start sm:items-center justify-center text-center',
-    }"
-  >
+  <UModal v-model="isActive" :ui="ui">
     <UCommandPalette
       :groups="groups"
       :placeholder="$t('general.searchPlaceholder')"

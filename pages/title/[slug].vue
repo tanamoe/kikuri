@@ -12,6 +12,8 @@ import {
   type LinkSourcesResponse,
   type GenresResponse,
   type DemographicsResponse,
+  type ReviewsResponse,
+  type UsersResponse,
 } from "@/types/pb";
 import type { MetadataCommon } from "@/types/common";
 
@@ -21,7 +23,7 @@ const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 
 const { data: title } = await useAsyncData(() =>
-  $pb.collection(Collections.Titles).getOne<
+  $pb.collection(Collections.Titles).getFirstListItem<
     TitlesResponse<
       MetadataCommon,
       {
@@ -36,10 +38,9 @@ const { data: title } = await useAsyncData(() =>
         demographic: DemographicsResponse;
       }
     >
-  >(route.params.id as string, {
+  >(`slug='${route.params.slug}'`, {
     expand:
       "works(title),works(title).staff,releases(title).publisher,links(title).source,format,genres,demographic",
-    sort: "+works(title)",
   }),
 );
 
@@ -52,6 +53,18 @@ const { data: works } = await useAsyncData(() =>
     filter: `title = '${title.value?.id}'`,
     expand: "staff",
     sort: "+priority",
+  }),
+);
+
+const { data: reviews } = await useAsyncData(() =>
+  $pb.collection(Collections.Reviews).getFullList<
+    ReviewsResponse<{
+      user: UsersResponse;
+    }>
+  >({
+    filter: `release.title='${title.value?.id}'`,
+    fields: "*,content:excerpt(200,true)",
+    expand: "user",
   }),
 );
 
@@ -99,7 +112,10 @@ useSeoMeta({
           :releases="title.expand?.['releases(title)']"
         />
 
-        <PageTitleSectionReviews :title-id="title.id" />
+        <PageTitleSectionReviews
+          v-if="reviews && reviews.length > 0"
+          :reviews="reviews"
+        />
 
         <PageTitleSectionCovers :title-id="title.id" />
       </div>

@@ -11,8 +11,10 @@ import type {
   CollectionMembersResponse as PBCollectionMembersResponse,
   UsersRecord,
   CollectionMembersRoleOptions,
-  BooksRecord,
   CollectionBooksStatusOptions,
+  CollectionsVisibilityOptions,
+  BookDetailsRecord,
+  PublicationsRecord,
 } from "@/types/pb";
 
 /**
@@ -25,28 +27,27 @@ import type {
  * @see {@link UserCollectionsResponse}
  */
 export type CollectionResponse = {
-  collectionId: string;
-  userId: string;
-  collection?: CollectionsRecord & BaseAPIFields;
-  user?: UsersRecord & BaseAPIFields;
-  role: CollectionMembersRoleOptions;
+  ownerId: string;
+  visibility: CollectionsVisibilityOptions;
+  name: string;
+  default: boolean;
+  description: string;
+  order: number;
+  owner?: {
+    email: string;
+    emailVisibility: boolean;
+    username: string;
+    verified: boolean;
+  } & UsersRecord &
+    BaseAPIFields;
 };
-
-/**
- * User collections returned from `/api/user-collections/:userId`
- *
- * @see {@link https://github.com/tanamoe/momoka-lite/blob/master/models/collection_member.go}
- */
-export type UserCollectionsResponse = BaseAPIListResult<CollectionResponse>;
 
 /**
  * User collection returned from `/api/user-collection/:collectionId`
  *
  * @see {@link https://github.com/tanamoe/momoka-lite/blob/master/models/collection.go}
  */
-export type UserCollectionResponse = BaseAPISingleResult<
-  CollectionsRecord & BaseAPIFields
->;
+export type UserCollectionResponse = BaseAPISingleResult<CollectionResponse>;
 
 /**
  * Book items returned from `/api/user-collection/:userId/books`
@@ -61,7 +62,11 @@ export type CollectionBookResponse = {
   collectionId: string;
   bookId: string;
   collection?: CollectionsRecord & BaseAPIFields;
-  book?: BooksRecord & BaseAPIFields;
+  book?: {
+    publication: PublicationsRecord;
+    publicationId: string;
+  } & Omit<BookDetailsRecord, "publication"> &
+    BaseAPIFields;
   quantity: number;
   status: CollectionBooksStatusOptions;
 };
@@ -75,7 +80,15 @@ export type UserCollectionBooksResponse =
   BaseAPIListResult<CollectionBookResponse>;
 
 /**
- * Members items returned from `/api/user-collection/:userId/members`
+ * User collection book returned from editing `/api/user-collection/:userId/books`
+ *
+ * @see {@link https://github.com/tanamoe/momoka-lite/blob/master/models/collection_book.go}
+ */
+export type UserCollectionBookResponse =
+  BaseAPISingleResult<CollectionBookResponse>;
+
+/**
+ * Members items returned from `/api/user-collection/:userId/members` and `/api/user-collections/:userId`
  *
  * Slightly modified (and similar to) PocketBase {@link PBCollectionMembersResponse|CollectionMembersResponse} schema
  *
@@ -97,4 +110,12 @@ export type CollectionMemberResponse = {
  * @see {@link https://github.com/tanamoe/momoka-lite/blob/master/models/collection_member.go}
  */
 export type UserCollectionMembersResponse =
+  BaseAPIListResult<CollectionMemberResponse>;
+
+/**
+ * User collections returned from `/api/user-collections/:userId`
+ *
+ * @see {@link https://github.com/tanamoe/momoka-lite/blob/master/models/collection_member.go}
+ */
+export type UserCollectionsResponse =
   BaseAPIListResult<CollectionMemberResponse>;

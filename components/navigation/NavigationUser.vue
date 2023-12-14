@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { joinURL } from "ufo";
+
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 
@@ -6,7 +8,9 @@ const { isAuthenticated, currentUser, logout } = useAuthentication();
 
 const avatar = computed(() => {
   return currentUser.value?.avatar !== ""
-    ? $pb.files.getUrl(currentUser.value!, currentUser.value!.avatar)
+    ? $pb.files.getUrl(currentUser.value!, currentUser.value!.avatar, {
+        thumb: "32x32",
+      })
     : "/avatar.jpg";
 });
 
@@ -17,6 +21,9 @@ const authenticatedItems = computed(() => [
       avatar: {
         src: avatar.value,
       },
+      to: currentUser.value
+        ? joinURL("/user", currentUser.value.username)
+        : undefined,
     },
   ],
   [
@@ -64,7 +71,7 @@ const items = computed(() => [
     :items="authenticatedItems"
     :popper="{ placement: 'bottom-end' }"
     :ui="{
-      container: 'z-30',
+      container: 'z-40',
     }"
   >
     <UButton
@@ -82,7 +89,7 @@ const items = computed(() => [
     :items="items"
     :popper="{ placement: 'bottom-end' }"
     :ui="{
-      container: 'z-30',
+      container: 'z-40',
     }"
   >
     <UButton

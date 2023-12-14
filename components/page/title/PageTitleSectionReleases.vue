@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PublishersResponse, ReleasesResponse } from "@/types/pb";
 
-const { status } = useReleaseStatus();
+const { releaseStatus } = useOptions();
 
 const props = defineProps<{
   releases: ReleasesResponse<{
@@ -36,7 +36,7 @@ const items = props.releases.map((release) => ({
 
           <span class="truncate">{{ item.label }}</span>
           <UBadge :color="item.status === 'CANCELLED' ? 'red' : 'primary'">
-            {{ status.find((s) => s.id === item.status)?.label }}
+            {{ releaseStatus.find((s) => s.id === item.status)?.label }}
           </UBadge>
 
           <template #trailing>

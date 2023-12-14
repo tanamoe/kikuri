@@ -1,5 +1,5 @@
-export const useSearchStore = defineStore("search", () => {
-  const isActive = ref(false);
+export function useSearch() {
+  const isActive = useState(() => false);
 
   function open() {
     isActive.value = true;
@@ -10,4 +10,4 @@ export const useSearchStore = defineStore("search", () => {
   }
 
   return { isActive, open, close };
-});
+}

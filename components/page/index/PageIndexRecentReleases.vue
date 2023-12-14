@@ -66,7 +66,7 @@ const { data: releases } = await useLazyAsyncData(() =>
           v-if="release.expand?.title"
           :title="release.expand.title"
           :src="
-            release.metadata && !Array.isArray(release.metadata.images)
+            release.metadata?.images && !Array.isArray(release.metadata.images)
               ? release.metadata.images['1920w']
               : undefined
           "

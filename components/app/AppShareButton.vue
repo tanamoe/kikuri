@@ -33,7 +33,7 @@ function copyLink() {
   <UButton
     v-else-if="clipboardSupported"
     :icon="
-      copied ? 'i-fluent-checkmark-20-filled' : 'i-fluent-link-square-20-filled'
+      copied ? 'i-fluent-checkmark-20-filled' : 'i-fluent-share-ios-20-filled'
     "
     color="gray"
     square

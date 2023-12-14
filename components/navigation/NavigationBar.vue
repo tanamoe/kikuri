@@ -1,5 +1,30 @@
 <script setup lang="ts">
+import type { UserCollectionsResponse } from "@/types/collections";
+
+const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
+const { open } = useLibraryCollectionCreate();
+const { isAuthenticated } = useAuthentication();
+const settingsStore = useSettingsStore();
+
+const { data: collections } = await useLazyAsyncData(() =>
+  $pb.send<UserCollectionsResponse>("/api/user-collections", {
+    method: "GET",
+    expand: "collection",
+  }),
+);
+
+const firstCollection = computed(() => {
+  if (!isAuthenticated.value) {
+    return "/login";
+  }
+
+  if (settingsStore.library.defaultLibraryId) {
+    return `/library/${settingsStore.library.defaultLibraryId}`;
+  } else if (collections.value?.items[0]?.collectionId) {
+    return `/library/${collections.value.items[0].collectionId}`;
+  }
+});
 
 const links = computed(() => [
   {
@@ -12,7 +37,8 @@ const links = computed(() => [
   },
   {
     label: t("general.library"),
-    to: "/library",
+    to: firstCollection.value ? firstCollection.value : undefined,
+    click: !firstCollection.value ? open : undefined,
   },
 ]);
 
@@ -60,13 +86,15 @@ withDefaults(
 
       <ul class="col-span-4 hidden items-center justify-center gap-3 lg:flex">
         <li v-for="link in links" :key="link.to">
-          <ULink
-            class="rounded-lg px-3 py-2 text-gray-600 transition-all hover:bg-gray-200 dark:text-gray-400 hover:dark:bg-gray-800"
+          <UButton
+            color="gray"
+            variant="ghost"
             active-class="bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100"
             :to="link.to"
+            @click="link.click"
           >
             {{ link.label }}
-          </ULink>
+          </UButton>
         </li>
       </ul>
 
