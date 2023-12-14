@@ -14,6 +14,9 @@ const emit = defineEmits<{
   "update:modelValue": [string];
 }>();
 
+const url = ref("");
+const imageUrl = ref("");
+
 const content = computed({
   get() {
     return props.modelValue;
@@ -46,11 +49,9 @@ const editor = useEditor({
   },
 });
 
-function setLink(e: Event) {
-  const url = (e.target as HTMLFormElement).url.value;
-
-  if (url === null) return;
-  if (url === "")
+function setLink() {
+  if (url.value === null) return;
+  if (url.value === "")
     return editor.value
       ?.chain()
       .focus()
@@ -61,14 +62,16 @@ function setLink(e: Event) {
     ?.chain()
     .focus()
     .extendMarkRange("link")
-    .setLink({ href: url })
+    .setLink({ href: url.value })
     .run();
 }
 
-function setImage(e: Event) {
-  editor.value?.commands.setImage({
-    src: (e.target as HTMLFormElement).url.value,
-  });
+function setImage() {
+  if (editor.value) {
+    editor.value.commands.setImage({
+      src: imageUrl.value,
+    });
+  }
 }
 </script>
 
@@ -198,9 +201,10 @@ function setImage(e: Event) {
               tabindex="-1"
             />
             <template #panel>
-              <form class="space-y-3 p-3 text-right" @submit.prevent="setLink">
+              <div class="space-y-3 p-3 text-right">
                 <UFormGroup name="url">
                   <UInput
+                    v-model="url"
                     placeholder="https://tana.moe/calendar"
                     :value="editor.getAttributes('link').href"
                   />
@@ -222,10 +226,14 @@ function setImage(e: Event) {
                 >
                   {{ $t("editor.remove") }}
                 </UButton>
-                <UButton size="xs" icon="i-fluent-add-20-filled" type="submit">
+                <UButton
+                  size="xs"
+                  icon="i-fluent-add-20-filled"
+                  @click="setLink"
+                >
                   {{ $t("editor.add") }}
                 </UButton>
-              </form>
+              </div>
             </template>
           </UPopover>
           <UPopover>
@@ -237,14 +245,21 @@ function setImage(e: Event) {
               tabindex="-1"
             />
             <template #panel>
-              <form class="space-y-3 p-3 text-right" @submit.prevent="setImage">
+              <div class="space-y-3 p-3 text-right">
                 <UFormGroup name="url">
-                  <UInput placeholder="https://imgur.com/image.png" />
+                  <UInput
+                    v-model="imageUrl"
+                    placeholder="https://imgur.com/image.png"
+                  />
                 </UFormGroup>
-                <UButton size="xs" icon="i-fluent-add-20-filled" type="submit">
+                <UButton
+                  size="xs"
+                  icon="i-fluent-add-20-filled"
+                  @click="setImage"
+                >
                   {{ $t("editor.add") }}
                 </UButton>
-              </form>
+              </div>
             </template>
           </UPopover>
         </div>
