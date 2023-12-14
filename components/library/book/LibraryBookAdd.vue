@@ -26,12 +26,15 @@ defineExpose({
 const isOpen = ref(false);
 const inCollections = ref<string[]>([]);
 
-const { data: collections, refresh } = await useLazyAsyncData(
+const { data: collections } = await useLazyAsyncData(
   () =>
-    $pb.send<UserCollectionsResponse>("/api/user-collections", {
-      method: "GET",
-      expand: "collection",
-    }),
+    $pb.send<UserCollectionsResponse>(
+      `/api/user-collections/${currentUser.value?.id}`,
+      {
+        method: "GET",
+        expand: "collection",
+      },
+    ),
   {
     transform: (collections) =>
       collections.items.map((collection) => ({
@@ -39,7 +42,7 @@ const { data: collections, refresh } = await useLazyAsyncData(
         label: collection.collection?.name,
         disabled: inCollections.value.includes(collection.collectionId),
       })),
-    watch: [currentUser, inCollections],
+    watch: [currentUser, inCollections, isOpen],
   },
 );
 
@@ -85,7 +88,7 @@ function close() {
 
 function handleCreate() {
   close();
-  createOpen(refresh);
+  createOpen();
 }
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {

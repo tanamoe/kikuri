@@ -253,23 +253,14 @@ export function useLibraryCollection() {
 
 export function useLibraryCollectionCreate() {
   const isOpen = useState(() => false);
-  const onSuccess = useState<() => void>(() => () => null);
 
-  function open(updateFn?: () => void) {
+  function open() {
     isOpen.value = true;
-
-    if (updateFn) {
-      onSuccess.value = updateFn;
-    }
   }
 
   function close() {
     isOpen.value = false;
-
-    if (onSuccess.value) {
-      onSuccess.value = () => null;
-    }
   }
 
-  return { isOpen, onSuccess, open, close };
+  return { isOpen, open, close };
 }
