@@ -21,7 +21,7 @@
     "@nuxt/image": "1.1.0",
     "@nuxt/ui": "2.11.1",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
-    "@nuxtjs/i18n": "8.0.0-rc.5",
+    "@nuxtjs/i18n": "8.0.0-rc.11",
     "@pinia-plugin-persistedstate/nuxt": "^1.1.2",
     "@tailwindcss/typography": "^0.5.10",
     "@types/node": "^18.16.19",
