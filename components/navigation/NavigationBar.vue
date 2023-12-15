@@ -37,6 +37,7 @@ const links = computed(() => [
   },
   {
     label: t("general.library"),
+    badge: t("general.new"),
     to: firstCollection.value ? firstCollection.value : undefined,
     click: !firstCollection.value ? open : undefined,
   },
@@ -86,7 +87,29 @@ withDefaults(
 
       <ul class="col-span-4 hidden items-center justify-center gap-3 lg:flex">
         <li v-for="link in links" :key="link.to">
+          <UChip
+            v-if="link.badge"
+            size="xs"
+            position="top-right"
+            inset
+            :ui="{ base: '-mx-5 rounded-none ring-0', background: '' }"
+          >
+            <UButton
+              color="gray"
+              variant="ghost"
+              active-class="bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100"
+              :to="link.to"
+              @click="link.click"
+            >
+              {{ link.label }}
+            </UButton>
+
+            <template #content>
+              <UBadge size="xs">{{ link.badge }}</UBadge>
+            </template>
+          </UChip>
           <UButton
+            v-else
             color="gray"
             variant="ghost"
             active-class="bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100"
