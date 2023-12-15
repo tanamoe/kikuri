@@ -62,8 +62,8 @@ const currentTheme = computed({
               </NuxtLink>
             </li>
             <li>
-              <NuxtLink to="/credits">
-                {{ $t("footer.links.credits") }}
+              <NuxtLink to="/missing-entries">
+                {{ $t("footer.links.missingEntries") }}
               </NuxtLink>
             </li>
           </ul>
@@ -86,7 +86,7 @@ const currentTheme = computed({
           </ul>
           <ul>
             <li>
-              <NuxtLink to="https://docs.tana.moe">
+              <NuxtLink to="https://pb.tana.moe">
                 {{ $t("footer.links.api") }}
               </NuxtLink>
             </li>

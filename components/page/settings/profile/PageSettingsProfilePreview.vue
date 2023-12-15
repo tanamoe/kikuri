@@ -68,12 +68,12 @@ function handleBannerRemove() {
   <AppCard class="w-full lg:max-w-sm" :hoverable="false">
     <div>
       <img
-        class="aspect-[21/9] h-auto w-full cursor-pointer rounded-t-md bg-gray-300 object-cover transition-all hover:brightness-75 dark:bg-gray-700"
+        class="aspect-[21/9] h-auto w-full cursor-pointer rounded-t-md bg-gray-300 object-cover transition-all hover:brightness-90 dark:bg-gray-700 dark:hover:brightness-75"
         :src="state.banner"
         @click="bannerInput?.click()"
       />
       <img
-        class="relative -mt-16 ml-4 aspect-square h-32 w-32 cursor-pointer rounded-full border-4 border-gray-200 object-cover transition-all hover:brightness-75 dark:border-gray-800"
+        class="relative -mt-16 ml-4 aspect-square h-32 w-32 cursor-pointer rounded-full border-4 border-gray-200 object-cover transition-all hover:brightness-90 dark:border-gray-800 dark:hover:brightness-75"
         width="128px"
         height="128px"
         :src="state.avatar"

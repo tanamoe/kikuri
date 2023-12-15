@@ -27,11 +27,11 @@ const ui = { body: { base: "relative", padding: "p-0 sm:p-0" } };
             :src="
               $pb.files.getUrl(release.expand.title, release.expand.title.cover)
             "
-            class="h-full w-full object-cover transition-all group-hover:brightness-75"
+            class="h-full w-full object-cover transition-all group-hover:brightness-90 dark:group-hover:brightness-75"
           />
         </div>
         <div class="space-y-4 p-4">
-          <div class="prose prose-invert">
+          <div class="prose dark:prose-invert">
             <h3 v-if="release" class="font-condensed">
               {{ release.expand?.title.name }} - {{ release.name }}
             </h3>

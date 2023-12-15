@@ -24,7 +24,7 @@ images.value = props.items;
     >
       <img
         loading="lazy"
-        class="aspect-[2/3] h-full w-full object-cover transition-all hover:brightness-75"
+        class="aspect-[2/3] h-full w-full object-cover transition-all hover:brightness-90 dark:hover:brightness-75"
         :src="image.src"
         :srcset="image.srcset"
         sizes="(max-width: 640px) 40vw, (max-width: 768px) 20vw, 15vw"

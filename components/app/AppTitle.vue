@@ -15,6 +15,7 @@ defineProps<{
   <NuxtLink :to="joinURL('/title/' + title.slug)" class="group space-y-3">
     <AppCard>
       <AppCover
+        class="transition-all group-hover:brightness-90 dark:group-hover:brightness-75"
         :name="title.name"
         :src="
           src ||
