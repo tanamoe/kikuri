@@ -1,7 +1,13 @@
 <script setup lang="ts">
-const props = defineProps<{
-  title: string;
-}>();
+const props = withDefaults(
+  defineProps<{
+    title: string;
+    showLabel?: boolean;
+  }>(),
+  {
+    showLabel: false,
+  },
+);
 
 const { share, isSupported: shareSupported } = useShare();
 const { copy, copied, isSupported: clipboardSupported } = useClipboard();
@@ -27,7 +33,8 @@ function copyLink() {
     v-if="shareSupported"
     icon="i-fluent-share-ios-20-regular"
     color="gray"
-    square
+    :square="!showLabel"
+    :label="showLabel ? $t('general.share') : undefined"
     @click="startShare"
   />
   <UButton
@@ -36,7 +43,8 @@ function copyLink() {
       copied ? 'i-fluent-checkmark-20-filled' : 'i-fluent-share-ios-20-filled'
     "
     color="gray"
-    square
+    :square="!showLabel"
+    :label="showLabel ? $t('general.share') : undefined"
     @click="copyLink"
   />
 </template>

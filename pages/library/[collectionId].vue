@@ -79,6 +79,13 @@ const links = computed<BreadcrumbLink[]>(() => [
 const items = computed(() => [
   [
     {
+      label: t("general.missingBooks"),
+      icon: "i-fluent-book-question-mark-20-filled",
+      to: "/missing-entries",
+    },
+  ],
+  [
+    {
       label: t("library.editCollection"),
       icon: "i-fluent-edit-20-filled",
       to: `/library/edit?id=${collectionId}`,
@@ -90,6 +97,13 @@ const items = computed(() => [
       click: () => {
         settingsStore.library.defaultLibraryId = collectionId as string;
       },
+    },
+  ],
+  [
+    {
+      label: t("general.settings"),
+      icon: "i-fluent-settings-20-filled",
+      to: "/settings/library",
     },
   ],
   [
@@ -132,17 +146,19 @@ useSeoMeta({
 
     <div class="flex">
       <AppH1 class="mb-6 flex-1">{{ collection.item.name }}</AppH1>
-      <UDropdown
-        v-if="editable"
-        class="h-min"
-        :items="items"
-        :popper="{ placement: 'bottom-end' }"
-      >
-        <UButton
-          color="gray"
-          trailing-icon="i-fluent-more-vertical-20-filled"
-        />
-      </UDropdown>
+      <div class="flex h-min items-center gap-3">
+        <AppShareButton :title="collection.item.name" show-label />
+        <UDropdown
+          v-if="editable"
+          :items="items"
+          :popper="{ placement: 'bottom-end' }"
+        >
+          <UButton
+            color="gray"
+            trailing-icon="i-fluent-more-vertical-20-filled"
+          />
+        </UDropdown>
+      </div>
     </div>
 
     <div class="prose prose-sm mb-6 max-w-none space-y-2 dark:prose-invert">
