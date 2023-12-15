@@ -63,6 +63,10 @@ const items = computed(() => [
     },
   ],
 ]);
+
+const ui = {
+  container: "z-50",
+};
 </script>
 
 <template>
@@ -70,9 +74,7 @@ const items = computed(() => [
     v-if="isAuthenticated"
     :items="authenticatedItems"
     :popper="{ placement: 'bottom-end' }"
-    :ui="{
-      container: 'z-40',
-    }"
+    :ui="ui"
   >
     <UButton
       color="gray"
@@ -88,9 +90,7 @@ const items = computed(() => [
     v-else
     :items="items"
     :popper="{ placement: 'bottom-end' }"
-    :ui="{
-      container: 'z-40',
-    }"
+    :ui="ui"
   >
     <UButton
       icon="i-fluent-person-20-filled"

@@ -27,7 +27,7 @@ defineProps<{
         class="sticky top-28 flex-shrink-0 self-start sm:top-16"
         :class="{
           'w-12 md:w-20': store.display.datePosition === 'left',
-          'z-10 w-full bg-gray-50 ring-8 ring-gray-50 dark:bg-gray-900 dark:ring-gray-900':
+          'z-30 w-full bg-gray-50 ring-8 ring-gray-50 dark:bg-gray-900 dark:ring-gray-900':
             store.display.datePosition === 'top',
         }"
         style="top: var(--toolbar-height)"

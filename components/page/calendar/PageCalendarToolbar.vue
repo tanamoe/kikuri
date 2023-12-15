@@ -56,7 +56,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div ref="toolbar" class="sticky top-0 z-30 mb-3 bg-gray-50 dark:bg-gray-900">
+  <div ref="toolbar" class="sticky top-0 z-40 mb-3 bg-gray-50 dark:bg-gray-900">
     <div class="container mx-auto px-6 py-3">
       <div
         class="flex flex-col justify-between gap-3 sm:flex-row sm:items-center"
