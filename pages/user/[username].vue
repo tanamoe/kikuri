@@ -42,19 +42,11 @@ const { data: reviews } = await useLazyAsyncData(() =>
   }),
 );
 
-const { data: collections } = await useLazyAsyncData(
-  () => {
-    return $pb.send<UserCollectionsResponse>(
-      `/api/user-collections/${user.value?.id}`,
-      {
-        method: "GET",
-        expand: "collection",
-      },
-    );
-  },
-  {
-    server: false,
-  },
+const { data: collections } = await useAsyncData(() =>
+  $pb.send<UserCollectionsResponse>(`/api/user-collections/${user.value?.id}`, {
+    method: "GET",
+    expand: "collection",
+  }),
 );
 
 const items = computed(() => [
