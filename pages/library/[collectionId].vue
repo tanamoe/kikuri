@@ -14,31 +14,34 @@ import type {
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const { ogUrl } = useRuntimeConfig().public;
-const {
-  params: { collectionId },
-} = useRoute();
+const route = useRoute();
 const { currentUser } = useAuthentication();
+const { collectionVisibility } = useOptions();
 const settingsStore = useSettingsStore();
 
 const { data: collection } = await useAsyncData(() =>
-  $pb.send<UserCollectionResponse>(`/api/user-collection/${collectionId}`, {
-    expand: "owner",
-  }),
+  $pb.send<UserCollectionResponse>(
+    `/api/user-collection/${route.params.collectionId}`,
+    {
+      expand: "owner",
+    },
+  ),
 );
 if (!collection.value) throw createError({ statusCode: 404 });
 
 const { data: members } = await useAsyncData(() =>
   $pb.send<UserCollectionMembersResponse>(
-    `/api/user-collection/${collectionId}/members`,
+    `/api/user-collection/${route.params.collectionId}/members`,
     { expand: "user" },
   ),
 );
 
 const { data: books, refresh } = await useAsyncData(() =>
   $pb.send<UserCollectionBooksResponse>(
-    `/api/user-collection/${collectionId}/books`,
+    `/api/user-collection/${route.params.collectionId}/books`,
     {
       method: "GET",
+      perPage: 999,
       expand: "book.publication,collection",
     },
   ),
@@ -62,6 +65,12 @@ const editable = computed(() => {
 
   return false;
 });
+
+const currentVisibility = computed(() =>
+  collectionVisibility.value.find(
+    (v) => v.id === collection.value?.item.visibility,
+  ),
+);
 
 const links = computed<BreadcrumbLink[]>(() => [
   {
@@ -89,14 +98,16 @@ const items = computed(() => [
     {
       label: t("library.editCollection"),
       icon: "i-fluent-edit-20-filled",
-      to: `/library/edit?id=${collectionId}`,
+      to: `/library/edit?id=${route.params.collectionId}`,
     },
     {
       label: t("library.setDefaultCollection"),
       icon: "i-fluent-library-20-filled",
-      disabled: settingsStore.library.defaultLibraryId === collectionId,
+      disabled:
+        settingsStore.library.defaultLibraryId === route.params.collectionId,
       click: () => {
-        settingsStore.library.defaultLibraryId = collectionId as string;
+        settingsStore.library.defaultLibraryId = route.params
+          .collectionId as string;
       },
     },
   ],
@@ -184,7 +195,7 @@ useSeoMeta({
     <UBreadcrumb class="mb-3" :links="links" />
 
     <div class="flex flex-col sm:flex-row">
-      <AppH1 class="mb-6 flex-1">{{ collection.item.name }}</AppH1>
+      <AppH1 class="flex-1">{{ collection.item.name }}</AppH1>
       <div class="flex h-min items-center justify-end gap-3">
         <AppShareButton :title="collection.item.name" show-label />
         <UDropdown
@@ -203,23 +214,33 @@ useSeoMeta({
     <div class="prose prose-sm mb-6 max-w-none space-y-2 dark:prose-invert">
       <div v-html="collection.item.description" />
 
-      <h4>{{ $t("library.member") }}</h4>
-      <UAvatarGroup v-if="members" size="sm">
-        <UAvatar
-          v-for="member in members.items"
-          :key="member.userId"
-          :src="
-            member.user?.avatar
-              ? $pb.files.getUrl(
-                  { collectionId: 'users', id: member.userId },
-                  member.user.avatar,
-                  { thumb: '32x32' },
-                )
-              : undefined
-          "
-          :alt="member.user?.displayName || member.user?.username"
-        />
-      </UAvatarGroup>
+      <div class="flex gap-6">
+        <div>
+          <h4>{{ $t("library.member") }}</h4>
+          <UAvatarGroup v-if="members" size="sm">
+            <UAvatar
+              v-for="member in members.items"
+              :key="member.userId"
+              :src="
+                member.user?.avatar
+                  ? $pb.files.getUrl(
+                      { collectionId: 'users', id: member.userId },
+                      member.user.avatar,
+                      { thumb: '32x32' },
+                    )
+                  : undefined
+              "
+              :alt="member.user?.displayName || member.user?.username"
+            />
+          </UAvatarGroup>
+        </div>
+        <div v-if="currentVisibility">
+          <h4>{{ $t("library.visibility") }}</h4>
+          <UBadge color="gray">
+            {{ currentVisibility.label }}
+          </UBadge>
+        </div>
+      </div>
     </div>
 
     <PageLibraryBooks
