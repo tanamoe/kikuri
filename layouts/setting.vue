@@ -57,7 +57,7 @@ const links = computed(() => [
     <main class="container mx-auto min-h-[80vh] overflow-x-hidden px-6 pb-6">
       <AppH1 class="mb-6">{{ $t("general.settings") }}</AppH1>
       <div class="flex flex-col gap-6 sm:flex-row">
-        <AppSideNavigation :links="links" class="sm:w-48" />
+        <AppSideNavigation :links="links" class="flex-shrink-0 sm:w-48" />
         <div class="flex-1">
           <slot />
         </div>
