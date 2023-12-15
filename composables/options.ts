@@ -63,17 +63,17 @@ export function useOptions() {
   >(() => [
     {
       id: "PRIVATE",
-      label: t("library.visibility.private"),
+      label: t("visibility.private"),
       icon: "i-fluent-lock-20-filled",
     },
     {
       id: "UNLISTED",
-      label: t("library.visibility.unlisted"),
+      label: t("visibility.unlisted"),
       icon: "i-fluent-link-20-filled",
     },
     {
       id: "PUBLIC",
-      label: t("library.visibility.public"),
+      label: t("visibility.public"),
       icon: "i-fluent-globe-20-filled",
     },
   ]);

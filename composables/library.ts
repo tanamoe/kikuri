@@ -5,6 +5,7 @@ import type {
   UserCollectionBookResponse,
   CollectionBookResponse,
   UserCollectionResponse,
+  UserCollectionsResponse,
 } from "@/types/collections";
 import type { BaseAPIResponse } from "@/types/api";
 
@@ -224,7 +225,18 @@ export function useLibraryCollection() {
           icon: "i-fluent-checkmark-circle-20-filled",
         });
 
-        if (settingsStore.library.defaultLibraryId === id) {
+        try {
+          const res = await $pb.send<UserCollectionsResponse>(
+            joinURL("/api/user-collections", $pb.authStore.model?.id),
+            {
+              method: "GET",
+            },
+          );
+
+          if (res.totalItems === 0) throw new Error("No collections");
+
+          settingsStore.library.defaultLibraryId = res.items[0]?.collectionId;
+        } catch (error) {
           settingsStore.library.defaultLibraryId = undefined;
         }
 

@@ -97,6 +97,11 @@
     "cancelled": "Huỷ",
     "planning": "Kế hoạch"
   },
+  "visibility": {
+    "unlisted": "Đường dẫn",
+    "private": "Riêng tư",
+    "public": "Công khai"
+  },
   "review": {
     "action": {
       "create": "Đăng bài",
@@ -296,11 +301,7 @@
     "created": "Thêm vào",
     "updated": "Chỉnh sửa lần cuối",
     "actions": "Hành động",
-    "selectVisibility": "Chế độ riêng tư",
-    "visibility": {
-      "unlisted": "Đường dẫn",
-      "private": "Riêng tư",
-      "public": "Công khai"
-    }
+    "selectVisibility": "Chọn chế độ riêng tư",
+    "visibility": "Chế độ riêng tư"
   }
 }
