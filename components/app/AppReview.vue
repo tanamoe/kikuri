@@ -31,7 +31,7 @@ const ui = { body: { base: "relative", padding: "p-0 sm:p-0" } };
           />
         </div>
         <div class="space-y-4 p-4">
-          <div class="prose dark:prose-invert">
+          <div class="prose prose-sm dark:prose-invert">
             <h3 v-if="release" class="font-condensed">
               {{ release.expand?.title.name }} - {{ release.name }}
             </h3>
@@ -56,9 +56,11 @@ const ui = { body: { base: "relative", padding: "p-0 sm:p-0" } };
                     thumb: '32x32',
                   })
                 "
-                class="rounded-full"
+                class="h-6 w-6 rounded-full"
               />
-              <span class="overflow-hidden text-ellipsis whitespace-nowrap">
+              <span
+                class="overflow-hidden text-ellipsis whitespace-nowrap text-sm"
+              >
                 {{ user.displayName || user.username }}
               </span>
             </div>
