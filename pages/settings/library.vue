@@ -5,7 +5,7 @@ const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const store = useSettingsStore();
 
-const { data: collections, pending } = await useAsyncData(
+const { data: collections, pending } = await useLazyAsyncData(
   () =>
     $pb.send<UserCollectionsResponse>("/api/user-collections", {
       method: "GET",
@@ -83,6 +83,7 @@ definePageMeta({
         v-model="store.library.defaultLibraryId"
         :loading="pending"
         :options="collections"
+        :disabled="collections.length == 0"
         value-attribute="id"
         option-attribute="name"
       >
