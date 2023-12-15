@@ -43,9 +43,9 @@ export const useSettingsStore = defineStore(
       ],
     });
 
-    // clear default settings on unauthenticated
     $pb.authStore.onChange(async () => {
       if (!$pb.authStore.model) {
+        // clear default settings on unauthenticated
         library.value.defaultLibraryId = undefined;
       } else {
         const res = await $pb.send<UserCollectionsResponse>(
