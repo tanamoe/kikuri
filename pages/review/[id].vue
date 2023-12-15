@@ -35,7 +35,7 @@ if (!review.value)
     statusCode: 404,
     statusMessage: t("error.notFoundMessage"),
   });
-if (!review.value.expand || !review.value.expand.release.expand)
+if (!review.value.expand?.user || !review.value.expand.release.expand?.title)
   throw createError({ statusCode: 500 });
 
 const links = computed<BreadcrumbLink[]>(() => {
@@ -55,18 +55,63 @@ const links = computed<BreadcrumbLink[]>(() => {
   ];
 });
 
+const ogImage = computed(() => {
+  if (review.value) {
+    const url = new URL("/review", ogUrl);
+    url.searchParams.set("title", review.value.header);
+
+    if (review.value.expand?.user) {
+      const user = review.value.expand.user;
+      url.searchParams.set("user", user.displayName || user.username);
+      if (user.avatar) {
+        url.searchParams.set(
+          "avatar",
+          $pb.files.getUrl(user, user.avatar, { thumb: "32x32" }),
+        );
+      }
+    }
+
+    if (description.value) {
+      url.searchParams.set("description", description.value);
+    }
+
+    if (review.value.expand?.release.expand?.title) {
+      const title = review.value.expand.release.expand.title;
+      url.searchParams.set("name", title.name);
+      if (title.cover)
+        url.searchParams.set("image", $pb.files.getUrl(title, title.cover));
+    }
+
+    return url;
+  }
+});
+
+const description = computed(() => {
+  if (review.value?.content) {
+    const content = review.value.content.replace(/<[^>]*>/g, "");
+    if (content.length > 250) {
+      return content.slice(0, 250) + "...";
+    }
+    return content;
+  }
+});
+
 useSeoMeta({
   title: t("seo.reviewTitle", {
-    user: review.value.expand.user.displayName,
     title: review.value.expand.release.expand.title.name,
+    user:
+      review.value.expand.user.displayName || review.value.expand.user.username,
   }),
-  description: review.value.content.replace(/<[^>]*>/g, "").slice(0, 200),
+  description: description.value,
+  author:
+    review.value.expand.user.displayName || review.value.expand.user.username,
   ogTitle: t("seo.reviewTitle", {
-    user: review.value.expand.user.displayName,
     title: review.value.expand.release.expand.title.name,
+    user:
+      review.value.expand.user.displayName || review.value.expand.user.username,
   }),
-  ogDescription: review.value.content.replace(/<[^>]*>/g, "").slice(0, 200),
-  ogImage: ogUrl,
+  ogDescription: description.value,
+  ogImage: ogImage.value?.toString(),
 });
 </script>
 

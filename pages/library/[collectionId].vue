@@ -13,6 +13,7 @@ import type {
 
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
+const { ogUrl } = useRuntimeConfig().public;
 const {
   params: { collectionId },
 } = useRoute();
@@ -124,19 +125,57 @@ definePageMeta({
   layout: "library",
 });
 
+const ogImage = computed(() => {
+  if (collection.value?.item) {
+    const url = new URL("/collection", ogUrl);
+    url.searchParams.set("title", collection.value.item.name);
+
+    if (description.value) {
+      url.searchParams.set("description", description.value);
+    }
+
+    if (collection.value.item.owner) {
+      const user = collection.value.item.owner;
+      url.searchParams.set("user", user.displayName || user.username);
+      if (user.avatar) {
+        url.searchParams.set(
+          "avatar",
+          $pb.files.getUrl(
+            {
+              collectionId: "users",
+              id: user.id,
+            },
+            user.avatar,
+            { thumb: "32x32" },
+          ),
+        );
+      }
+    }
+
+    return url;
+  }
+});
+
+const description = computed(() => {
+  if (collection.value?.item.description) {
+    const desc = collection.value.item.description.replace(/<[^>]*>/g, "");
+    if (desc.length > 250) {
+      return desc.slice(0, 250) + "...";
+    }
+    return desc;
+  }
+});
+
 useSeoMeta({
   title: t("seo.collectionTitle", {
     name: collection.value.item.name,
   }),
-  description: collection.value.item.description
-    .replace(/<[^>]*>/g, "")
-    .slice(0, 200),
+  description: description.value,
   ogTitle: t("seo.collectionTitle", {
     name: collection.value.item.name,
   }),
-  ogDescription: collection.value.item.description
-    .replace(/<[^>]*>/g, "")
-    .slice(0, 200),
+  ogDescription: description.value,
+  ogImage: ogImage.value?.toString(),
 });
 </script>
 

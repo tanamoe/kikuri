@@ -264,9 +264,9 @@
     "description": "Tana.moe là một \"tủ truyện trực tuyến\" giúp theo dõi các tựa truyện sắp ra mắt dễ dàng hơn và khám phá những bộ truyện bạn có thể đã bỏ lỡ!",
     "calendarDescription": "Lịch phát hành manga, light-novel tổng hợp từ các nhà xuất bản, phát hành trên toàn quốc, được cập nhật thường xuyên trên Tana.moe",
     "browseDescription": "Tìm kiếm, xem lịch phát hành và thông tin các bộ truyện manga, light-novel",
-    "reviewTitle": "{user} đánh giá {title}",
-    "collectionTitle": "Bộ sưu tập {name}",
-    "collectionTitleEdit": "Sửa bộ sưu tập {name}",
+    "reviewTitle": "{user} đánh giá 「{title}」",
+    "collectionTitle": "Bộ sưu tập 「{name}」",
+    "collectionTitleEdit": "Sửa bộ sưu tập 「{name}」",
     "collectionTitleCreate": "Tạo bộ sưu tập"
   },
   "library": {
