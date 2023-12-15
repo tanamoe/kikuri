@@ -82,7 +82,10 @@
     "monthPrevious": "Tháng trước",
     "monthAfter": "Tháng sau",
     "create": "Tạo",
-    "clear": "Đặt lại"
+    "clear": "Đặt lại",
+    "new": "Mới",
+    "share": "Chia sẻ",
+    "missingBooks": "Thiếu truyện?"
   },
   "status": {
     "waitingForApproval": "Chờ duyệt",
@@ -218,7 +221,8 @@
       "sitemap": "Sitemap",
       "tos": "Điều khoản",
       "privacy": "Bảo mật",
-      "contact": "Liên hệ"
+      "contact": "Liên hệ",
+      "missingEntries": "Thiếu dữ liệu?"
     }
   },
   "error": {
