@@ -46,10 +46,13 @@ const overflow = computed(() => route.meta.childOverflow ?? true);
 
     <main class="container mx-auto min-h-[80vh] overflow-x-hidden px-6 pb-6">
       <div class="flex flex-col gap-6 sm:flex-row">
-        <aside v-if="links" class="hidden w-48 flex-shrink-0 sm:w-48 lg:block">
+        <aside
+          v-if="links"
+          class="flex flex-shrink-0 items-center gap-1 overflow-x-auto sm:block sm:w-48"
+        >
           <AppSideNavigation :links="links" />
           <UButton
-            class="mt-3 w-full"
+            class="sm:mt-3 sm:w-full"
             active-class="bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100"
             icon="i-fluent-collections-20-filled"
             color="gray"

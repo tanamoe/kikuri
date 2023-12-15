@@ -43,14 +43,14 @@ function handleAdd() {
     <UCard :ui="ui">
       <UBadge
         v-if="book.expand.publication.digital == true"
-        class="absolute right-2 top-2 z-10 text-gray-900"
+        class="absolute right-2 top-2 z-20 text-gray-900"
         color="red"
       >
         Digital
       </UBadge>
       <UBadge
         v-else-if="book.edition !== ''"
-        class="absolute right-2 top-2 z-10 text-gray-900"
+        class="absolute right-2 top-2 z-20 text-gray-900"
         color="tanaamber"
       >
         {{ book.edition }}
@@ -60,7 +60,7 @@ function handleAdd() {
         v-if="currentUser"
         class="absolute bottom-2 right-2 z-20 flex items-center gap-1"
       >
-        <UPopover v-if="book.metadata?.inCollections" mode="hover">
+        <UPopover v-if="book.metadata?.inCollections">
           <UTooltip :text="$t('library.view')" :popper="{ placement: 'top' }">
             <UButton
               icon="i-fluent-library-20-filled"

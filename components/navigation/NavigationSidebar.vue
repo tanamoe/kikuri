@@ -64,8 +64,9 @@ const firstCollection = computed(() => {
           </NuxtLink>
         </li>
         <li>
-          <NuxtLink :to="firstCollection">
+          <NuxtLink :to="firstCollection" class="flex items-center gap-3">
             {{ $t("general.library") }}
+            <UBadge>{{ $t("general.new") }}</UBadge>
           </NuxtLink>
         </li>
       </ul>

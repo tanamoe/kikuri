@@ -144,9 +144,9 @@ useSeoMeta({
   <div v-if="collection">
     <UBreadcrumb class="mb-3" :links="links" />
 
-    <div class="flex">
+    <div class="flex flex-col sm:flex-row">
       <AppH1 class="mb-6 flex-1">{{ collection.item.name }}</AppH1>
-      <div class="flex h-min items-center gap-3">
+      <div class="flex h-min items-center justify-end gap-3">
         <AppShareButton :title="collection.item.name" show-label />
         <UDropdown
           v-if="editable"
@@ -178,7 +178,7 @@ useSeoMeta({
                 )
               : undefined
           "
-          :alt="member.user!.displayName"
+          :alt="member.user?.displayName || member.user?.username"
         />
       </UAvatarGroup>
     </div>

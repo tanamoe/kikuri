@@ -116,6 +116,10 @@ export default defineAppConfig({
         },
       },
     },
+    breadcrumb: {
+      li: "min-w-0",
+      base: "block whitespace-nowrap truncate",
+    },
   },
   // TODO: remove on upstream fix
   // https://github.com/nuxt/ui/issues/1043

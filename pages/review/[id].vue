@@ -71,7 +71,7 @@ useSeoMeta({
 </script>
 
 <template>
-  <UContainer v-if="review">
+  <div v-if="review">
     <article class="prose mx-auto dark:prose-invert prose-img:mx-auto">
       <UBreadcrumb class="not-prose mb-3" :links="links" />
 
@@ -116,7 +116,7 @@ useSeoMeta({
         </UBadge>
       </div>
     </article>
-  </UContainer>
+  </div>
 </template>
 
 <style scoped>
