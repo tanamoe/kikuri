@@ -26,7 +26,7 @@ const isOpen = ref(false);
 
       <div v-if="title.description !== ''" class="mt-3 flex flex-col">
         <div
-          class="prose prose-sm line-clamp-4 max-w-none dark:prose-invert prose-p:ms-1 prose-p:inline"
+          class="prose prose-sm line-clamp-4 max-w-none dark:prose-invert prose-p:me-1 prose-p:inline"
           v-html="title.description"
         />
         <div

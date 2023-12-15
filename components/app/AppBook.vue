@@ -110,7 +110,7 @@ function handleAdd() {
       </div>
 
       <AppCover
-        class="relative z-10 transition-all group-hover:brightness-75"
+        class="relative z-10 transition-all group-hover:brightness-90 dark:group-hover:brightness-75"
         :name="book.expand.publication.name"
         :src="
           book.metadata?.images && Array.isArray(book.metadata.images)
