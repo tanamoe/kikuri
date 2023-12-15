@@ -15,6 +15,7 @@ import type {
   CollectionsVisibilityOptions,
   BookDetailsRecord,
   PublicationsRecord,
+  UsersResponse,
 } from "@/types/pb";
 
 /**
@@ -100,7 +101,7 @@ export type CollectionMemberResponse = {
   collectionId: string;
   userId: string;
   collection?: CollectionsRecord & BaseAPIFields;
-  user?: UsersRecord & BaseAPIFields;
+  user?: UsersResponse;
   role: CollectionMembersRoleOptions;
 };
 
