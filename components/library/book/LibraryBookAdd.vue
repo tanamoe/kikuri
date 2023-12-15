@@ -105,6 +105,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     close();
   }
 }
+
+const uiMenu = {
+  height: "max-h-20",
+};
 </script>
 
 <template>
@@ -141,6 +145,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             <USelectMenu
               v-if="collections"
               v-model="state.collection"
+              :ui-menu="uiMenu"
               :options="collections"
               value-attribute="id"
               option-attribute="label"
