@@ -18,7 +18,7 @@ const description = props.collection.description
   <ULink :to="joinURL('/library', collection.id)" class="group block">
     <UCard :ui="ui">
       <div class="space-y-4 p-4">
-        <div class="prose dark:prose-invert">
+        <div class="prose prose-sm dark:prose-invert">
           <h4
             class="decoration-primary-400 decoration-[.2rem] underline-offset-[.2rem] group-hover:underline"
           >
