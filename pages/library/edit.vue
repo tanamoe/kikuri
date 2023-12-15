@@ -80,15 +80,9 @@ useSeoMeta({
   title: t("seo.collectionTitleEdit", {
     name: collection.value.item.name,
   }),
-  description: collection.value.item.description
-    .replace(/<[^>]*>/g, "")
-    .slice(0, 200),
   ogTitle: t("seo.collectionTitleEdit", {
     name: collection.value.item.name,
   }),
-  ogDescription: collection.value.item.description
-    .replace(/<[^>]*>/g, "")
-    .slice(0, 200),
 });
 </script>
 

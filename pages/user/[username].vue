@@ -64,11 +64,21 @@ const ui = {
   wrapper: "space-y-6",
 };
 
+const description = computed(() => {
+  if (user.value?.bio) {
+    const bio = user.value.bio.replace(/<[^>]*>/g, "");
+    if (bio.length > 250) {
+      return bio.slice(0, 250) + "...";
+    }
+    return bio;
+  }
+});
+
 useSeoMeta({
   title: user.value.displayName || user.value.username,
-  description: user.value.bio.replace(/<[^>]*>/g, "").slice(0, 200),
+  description: description.value,
   ogTitle: user.value.displayName || user.value.username,
-  ogDescription: user.value.bio.replace(/<[^>]*>/g, "").slice(0, 200),
+  ogDescription: description.value,
   ogImage: user.value.avatar
     ? $pb.files.getUrl(user.value, user.value.avatar)
     : undefined,

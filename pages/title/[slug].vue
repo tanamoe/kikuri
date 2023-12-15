@@ -18,7 +18,7 @@ import {
 import type { MetadataCommon } from "@/types/common";
 
 const route = useRoute();
-const runtimeConfig = useRuntimeConfig();
+const { ogUrl } = useRuntimeConfig().public;
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 
@@ -74,29 +74,45 @@ if (!title.value)
     statusMessage: t("error.notFoundMessage"),
   });
 
-const ogImage = new URL("/title", runtimeConfig.public.ogUrl);
-ogImage.searchParams.set("name", title.value.name);
-ogImage.searchParams.set("format", title.value.expand!.format.name);
-if (title.value.expand?.demographic) {
-  ogImage.searchParams.set("demographic", title.value.expand.demographic.name);
-}
-if (title.value.expand?.genres) {
-  title.value.expand.genres.forEach((genre) =>
-    ogImage.searchParams.append("genre", genre.name),
-  );
-}
-if (title.value.cover)
-  ogImage.searchParams.set(
-    "image",
-    $pb.files.getUrl(title.value, title.value.cover),
-  );
+const ogImage = computed(() => {
+  if (title.value) {
+    const url = new URL("/title", ogUrl);
+    url.searchParams.set("name", title.value.name);
+    url.searchParams.set("format", title.value.expand!.format.name);
+    if (title.value.expand?.demographic) {
+      url.searchParams.set("demographic", title.value.expand.demographic.name);
+    }
+    if (title.value.expand?.genres) {
+      title.value.expand.genres.forEach((genre) =>
+        url.searchParams.append("genre", genre.name),
+      );
+    }
+    if (title.value.cover)
+      url.searchParams.set(
+        "image",
+        $pb.files.getUrl(title.value, title.value.cover),
+      );
+
+    return url;
+  }
+});
+
+const description = computed(() => {
+  if (title.value?.description) {
+    const desc = title.value.description.replace(/<[^>]*>/g, "");
+    if (desc.length > 250) {
+      return desc.slice(0, 250) + "...";
+    }
+    return desc;
+  }
+});
 
 useSeoMeta({
   title: title.value.name,
-  description: title.value.description.replace(/<[^>]*>/g, "").slice(0, 200),
+  description: description.value,
   ogTitle: title.value.name,
-  ogDescription: title.value.description.replace(/<[^>]*>/g, "").slice(0, 200),
-  ogImage: ogImage.toString(),
+  ogDescription: description.value,
+  ogImage: ogImage.value?.toString(),
   ogImageAlt: title.value.name,
 });
 </script>
