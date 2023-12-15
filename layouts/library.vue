@@ -2,7 +2,7 @@
 import { type UserCollectionsResponse } from "@/types/collections";
 
 const { $pb } = useNuxtApp();
-const { currentUser } = useAuthentication();
+const { currentUser, isAuthenticated } = useAuthentication();
 const { isOpen, open } = useLibraryCollectionCreate();
 
 const route = useRoute();
@@ -47,7 +47,7 @@ const overflow = computed(() => route.meta.childOverflow ?? true);
     <main class="container mx-auto min-h-[80vh] overflow-x-hidden px-6 pb-6">
       <div class="flex flex-col gap-6 sm:flex-row">
         <aside
-          v-if="links"
+          v-if="links && isAuthenticated"
           class="flex flex-shrink-0 items-center gap-1 overflow-x-auto sm:block sm:w-48"
         >
           <AppSideNavigation :links="links" />
