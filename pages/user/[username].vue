@@ -1,5 +1,4 @@
 <script setup lang="ts">
-/* eslint-disable vue/no-v-html */
 import {
   Collections,
   type CollectionsResponse,
