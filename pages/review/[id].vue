@@ -15,8 +15,6 @@ const { ogUrl } = useRuntimeConfig().public;
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 
-const { currentUser } = useAuthentication();
-
 const { data: review } = await useAsyncData(() =>
   $pb.collection(Collections.Reviews).getOne<
     ReviewsResponse<{
@@ -137,7 +135,7 @@ useSeoMeta({
           </ULink>
         </div>
         <div
-          v-if="review.user == currentUser?.id"
+          v-if="review.user == $pb.authStore.model?.id"
           class="flex items-center gap-3"
         >
           <UButton

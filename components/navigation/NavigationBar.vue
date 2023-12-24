@@ -1,16 +1,29 @@
 <script setup lang="ts">
+import type { UserCollectionsResponse } from "@/types/collections";
+
 const { t } = useI18n({ useScope: "global" });
+const { $pb } = useNuxtApp();
 const { open } = useLibraryCollectionCreate();
-const { isAuthenticated } = useAuthentication();
 const settingsStore = useSettingsStore();
 
-const firstCollection = computed(() => {
-  if (!isAuthenticated.value) {
-    return "/login";
-  }
+const { data: collections } = await useLazyAsyncData(() =>
+  $pb.send<UserCollectionsResponse>("/api/user-collections", {
+    method: "GET",
+    expand: "collection",
+  }),
+);
 
-  if (settingsStore.library.defaultLibraryId) {
-    return `/library/${settingsStore.library.defaultLibraryId}`;
+const firstCollection = computed(() => {
+  if ($pb.authStore.isAuthRecord) {
+    if (settingsStore.library.defaultLibraryId) {
+      return `/library/${settingsStore.library.defaultLibraryId}`;
+    }
+
+    if (collections.value && collections.value.items.length > 0) {
+      return `/library/${collections.value.items[0].collectionId}`;
+    }
+  } else {
+    return "/login";
   }
 });
 
@@ -53,7 +66,7 @@ withDefaults(
     >
       <div class="flex items-center justify-start gap-3">
         <div class="block lg:hidden">
-          <NavigationSidebar />
+          <LazyNavigationSidebar :links="links" />
         </div>
         <ULink
           to="/"

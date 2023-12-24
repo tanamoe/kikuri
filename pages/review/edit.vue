@@ -7,7 +7,6 @@ import { Collections, type ReviewsResponse } from "@/types/pb";
 const route = useRoute();
 const { $pb } = useNuxtApp();
 const { pending, edit, remove } = useReview();
-const { currentUser } = useAuthentication();
 const { t } = useI18n({ useScope: "global" });
 
 if (!route.query.id || Array.isArray(route.query.id)) {
@@ -30,7 +29,7 @@ if (!review.value) {
   });
 }
 
-if (review.value.user !== currentUser.value?.id) {
+if (review.value.user !== $pb.authStore.model?.id) {
   throw createError({
     statusCode: 401,
     statusMessage: t("error.unauthorizedMessage"),

@@ -2,7 +2,6 @@
 import { type UserCollectionsResponse } from "@/types/collections";
 
 const { $pb } = useNuxtApp();
-const { currentUser, isAuthenticated } = useAuthentication();
 const { isOpen, open } = useLibraryCollectionCreate();
 
 const route = useRoute();
@@ -10,7 +9,7 @@ const route = useRoute();
 const { data: links } = await useAsyncData(
   () =>
     $pb.send<UserCollectionsResponse>(
-      `/api/user-collections/${currentUser.value?.id}`,
+      `/api/user-collections/${$pb.authStore.model?.id}`,
       {
         method: "GET",
         expand: "collection",
@@ -37,7 +36,6 @@ const { data: links } = await useAsyncData(
 );
 
 const sticky = computed(() => route.meta.stickyNav as boolean);
-const overflow = computed(() => route.meta.childOverflow ?? true);
 </script>
 
 <template>
@@ -47,7 +45,7 @@ const overflow = computed(() => route.meta.childOverflow ?? true);
     <main class="container mx-auto min-h-[80vh] overflow-x-hidden px-6 pb-6">
       <div class="flex flex-col gap-6 sm:flex-row">
         <aside
-          v-if="links && isAuthenticated"
+          v-if="links && $pb.authStore.isAuthRecord"
           class="flex flex-shrink-0 items-center gap-1 overflow-x-auto sm:block sm:w-48"
         >
           <AppSideNavigation :links="links" />
@@ -62,7 +60,7 @@ const overflow = computed(() => route.meta.childOverflow ?? true);
             {{ $t("library.createCollection") }}
           </UButton>
         </aside>
-        <div class="flex-1" :class="{ 'overflow-x-auto': overflow }">
+        <div class="flex-1">
           <slot />
         </div>
       </div>

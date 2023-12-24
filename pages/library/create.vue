@@ -6,15 +6,15 @@ import type {
 } from "@nuxt/ui/dist/runtime/types";
 import { CollectionsVisibilityOptions } from "@/types/pb";
 
+const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
-const { currentUser } = useAuthentication();
 const { collectionVisibility } = useOptions();
 const { pending, create } = useLibraryCollection();
 
 const links = computed<BreadcrumbLink[]>(() => [
   {
-    label: currentUser.value!.displayName || currentUser.value!.username,
-    to: `/user/${currentUser.value!.username}`,
+    label: $pb.authStore.model!.displayName || $pb.authStore.model!.username,
+    to: `/user/${$pb.authStore.model!.username}`,
   },
   {
     label: t("general.library"),
@@ -46,7 +46,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
 definePageMeta({
   layout: "library",
-  childOverflow: false,
   middleware: "auth",
 });
 

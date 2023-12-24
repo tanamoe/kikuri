@@ -11,13 +11,12 @@ import type {
   LibraryCollectionRemove,
 } from "#build/components";
 
+const route = useRoute();
+const settingsStore = useSettingsStore();
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const { ogUrl } = useRuntimeConfig().public;
-const route = useRoute();
-const { currentUser } = useAuthentication();
 const { collectionVisibility } = useOptions();
-const settingsStore = useSettingsStore();
 
 const { data: collection } = await useAsyncData(() =>
   $pb.send<UserCollectionResponse>(
@@ -53,10 +52,10 @@ const collectionRemoveModal =
   ref<InstanceType<typeof LibraryCollectionRemove>>();
 
 const editable = computed(() => {
-  if (!currentUser.value) return false;
+  if (!$pb.authStore.isAuthRecord) return false;
 
   const m = members.value?.items.find(
-    (member) => member.userId === currentUser.value!.id,
+    (member) => member.userId === $pb.authStore.model?.id,
   );
 
   if (!m) return false;

@@ -2,7 +2,7 @@
 import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 import { z } from "zod";
 
-const { currentUser } = useAuthentication();
+const { $pb } = useNuxtApp();
 const { pending, update } = useUpdateAccount();
 const { t } = useI18n({ useScope: "global" });
 
@@ -27,7 +27,7 @@ const state = ref({
 });
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  await update({ id: currentUser.value!.id, record: event.data });
+  await update({ id: $pb.authStore.model!.id, record: event.data });
 }
 
 definePageMeta({

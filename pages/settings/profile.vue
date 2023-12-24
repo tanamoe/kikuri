@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { z } from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
+import type { UsersResponse } from "@/types/pb";
 
+const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const { pending, update } = useUpdateAccount();
-
-const { currentUser } = useAuthentication();
 
 const schema = z.object({
   displayName: z
@@ -19,24 +19,23 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>;
 
-const state = ref<{
-  displayName: string;
-  bio: string;
-  avatar: string | File;
-  banner: string | File;
-}>({
-  displayName: currentUser.value!.displayName,
-  bio: currentUser.value!.bio,
-  avatar: currentUser.value!.avatar,
-  banner: currentUser.value!.banner,
+const state = ref({
+  displayName: $pb.authStore.model?.displayName,
+  bio: $pb.authStore.model?.bio,
+  avatar: $pb.authStore.model?.avatar,
+  banner: $pb.authStore.model?.banner,
 });
+
+const currentUser = ref($pb.authStore.model as UsersResponse);
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const res = await update({
-    id: currentUser.value!.id,
+    id: $pb.authStore.model!.id,
     record: event.data,
   });
-  if (res) currentUser.value = res;
+  if (res) {
+    currentUser.value = res;
+  }
 }
 
 definePageMeta({
@@ -46,7 +45,10 @@ definePageMeta({
 </script>
 
 <template>
-  <div v-if="currentUser" class="flex flex-col gap-6 lg:flex-row-reverse">
+  <div
+    v-if="$pb.authStore.isAuthRecord"
+    class="flex flex-col gap-6 lg:flex-row-reverse"
+  >
     <PageSettingsProfilePreview
       :user="currentUser"
       @change:avatar="(avatar) => (state.avatar = avatar)"

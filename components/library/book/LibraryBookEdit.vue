@@ -6,7 +6,6 @@ import type { UserCollectionBookResponse } from "@/types/collections";
 
 const { pending, update } = useLibraryBook();
 const { collectionBookStatus } = useOptions();
-const { isAuthenticated } = useAuthentication();
 
 const emit = defineEmits<{
   update: [UserCollectionBookResponse];
@@ -70,7 +69,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-  <UModal v-if="isAuthenticated && book" v-model="isOpen">
+  <UModal v-if="$pb.authStore.isAuthRecord && book" v-model="isOpen">
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <template #header>
         <div class="flex items-center justify-between">

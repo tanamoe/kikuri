@@ -1,30 +1,14 @@
 <script setup lang="ts">
-import type { UserCollectionsResponse } from "@/types/collections";
-
-const { $pb } = useNuxtApp();
-const settingsStore = useSettingsStore();
-const { isAuthenticated } = useAuthentication();
-
-const { data: collections } = await useLazyAsyncData(() =>
-  $pb.send<UserCollectionsResponse>("/api/user-collections", {
-    method: "GET",
-    expand: "collection",
-  }),
-);
+defineProps<{
+  links: {
+    label: string;
+    badge?: string;
+    to?: string;
+    click?: () => void;
+  }[];
+}>();
 
 const isOpen = ref(false);
-
-const firstCollection = computed(() => {
-  if (!isAuthenticated.value) {
-    return "/login";
-  }
-
-  if (settingsStore.library.defaultLibraryId) {
-    return `/library/${settingsStore.library.defaultLibraryId}`;
-  } else if (collections.value?.items[0]?.collectionId) {
-    return `/library/${collections.value.items[0].collectionId}`;
-  }
-});
 </script>
 
 <template>
@@ -53,20 +37,14 @@ const firstCollection = computed(() => {
         />
       </div>
       <ul class="mt-12 space-y-2 font-lexend text-2xl font-bold">
-        <li>
-          <NuxtLink to="/calendar">
-            {{ $t("general.releaseCalendar") }}
-          </NuxtLink>
-        </li>
-        <li>
-          <NuxtLink to="/browse">
-            {{ $t("general.browse") }}
-          </NuxtLink>
-        </li>
-        <li>
-          <NuxtLink :to="firstCollection" class="flex items-center gap-3">
-            {{ $t("general.library") }}
-            <UBadge>{{ $t("general.new") }}</UBadge>
+        <li v-for="link in links" :key="link.label">
+          <NuxtLink
+            :to="link.to"
+            class="flex items-center gap-3"
+            @click="link.click"
+          >
+            {{ link.label }}
+            <UBadge v-if="link.badge">{{ link.badge }}</UBadge>
           </NuxtLink>
         </li>
       </ul>

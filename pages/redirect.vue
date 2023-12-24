@@ -7,10 +7,13 @@ const { query } = useRoute();
 const { t } = useI18n({ useScope: "global" });
 const authProvider = useCookie<AuthProviderInfo>("auth_provider");
 
-if (!query.code) navigateTo("/");
+if (!query.code) {
+  await navigateTo("/");
+}
 
-if (authProvider.value.state !== query.state)
+if (authProvider.value.state !== query.state) {
   throw createError(t("auth.oauthInvalidState"));
+}
 
 const res = await loginWithOAuth2(
   authProvider.value.name,
@@ -19,7 +22,9 @@ const res = await loginWithOAuth2(
   joinURL(runtimeConfig.public.siteUrl, "redirect"),
 );
 
-if (res) navigateTo("/");
+if (res) {
+  await navigateTo("/");
+}
 
 definePageMeta({
   middleware: ["guest"],

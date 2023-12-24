@@ -3,15 +3,16 @@ import { joinURL } from "ufo";
 
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
-
-const { isAuthenticated, currentUser, logout } = useAuthentication();
+const { logout } = useAuthentication();
 
 const avatar = computed(() => {
-  return currentUser.value?.avatar !== ""
-    ? $pb.files.getUrl(currentUser.value!, currentUser.value!.avatar, {
-        thumb: "32x32",
-      })
-    : "/avatar.jpg";
+  if ($pb.authStore.model && $pb.authStore.model.avatar !== "") {
+    return $pb.files.getUrl($pb.authStore.model, $pb.authStore.model.avatar, {
+      thumb: "32x32",
+    });
+  }
+
+  return "/avatar.jpg";
 });
 
 const authenticatedItems = computed(() => [
@@ -21,8 +22,8 @@ const authenticatedItems = computed(() => [
       avatar: {
         src: avatar.value,
       },
-      to: currentUser.value
-        ? joinURL("/user", currentUser.value.username)
+      to: $pb.authStore.model
+        ? joinURL("/user", $pb.authStore.model.username)
         : undefined,
     },
   ],
@@ -71,7 +72,7 @@ const ui = {
 
 <template>
   <UDropdown
-    v-if="isAuthenticated"
+    v-if="$pb.authStore.isAuthRecord"
     :items="authenticatedItems"
     :popper="{ placement: 'bottom-end' }"
     :ui="ui"
