@@ -1,11 +1,9 @@
 import PocketBase, { type AuthModel } from "pocketbase";
-import type { TypedPocketBase } from "~/types/pb";
+import { Collections, type TypedPocketBase } from "@/types/pb";
 
 export default defineNuxtPlugin(async () => {
-  const runtimeConfig = useRuntimeConfig();
-  const pb = new PocketBase(
-    runtimeConfig.public.pocketbaseUrl,
-  ) as TypedPocketBase;
+  const { pocketbaseUrl } = useRuntimeConfig().public;
+  const pb = new PocketBase(pocketbaseUrl) as TypedPocketBase;
 
   const cookie = useCookie<{
     token: string;
@@ -31,7 +29,9 @@ export default defineNuxtPlugin(async () => {
 
   try {
     // get an up-to-date auth store state by verifying and refreshing the loaded auth model (if any)
-    pb.authStore.isValid && (await pb.collection("users").authRefresh());
+    if (pb.authStore.isValid) {
+      await pb.collection(Collections.Users).authRefresh();
+    }
   } catch (_) {
     // clear the auth store on failed refresh
     pb.authStore.clear();

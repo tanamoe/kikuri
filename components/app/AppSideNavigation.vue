@@ -1,6 +1,4 @@
 <script setup lang="ts">
-const { isAuthenticated } = useAuthentication();
-
 defineProps<{
   links: {
     authenticated?: boolean;
@@ -18,7 +16,9 @@ defineProps<{
       <template v-for="link in group" :key="link.to">
         <UButton
           v-if="
-            link.authenticated ? link.authenticated == isAuthenticated : true
+            typeof link.authenticated !== 'undefined'
+              ? link.authenticated === $pb.authStore.isAuthRecord
+              : true
           "
           active-class="bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100"
           :to="link.to"

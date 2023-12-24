@@ -10,7 +10,6 @@ import { CollectionBooksStatusOptions } from "@/types/pb";
 const { $pb } = useNuxtApp();
 const { pending, update } = useLibraryBook();
 const { collectionBookStatus } = useOptions();
-const { isAuthenticated, currentUser } = useAuthentication();
 const { open: createOpen } = useLibraryCollectionCreate();
 const settingsStore = useSettingsStore();
 
@@ -29,7 +28,7 @@ const inCollections = ref<string[]>([]);
 const { data: collections } = await useLazyAsyncData(
   () =>
     $pb.send<UserCollectionsResponse>(
-      `/api/user-collections/${currentUser.value?.id}`,
+      `/api/user-collections/${$pb.authStore.model?.id}`,
       {
         method: "GET",
         expand: "collection",
@@ -42,7 +41,7 @@ const { data: collections } = await useLazyAsyncData(
         label: collection.collection?.name,
         disabled: inCollections.value.includes(collection.collectionId),
       })),
-    watch: [currentUser, inCollections, isOpen],
+    watch: [() => $pb.authStore, inCollections, isOpen],
   },
 );
 
@@ -57,6 +56,7 @@ const book = ref<{
   id?: string;
   name?: string;
 }>({});
+
 const state = ref<Partial<Schema>>({
   collection: settingsStore.library.defaultLibraryId,
   quantity: 1,
@@ -112,7 +112,7 @@ const uiMenu = {
 </script>
 
 <template>
-  <UModal v-if="isAuthenticated && book" v-model="isOpen">
+  <UModal v-if="$pb.authStore.isAuthRecord && book" v-model="isOpen">
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <template #header>
         <div class="flex items-center justify-between">

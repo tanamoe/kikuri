@@ -3,7 +3,6 @@ import { joinURL } from "ufo";
 import type { BookDetailsCommon } from "@/types/common";
 import type { LibraryBookAdd } from "#build/components";
 
-const { currentUser } = useAuthentication();
 const store = useSettingsStore();
 
 const ui = {
@@ -57,7 +56,7 @@ function handleAdd() {
       </UBadge>
 
       <div
-        v-if="currentUser"
+        v-if="$pb.authStore.isAuthRecord"
         class="absolute bottom-2 right-2 z-20 flex items-center gap-1"
       >
         <UPopover v-if="book.metadata?.inCollections">

@@ -2,10 +2,9 @@
 import { z } from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 
+const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const { pending, requestEmailChange } = useUpdateAccount();
-
-const { currentUser } = useAuthentication();
 
 const schema = z.object({
   email: z.string().email(t("error.account.emailInvalid")),
@@ -14,7 +13,7 @@ const schema = z.object({
 type Schema = z.output<typeof schema>;
 
 const state = ref({
-  email: currentUser.value!.email,
+  email: $pb.authStore.model?.email,
 });
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {

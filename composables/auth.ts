@@ -8,17 +8,6 @@ export function useAuthentication() {
 
   const pending = useState(() => false);
 
-  const isAuthenticated = useState(() => $pb.authStore.isAuthRecord);
-
-  const currentUser = useState(
-    () => $pb.authStore.model as UsersResponse | null,
-  );
-
-  $pb.authStore.onChange(() => {
-    isAuthenticated.value = $pb.authStore.isAuthRecord;
-    currentUser.value = $pb.authStore.model as UsersResponse | null;
-  });
-
   async function register(args: {
     username: string;
     email: string;
@@ -134,8 +123,6 @@ export function useAuthentication() {
 
   return {
     pending,
-    isAuthenticated,
-    currentUser,
     register,
     login,
     logout,

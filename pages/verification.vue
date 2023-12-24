@@ -1,6 +1,14 @@
 <script setup lang="ts">
-const { currentUser } = useAuthentication();
+const { $pb } = useNuxtApp();
 const { pending, requestEmail } = useRequestVerification();
+
+async function handleRequestEmail() {
+  if ($pb.authStore.model) {
+    await requestEmail({
+      email: $pb.authStore.model.email,
+    });
+  }
+}
 
 definePageMeta({
   middleware: "auth",
@@ -17,15 +25,7 @@ definePageMeta({
       <AppH1 class="mb-6">{{ $t("account.verify") }}</AppH1>
       <p class="mb-6">{{ $t("account.verifyDescription") }}</p>
       <div class="space-y-2">
-        <UButton
-          :loading="pending"
-          block
-          @click="
-            requestEmail({
-              email: currentUser!.email,
-            })
-          "
-        >
+        <UButton :loading="pending" block @click="handleRequestEmail">
           {{ $t("account.sendVerificationEmail") }}
         </UButton>
         <UButton color="gray" to="/" block>

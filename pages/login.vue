@@ -7,15 +7,13 @@ import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const { pending, login } = useAuthentication();
-const runtimeConfig = useRuntimeConfig();
+const { siteUrl } = useRuntimeConfig().public;
 const authProvider = useCookie<AuthProviderInfo>("auth_provider");
 
 const { data: authMethods, pending: authPending } = await useLazyAsyncData(
   () => $pb.collection("users").listAuthMethods(),
   { server: false },
 );
-
-const redirectUrl = joinURL(runtimeConfig.public.siteUrl, "redirect");
 
 const schema = z.object({
   user: z
@@ -28,19 +26,29 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>;
 
-const state = ref<Schema>({
-  user: "",
-  password: "",
+const state = ref({
+  user: undefined,
+  password: undefined,
 });
+
+const redirectUrl = joinURL(siteUrl, "redirect");
+
+const ui = {
+  color: {
+    gray: {
+      solid: "ring-0 bg-gray-200 dark:bg-gray-700",
+    },
+  },
+};
 
 async function submit(event: FormSubmitEvent<Schema>) {
   await login(event.data);
 }
 
-function parseIcon(name: string) {
+function getIcon(name: string) {
   switch (name) {
     case "twitter":
-      return "i-simple-icons-x";
+      return "i-simple-icons-twitter";
     case "discord":
       return "i-simple-icons-discord";
     case "facebook":
@@ -142,22 +150,16 @@ definePageMeta({
               :key="provider.name"
             >
               <UButton
-                :icon="parseIcon(provider.name)"
+                :icon="getIcon(provider.name)"
                 color="gray"
                 block
-                :ui="{
-                  color: {
-                    gray: {
-                      solid: 'ring-0 bg-gray-200 dark:bg-gray-700',
-                    },
-                  },
-                }"
+                :ui="ui"
                 :to="provider.authUrl + redirectUrl"
                 @click="authProvider = provider"
               >
                 {{
                   $t("auth.loginWith", {
-                    name: $t(`provider.${provider.name}`),
+                    name: provider.displayName,
                   })
                 }}
               </UButton>

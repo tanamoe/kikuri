@@ -2,10 +2,9 @@
 import { z } from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 
+const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const { pending, update } = useUpdateAccount();
-
-const { currentUser } = useAuthentication();
 
 const schema = z.object({
   username: z
@@ -18,12 +17,11 @@ const schema = z.object({
 type Schema = z.output<typeof schema>;
 
 const state = ref({
-  username: currentUser.value!.username,
+  username: $pb.authStore.model?.username,
 });
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  const res = await update({ id: currentUser.value!.id, record: event.data });
-  if (res) currentUser.value = res;
+  await update({ id: $pb.authStore.model!.id, record: event.data });
 }
 
 definePageMeta({

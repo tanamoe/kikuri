@@ -4,7 +4,6 @@ import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
 import { CollectionsVisibilityOptions } from "@/types/pb";
 
 const { t } = useI18n({ useScope: "global" });
-const { isAuthenticated } = useAuthentication();
 const { collectionVisibility } = useOptions();
 const { pending, create } = useLibraryCollection();
 const { isOpen, close } = useLibraryCollectionCreate();
@@ -35,7 +34,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 </script>
 
 <template>
-  <UModal v-if="isAuthenticated" v-model="isOpen">
+  <UModal v-if="$pb.authStore.isAuthRecord" v-model="isOpen">
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <template #header>
         <div class="flex items-center justify-between">

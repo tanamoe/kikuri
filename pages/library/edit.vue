@@ -11,7 +11,6 @@ import type { UserCollectionResponse } from "@/types/collections";
 const route = useRoute();
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
-const { currentUser } = useAuthentication();
 const { collectionVisibility } = useOptions();
 const { pending, edit } = useLibraryCollection();
 
@@ -31,7 +30,7 @@ if (!collection.value) throw createError({ statusCode: 404 });
 
 const links = computed<BreadcrumbLink[]>(() => [
   {
-    label: currentUser.value!.displayName || currentUser.value!.username,
+    label: $pb.authStore.model!.displayName || $pb.authStore.model!.username,
     to: collection.value?.item.owner
       ? `/user/${collection.value.item.owner.username}`
       : undefined,
@@ -72,7 +71,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
 definePageMeta({
   layout: "library",
-  childOverflow: false,
   middleware: "auth",
 });
 
