@@ -12,6 +12,7 @@ const route = useRoute();
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const { collectionVisibility } = useOptions();
+const { update } = useLibrary();
 const { pending, edit } = useLibraryCollection();
 
 if (!route.query.id || Array.isArray(route.query.id)) {
@@ -63,10 +64,15 @@ const currentVisibility = computed(() =>
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   if (!collection.value) return;
 
-  await edit(collection.value.item.id, {
+  const res = await edit(collection.value.item.id, {
     ...event.data,
     description: content.value,
   });
+
+  if (res?.success) {
+    await update();
+    await navigateTo(joinURL("/library", res.item.id));
+  }
 }
 
 definePageMeta({

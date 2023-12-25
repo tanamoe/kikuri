@@ -1,25 +1,13 @@
 <script setup lang="ts">
-import type { UserCollectionsResponse } from "@/types/collections";
-
-const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
+const { collections } = useLibrary();
 const store = useSettingsStore();
 
-const { data: collections, pending } = await useLazyAsyncData(
-  () =>
-    $pb.send<UserCollectionsResponse>("/api/user-collections", {
-      method: "GET",
-      expand: "collection",
-    }),
-  {
-    transform: (collections) =>
-      collections.items.map((collection) => ({
-        id: collection.collectionId,
-        name: collection.collection!.name,
-      })),
-    default: () => [],
-    server: false,
-  },
+const c = computed(() =>
+  collections.value.map((collection) => ({
+    id: collection.collectionId,
+    name: collection.collection!.name,
+  })),
 );
 
 const columns = computed(() => [
@@ -62,7 +50,7 @@ const columns = computed(() => [
 ]);
 
 const selectedCollection = computed(() =>
-  collections.value.find(
+  c.value.find(
     (collection) => collection.id === store.library.defaultLibraryId,
   ),
 );
@@ -81,8 +69,7 @@ definePageMeta({
     >
       <USelectMenu
         v-model="store.library.defaultLibraryId"
-        :loading="pending"
-        :options="collections"
+        :options="c"
         :disabled="collections.length == 0"
         value-attribute="id"
         option-attribute="name"

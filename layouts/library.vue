@@ -1,39 +1,25 @@
 <script setup lang="ts">
-import { type UserCollectionsResponse } from "@/types/collections";
-
 const { $pb } = useNuxtApp();
-const { isOpen, open } = useLibraryCollectionCreate();
+const { open } = useLibraryCollectionCreate();
 
 const route = useRoute();
+const { collections } = useLibrary();
 
-const { data: links } = await useAsyncData(
-  () =>
-    $pb.send<UserCollectionsResponse>(
-      `/api/user-collections/${$pb.authStore.model?.id}`,
-      {
-        method: "GET",
-        expand: "collection",
-      },
-    ),
-  {
-    watch: [isOpen],
-    transform: (collections) => [
-      collections.items.map(
-        (
-          item,
-        ): {
-          icon?: string;
-          label: string;
-          to?: string;
-          click?: () => void;
-        } => ({
-          label: item.collection!.name,
-          to: item.collection!.id,
-        }),
-      ),
-    ],
-  },
-);
+const links = computed(() => [
+  collections.value.map(
+    (
+      item,
+    ): {
+      icon?: string;
+      label: string;
+      to?: string;
+      click?: () => void;
+    } => ({
+      label: item.collection!.name,
+      to: item.collection!.id,
+    }),
+  ),
+]);
 
 const sticky = computed(() => route.meta.stickyNav as boolean);
 </script>

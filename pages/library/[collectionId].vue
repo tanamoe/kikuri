@@ -193,9 +193,8 @@ useSeoMeta({
   <div v-if="collection">
     <UBreadcrumb class="mb-3" :links="links" />
 
-    <div class="flex flex-col sm:flex-row">
-      <AppH1 class="flex-1">{{ collection.item.name }}</AppH1>
-      <div class="flex h-min items-center justify-end gap-3">
+    <div>
+      <div class="float-right flex h-min items-center justify-end gap-3">
         <AppShareButton :title="collection.item.name" show-label />
         <UDropdown
           v-if="editable"
@@ -208,6 +207,7 @@ useSeoMeta({
           />
         </UDropdown>
       </div>
+      <AppH1>{{ collection.item.name }}</AppH1>
     </div>
 
     <div class="prose prose-sm mb-6 max-w-none space-y-2 dark:prose-invert">
@@ -242,14 +242,16 @@ useSeoMeta({
       </div>
     </div>
 
-    <PageLibraryBooks
-      v-if="books"
-      :edit-modal="editModal"
-      :remove-modal="removeModal"
-      :editable="editable"
-      :books="books"
-      @update="refresh"
-    />
+    <ClientOnly>
+      <PageLibraryBooks
+        v-if="books"
+        :edit-modal="editModal"
+        :remove-modal="removeModal"
+        :editable="editable"
+        :books="books"
+        @update="refresh"
+      />
+    </ClientOnly>
 
     <LazyLibraryBookEdit ref="editModal" @update="refresh()" />
     <LazyLibraryBookRemove ref="removeModal" @update="refresh()" />
