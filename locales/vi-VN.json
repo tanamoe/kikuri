@@ -180,7 +180,7 @@
     "oauthPending": "Đang kiểm tra để hoàn tất đăng nhập...",
     "oauthStuck": "Kẹt? Đăng nhập lại",
     "loginWith": "Đăng nhập với {name}",
-    "loginPrivacyPolicy": "Khi đăng nhập qua bên thứ ba, bạn đồng ý với {0} và {1} của Tana.moe.",
+    "loginPrivacyPolicy": "Khi đăng nhập qua bên thứ ba, bạn đồng ý với {0} và {1} của Tana.moe và bên cung cấp dịch vụ.",
     "registerPrivacyPolicy": "Khi đăng ký tài khoản, bạn đồng ý với {0} và {1} của Tana.moe."
   },
   "settings": {
