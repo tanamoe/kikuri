@@ -2,15 +2,16 @@
 title: "Chính sách bảo mật"
 ---
 
-Tana.moe cam kết bảo vệ sự riêng tư của người dùng. Chính sách bảo mật này trình bày các thực tiễn của chúng tôi liên quan đến việc thu thập, sử dụng và tiết lộ thông tin cá nhân mà chúng tôi nhận được từ người dùng trên trang web của chúng tôi.
+Khi đăng ký tài khoản trên website, Tana.moe cam kết bảo vệ sự riêng tư của người dùng. Chính sách bảo mật này trình bày các thực tiễn của Tana.moe về thu thập, sử dụng và tiết lộ thông tin cá nhân nhận được từ người dùng trên trang web.
 
 ### Thu thập và sử dụng thông tin
 
-Chúng tôi có thể thu thập các loại thông tin cá nhân sau khi bạn đăng ký tài khoản trên Tana.moe:
+Tana.moe thu thập các loại thông tin cá nhân sau khi bạn đăng ký tài khoản trên trang web:
 
 - Địa chỉ email
+- Thông tin tài khoản (bao gồm tên tài khoản) khi đăng ký qua bên thứ ba
 
-Chúng tôi sẽ không sử dụng địa chỉ email của bạn cho bất kỳ mục đích nào khác ngoài việc xác minh tài khoản của bạn, liên lạc với bạn về tài khoản của bạn hoặc gửi cho bạn các bản cập nhật quan trọng về Tana.moe.
+Chúng tôi sẽ không sử dụng địa chỉ email của bạn cho bất kỳ mục đích nào khác ngoài việc xác minh tài khoản, liên lạc với bạn về tài khoản của bạn hoặc gửi cho bạn các bản cập nhật quan trọng về Tana.moe.
 
 ### Chia sẻ và tiết lộ thông tin
 
