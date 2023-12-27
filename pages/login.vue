@@ -166,6 +166,19 @@ definePageMeta({
             </li>
           </ul>
         </div>
+
+        <i18n-t
+          keypath="auth.loginPrivacyPolicy"
+          tag="p"
+          class="prose prose-sm text-gray-600 dark:prose-invert dark:text-gray-400"
+        >
+          <nuxt-link to="/terms-of-service">
+            {{ $t("general.termsOfService") }}
+          </nuxt-link>
+          <nuxt-link to="/privacy-policy">
+            {{ $t("general.privacyPolicy") }}
+          </nuxt-link>
+        </i18n-t>
       </div>
     </div>
   </div>

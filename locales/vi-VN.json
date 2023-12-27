@@ -85,7 +85,9 @@
     "clear": "Đặt lại",
     "new": "Mới",
     "share": "Chia sẻ",
-    "missingBooks": "Thiếu truyện?"
+    "missingBooks": "Thiếu truyện?",
+    "termsOfService": "Điều khoản sử dụng",
+    "privacyPolicy": "Chính sách bảo mật"
   },
   "status": {
     "waitingForApproval": "Chờ duyệt",
@@ -177,7 +179,9 @@
     "oauthInvalidState": "Tham biến trạng thái không phù hợp",
     "oauthPending": "Đang kiểm tra để hoàn tất đăng nhập...",
     "oauthStuck": "Kẹt? Đăng nhập lại",
-    "loginWith": "Đăng nhập với {name}"
+    "loginWith": "Đăng nhập với {name}",
+    "loginPrivacyPolicy": "Khi đăng nhập qua bên thứ ba, bạn đồng ý với {0} và {1} của Tana.moe và bên cung cấp dịch vụ.",
+    "registerPrivacyPolicy": "Khi đăng ký tài khoản, bạn đồng ý với {0} và {1} của Tana.moe."
   },
   "settings": {
     "profile": "Cá nhân",
