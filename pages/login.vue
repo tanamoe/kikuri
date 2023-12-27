@@ -33,14 +33,6 @@ const state = ref({
 
 const redirectUrl = joinURL(siteUrl, "redirect");
 
-const ui = {
-  color: {
-    gray: {
-      solid: "ring-0 bg-gray-200 dark:bg-gray-700",
-    },
-  },
-};
-
 async function submit(event: FormSubmitEvent<Schema>) {
   await login(event.data);
 }
@@ -132,15 +124,15 @@ definePageMeta({
         <div>
           <div v-if="authPending" class="space-y-3">
             <USkeleton
-              class="h-8 w-full"
+              class="h-10 w-full"
               :ui="{ background: 'bg-gray-200 dark:bg-gray-700' }"
             />
             <USkeleton
-              class="h-8 w-full"
+              class="h-10 w-full"
               :ui="{ background: 'bg-gray-200 dark:bg-gray-700' }"
             />
             <USkeleton
-              class="h-8 w-full"
+              class="h-10 w-full"
               :ui="{ background: 'bg-gray-200 dark:bg-gray-700' }"
             />
           </div>
@@ -149,11 +141,19 @@ definePageMeta({
               v-for="provider in authMethods.authProviders"
               :key="provider.name"
             >
-              <UButton
+              <AppSignInGoogleButton
+                v-if="provider.name === 'google'"
+                :to="provider.authUrl + redirectUrl"
+                @click="authProvider = provider"
+              />
+              <AppSignInDiscordButton
+                v-else-if="provider.name === 'discord'"
+                :to="provider.authUrl + redirectUrl"
+                @click="authProvider = provider"
+              />
+              <AppSignInButton
+                v-else
                 :icon="getIcon(provider.name)"
-                color="gray"
-                block
-                :ui="ui"
                 :to="provider.authUrl + redirectUrl"
                 @click="authProvider = provider"
               >
@@ -162,7 +162,7 @@ definePageMeta({
                     name: provider.displayName,
                   })
                 }}
-              </UButton>
+              </AppSignInButton>
             </li>
           </ul>
         </div>
