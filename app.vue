@@ -3,6 +3,9 @@ const { ogUrl, umamiUrl, umamiSiteId, fbAppId } = useRuntimeConfig().public;
 const i18nHead = useLocaleHead({
   addSeoAttributes: true,
 });
+const { update } = useLibrary();
+
+await callOnce(update);
 
 useHead({
   htmlAttrs: {

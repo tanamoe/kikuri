@@ -3,7 +3,6 @@ import { joinURL } from "ufo";
 
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
-const { logout } = useAuthentication();
 
 const avatar = computed(() => {
   if ($pb.authStore.model && $pb.authStore.model.avatar !== "") {
@@ -38,7 +37,7 @@ const authenticatedItems = computed(() => [
     {
       label: t("account.logout"),
       icon: "i-fluent-sign-out-20-filled",
-      click: logout,
+      to: "/logout",
     },
   ],
 ]);

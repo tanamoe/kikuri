@@ -86,11 +86,6 @@ export function useAuthentication() {
     }
   }
 
-  function logout() {
-    $pb.authStore.clear();
-    return navigateTo("/");
-  }
-
   async function requestPasswordReset(args: { email: string }) {
     const { email } = args;
 
@@ -125,7 +120,6 @@ export function useAuthentication() {
     pending,
     register,
     login,
-    logout,
     requestPasswordReset,
   };
 }
