@@ -5,7 +5,9 @@ const i18nHead = useLocaleHead({
 });
 const { update } = useLibrary();
 
-await callOnce(update);
+onMounted(async () => {
+  await callOnce(update);
+});
 
 useHead({
   htmlAttrs: {
