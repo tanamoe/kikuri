@@ -12,7 +12,6 @@ export type DisplaySettings = {
 
 export type LibrarySettings = {
   defaultLibraryId?: string;
-  columns: string[];
 };
 
 export const useSettingsStore = defineStore(
@@ -30,17 +29,6 @@ export const useSettingsStore = defineStore(
 
     const library = ref<LibrarySettings>({
       defaultLibraryId: undefined,
-      columns: [
-        "cover",
-        "name",
-        "quantity",
-        "price",
-        "publishDate",
-        "status",
-        "created",
-        "updated",
-        "actions",
-      ],
     });
 
     $pb.authStore.onChange(async () => {

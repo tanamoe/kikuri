@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const { t } = useI18n({ useScope: "global" });
 const { collections } = useLibrary();
 const store = useSettingsStore();
 
@@ -9,45 +8,6 @@ const c = computed(() =>
     name: collection.collection!.name,
   })),
 );
-
-const columns = computed(() => [
-  {
-    id: "cover",
-    label: t("general.coverImages"),
-  },
-  {
-    id: "name",
-    label: t("general.title"),
-  },
-  {
-    id: "quantity",
-    label: t("general.quantity"),
-  },
-  {
-    id: "price",
-    label: t("general.price"),
-  },
-  {
-    id: "publishDate",
-    label: t("general.publishDate"),
-  },
-  {
-    id: "status",
-    label: t("general.status"),
-  },
-  {
-    id: "created",
-    label: t("library.created"),
-  },
-  {
-    id: "updated",
-    label: t("library.updated"),
-  },
-  {
-    id: "actions",
-    label: t("library.actions"),
-  },
-]);
 
 const selectedCollection = computed(() =>
   c.value.find(
@@ -90,23 +50,6 @@ definePageMeta({
           {{ $t("general.clear") }}
         </UButton>
       </div>
-    </UFormGroup>
-    <UFormGroup name="libraryColumns" :label="$t('settings.libraryColumns')">
-      <USelectMenu
-        v-model="store.library.columns"
-        :options="columns"
-        value-attribute="id"
-        option-attribute="label"
-        multiple
-      >
-        <template #label>
-          <span>
-            {{
-              $t("settings.columns", { count: store.library.columns.length })
-            }}
-          </span>
-        </template>
-      </USelectMenu>
     </UFormGroup>
   </form>
 </template>
