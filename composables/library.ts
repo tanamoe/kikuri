@@ -37,7 +37,7 @@ export function useLibrary() {
 
   $pb.authStore.onChange(async () => {
     await update();
-  }, true);
+  });
 
   return { collections, update };
 }
