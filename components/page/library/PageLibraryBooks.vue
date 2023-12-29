@@ -1,43 +1,64 @@
 <script setup lang="ts">
+import MiniSearch from "minisearch";
 import type { LibraryBookEdit, LibraryBookRemove } from "#build/components";
-import type { UserCollectionBooksResponse } from "@/types/collections";
+import type { CollectionBooksStatusOptions } from "@/types/pb";
 
-const { $pb } = useNuxtApp();
+type Book = {
+  id: string;
+  cover: string | undefined;
+  name: string;
+  edition: string | undefined;
+  digital: boolean | undefined;
+  publishDate: string | undefined;
+  quantity: number;
+  price: number | undefined;
+  status: CollectionBooksStatusOptions;
+  collection: string;
+};
 
 const props = defineProps<{
   editModal?: InstanceType<typeof LibraryBookEdit>;
   removeModal?: InstanceType<typeof LibraryBookRemove>;
-  books: UserCollectionBooksResponse;
+  books: Book[];
   editable: boolean;
 }>();
+
+const miniSearch = new MiniSearch({
+  fields: ["normalizedName"],
+  searchOptions: {
+    fuzzy: 0.1,
+    prefix: true,
+  },
+});
+
+miniSearch.addAll(
+  props.books.map(({ id, name }) => ({
+    id,
+    name,
+    normalizedName: normalize(name),
+  })),
+);
 
 const query = ref("");
 const queryDebounced = refDebounced(query, 500);
 
-const rows = computed(() => {
-  return props.books.items.map((item) => ({
-    id: item.id,
-    cover: item.book?.covers
-      ? $pb.files.getUrl(
-          {
-            collectionId: item.book!.parentCollection,
-            id: item.book!.parentId,
-          },
-          item.book!.covers[0],
-        )
-      : undefined,
-    name: item.book!.publication.name,
-    edition: item.book!.edition,
-    digital: item.book!.publication.digital,
-    publishDate: item.book!.publishDate,
-    quantity: item.quantity,
-    price: item.book!.price,
-    status: item.status,
-    collection: item.collectionId,
-  }));
+const results = computed(() => {
+  if (queryDebounced.value === "") {
+    return props.books;
+  }
+
+  const results = miniSearch.search(normalize(queryDebounced.value));
+
+  return props.books.filter((item) =>
+    results.some((result) => result.id === item.id),
+  );
 });
 
-function handleEdit(row: (typeof rows.value)[0]) {
+const ui = {
+  body: { base: "flex gap-3 text-sm hover:shadow-lg transition-shadow" },
+};
+
+function handleEdit(row: Book) {
   if (props.editModal) {
     props.editModal.open(
       {
@@ -53,7 +74,7 @@ function handleEdit(row: (typeof rows.value)[0]) {
   }
 }
 
-function handleRemove(row: (typeof rows.value)[0]) {
+function handleRemove(row: Book) {
   if (props.removeModal) {
     props.removeModal.open(
       {
@@ -72,13 +93,7 @@ function handleRemove(row: (typeof rows.value)[0]) {
   <div class="grid grid-cols-1 gap-6">
     <UInput v-model="query" :placeholder="$t('general.search')" />
 
-    {{ queryDebounced }}
-
-    <UCard
-      v-for="item in rows"
-      :key="item.id"
-      :ui="{ body: { base: 'flex gap-3 text-sm' } }"
-    >
+    <UCard v-for="item in results" :key="item.id" :ui="ui">
       <div class="w-20 md:w-16 lg:w-14 xl:w-12">
         <img
           v-if="item.cover"
@@ -86,15 +101,20 @@ function handleRemove(row: (typeof rows.value)[0]) {
           :src="item.cover"
           :name="item.name"
         />
+        <div
+          v-else
+          class="aspect-[2/3] h-auto w-full rounded-md bg-gray-200 object-cover dark:bg-gray-800"
+        />
       </div>
       <div class="w-full">
-        <div v-if="editable" class="float-right">
+        <div v-if="editable" class="float-right flex gap-1">
           <UButton
             v-if="editModal"
             icon="i-fluent-edit-20-filled"
             color="gray"
             variant="ghost"
             square
+            @click="handleEdit(item)"
           />
           <UButton
             v-if="removeModal"
@@ -102,6 +122,7 @@ function handleRemove(row: (typeof rows.value)[0]) {
             color="red"
             variant="ghost"
             square
+            @click="handleRemove(item)"
           />
         </div>
 

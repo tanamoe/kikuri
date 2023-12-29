@@ -35,15 +35,39 @@ const { data: members } = await useAsyncData(() =>
   ),
 );
 
-const { data: books, refresh } = await useAsyncData(() =>
-  $pb.send<UserCollectionBooksResponse>(
-    `/api/user-collection/${route.params.collectionId}/books`,
-    {
-      method: "GET",
-      perPage: 999,
-      expand: "book.publication,collection",
-    },
-  ),
+const { data: books, refresh } = await useAsyncData(
+  () =>
+    $pb.send<UserCollectionBooksResponse>(
+      `/api/user-collection/${route.params.collectionId}/books`,
+      {
+        method: "GET",
+        perPage: 999,
+        expand: "book.publication,collection",
+      },
+    ),
+  {
+    transform: (response) =>
+      response.items.map((item) => ({
+        id: item.id,
+        cover: item.book?.covers
+          ? $pb.files.getUrl(
+              {
+                collectionId: item.book!.parentCollection,
+                id: item.book!.parentId,
+              },
+              item.book!.covers[0],
+            )
+          : undefined,
+        name: item.book!.publication.name,
+        edition: item.book!.edition,
+        digital: item.book!.publication.digital,
+        publishDate: item.book!.publishDate,
+        quantity: item.quantity,
+        price: item.book!.price,
+        status: item.status,
+        collection: item.collectionId,
+      })),
+  },
 );
 
 const editModal = ref<InstanceType<typeof LibraryBookEdit>>();
