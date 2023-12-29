@@ -88,10 +88,25 @@ definePageMeta({
             />
           </UFormGroup>
         </div>
+
+        <i18n-t
+          keypath="auth.registerPrivacyPolicy"
+          tag="p"
+          class="prose prose-sm text-gray-600 dark:prose-invert dark:text-gray-400"
+        >
+          <nuxt-link to="/terms-of-service">
+            {{ $t("general.termsOfService") }}
+          </nuxt-link>
+          <nuxt-link to="/privacy-policy">
+            {{ $t("general.privacyPolicy") }}
+          </nuxt-link>
+        </i18n-t>
+
         <UButton :loading="pending" type="submit" block>
           {{ $t("account.register") }}
         </UButton>
       </UForm>
+
       <div class="mt-3 text-center text-sm text-gray-600 dark:text-gray-400">
         <NuxtLink
           class="decoration-tanablue-500 decoration-2 hover:underline"
