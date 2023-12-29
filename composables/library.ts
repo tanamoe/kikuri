@@ -6,8 +6,41 @@ import type {
   CollectionBookResponse,
   UserCollectionResponse,
   UserCollectionsResponse,
+  CollectionMemberResponse,
 } from "@/types/collections";
-import type { BaseAPIResponse } from "@/types/api";
+import type { BaseAPIFields, BaseAPIResponse } from "@/types/api";
+
+export function useLibrary() {
+  const { $pb } = useNuxtApp();
+
+  const collections = useState<(CollectionMemberResponse & BaseAPIFields)[]>(
+    () => [],
+  );
+
+  async function update() {
+    if ($pb.authStore.model) {
+      const res = await $pb.send<UserCollectionsResponse>(
+        `/api/user-collections/${$pb.authStore.model.id}`,
+        {
+          method: "GET",
+          expand: "collection",
+        },
+      );
+
+      if (res.success) {
+        collections.value = res.items;
+      }
+    } else {
+      collections.value = [];
+    }
+  }
+
+  $pb.authStore.onChange(async () => {
+    await update();
+  }, true);
+
+  return { collections, update };
+}
 
 export function useLibraryBook() {
   const { $pb } = useNuxtApp();

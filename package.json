@@ -53,6 +53,7 @@
     "@tiptap/vue-3": "^2.1.13",
     "class-variance-authority": "^0.7.0",
     "dayjs": "^1.11.10",
+    "minisearch": "^6.3.0",
     "nuxt-swiper": "^1.2.2",
     "pinia": "^2.1.7",
     "pocketbase": "^0.20.1",

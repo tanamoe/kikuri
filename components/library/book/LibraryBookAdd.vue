@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { z } from "zod";
 import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
-import type {
-  UserCollectionsResponse,
-  UserCollectionBookResponse,
-} from "@/types/collections";
+import type { UserCollectionBookResponse } from "@/types/collections";
 import { CollectionBooksStatusOptions } from "@/types/pb";
 
 const { $pb } = useNuxtApp();
 const { pending, update } = useLibraryBook();
 const { collectionBookStatus } = useOptions();
+const { collections } = useLibrary();
 const { open: createOpen } = useLibraryCollectionCreate();
 const settingsStore = useSettingsStore();
 
@@ -25,24 +23,12 @@ defineExpose({
 const isOpen = ref(false);
 const inCollections = ref<string[]>([]);
 
-const { data: collections } = await useLazyAsyncData(
-  () =>
-    $pb.send<UserCollectionsResponse>(
-      `/api/user-collections/${$pb.authStore.model?.id}`,
-      {
-        method: "GET",
-        expand: "collection",
-      },
-    ),
-  {
-    transform: (collections) =>
-      collections.items.map((collection) => ({
-        id: collection.collectionId,
-        label: collection.collection?.name,
-        disabled: inCollections.value.includes(collection.collectionId),
-      })),
-    watch: [() => $pb.authStore, inCollections, isOpen],
-  },
+const c = computed(() =>
+  collections.value.map((collection) => ({
+    id: collection.collectionId,
+    label: collection.collection?.name,
+    disabled: inCollections.value.includes(collection.collectionId),
+  })),
 );
 
 const schema = z.object({
@@ -64,10 +50,7 @@ const state = ref<Partial<Schema>>({
 });
 
 const currentCollection = computed(
-  () =>
-    collections.value?.find(
-      (collection) => collection.id === state.value.collection,
-    ),
+  () => c.value?.find((collection) => collection.id === state.value.collection),
 );
 const currentStatus = computed(
   () =>
@@ -138,15 +121,12 @@ const uiMenu = {
             {{ book.name }}
           </UButton>
           <UIcon class="my-3" name="i-fluent-arrow-down-20-filled" />
-          <UFormGroup
-            v-if="collections && collections.length > 0"
-            name="collection"
-          >
+          <UFormGroup v-if="c && c.length > 0" name="collection">
             <USelectMenu
-              v-if="collections"
+              v-if="c"
               v-model="state.collection"
               :ui-menu="uiMenu"
-              :options="collections"
+              :options="c"
               value-attribute="id"
               option-attribute="label"
             >

@@ -25,6 +25,7 @@ defineProps<{
       'font-condensed font-bold',
       'p-6',
       'aspect-[2/3]',
+      'overflow-hidden',
     ]"
   >
     <span v-if="name">{{ name }}</span>

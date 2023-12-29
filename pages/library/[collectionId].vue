@@ -35,15 +35,39 @@ const { data: members } = await useAsyncData(() =>
   ),
 );
 
-const { data: books, refresh } = await useAsyncData(() =>
-  $pb.send<UserCollectionBooksResponse>(
-    `/api/user-collection/${route.params.collectionId}/books`,
-    {
-      method: "GET",
-      perPage: 999,
-      expand: "book.publication,collection",
-    },
-  ),
+const { data: books, refresh } = await useAsyncData(
+  () =>
+    $pb.send<UserCollectionBooksResponse>(
+      `/api/user-collection/${route.params.collectionId}/books`,
+      {
+        method: "GET",
+        perPage: 999,
+        expand: "book.publication,collection",
+      },
+    ),
+  {
+    transform: (response) =>
+      response.items.map((item) => ({
+        id: item.id,
+        cover: item.book?.covers
+          ? $pb.files.getUrl(
+              {
+                collectionId: item.book!.parentCollection,
+                id: item.book!.parentId,
+              },
+              item.book!.covers[0],
+            )
+          : undefined,
+        name: item.book!.publication.name,
+        edition: item.book!.edition,
+        digital: item.book!.publication.digital,
+        publishDate: item.book!.publishDate,
+        quantity: item.quantity,
+        price: item.book!.price,
+        status: item.status,
+        collection: item.collectionId,
+      })),
+  },
 );
 
 const editModal = ref<InstanceType<typeof LibraryBookEdit>>();
@@ -193,9 +217,8 @@ useSeoMeta({
   <div v-if="collection">
     <UBreadcrumb class="mb-3" :links="links" />
 
-    <div class="flex flex-col sm:flex-row">
-      <AppH1 class="flex-1">{{ collection.item.name }}</AppH1>
-      <div class="flex h-min items-center justify-end gap-3">
+    <div>
+      <div class="float-right flex h-min items-center justify-end gap-3">
         <AppShareButton :title="collection.item.name" show-label />
         <UDropdown
           v-if="editable"
@@ -208,6 +231,7 @@ useSeoMeta({
           />
         </UDropdown>
       </div>
+      <AppH1>{{ collection.item.name }}</AppH1>
     </div>
 
     <div class="prose prose-sm mb-6 max-w-none space-y-2 dark:prose-invert">
@@ -242,14 +266,16 @@ useSeoMeta({
       </div>
     </div>
 
-    <PageLibraryBooks
-      v-if="books"
-      :edit-modal="editModal"
-      :remove-modal="removeModal"
-      :editable="editable"
-      :books="books"
-      @update="refresh"
-    />
+    <ClientOnly>
+      <PageLibraryBooks
+        v-if="books"
+        :edit-modal="editModal"
+        :remove-modal="removeModal"
+        :editable="editable"
+        :books="books"
+        @update="refresh"
+      />
+    </ClientOnly>
 
     <LazyLibraryBookEdit ref="editModal" @update="refresh()" />
     <LazyLibraryBookRemove ref="removeModal" @update="refresh()" />

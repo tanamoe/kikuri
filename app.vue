@@ -1,8 +1,5 @@
-<!-- eslint-disable import/no-named-as-default-member -->
 <script setup lang="ts">
-const {
-  public: { ogUrl, umamiUrl, umamiSiteId, fbAppId },
-} = useRuntimeConfig();
+const { ogUrl, umamiUrl, umamiSiteId, fbAppId } = useRuntimeConfig().public;
 const i18nHead = useLocaleHead({
   addSeoAttributes: true,
 });

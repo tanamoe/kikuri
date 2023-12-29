@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { z } from "zod";
+import { joinURL } from "ufo";
 import type {
   BreadcrumbLink,
   FormSubmitEvent,
@@ -9,6 +10,7 @@ import { CollectionsVisibilityOptions } from "@/types/pb";
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const { collectionVisibility } = useOptions();
+const { update } = useLibrary();
 const { pending, create } = useLibraryCollection();
 
 const links = computed<BreadcrumbLink[]>(() => [
@@ -38,10 +40,15 @@ const currentVisibility = computed(() =>
 );
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  await create({
+  const res = await create({
     ...event.data,
     description: content.value,
   });
+
+  if (res?.success) {
+    await update();
+    await navigateTo(joinURL("/library", res.item.id));
+  }
 }
 
 definePageMeta({

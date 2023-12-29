@@ -5,6 +5,7 @@ import { CollectionsVisibilityOptions } from "@/types/pb";
 
 const { t } = useI18n({ useScope: "global" });
 const { collectionVisibility } = useOptions();
+const { update } = useLibrary();
 const { pending, create } = useLibraryCollection();
 const { isOpen, close } = useLibraryCollectionCreate();
 
@@ -28,6 +29,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   });
 
   if (res) {
+    await update();
     close();
   }
 }

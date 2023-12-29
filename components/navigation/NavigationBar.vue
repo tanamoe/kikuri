@@ -1,17 +1,9 @@
 <script setup lang="ts">
-import type { UserCollectionsResponse } from "@/types/collections";
-
 const { t } = useI18n({ useScope: "global" });
 const { $pb } = useNuxtApp();
 const { open } = useLibraryCollectionCreate();
+const { collections } = useLibrary();
 const settingsStore = useSettingsStore();
-
-const { data: collections } = await useLazyAsyncData(() =>
-  $pb.send<UserCollectionsResponse>("/api/user-collections", {
-    method: "GET",
-    expand: "collection",
-  }),
-);
 
 const firstCollection = computed(() => {
   if ($pb.authStore.isAuthRecord) {
@@ -19,8 +11,8 @@ const firstCollection = computed(() => {
       return `/library/${settingsStore.library.defaultLibraryId}`;
     }
 
-    if (collections.value && collections.value.items.length > 0) {
-      return `/library/${collections.value.items[0].collectionId}`;
+    if (collections.value && collections.value.length > 0) {
+      return `/library/${collections.value[0].collectionId}`;
     }
   } else {
     return "/login";
