@@ -1,24 +1,5 @@
 <script setup lang="ts">
 const { t } = useI18n({ useScope: "global" });
-const { $pb } = useNuxtApp();
-const { open } = useLibraryCollectionCreate();
-const { collections } = useLibrary();
-const settingsStore = useSettingsStore();
-
-const firstCollection = computed(() => {
-  if ($pb.authStore.isAuthRecord) {
-    if (settingsStore.library.defaultLibraryId) {
-      return `/library/${settingsStore.library.defaultLibraryId}`;
-    }
-
-    if (collections.value && collections.value.length > 0) {
-      return `/library/${collections.value[0].collectionId}`;
-    }
-  } else {
-    return "/login";
-  }
-});
-
 const links = computed(() => [
   {
     label: t("general.releaseCalendar"),
@@ -31,8 +12,7 @@ const links = computed(() => [
   {
     label: t("general.library"),
     badge: t("general.new"),
-    to: firstCollection.value ? firstCollection.value : undefined,
-    click: !firstCollection.value ? open : undefined,
+    to: "/library",
   },
 ]);
 
@@ -92,7 +72,6 @@ withDefaults(
               variant="ghost"
               active-class="bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100"
               :to="link.to"
-              @click="link.click"
             >
               {{ link.label }}
             </UButton>
@@ -107,7 +86,6 @@ withDefaults(
             variant="ghost"
             active-class="bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100"
             :to="link.to"
-            @click="link.click"
           >
             {{ link.label }}
           </UButton>

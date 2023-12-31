@@ -143,6 +143,7 @@ export function useLibraryBook() {
 export function useLibraryCollection() {
   const { $pb } = useNuxtApp();
   const { t } = useI18n({ useScope: "global" });
+  const library = useLibrary();
   const toast = useToast();
   const settingsStore = useSettingsStore();
 
@@ -258,20 +259,11 @@ export function useLibraryCollection() {
           icon: "i-fluent-checkmark-circle-20-filled",
         });
 
-        try {
-          const res = await $pb.send<UserCollectionsResponse>(
-            joinURL("/api/user-collections", $pb.authStore.model?.id),
-            {
-              method: "GET",
-            },
-          );
-
-          if (res.totalItems === 0) throw new Error("No collections");
-
-          settingsStore.library.defaultLibraryId = res.items[0]?.collectionId;
-        } catch (error) {
+        if (settingsStore.library.defaultLibraryId === id) {
           settingsStore.library.defaultLibraryId = undefined;
         }
+
+        await library.update();
 
         await navigateTo("/");
 

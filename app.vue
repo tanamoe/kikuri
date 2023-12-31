@@ -1,11 +1,14 @@
 <script setup lang="ts">
+// TODO: track https://github.com/nuxt/nuxt/pull/24931/
 const { ogUrl, umamiUrl, umamiSiteId, fbAppId } = useRuntimeConfig().public;
 const i18nHead = useLocaleHead({
   addSeoAttributes: true,
 });
 const { update } = useLibrary();
 
-await callOnce(update);
+onMounted(async () => {
+  await update();
+});
 
 useHead({
   htmlAttrs: {
@@ -62,8 +65,6 @@ useSeoMeta({
 
 <template>
   <NuxtLayout>
-    <NuxtLoadingIndicator color="#89C4F4" />
-
     <NuxtPage />
 
     <UNotifications />

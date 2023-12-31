@@ -4,7 +4,6 @@ defineProps<{
     label: string;
     badge?: string;
     to?: string;
-    click?: () => void;
   }[];
 }>();
 
@@ -38,11 +37,7 @@ const isOpen = ref(false);
       </div>
       <ul class="mt-12 space-y-2 font-lexend text-2xl font-bold">
         <li v-for="link in links" :key="link.label">
-          <NuxtLink
-            :to="link.to"
-            class="flex items-center gap-3"
-            @click="link.click"
-          >
+          <NuxtLink :to="link.to" class="flex items-center gap-3">
             {{ link.label }}
             <UBadge v-if="link.badge">{{ link.badge }}</UBadge>
           </NuxtLink>
