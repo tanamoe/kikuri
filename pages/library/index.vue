@@ -4,12 +4,24 @@ import { joinURL } from "ufo";
 const { collections } = useLibrary();
 const settingsStore = useSettingsStore();
 
-if (settingsStore.library.defaultLibraryId) {
-  await navigateTo(joinURL("/library", settingsStore.library.defaultLibraryId));
-}
+const defaultValid = computed(() => {
+  return collections.value.some(
+    (collection) =>
+      collection.collectionId === settingsStore.library.defaultLibraryId,
+  );
+});
 
-if (collections.value && collections.value.length > 0) {
-  await navigateTo(joinURL("/library", collections.value[0].collectionId));
+if (defaultValid.value && settingsStore.library.defaultLibraryId) {
+  await navigateTo(
+    joinURL("/library", settingsStore.library.defaultLibraryId),
+    { replace: true },
+  );
+} else if (collections.value && collections.value.length > 0) {
+  await navigateTo(joinURL("/library", collections.value[0].collectionId), {
+    replace: true,
+  });
+} else {
+  await navigateTo("/library/create", { replace: true });
 }
 
 definePageMeta({
