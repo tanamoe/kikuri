@@ -61,11 +61,15 @@ const { data: books, refresh } = await useAsyncData(
         name: item.book!.publication.name,
         edition: item.book!.edition,
         digital: item.book!.publication.digital,
-        publishDate: item.book!.publishDate,
+        publishDate: item.book?.publishDate
+          ? new Date(item.book.publishDate)
+          : undefined,
         quantity: item.quantity,
         price: item.book!.price,
         status: item.status,
         collection: item.collectionId,
+        updated: new Date(item.updated),
+        created: new Date(item.created),
       })),
   },
 );
