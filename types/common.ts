@@ -29,13 +29,10 @@ export type BookDetailsCommon = BookDetailsResponse<
   MetadataCommon & MetadataLibrary,
   string,
   {
-    publication: Pick<PublicationsResponse, "volume" | "name" | "digital">;
-    release: Pick<
-      ReleasesResponse<{
-        title: Pick<TitlesResponse, "name" | "slug">;
-      }>,
-      "expand" | "title"
-    >;
+    publication?: PublicationsResponse;
+    release?: ReleasesResponse<{
+      title: TitlesResponse;
+    }>;
   }
 >;
 
