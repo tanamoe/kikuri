@@ -15,6 +15,10 @@ const items = props.releases.map((release) => ({
   publisher: release.expand?.publisher,
   status: release.status,
 }));
+
+const ui = {
+  rounded: "rounded",
+};
 </script>
 
 <template>
@@ -24,13 +28,15 @@ const items = props.releases.map((release) => ({
       <template #default="{ item, open }">
         <UButton color="gray" variant="ghost">
           <template #leading>
-            <img
+            <UAvatar
               :src="
                 $pb.files.getUrl(item.publisher, item.publisher.logo, {
                   thumb: '24x24',
                 })
               "
-              class="h-5 w-5 rounded"
+              :alt="item.publisher.name"
+              :ui="ui"
+              size="2xs"
             />
           </template>
 

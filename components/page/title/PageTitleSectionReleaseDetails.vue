@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import {
-  Collections,
-  type BookDetailsResponse,
-  type PublicationsResponse,
-} from "@/types/pb";
-import type { MetadataCommon, MetadataLibrary } from "@/types/common";
+import { Collections } from "@/types/pb";
+import type { BookDetailsCommon } from "@/types/common";
 import type { LibraryBookAdd } from "#build/components";
 
 const props = defineProps<{
@@ -22,26 +18,19 @@ const {
 } = await useLazyAsyncData(
   props.releaseId,
   () =>
-    $pb.collection(Collections.BookDetails).getFullList<
-      BookDetailsResponse<
-        MetadataCommon & MetadataLibrary,
-        string,
-        {
-          publication: PublicationsResponse;
-        }
-      >
-    >({
-      filter: `release='${props.releaseId}'`,
+    $pb.collection(Collections.BookDetails).getFullList<BookDetailsCommon>({
+      filter: $pb.filter("release = {:release}", { release: props.releaseId }),
       expand: "publication",
+      sort: "+publication.volume,+publishDate,+edition",
     }),
   {
     transform: (books) =>
       books.map((book) => ({
         id: book.id,
-        volume: book.expand?.publication.volume
+        volume: book.expand?.publication?.volume
           ? parseVolume(book.expand?.publication.volume)
           : 0,
-        name: book.expand!.publication.name,
+        name: book.expand!.publication?.name || book.id,
         edition: book.edition,
         publishDate: book.publishDate,
         price: book.price,

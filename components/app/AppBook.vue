@@ -22,7 +22,7 @@ function handleAdd() {
   props.addModal?.open(
     {
       id: props.book.id,
-      name: props.book.expand?.publication.name || props.book.id,
+      name: props.book.expand?.publication?.name || props.book.id,
     },
     props.book.metadata?.inCollections?.map((c) => c.id),
   );
