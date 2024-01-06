@@ -47,7 +47,7 @@ const swiperEl = ref();
       <Swiper
         ref="swiperEl"
         class="w-64"
-        :modules="[SwiperAutoplay, SwiperEffectCreative]"
+        :modules="[SwiperAutoplay, SwiperEffectCreative, SwiperMousewheel]"
         :autoplay="{
           delay: 4000,
           disableOnInteraction: false,
@@ -61,6 +61,7 @@ const swiperEl = ref();
         :observer="true"
         :observe-parents="true"
         :watch-slides-progress="true"
+        :mousewheel="true"
         :creative-effect="{
           perspective: true,
           limitProgress: 2,

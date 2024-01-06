@@ -55,7 +55,7 @@ export default defineNuxtConfig({
     },
   },
   swiper: {
-    modules: ["autoplay", "effect-creative"],
+    modules: ["autoplay", "effect-creative", "mousewheel"],
   },
   ui: {
     icons: ["fluent", "simple-icons"],
