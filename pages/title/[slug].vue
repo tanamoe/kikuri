@@ -1,5 +1,4 @@
 <script setup lang="ts">
-/* eslint-disable vue/no-v-html */
 import {
   Collections,
   type TitlesResponse,
@@ -38,11 +37,18 @@ const { data: title } = await useAsyncData(() =>
         demographic: DemographicsResponse;
       }
     >
-  >(`slug='${route.params.slug}'`, {
+  >($pb.filter("slug = {:slug}", { slug: route.params.slug }), {
     expand:
-      "works(title),works(title).staff,releases(title).publisher,links(title).source,format,genres,demographic",
+      "releases(title).publisher,links(title).source,format,genres,demographic",
   }),
 );
+
+if (!title.value) {
+  throw createError({
+    statusCode: 404,
+    statusMessage: t("error.notFoundMessage"),
+  });
+}
 
 const { data: works } = await useAsyncData(() =>
   $pb.collection(Collections.Works).getFullList<
@@ -50,7 +56,7 @@ const { data: works } = await useAsyncData(() =>
       staff: StaffsResponse;
     }>
   >({
-    filter: `title = '${title.value?.id}'`,
+    filter: $pb.filter("title = {:title}", { title: title.value?.id }),
     expand: "staff",
     sort: "+priority",
   }),
@@ -62,17 +68,11 @@ const { data: reviews } = await useAsyncData(() =>
       user: UsersResponse;
     }>
   >({
-    filter: `release.title='${title.value?.id}'`,
+    filter: $pb.filter("release.title = {:title}", { title: title.value?.id }),
     fields: "*,content:excerpt(200,true)",
     expand: "user",
   }),
 );
-
-if (!title.value)
-  throw createError({
-    statusCode: 404,
-    statusMessage: t("error.notFoundMessage"),
-  });
 
 const ogImage = computed(() => {
   if (title.value) {
@@ -99,6 +99,7 @@ const ogImage = computed(() => {
 
 const description = computed(() => {
   if (title.value?.description) {
+    // replace formatting tags
     const desc = title.value.description.replace(/<[^>]*>/g, "");
     if (desc.length > 250) {
       return desc.slice(0, 250) + "...";
@@ -124,7 +125,10 @@ useSeoMeta({
     <div class="mt-6 flex flex-col-reverse gap-6 lg:flex-row">
       <div class="flex-1">
         <PageTitleSectionReleases
-          v-if="title.expand?.['releases(title)']"
+          v-if="
+            title.expand?.['releases(title)'] &&
+            title.expand?.['releases(title)'].length > 0
+          "
           :releases="title.expand?.['releases(title)']"
         />
 
