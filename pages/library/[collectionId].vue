@@ -48,7 +48,7 @@ const { data: books, refresh } = await useAsyncData(
   {
     transform: (response) =>
       response.items.map((item) => ({
-        id: item.id,
+        id: item.bookId,
         cover: item.book?.covers
           ? $pb.files.getUrl(
               {
