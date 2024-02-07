@@ -2,29 +2,33 @@
 import { type AuthProviderInfo } from "pocketbase";
 import { joinURL } from "ufo";
 
-const runtimeConfig = useRuntimeConfig();
+const {
+  public: { siteUrl },
+} = useRuntimeConfig();
 const { query } = useRoute();
 const { t } = useI18n({ useScope: "global" });
 const authProvider = useCookie<AuthProviderInfo>("auth_provider");
 
-if (!query.code) {
-  await navigateTo("/");
-}
+onMounted(async () => {
+  if (!query.code) {
+    return navigateTo("/");
+  }
 
-if (authProvider.value.state !== query.state) {
-  throw createError(t("auth.oauthInvalidState"));
-}
+  if (authProvider.value.state !== query.state) {
+    throw createError(t("auth.oauthInvalidState"));
+  }
 
-const res = await loginWithOAuth2(
-  authProvider.value.name,
-  query.code as string,
-  authProvider.value.codeVerifier,
-  joinURL(runtimeConfig.public.siteUrl, "redirect"),
-);
+  const res = await loginWithOAuth2(
+    authProvider.value.name,
+    query.code as string,
+    authProvider.value.codeVerifier,
+    joinURL(siteUrl, "redirect"),
+  );
 
-if (res) {
-  await navigateTo("/");
-}
+  if (res) {
+    return navigateTo("/");
+  }
+});
 
 definePageMeta({
   middleware: ["guest"],
