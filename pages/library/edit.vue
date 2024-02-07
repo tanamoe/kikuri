@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { z } from "zod";
 import { joinURL } from "ufo";
-import type {
-  BreadcrumbLink,
-  FormSubmitEvent,
-} from "@nuxt/ui/dist/runtime/types";
+import type { BreadcrumbLink, FormSubmitEvent } from "#ui/types";
 import { CollectionsVisibilityOptions } from "@/types/pb";
 import type { UserCollectionResponse } from "@/types/collections";
 
@@ -13,7 +10,8 @@ const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const { collectionVisibility } = useOptions();
 const { update } = useLibrary();
-const { pending, edit } = useLibraryCollection();
+const { pending, edit } = useCollections();
+const toast = useToast();
 
 if (!route.query.id || Array.isArray(route.query.id)) {
   throw createError({
@@ -64,15 +62,29 @@ const currentVisibility = computed(() =>
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   if (!collection.value) return;
 
-  const res = await edit(collection.value.item.id, {
+  const [res, error] = await edit(collection.value.item.id, {
     ...event.data,
     description: content.value,
   });
 
-  if (res?.success) {
-    await update();
-    await navigateTo(joinURL("/library", res.item.id));
+  if (error) {
+    return toast.add({
+      title: t("error.generalMessage"),
+      description: error.message,
+      color: "red",
+      icon: "i-fluent-error-circle-20-filled",
+    });
   }
+
+  toast.add({
+    title: res.item.name,
+    description: t("library.editCollectionSuccess", {
+      name: res.item.name,
+    }),
+    icon: "i-fluent-checkmark-circle-20-filled",
+  });
+  await update();
+  return navigateTo(joinURL("/library", res.item.id));
 }
 
 definePageMeta({
@@ -97,7 +109,7 @@ useSeoMeta({
     <AppH1 class="mb-6">{{ $t("library.editCollection") }}</AppH1>
     <UForm :schema="schema" :state="state" class="space-y-6" @submit="onSubmit">
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <UFormGroup name="header">
+        <UFormGroup name="name">
           <UInput
             v-model="state.name"
             name="name"

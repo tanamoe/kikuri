@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { z } from "zod";
-import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
+import type { FormSubmitEvent } from "#ui/types";
 import { CollectionBooksStatusOptions } from "@/types/pb";
 import type { UserCollectionBookResponse } from "@/types/collections";
 
-const { pending, update } = useLibraryBook();
+const toast = useToast();
+const { t } = useI18n({ useScope: "global" });
+const { pending, update } = useCollectionBooks();
 const { collectionBookStatus } = useOptions();
 
 const emit = defineEmits<{
@@ -55,16 +57,30 @@ function close() {
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   if (!book.value.id) return;
 
-  const res = await update(event.data.collection, {
+  const [res, error] = await update(event.data.collection, {
     bookId: book.value.id,
     quantity: event.data.quantity,
     status: event.data.status,
   });
 
-  if (res) {
-    emit("update", res);
-    close();
+  if (error) {
+    return toast.add({
+      title: t("error.generalMessage"),
+      description: error.message,
+      color: "red",
+      icon: "i-fluent-error-circle-20-filled",
+    });
   }
+
+  toast.add({
+    title: t("general.success"),
+    description: t("library.editBookSuccessful", {
+      name: res.item.book?.publication.name,
+    }),
+    icon: "i-fluent-checkmark-circle-20-filled",
+  });
+  emit("update", res);
+  return close();
 }
 </script>
 

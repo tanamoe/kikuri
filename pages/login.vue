@@ -2,7 +2,7 @@
 import { type AuthProviderInfo } from "pocketbase";
 import { joinURL } from "ufo";
 import { z } from "zod";
-import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
+import type { FormSubmitEvent } from "#ui/types";
 
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });

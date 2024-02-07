@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import type { BreadcrumbLink } from "@nuxt/ui/dist/runtime/types";
+import type { BreadcrumbLink } from "#ui/types";
 import type {
   UserCollectionMembersResponse,
   UserCollectionBooksResponse,
   UserCollectionResponse,
 } from "@/types/collections";
 import type {
-  LibraryBookEdit,
-  LibraryBookRemove,
-  LibraryCollectionRemove,
+  LibraryModalBookEdit,
+  LibraryModalBookRemove,
+  LibraryModalCollectionRemove,
 } from "#build/components";
 
 const route = useRoute();
@@ -48,7 +48,7 @@ const { data: books, refresh } = await useAsyncData(
   {
     transform: (response) =>
       response.items.map((item) => ({
-        id: item.id,
+        id: item.bookId,
         cover: item.book?.covers
           ? $pb.files.getUrl(
               {
@@ -74,10 +74,10 @@ const { data: books, refresh } = await useAsyncData(
   },
 );
 
-const editModal = ref<InstanceType<typeof LibraryBookEdit>>();
-const removeModal = ref<InstanceType<typeof LibraryBookRemove>>();
+const editModal = ref<InstanceType<typeof LibraryModalBookEdit>>();
+const removeModal = ref<InstanceType<typeof LibraryModalBookRemove>>();
 const collectionRemoveModal =
-  ref<InstanceType<typeof LibraryCollectionRemove>>();
+  ref<InstanceType<typeof LibraryModalCollectionRemove>>();
 
 const editable = computed(() => {
   if (!$pb.authStore.isAuthRecord) return false;
@@ -224,16 +224,18 @@ useSeoMeta({
     <div>
       <div class="float-right flex h-min items-center justify-end gap-3">
         <AppShareButton :title="collection.item.name" show-label />
-        <UDropdown
-          v-if="editable"
-          :items="items"
-          :popper="{ placement: 'bottom-end' }"
-        >
-          <UButton
-            color="gray"
-            trailing-icon="i-fluent-more-vertical-20-filled"
-          />
-        </UDropdown>
+        <ClientOnly>
+          <UDropdown
+            v-if="editable"
+            :items="items"
+            :popper="{ placement: 'bottom-end' }"
+          >
+            <UButton
+              color="gray"
+              trailing-icon="i-fluent-more-vertical-20-filled"
+            />
+          </UDropdown>
+        </ClientOnly>
       </div>
       <AppH1>{{ collection.item.name }}</AppH1>
     </div>
@@ -270,20 +272,17 @@ useSeoMeta({
       </div>
     </div>
 
-    <ClientOnly>
-      <PageLibraryBooks
-        v-if="books"
-        :edit-modal="editModal"
-        :remove-modal="removeModal"
-        :editable="editable"
-        :books="books"
-        @update="refresh"
-      />
-    </ClientOnly>
+    <LibraryBooks
+      v-if="books"
+      :edit-modal="editModal"
+      :remove-modal="removeModal"
+      :editable="editable"
+      :books="books"
+    />
 
-    <LazyLibraryBookEdit ref="editModal" @update="refresh()" />
-    <LazyLibraryBookRemove ref="removeModal" @update="refresh()" />
-    <LazyLibraryCollectionRemove
+    <LazyLibraryModalBookEdit ref="editModal" @update="refresh()" />
+    <LazyLibraryModalBookRemove ref="removeModal" @update="refresh()" />
+    <LazyLibraryModalCollectionRemove
       ref="collectionRemoveModal"
       :collection="{
         id: collection.item.id,

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { joinURL } from "ufo";
 import type { BookDetailsCommon } from "@/types/common";
-import type { LibraryBookAdd } from "#build/components";
 
 const store = useSettingsStore();
 
@@ -13,20 +12,13 @@ const ui = {
   },
 };
 
-const props = defineProps<{
+defineProps<{
   book: BookDetailsCommon;
-  addModal?: InstanceType<typeof LibraryBookAdd>;
 }>();
 
-function handleAdd() {
-  props.addModal?.open(
-    {
-      id: props.book.id,
-      name: props.book.expand?.publication?.name || props.book.id,
-    },
-    props.book.metadata?.inCollections?.map((c) => c.id),
-  );
-}
+defineEmits<{
+  add: [BookDetailsCommon];
+}>();
 </script>
 
 <template>
@@ -95,7 +87,6 @@ function handleAdd() {
         </UPopover>
 
         <UTooltip
-          v-if="addModal"
           :text="$t('library.addToLibrary')"
           :popper="{ placement: 'top' }"
         >
@@ -103,7 +94,7 @@ function handleAdd() {
             class="shadow-lg"
             icon="i-fluent-add-20-filled"
             color="white"
-            @click.prevent="handleAdd"
+            @click.prevent="$emit('add', book)"
           />
         </UTooltip>
       </div>

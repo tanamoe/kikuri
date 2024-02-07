@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /* eslint-disable vue/no-v-html */
 import { joinURL } from "ufo";
-import type { BreadcrumbLink } from "@nuxt/ui/dist/runtime/types";
+import type { BreadcrumbLink } from "#ui/types";
 import {
   Collections,
   type UsersResponse,

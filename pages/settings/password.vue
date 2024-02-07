@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
+import type { FormSubmitEvent } from "#ui/types";
 import { z } from "zod";
 
 const { $pb } = useNuxtApp();

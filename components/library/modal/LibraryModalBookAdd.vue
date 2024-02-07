@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { z } from "zod";
-import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
+import { joinURL } from "ufo";
+import type { FormSubmitEvent } from "#ui/types";
 import type { UserCollectionBookResponse } from "@/types/collections";
 import { CollectionBooksStatusOptions } from "@/types/pb";
 
 const { $pb } = useNuxtApp();
-const { pending, update } = useLibraryBook();
+const { t } = useI18n({ useScope: "global" });
+const { pending, update } = useCollectionBooks();
+const { open: createCollectionOpen } = useCollectionCreateModal();
 const { collectionBookStatus } = useOptions();
 const { collections } = useLibrary();
-const { open: createOpen } = useLibraryCollectionCreate();
+const toast = useToast();
 const settingsStore = useSettingsStore();
 
 const emit = defineEmits<{
@@ -69,24 +72,45 @@ function close() {
   isOpen.value = false;
 }
 
-function handleCreate() {
+function handleCreateCollection() {
   close();
-  createOpen();
+  createCollectionOpen();
 }
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   if (!book.value.id) return;
 
-  const res = await update(event.data.collection, {
+  const [res, error] = await update(event.data.collection, {
     bookId: book.value.id,
     quantity: event.data.quantity,
     status: event.data.status,
   });
 
-  if (res) {
-    emit("update", res);
-    close();
+  if (error) {
+    return toast.add({
+      title: t("error.generalMessage"),
+      description: error.message,
+      color: "red",
+      icon: "i-fluent-error-circle-20-filled",
+    });
   }
+
+  toast.add({
+    title: t("general.success"),
+    description: t("library.addBookSuccessful", {
+      name: res.item.book?.publication.name,
+      collection: res.item.collection?.name,
+    }),
+    icon: "i-fluent-checkmark-circle-20-filled",
+    actions: [
+      {
+        label: t("library.goToCollection"),
+        to: joinURL("/library", res.item.collectionId),
+      },
+    ],
+  });
+  emit("update", res);
+  return close();
 }
 
 const uiMenu = {
@@ -142,7 +166,7 @@ const uiMenu = {
               </UButton>
             </USelectMenu>
           </UFormGroup>
-          <UButton v-else color="gray" block @click="handleCreate">
+          <UButton v-else color="gray" block @click="handleCreateCollection">
             {{ $t("library.createCollection") }}
           </UButton>
         </div>

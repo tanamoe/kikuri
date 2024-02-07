@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { Collections } from "@/types/pb";
 import type { BookDetailsCommon } from "@/types/common";
-import type { LibraryBookAdd } from "#build/components";
+import type {
+  LibraryModalBookAdd,
+  LibraryModalBookAddBulk,
+} from "#build/components";
 
 const props = defineProps<{
   open: boolean;
@@ -40,7 +43,10 @@ const {
   },
 );
 
-const addModal = ref<undefined | InstanceType<typeof LibraryBookAdd>>();
+const addModal = ref<undefined | InstanceType<typeof LibraryModalBookAdd>>();
+const addBulkModal = ref<
+  undefined | InstanceType<typeof LibraryModalBookAddBulk>
+>();
 
 const ui = {
   wrapper: "relative overflow-x-auto",
@@ -97,6 +103,17 @@ function handleAdd(row: NonNullable<typeof rows.value>[0]) {
   );
 }
 
+function handleAddBulk() {
+  if (selected.value) {
+    addBulkModal.value?.open(
+      selected.value.map((book) => ({
+        id: book.id,
+        name: book.name,
+      })),
+    );
+  }
+}
+
 const watcher = watch(
   () => props.open,
   () => {
@@ -106,103 +123,120 @@ const watcher = watch(
     }
   },
 );
+
+const selected = ref<NonNullable<typeof rows.value> | undefined>(
+  $pb.authStore.isAuthRecord ? [] : undefined,
+);
 </script>
 
 <template>
-  <UTable
-    :columns="columns"
-    :rows="rows || []"
-    class="[font-feature-settings:'ss01']"
-    :ui="ui"
-  >
-    <template #edition-data="{ row }">
-      <UBadge
-        v-if="row.edition"
-        color="tanaamber"
-        class="bg-opacity-50 text-gray-900 backdrop-blur"
-      >
-        {{ row.edition }}
-      </UBadge>
-    </template>
-    <template #publishDate-data="{ row }">
-      <span v-if="row.publishDate">
-        {{ $d(new Date(row.publishDate), "publishDate") }}
-      </span>
-    </template>
-    <template #price-data="{ row }">
-      <span>
-        {{ $n(row.price, "currency", "vi") }}
-      </span>
-    </template>
-    <template #note-data="{ row }">
-      <UTooltip
-        v-if="row.note"
-        :ui="{ base: 'whitespace-normal overflow-visible h-[unset]' }"
-      >
-        <UButton color="gray" icon="i-fluent-note-20-filled" />
-        <template #text>
-          <div>{{ row.note }}</div>
-        </template>
-      </UTooltip>
-    </template>
-    <template
-      #actions-data="{ row }: { row: NonNullable<typeof rows.value>[0] }"
+  <div class="space-y-3">
+    <UTable
+      v-model="selected"
+      :columns="columns"
+      :rows="rows || []"
+      class="[font-feature-settings:'ss01']"
+      :ui="ui"
     >
-      <div
-        v-if="$pb.authStore.isValid"
-        class="flex items-center justify-end gap-1 whitespace-nowrap text-right"
+      <template #edition-data="{ row }">
+        <UBadge
+          v-if="row.edition"
+          color="tanaamber"
+          class="bg-opacity-50 text-gray-900 backdrop-blur"
+        >
+          {{ row.edition }}
+        </UBadge>
+      </template>
+      <template #publishDate-data="{ row }">
+        <span v-if="row.publishDate">
+          {{ $d(new Date(row.publishDate), "publishDate") }}
+        </span>
+      </template>
+      <template #price-data="{ row }">
+        <span>
+          {{ $n(row.price, "currency", "vi") }}
+        </span>
+      </template>
+      <template #note-data="{ row }">
+        <UTooltip
+          v-if="row.note"
+          :ui="{ base: 'whitespace-normal overflow-visible h-[unset]' }"
+        >
+          <UButton color="gray" icon="i-fluent-note-20-filled" />
+          <template #text>
+            <div>{{ row.note }}</div>
+          </template>
+        </UTooltip>
+      </template>
+      <template
+        #actions-data="{ row }: { row: NonNullable<typeof rows.value>[0] }"
       >
-        <UPopover v-if="row.metadata?.inCollections" mode="hover">
-          <UTooltip :text="$t('library.view')" :popper="{ placement: 'top' }">
+        <div
+          v-if="$pb.authStore.isValid"
+          class="flex items-center justify-end gap-1 whitespace-nowrap text-right"
+        >
+          <UPopover v-if="row.metadata?.inCollections" mode="hover">
+            <UTooltip :text="$t('library.view')" :popper="{ placement: 'top' }">
+              <UButton
+                icon="i-fluent-library-20-filled"
+                color="gray"
+                variant="ghost"
+                square
+              />
+            </UTooltip>
+
+            <template v-if="row.metadata?.inCollections" #panel>
+              <UCard
+                :ui="{
+                  body: {
+                    padding: 'p-0 sm:p-0',
+                  },
+                  header: {
+                    padding: 'px-3 py-2 sm:px-3 sm:py-2',
+                  },
+                }"
+              >
+                <UButton
+                  v-for="collection in row.metadata.inCollections"
+                  :key="collection.id"
+                  :to="`/library/${collection.id}`"
+                  color="gray"
+                  variant="ghost"
+                  block
+                >
+                  {{ collection.name }}
+                </UButton>
+              </UCard>
+            </template>
+          </UPopover>
+
+          <UTooltip
+            :text="$t('library.addToLibrary')"
+            :popper="{ placement: 'top' }"
+          >
             <UButton
-              icon="i-fluent-library-20-filled"
+              icon="i-fluent-book-add-20-filled"
               color="gray"
               variant="ghost"
               square
+              @click="handleAdd(row)"
             />
           </UTooltip>
+        </div>
+        <div v-else></div>
+      </template>
+    </UTable>
 
-          <template v-if="row.metadata?.inCollections" #panel>
-            <UCard
-              :ui="{
-                body: {
-                  padding: 'p-0 sm:p-0',
-                },
-                header: {
-                  padding: 'px-3 py-2 sm:px-3 sm:py-2',
-                },
-              }"
-            >
-              <UButton
-                v-for="collection in row.metadata.inCollections"
-                :key="collection.id"
-                :to="`/library/${collection.id}`"
-                color="gray"
-                variant="ghost"
-                block
-              >
-                {{ collection.name }}
-              </UButton>
-            </UCard>
-          </template>
-        </UPopover>
+    <UButton
+      v-if="$pb.authStore.isAuthRecord && selected"
+      :label="$t('library.addToLibraryBulk')"
+      icon="i-fluent-book-add-20-filled"
+      color="gray"
+      :disabled="selected.length <= 0"
+      @click="handleAddBulk()"
+    />
 
-        <UTooltip
-          :text="$t('library.addToLibrary')"
-          :popper="{ placement: 'top' }"
-        >
-          <UButton
-            icon="i-fluent-book-add-20-filled"
-            color="gray"
-            variant="ghost"
-            square
-            @click="handleAdd(row)"
-          />
-        </UTooltip>
-      </div>
-      <div v-else></div>
-    </template>
-  </UTable>
-
-  <LazyLibraryBookAdd ref="addModal" @update="() => refresh()" />
+    <LazyLibraryModalBookAdd ref="addModal" @update="() => refresh()" />
+    <LazyLibraryModalBookAddBulk ref="addBulkModal" @update="() => refresh()" />
+  </div>
 </template>

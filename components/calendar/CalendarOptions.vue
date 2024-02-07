@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DropdownItem } from "@nuxt/ui/dist/runtime/types";
+import type { DropdownItem } from "#ui/types";
 
 const { t } = useI18n({ useScope: "global" });
 const store = useSettingsStore();

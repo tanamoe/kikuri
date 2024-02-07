@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { z } from "zod";
-import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
+import type { FormSubmitEvent } from "#ui/types";
 import { CollectionsVisibilityOptions } from "@/types/pb";
 
 const { t } = useI18n({ useScope: "global" });
 const { collectionVisibility } = useOptions();
 const { update } = useLibrary();
-const { pending, create } = useLibraryCollection();
-const { isOpen, close } = useLibraryCollectionCreate();
+const { isOpen, close } = useCollectionCreateModal();
+const { pending, create } = useCollections();
+const toast = useToast();
 
 const schema = z.object({
   name: z.string().min(1, t("error.review.releaseInvalid")),
@@ -23,15 +24,29 @@ const currentVisibility = computed(() =>
 );
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  const res = await create({
+  const [res, error] = await create({
     ...event.data,
     description: content.value,
   });
 
-  if (res) {
-    await update();
-    close();
+  if (error) {
+    return toast.add({
+      title: t("error.generalMessage"),
+      description: error.message,
+      color: "red",
+      icon: "i-fluent-error-circle-20-filled",
+    });
   }
+
+  toast.add({
+    title: t("general.success"),
+    description: t("library.createCollectionSuccess", {
+      name: res.item.name,
+    }),
+    icon: "i-fluent-checkmark-circle-20-filled",
+  });
+  await update();
+  return close();
 }
 </script>
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { $pb } = useNuxtApp();
-const { open } = useLibraryCollectionCreate();
+const { open } = useCollectionCreateModal();
 
 const route = useRoute();
 const { collections } = useLibrary();

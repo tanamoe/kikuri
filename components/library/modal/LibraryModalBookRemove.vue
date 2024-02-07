@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { BaseAPIResponse } from "@/types/api";
-
-const { pending, remove } = useLibraryBook();
+const toast = useToast();
+const { t } = useI18n({ useScope: "global" });
+const { pending, remove } = useCollectionBooks();
 
 const emit = defineEmits<{
-  update: [BaseAPIResponse];
+  update: [boolean];
 }>();
 
 defineExpose({
@@ -40,12 +40,26 @@ function close() {
 async function onSubmit() {
   if (!book.value.id || !state.value.collection) return;
 
-  const res = await remove(state.value.collection, book.value.id);
+  const [res, error] = await remove(state.value.collection, book.value.id);
 
-  if (res) {
-    emit("update", res);
-    close();
+  if (error) {
+    return toast.add({
+      title: t("error.generalMessage"),
+      description: error.message,
+      color: "red",
+      icon: "i-fluent-error-circle-20-filled",
+    });
   }
+
+  toast.add({
+    title: t("general.success"),
+    description: t("library.removeBookSuccessful", {
+      name: book.value.name,
+    }),
+    icon: "i-fluent-checkmark-circle-20-filled",
+  });
+  emit("update", res);
+  return close();
 }
 </script>
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { z } from "zod";
-import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
+import type { FormSubmitEvent } from "#ui/types";
 
 const { pending, requestPasswordReset } = useAuthentication();
 const { t } = useI18n({ useScope: "global" });
