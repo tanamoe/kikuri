@@ -6,12 +6,8 @@ const i18nHead = useLocaleHead({
 const { $pb } = useNuxtApp();
 const { update } = useLibrary();
 
-await callOnce(async () => {
-  await update();
-});
-
 onMounted(() => {
-  $pb.authStore.onChange(update);
+  $pb.authStore.onChange(update, true);
 });
 
 useHead({

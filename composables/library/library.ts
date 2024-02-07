@@ -12,6 +12,7 @@ import type { BaseAPIFields } from "@/types/api";
  */
 export function useLibrary() {
   const { $pb } = useNuxtApp();
+  const settingsStore = useSettingsStore();
 
   const collections = useState<(CollectionMemberResponse & BaseAPIFields)[]>(
     () => [],
@@ -32,11 +33,14 @@ export function useLibrary() {
 
       if (res.success) {
         collections.value = res.items;
+        settingsStore.library.defaultLibraryId = res.items[0].collectionId;
       } else {
         collections.value = [];
+        settingsStore.library.defaultLibraryId = undefined;
       }
     } else {
       collections.value = [];
+      settingsStore.library.defaultLibraryId = undefined;
     }
   }
 
