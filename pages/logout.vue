@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const { $pb } = useNuxtApp();
 
-onMounted(async () => {
+onMounted(() => {
   $pb.authStore.clear();
 
-  await navigateTo("/");
+  return navigateTo("/");
 });
 </script>
