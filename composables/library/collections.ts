@@ -1,13 +1,13 @@
-import type { CollectionsRecord } from "@/types/pb";
-import type { UserCollectionResponse } from "@/types/collections";
 import { ClientResponseError } from "pocketbase";
 import { joinURL } from "ufo";
+import type { CollectionsRecord } from "@/types/pb";
+import type { UserCollectionResponse } from "@/types/collections";
 
 export type LibraryCollectionUpdateResponse =
   | [UserCollectionResponse, null]
   | [null, ClientResponseError];
 
-export type LibraryCollectionDeleteResponse = [
+export type LibraryCollectionRemoveResponse = [
   boolean,
   ClientResponseError | null,
 ];
@@ -17,7 +17,7 @@ export type LibraryCollectionDeleteResponse = [
  *
  * @author Nguyen Do <khoanguyen.do@outlook.com>
  */
-export function useLibraryCollections() {
+export function useCollections() {
   const { $pb } = useNuxtApp();
 
   const pending = useState(() => false);
@@ -84,7 +84,7 @@ export function useLibraryCollections() {
   /**
    * Remove a user collection
    */
-  async function remove(id: string) {
+  async function remove(id: string): Promise<LibraryCollectionRemoveResponse> {
     pending.value = true;
 
     try {
@@ -99,9 +99,9 @@ export function useLibraryCollections() {
         throw new ClientResponseError(res.message);
       }
 
-      return [res, null];
+      return [true, null];
     } catch (error) {
-      return [null, new ClientResponseError(error)];
+      return [false, new ClientResponseError(error)];
     } finally {
       pending.value = false;
     }

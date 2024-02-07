@@ -17,6 +17,9 @@ export function useLibrary() {
     () => [],
   );
 
+  /**
+   * Method for update the library store with current user data
+   */
   async function update() {
     if ($pb.authStore.model) {
       const res = await $pb.send<UserCollectionsResponse>(
@@ -36,10 +39,6 @@ export function useLibrary() {
       collections.value = [];
     }
   }
-
-  $pb.authStore.onChange(async () => {
-    await update();
-  });
 
   return { collections, update };
 }

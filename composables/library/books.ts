@@ -11,11 +11,6 @@ export type LibraryBookArgument = Pick<
   "bookId" | "quantity" | "status"
 >;
 
-export type LibraryBookUpdateResponse =
-  | [UserCollectionBookResponse, null]
-  | [null, ClientResponseError]
-  | [UserCollectionBookResponse[], ClientResponseError[]];
-
 export type LibraryBookDeleteResponse = [boolean, ClientResponseError | null];
 
 /**
@@ -23,70 +18,88 @@ export type LibraryBookDeleteResponse = [boolean, ClientResponseError | null];
  *
  * @author Nguyen Do <khoanguyen.do@outlook.com>
  */
-export function useLibraryBooks() {
+export function useCollectionBooks() {
   const { $pb } = useNuxtApp();
 
   const pending = useState(() => false);
+  const progress = useState(() => 0);
 
   /**
    * Add or update books from collection
    */
   async function update(
     collectionId: string,
-    args: LibraryBookArgument | LibraryBookArgument[],
-  ): Promise<LibraryBookUpdateResponse> {
+    books: LibraryBookArgument[],
+  ): Promise<[UserCollectionBookResponse[], ClientResponseError[]]>;
+  async function update(
+    collectionId: string,
+    books: LibraryBookArgument,
+  ): Promise<[UserCollectionBookResponse, null] | [null, ClientResponseError]>;
+  async function update(
+    collectionId: string,
+    books: LibraryBookArgument | LibraryBookArgument[],
+  ) {
     pending.value = true;
+    progress.value = 0;
 
-    if (!Array.isArray(args)) {
-      try {
-        const res = await $pb.send<UserCollectionBookResponse>(
-          joinURL("/api/user-collection", collectionId, "/books"),
-          {
-            method: "POST",
-            body: args,
-          },
-        );
+    // handle multiple books
+    if (Array.isArray(books)) {
+      const responses: UserCollectionBookResponse[] = [];
+      const errors: ClientResponseError[] = [];
 
-        if (res.success === false) {
-          throw new ClientResponseError({
-            message: res.message || "Something went wrong",
-          });
+      for (const book of books) {
+        try {
+          const res = await $pb.send<UserCollectionBookResponse>(
+            joinURL("/api/user-collection", collectionId, "/books"),
+            {
+              method: "POST",
+              body: book,
+              expand: "book,collection,book.publication",
+            },
+          );
+
+          if (res.success === false) {
+            throw new ClientResponseError({
+              message: res.message || "Something went wrong",
+            });
+          }
+
+          responses.push(res);
+        } catch (error) {
+          errors.push(new ClientResponseError(error));
+        } finally {
+          progress.value++;
         }
-
-        return [res, null];
-      } catch (error) {
-        return [null, new ClientResponseError(error)];
-      } finally {
-        pending.value = false;
       }
+
+      progress.value = 0;
+      pending.value = false;
+
+      return [responses, errors];
     }
 
-    const responses: UserCollectionBookResponse[] = [];
-    const errors: ClientResponseError[] = [];
+    try {
+      const res = await $pb.send<UserCollectionBookResponse>(
+        joinURL("/api/user-collection", collectionId, "/books"),
+        {
+          method: "POST",
+          body: books,
+          expand: "book,collection,book.publication",
+        },
+      );
 
-    for (const book of args) {
-      try {
-        const res = await $pb.send<UserCollectionBookResponse>(
-          joinURL("/api/user-collection", collectionId, "/books"),
-          {
-            method: "POST",
-            body: book,
-          },
-        );
-
-        if (res.success === false) {
-          throw new ClientResponseError({
-            message: res.message || "Something went wrong",
-          });
-        }
-
-        responses.push(res);
-      } catch (error) {
-        errors.push(new ClientResponseError(error));
+      if (res.success === false) {
+        throw new ClientResponseError({
+          message: res.message || "Something went wrong",
+        });
       }
-    }
 
-    return [responses, errors];
+      return [res, null];
+    } catch (error) {
+      return [null, new ClientResponseError(error)];
+    } finally {
+      pending.value = false;
+    }
   }
 
   /**
@@ -120,5 +133,5 @@ export function useLibraryBooks() {
     }
   }
 
-  return { pending, update, remove };
+  return { pending, progress, update, remove };
 }
