@@ -23,7 +23,6 @@ defineProps<{
         {{ $d(date, "twoDigitMonth") }}
       </span>
     </div>
-    <div class="mt-3 flex"></div>
   </div>
   <div
     v-if="store.display.datePosition === 'top'"

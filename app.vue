@@ -1,13 +1,17 @@
 <script setup lang="ts">
-// TODO: track https://github.com/nuxt/nuxt/pull/24931/
 const { ogUrl, umamiUrl, umamiSiteId, fbAppId } = useRuntimeConfig().public;
 const i18nHead = useLocaleHead({
   addSeoAttributes: true,
 });
+const { $pb } = useNuxtApp();
 const { update } = useLibrary();
 
-onMounted(async () => {
+await callOnce(async () => {
   await update();
+});
+
+onMounted(() => {
+  $pb.authStore.onChange(update);
 });
 
 useHead({
@@ -70,6 +74,6 @@ useSeoMeta({
     <UNotifications />
     <SearchBar />
 
-    <LazyLibraryCollectionCreate />
+    <LazyLibraryModalCollectionCreate />
   </NuxtLayout>
 </template>

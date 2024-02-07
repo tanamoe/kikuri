@@ -129,6 +129,7 @@ onMounted(async () => {
               </span>
             </UButton>
           </USelectMenu>
+
           <CalendarOptions />
         </div>
       </div>

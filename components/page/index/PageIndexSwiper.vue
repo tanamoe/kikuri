@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type SwiperClass from "swiper";
 import {
   type BookDetailsResponse,
   type PublicationsResponse,
@@ -77,7 +78,7 @@ const swiperEl = ref();
           },
         }"
         style="overflow: visible; margin-right: 0"
-        @slide-change="(swiper) => (index = swiper.activeIndex)"
+        @slide-change="(swiper: SwiperClass) => (index = swiper.activeIndex)"
       >
         <SwiperSlide
           v-for="book in releases"

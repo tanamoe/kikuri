@@ -1,5 +1,8 @@
 <script setup lang="ts">
-const { pending, remove } = useLibraryCollection();
+const { pending, remove } = useCollections();
+const toast = useToast();
+const { t } = useI18n({ useScope: "global" });
+const { update } = useLibrary();
 
 const props = defineProps<{
   collection: {
@@ -24,11 +27,27 @@ function close() {
 }
 
 async function onSubmit() {
-  const res = await remove(props.collection.id);
+  const [, error] = await remove(props.collection.id);
 
-  if (res) {
-    close();
+  if (error) {
+    return toast.add({
+      title: t("error.generalMessage"),
+      description: error.message,
+      color: "red",
+      icon: "i-fluent-error-circle-20-filled",
+    });
   }
+
+  toast.add({
+    title: t("general.success"),
+    description: t("library.removeCollectionSuccess", {
+      name: props.collection.name,
+    }),
+    icon: "i-fluent-checkmark-circle-20-filled",
+  });
+  close();
+  await update();
+  return navigateTo("/library");
 }
 </script>
 

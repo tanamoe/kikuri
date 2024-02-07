@@ -1,21 +1,11 @@
 <script setup lang="ts">
 import dayjs, { type Dayjs } from "dayjs";
 
-const props = defineProps<{
-  modelValue: Dayjs;
-}>();
-
-const emit = defineEmits<{
-  "update:modelValue": [month: Dayjs];
-}>();
-
-const date = computed({
-  get: () => props.modelValue,
-  set: (value) => emit("update:modelValue", value),
-});
+const date = defineModel<Dayjs>({ required: true });
 
 const today = dayjs.tz();
 
+// TODO: get only available year, that is, we have the releases data for.
 const availableYears = [
   ...Array.from(
     { length: today.year() - 2000 + 2 }, // get from 2000 to the year after now
@@ -28,12 +18,17 @@ const selected = ref({
   month: date.value.month(),
 });
 
-const reset = () => {
+function reset() {
   selected.value = {
     year: today.year(),
     month: today.month(),
   };
-};
+}
+
+function apply(close: () => unknown) {
+  close();
+  date.value = dayjs.tz(selected.value);
+}
 
 watch(
   [date],
@@ -109,15 +104,7 @@ watch(
           <UButton color="red" variant="outline" block @click="reset">
             {{ $t("monthPicker.reset") }}
           </UButton>
-          <UButton
-            block
-            @click="
-              () => {
-                close();
-                date = dayjs.tz(selected);
-              }
-            "
-          >
+          <UButton block @click="apply(close)">
             {{ $t("monthPicker.save") }}
           </UButton>
         </div>

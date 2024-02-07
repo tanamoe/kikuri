@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import MiniSearch from "minisearch";
-import type { LibraryBookEdit, LibraryBookRemove } from "#build/components";
+import type {
+  LibraryModalBookEdit,
+  LibraryModalBookRemove,
+} from "#build/components";
 import type { CollectionBooksStatusOptions } from "@/types/pb";
 
 type SortParams = "+name" | "-name" | "+updated" | "-updated";
@@ -21,8 +24,8 @@ type Book = {
 };
 
 const props = defineProps<{
-  editModal?: InstanceType<typeof LibraryBookEdit>;
-  removeModal?: InstanceType<typeof LibraryBookRemove>;
+  editModal?: InstanceType<typeof LibraryModalBookEdit>;
+  removeModal?: InstanceType<typeof LibraryModalBookRemove>;
   books: Book[];
   editable: boolean;
 }>();
@@ -122,7 +125,7 @@ function handleRemove(row: Book) {
         class="flex-1"
         :placeholder="$t('general.search')"
       />
-      <PageLibrarySort v-model="sort" />
+      <LibrarySort v-model="sort" />
     </div>
 
     <UCard v-for="item in results" :key="item.id" :ui="ui">

@@ -4,7 +4,7 @@ import { joinURL } from "ufo";
 import { Collections } from "@/types/pb";
 import type { FilterPublishers } from "@/utils/releases";
 import type { BookDetailsCommon } from "@/types/common";
-import type { LibraryBookAdd } from "#build/components";
+import type { LibraryModalBookAdd } from "#build/components";
 
 const { ogUrl } = useRuntimeConfig().public;
 const nuxtApp = useNuxtApp();
@@ -28,7 +28,7 @@ const month = computed({
 });
 
 const publishers = ref<FilterPublishers[]>([]);
-const addModal = ref<undefined | InstanceType<typeof LibraryBookAdd>>();
+const addModal = ref<undefined | InstanceType<typeof LibraryModalBookAdd>>();
 
 const filter = computed(() =>
   parseCalendarFilter(
@@ -45,6 +45,7 @@ const filter = computed(() =>
 const {
   data: releases,
   error,
+  pending,
   refresh,
 } = await useAsyncData(
   () =>
@@ -71,6 +72,26 @@ const dates = computed(() => {
   } else return [];
 });
 
+const ui = {
+  base: "relative",
+  shadow: "shadow",
+  body: {
+    padding: "p-0 sm:p-0",
+  },
+};
+
+function handleAdd(book: BookDetailsCommon) {
+  if (addModal.value) {
+    addModal.value.open(
+      {
+        id: book.id,
+        name: book.expand?.publication?.name ?? book.id,
+      },
+      book.metadata?.inCollections?.map((c) => c.id),
+    );
+  }
+}
+
 definePageMeta({
   layout: "full",
   stickyNav: false,
@@ -88,23 +109,126 @@ useSeoMeta({
 
 <template>
   <div>
-    <PageCalendarToolbar
-      v-model:month="month"
-      v-model:publishers="publishers"
-    />
+    <CalendarToolbar v-model:month="month" v-model:publishers="publishers" />
 
-    <PageCalendarEmpty v-if="!releases || Object.keys(releases).length === 0" />
+    <UContainer v-if="pending">
+      <div
+        v-for="row in 4"
+        :key="row"
+        class="release-day mb-24 flex scroll-mt-28 gap-6 sm:scroll-mt-16"
+        :class="{
+          'flex-col': store.display.datePosition === 'top',
+        }"
+        style="scroll-margin-top: calc(var(--toolbar-height) + 1rem)"
+      >
+        <div
+          class="sticky top-28 flex-shrink-0 self-start sm:top-16"
+          :class="{
+            'w-12 md:w-20': store.display.datePosition === 'left',
+            'z-30 w-full bg-gray-50 ring-8 ring-gray-50 dark:bg-gray-900 dark:ring-gray-900':
+              store.display.datePosition === 'top',
+          }"
+          style="top: var(--toolbar-height)"
+        >
+          <div class="space-y-3">
+            <USkeleton class="h-4 w-12 rounded-md md:w-20" />
+            <USkeleton class="h-12 w-12 rounded-md md:w-20" />
+            <USkeleton class="h-12 w-12 rounded-md md:w-20" />
+          </div>
+        </div>
+        <div
+          class="grid w-full grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-6"
+        >
+          <div v-for="col in 12" :key="col" class="space-y-3">
+            <UCard :ui="ui">
+              <USkeleton class="aspect-[2/3] h-auto w-full rounded-md" />
+            </UCard>
+            <USkeleton class="h-6 w-full rounded-md" />
+            <USkeleton class="h-4 w-1/3 rounded-md" />
+            <USkeleton class="h-4 w-2/3 rounded-md" />
+          </div>
+        </div>
+      </div>
+    </UContainer>
 
-    <PageCalendarError v-else-if="error" :error="error" />
+    <UContainer
+      v-else-if="error || !releases || Object.keys(releases).length === 0"
+      class="my-12 flex items-center justify-center"
+    >
+      <div class="text-center">
+        <p>{{ "~(>_<~)" }}</p>
+        <template v-if="error">
+          <h1 class="my-3 font-lexend text-4xl font-bold">
+            {{ error.name }}
+          </h1>
+          <p>{{ error.message }}</p>
+        </template>
+        <template v-else>
+          <h1 class="my-3 font-lexend text-4xl font-bold">
+            {{ $t("calendar.noReleases") }}
+          </h1>
+          <p>{{ $t("calendar.noReleasesDescription") }}</p>
+        </template>
+      </div>
+    </UContainer>
 
-    <template v-else>
-      <PageCalendarReleases :add-modal="addModal" :releases="releases" />
+    <UContainer v-else>
+      <div
+        v-for="(group, key) in releases"
+        :id="dayjs(key).format('YYYY-MM-DD')"
+        :key="key"
+        class="release-day mb-24 flex scroll-mt-28 gap-6 sm:scroll-mt-16"
+        :class="{
+          'flex-col': store.display.datePosition === 'top',
+        }"
+        style="scroll-margin-top: calc(var(--toolbar-height) + 1rem)"
+      >
+        <div
+          class="sticky top-28 flex-shrink-0 self-start sm:top-16"
+          :class="{
+            'w-12 md:w-20': store.display.datePosition === 'left',
+            'z-30 w-full bg-gray-50 ring-8 ring-gray-50 dark:bg-gray-900 dark:ring-gray-900':
+              store.display.datePosition === 'top',
+          }"
+          style="top: var(--toolbar-height)"
+        >
+          <CalendarDate :date="new Date(key)" />
+        </div>
+        <div
+          class="grid w-full grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-6"
+        >
+          <div v-for="book in group" :key="book.id">
+            <AppBook
+              :book="book"
+              sizes="(max-width: 640px) 40vw, (max-width: 768px) 30vw, 20vw"
+              @add="handleAdd"
+            />
+          </div>
+        </div>
+      </div>
 
-      <PageCalendarQuickNavigation :dates="dates" />
+      <CalendarQuickNavigation :dates="dates" />
+    </UContainer>
+
+    <UContainer class="flex items-center justify-between">
+      <UButton
+        icon="i-fluent-arrow-left-20-filled"
+        color="gray"
+        @click="month.subtract(1, 'month')"
+      >
+        {{ $t("general.monthPrevious") }}
+      </UButton>
+      <UButton
+        trailing-icon="i-fluent-arrow-right-20-filled"
+        color="gray"
+        @click="month.add(1, 'month')"
+      >
+        {{ $t("general.monthAfter") }}
+      </UButton>
+    </UContainer>
+
+    <template v-if="$pb.authStore.isAuthRecord">
+      <LazyLibraryModalBookAdd ref="addModal" @update="() => refresh()" />
     </template>
-
-    <PageCalendarNavigation v-model:month="month" />
-
-    <LazyLibraryBookAdd ref="addModal" @update="() => refresh()" />
   </div>
 </template>
