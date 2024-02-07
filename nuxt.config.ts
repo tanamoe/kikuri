@@ -36,6 +36,7 @@ export default defineNuxtConfig({
     "/": { prerender: true, isr: 3600 },
     "/calendar": { prerender: true, isr: 3600 },
     "/title/*": { isr: 3600 },
+    "/library/*": { ssr: false },
   },
   image: {
     provider: "imagor",
