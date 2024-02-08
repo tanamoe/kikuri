@@ -56,7 +56,7 @@
     "minisearch": "^6.3.0",
     "nuxt-swiper": "^1.2.2",
     "pinia": "^2.1.7",
-    "pocketbase": "^0.20.1",
+    "pocketbase": "^0.21.0",
     "vue": "^3.4.0",
     "zod": "^3.22.4"
   },
