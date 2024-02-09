@@ -1,11 +1,81 @@
 <script setup lang="ts">
-import { Collections, type TitlesResponse } from "@/types/pb";
+import type { Command, Group } from "#ui/types";
+import type { UCommandPalette } from "#build/components";
+import type { APISearchResponse } from "@/types/search";
 
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const { isActive, close } = useSearch();
 
+const commandPalletteRef = ref<typeof UCommandPalette>();
+
+async function search(query: string) {
+  if (!query) {
+    return [];
+  }
+
+  try {
+    const result = await $pb.send<APISearchResponse>(
+      "/api/collections/titles/browse",
+      {
+        method: "POST",
+        body: {
+          name: query,
+        },
+        expand: "format",
+      },
+    );
+    return result.items.map((title) => ({
+      id: title.id,
+      label: title.name,
+      to: `/title/${title.slug}`,
+      suffix: title.format?.name,
+    })) as Command[];
+  } catch (e) {
+    return [];
+  }
+}
+
 const groups = computed(() => {
+  if (!commandPalletteRef.value?.query) {
+    return [
+      {
+        key: "navigation",
+        commands: [
+          {
+            id: "calendar",
+            label: t("general.releaseCalendar"),
+            icon: "i-fluent-calendar-20-filled",
+            to: "/calendar",
+          },
+          {
+            id: "browse",
+            label: t("general.browse"),
+            icon: "i-fluent-book-search-20-filled",
+            to: "/browse",
+          },
+          {
+            id: "library",
+            label: t("general.library"),
+            icon: "i-fluent-library-20-filled",
+            to: "/library",
+          },
+        ],
+      },
+      {
+        key: "actions",
+        commands: [
+          {
+            id: "settings",
+            label: t("general.settings"),
+            icon: "i-fluent-settings-20-filled",
+            to: "/settings",
+          },
+        ],
+      },
+    ] as Group[];
+  }
+
   return [
     {
       key: "title",
@@ -13,25 +83,7 @@ const groups = computed(() => {
         if (q) return t("general.searchResultFor", { query: q });
       },
       commands: [],
-      search: async (q: string) => {
-        if (!q) {
-          return [];
-        }
-
-        const { data } = await useAsyncData(() => {
-          return $pb
-            .collection(Collections.Titles)
-            .getFullList<TitlesResponse>({ filter: `name ~ '${q}'` });
-        });
-
-        if (data.value == null) return [];
-
-        return data.value.map((title) => ({
-          id: title.id,
-          label: title.name,
-          to: `/title/${title.slug}`,
-        }));
-      },
+      search,
     },
   ];
 });
@@ -66,6 +118,7 @@ defineShortcuts({
 <template>
   <UModal v-model="isActive" :ui="ui">
     <UCommandPalette
+      ref="commandPalletteRef"
       :groups="groups"
       :placeholder="$t('general.searchPlaceholder')"
       @update:model-value="onSelect"
