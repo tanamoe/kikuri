@@ -39,6 +39,14 @@ const state = ref({
     : "/banner.jpg",
 });
 
+const ui = {
+  base: "relative overflow-hidden",
+  shadow: "shadow",
+  body: {
+    padding: "p-0 sm:p-0",
+  },
+};
+
 function handleAvatarChange() {
   if (avatarInput.value?.files) {
     emit("change:avatar", avatarInput.value.files[0]);
@@ -65,10 +73,10 @@ function handleBannerRemove() {
 </script>
 
 <template>
-  <AppCard class="w-full lg:max-w-sm" :hoverable="false">
+  <UCard :ui="ui" class="w-full lg:max-w-sm" :hoverable="false">
     <div>
       <img
-        class="aspect-[21/9] h-auto w-full cursor-pointer rounded-t-md bg-gray-300 object-cover transition-all hover:brightness-90 dark:bg-gray-700 dark:hover:brightness-75"
+        class="aspect-[21/9] h-auto w-full cursor-pointer bg-gray-300 object-cover transition-all hover:brightness-90 dark:bg-gray-700 dark:hover:brightness-75"
         :src="state.banner"
         @click="bannerInput?.click()"
       />
@@ -86,7 +94,7 @@ function handleBannerRemove() {
           :popper="{ placement: 'bottom-end' }"
         >
           <UButton
-            color="white"
+            color="gray"
             variant="ghost"
             trailing-icon="i-fluent-more-vertical-20-filled"
           />
@@ -102,7 +110,7 @@ function handleBannerRemove() {
         </div>
       </div>
     </div>
-  </AppCard>
+  </UCard>
 
   <form ref="form" class="hidden">
     <input

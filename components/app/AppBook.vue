@@ -5,7 +5,7 @@ import type { BookDetailsCommon } from "@/types/common";
 const store = useSettingsStore();
 
 const ui = {
-  base: "relative",
+  base: "relative overflow-hidden",
   shadow: "shadow",
   body: {
     padding: "p-0 sm:p-0",
@@ -23,12 +23,8 @@ defineEmits<{
 
 <template>
   <NuxtLink
-    v-if="book.expand && book.expand.publication && book.expand.release"
-    :to="
-      book.expand?.release.expand?.title
-        ? joinURL('/title/' + book.expand.release.expand.title.slug)
-        : ''
-    "
+    v-if="book.expand?.publication && book.expand.release?.expand?.title"
+    :to="joinURL('/title/' + book.expand.release.expand.title.slug)"
     class="group"
   >
     <UCard :ui="ui">

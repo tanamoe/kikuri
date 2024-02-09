@@ -1,8 +1,15 @@
 <script setup lang="ts">
 import { joinURL } from "ufo";
-
 import type { MetadataCommon, MetadataImages } from "@/types/common";
 import type { TitlesResponse } from "@/types/pb";
+
+const ui = {
+  base: "relative overflow-hidden",
+  shadow: "shadow",
+  body: {
+    padding: "p-0 sm:p-0",
+  },
+};
 
 defineProps<{
   title: TitlesResponse<MetadataCommon>;
@@ -13,7 +20,7 @@ defineProps<{
 
 <template>
   <NuxtLink :to="joinURL('/title/' + title.slug)" class="group space-y-3">
-    <AppCard>
+    <UCard :ui="ui">
       <AppCover
         class="transition-all group-hover:brightness-90 dark:group-hover:brightness-75"
         :name="title.name"
@@ -31,7 +38,7 @@ defineProps<{
         "
         v-bind="$attrs"
       />
-    </AppCard>
+    </UCard>
     <div class="space-y-1">
       <slot name="before" />
       <h3
