@@ -70,6 +70,6 @@ useSeoMeta({
     <UNotifications />
     <SearchBar />
 
-    <LazyLibraryModalCollectionCreate />
+    <UModals />
   </NuxtLayout>
 </template>

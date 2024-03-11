@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { Collections } from "@/types/pb";
 import type { BookDetailsCommon } from "@/types/common";
-import type {
-  LibraryModalBookAdd,
-  LibraryModalBookAddBulk,
-} from "#build/components";
+import { LibraryModalBookAdd, LibraryModalBookAddBulk } from "#components";
 
 const props = defineProps<{
   open: boolean;
@@ -13,6 +10,7 @@ const props = defineProps<{
 
 const { $pb } = useNuxtApp();
 const { t } = useI18n();
+const modal = useModal();
 
 const {
   data: rows,
@@ -42,11 +40,6 @@ const {
       })),
   },
 );
-
-const addModal = ref<undefined | InstanceType<typeof LibraryModalBookAdd>>();
-const addBulkModal = ref<
-  undefined | InstanceType<typeof LibraryModalBookAddBulk>
->();
 
 const ui = {
   wrapper: "relative overflow-x-auto",
@@ -94,23 +87,25 @@ const columns = [
 ];
 
 function handleAdd(row: NonNullable<typeof rows.value>[0]) {
-  addModal.value?.open(
-    {
+  modal.open(LibraryModalBookAdd, {
+    book: {
       id: row.id,
       name: row.name,
     },
-    row.metadata?.inCollections?.map((c) => c.id),
-  );
+    inCollections: row.metadata?.inCollections?.map((c) => c.id),
+    callback: refresh,
+  });
 }
 
 function handleAddBulk() {
   if (selected.value) {
-    addBulkModal.value?.open(
-      selected.value.map((book) => ({
+    modal.open(LibraryModalBookAddBulk, {
+      books: selected.value.map((book) => ({
         id: book.id,
         name: book.name,
       })),
-    );
+      callback: refresh,
+    });
   }
 }
 
@@ -235,8 +230,5 @@ const selected = ref<NonNullable<typeof rows.value> | undefined>(
       :disabled="selected.length <= 0"
       @click="handleAddBulk()"
     />
-
-    <LazyLibraryModalBookAdd ref="addModal" @update="() => refresh()" />
-    <LazyLibraryModalBookAddBulk ref="addBulkModal" @update="() => refresh()" />
   </div>
 </template>

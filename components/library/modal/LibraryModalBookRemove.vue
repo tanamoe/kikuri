@@ -2,45 +2,27 @@
 const toast = useToast();
 const { t } = useI18n({ useScope: "global" });
 const { pending, remove } = useCollectionBooks();
+const modal = useModal();
 
-const emit = defineEmits<{
-  update: [boolean];
-}>();
-
-defineExpose({
-  open,
-  close,
-});
-
-const isOpen = ref(false);
-const book = ref<{
-  id?: string;
-  name?: string;
-}>({});
-const state = ref<{ collection?: string }>({});
-
-function open(
-  data: {
+const props = defineProps<{
+  book: {
     id: string;
     name: string;
-  },
-  value: {
-    collection: string;
-  },
-) {
-  isOpen.value = true;
-  book.value = data;
-  state.value = value;
-}
+  };
+  collection: string;
+  callback?: () => any;
+}>();
 
-function close() {
-  isOpen.value = false;
+const s = ref({
+  collection: props.collection,
+});
+
+function handleClose() {
+  modal.isOpen.value = false;
 }
 
 async function onSubmit() {
-  if (!book.value.id || !state.value.collection) return;
-
-  const [res, error] = await remove(state.value.collection, book.value.id);
+  const [, error] = await remove(s.value.collection, props.book.id);
 
   if (error) {
     return toast.add({
@@ -54,17 +36,20 @@ async function onSubmit() {
   toast.add({
     title: t("general.success"),
     description: t("library.removeBookSuccessful", {
-      name: book.value.name,
+      name: props.book.name,
     }),
     icon: "i-fluent-checkmark-circle-20-filled",
   });
-  emit("update", res);
-  return close();
+
+  if (props.callback) {
+    props.callback();
+  }
+  return handleClose();
 }
 </script>
 
 <template>
-  <UModal v-if="$pb.authStore.isAuthRecord && book" v-model="isOpen">
+  <UModal v-if="$pb.authStore.isAuthRecord && book">
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <template #header>
         <div class="flex items-center justify-between">
@@ -74,7 +59,7 @@ async function onSubmit() {
             variant="ghost"
             icon="i-fluent-dismiss-20-filled"
             class="-my-1"
-            @click="close"
+            @click="handleClose"
           />
         </div>
       </template>
@@ -85,7 +70,7 @@ async function onSubmit() {
         </div>
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="close">
+          <UButton color="red" variant="ghost" @click="handleClose">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending" @click="onSubmit">

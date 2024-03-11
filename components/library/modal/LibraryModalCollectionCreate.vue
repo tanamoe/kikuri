@@ -6,9 +6,9 @@ import { CollectionsVisibilityOptions } from "@/types/pb";
 const { t } = useI18n({ useScope: "global" });
 const { collectionVisibility } = useOptions();
 const { update } = useLibrary();
-const { isOpen, close } = useCollectionCreateModal();
 const { pending, create } = useCollections();
 const toast = useToast();
+const modal = useModal();
 
 const schema = z.object({
   name: z.string().min(1, t("error.review.releaseInvalid")),
@@ -22,6 +22,10 @@ const content = ref("");
 const currentVisibility = computed(() =>
   collectionVisibility.value.find((v) => v.id === state.value.visibility),
 );
+
+function handleClose() {
+  modal.isOpen.value = false;
+}
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const [res, error] = await create({
@@ -46,12 +50,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     icon: "i-fluent-checkmark-circle-20-filled",
   });
   await update();
-  return close();
+  return handleClose();
 }
 </script>
 
 <template>
-  <UModal v-if="$pb.authStore.isAuthRecord" v-model="isOpen">
+  <UModal v-if="$pb.authStore.isAuthRecord">
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <template #header>
         <div class="flex items-center justify-between">
@@ -61,7 +65,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             variant="ghost"
             icon="i-fluent-dismiss-20-filled"
             class="-my-1"
-            @click="close"
+            @click="handleClose"
           />
         </div>
       </template>
@@ -105,7 +109,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
               color="gray"
               variant="ghost"
               square
-              @click="close"
+              @click="handleClose"
             />
           </UTooltip>
           <UButton type="submit" :loading="pending">

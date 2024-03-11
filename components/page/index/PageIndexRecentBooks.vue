@@ -45,6 +45,7 @@ const { data: books } = await useLazyAsyncData(() =>
         <AppBook
           :book="book"
           sizes="(max-width: 640px) 40vw, (max-width: 768px) 30vw, 20vw"
+          :show-button="false"
         />
       </div>
     </div>

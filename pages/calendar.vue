@@ -4,7 +4,7 @@ import { joinURL } from "ufo";
 import { Collections } from "@/types/pb";
 import type { FilterPublishers } from "@/utils/releases";
 import type { BookDetailsCommon } from "@/types/common";
-import type { LibraryModalBookAdd } from "#build/components";
+import { LibraryModalBookAdd } from "#components";
 
 const { ogUrl } = useRuntimeConfig().public;
 const nuxtApp = useNuxtApp();
@@ -13,6 +13,7 @@ const { t } = useI18n({ useScope: "global" });
 const store = useSettingsStore();
 const route = useRoute();
 const router = useRouter();
+const modal = useModal();
 
 const month = computed({
   get: () =>
@@ -28,7 +29,6 @@ const month = computed({
 });
 
 const publishers = ref<FilterPublishers[]>([]);
-const addModal = ref<undefined | InstanceType<typeof LibraryModalBookAdd>>();
 
 const filter = computed(() =>
   parseCalendarFilter(
@@ -81,15 +81,14 @@ const ui = {
 };
 
 function handleAdd(book: BookDetailsCommon) {
-  if (addModal.value) {
-    addModal.value.open(
-      {
-        id: book.id,
-        name: book.expand?.publication?.name ?? book.id,
-      },
-      book.metadata?.inCollections?.map((c) => c.id),
-    );
-  }
+  modal.open(LibraryModalBookAdd, {
+    book: {
+      id: book.id,
+      name: book.expand?.publication?.name ?? book.id,
+    },
+    inCollections: book.metadata?.inCollections?.map((c) => c.id),
+    callback: refresh,
+  });
 }
 
 definePageMeta({
@@ -226,9 +225,5 @@ useSeoMeta({
         {{ $t("general.monthAfter") }}
       </UButton>
     </UContainer>
-
-    <template v-if="$pb.authStore.isAuthRecord">
-      <LazyLibraryModalBookAdd ref="addModal" @update="() => refresh()" />
-    </template>
   </div>
 </template>

@@ -12,9 +12,14 @@ const ui = {
   },
 };
 
-defineProps<{
+export interface Props {
   book: BookDetailsCommon;
-}>();
+  showButton?: boolean;
+}
+
+withDefaults(defineProps<Props>(), {
+  showButton: true,
+});
 
 defineEmits<{
   add: [BookDetailsCommon];
@@ -43,57 +48,59 @@ defineEmits<{
         {{ book.edition }}
       </UBadge>
 
-      <div
-        v-if="$pb.authStore.isAuthRecord"
-        class="absolute bottom-2 right-2 z-20 flex items-center gap-1"
-      >
-        <UPopover v-if="book.metadata?.inCollections">
-          <UTooltip :text="$t('library.view')" :popper="{ placement: 'top' }">
+      <ClientOnly>
+        <div
+          v-if="$pb.authStore.isAuthRecord && showButton"
+          class="absolute bottom-2 right-2 z-20 flex items-center gap-1"
+        >
+          <UPopover v-if="book.metadata?.inCollections">
+            <UTooltip :text="$t('library.view')" :popper="{ placement: 'top' }">
+              <UButton
+                icon="i-fluent-library-20-filled"
+                class="shadow-lg"
+                color="white"
+                square
+              />
+            </UTooltip>
+
+            <template v-if="book.metadata?.inCollections" #panel>
+              <UCard
+                :ui="{
+                  body: {
+                    padding: 'p-0 sm:p-0',
+                  },
+                  header: {
+                    padding: 'px-3 py-2 sm:px-3 sm:py-2',
+                  },
+                }"
+              >
+                <UButton
+                  v-for="collection in book.metadata.inCollections"
+                  :key="collection.id"
+                  :to="`/library/${collection.id}`"
+                  color="gray"
+                  variant="ghost"
+                  block
+                >
+                  {{ collection.name }}
+                </UButton>
+              </UCard>
+            </template>
+          </UPopover>
+
+          <UTooltip
+            :text="$t('library.addToLibrary')"
+            :popper="{ placement: 'top' }"
+          >
             <UButton
-              icon="i-fluent-library-20-filled"
               class="shadow-lg"
+              icon="i-fluent-add-20-filled"
               color="white"
-              square
+              @click.prevent="$emit('add', book)"
             />
           </UTooltip>
-
-          <template v-if="book.metadata?.inCollections" #panel>
-            <UCard
-              :ui="{
-                body: {
-                  padding: 'p-0 sm:p-0',
-                },
-                header: {
-                  padding: 'px-3 py-2 sm:px-3 sm:py-2',
-                },
-              }"
-            >
-              <UButton
-                v-for="collection in book.metadata.inCollections"
-                :key="collection.id"
-                :to="`/library/${collection.id}`"
-                color="gray"
-                variant="ghost"
-                block
-              >
-                {{ collection.name }}
-              </UButton>
-            </UCard>
-          </template>
-        </UPopover>
-
-        <UTooltip
-          :text="$t('library.addToLibrary')"
-          :popper="{ placement: 'top' }"
-        >
-          <UButton
-            class="shadow-lg"
-            icon="i-fluent-add-20-filled"
-            color="white"
-            @click.prevent="$emit('add', book)"
-          />
-        </UTooltip>
-      </div>
+        </div>
+      </ClientOnly>
 
       <AppCover
         class="relative z-10 transition-all group-hover:brightness-90 dark:group-hover:brightness-75"

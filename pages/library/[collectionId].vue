@@ -5,11 +5,7 @@ import type {
   UserCollectionBooksResponse,
   UserCollectionResponse,
 } from "@/types/collections";
-import type {
-  LibraryModalBookEdit,
-  LibraryModalBookRemove,
-  LibraryModalCollectionRemove,
-} from "#build/components";
+import { LibraryModalCollectionRemove } from "#components";
 
 const route = useRoute();
 const settingsStore = useSettingsStore();
@@ -17,6 +13,7 @@ const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const { ogUrl } = useRuntimeConfig().public;
 const { collectionVisibility } = useOptions();
+const modal = useModal();
 
 const { data: collection } = await useAsyncData(() =>
   $pb.send<UserCollectionResponse>(
@@ -73,11 +70,6 @@ const { data: books, refresh } = await useAsyncData(
       })),
   },
 );
-
-const editModal = ref<InstanceType<typeof LibraryModalBookEdit>>();
-const removeModal = ref<InstanceType<typeof LibraryModalBookRemove>>();
-const collectionRemoveModal =
-  ref<InstanceType<typeof LibraryModalCollectionRemove>>();
 
 const editable = computed(() => {
   if (!$pb.authStore.isAuthRecord) return false;
@@ -149,11 +141,14 @@ const items = computed(() => [
     {
       label: t("library.removeCollection"),
       icon: "i-fluent-delete-20-filled",
-      disabled: !collectionRemoveModal.value,
+      disabled: collection.value === null,
       click: () => {
-        if (collectionRemoveModal.value) {
-          collectionRemoveModal.value.open();
-        }
+        modal.open(LibraryModalCollectionRemove, {
+          collection: {
+            id: collection.value?.item.id ?? "",
+            name: collection.value?.item.name ?? "",
+          },
+        });
       },
     },
   ],
@@ -274,20 +269,9 @@ useSeoMeta({
 
     <LibraryBooks
       v-if="books"
-      :edit-modal="editModal"
-      :remove-modal="removeModal"
       :editable="editable"
       :books="books"
-    />
-
-    <LazyLibraryModalBookEdit ref="editModal" @update="refresh()" />
-    <LazyLibraryModalBookRemove ref="removeModal" @update="refresh()" />
-    <LazyLibraryModalCollectionRemove
-      ref="collectionRemoveModal"
-      :collection="{
-        id: collection.item.id,
-        name: collection.item.name,
-      }"
+      :callback="refresh"
     />
   </div>
 </template>
