@@ -7,22 +7,19 @@ import { CollectionBooksStatusOptions } from "@/types/pb";
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 const { pending, progress, update } = useCollectionBooks();
-const { open: createCollectionOpen } = useCollectionCreateModal();
 const { collectionBookStatus } = useOptions();
 const { collections } = useLibrary();
 const toast = useToast();
 const settingsStore = useSettingsStore();
+const modal = useModal();
 
-const emit = defineEmits<{
-  update: [void];
+const props = defineProps<{
+  books: {
+    id?: string;
+    name?: string;
+  }[];
+  callback?: () => any;
 }>();
-
-defineExpose({
-  open,
-  close,
-});
-
-const isOpen = ref(false);
 
 const c = computed(() =>
   collections.value.map((collection) => ({
@@ -31,7 +28,7 @@ const c = computed(() =>
   })),
 );
 
-const p = computed(() => (progress.value / books.value.length) * 100);
+const p = computed(() => (progress.value / props.books.length) * 100);
 
 const schema = z.object({
   collection: z.string(),
@@ -40,49 +37,29 @@ const schema = z.object({
 });
 type Schema = z.output<typeof schema>;
 
-const books = ref<
-  {
-    id?: string;
-    name?: string;
-  }[]
->([]);
-
 const state = ref<Partial<Schema>>({
   collection: settingsStore.library.defaultLibraryId,
   quantity: 1,
   status: CollectionBooksStatusOptions.COMPLETED,
 });
 
-const currentCollection = computed(
-  () => c.value?.find((collection) => collection.id === state.value.collection),
+const currentCollection = computed(() =>
+  c.value?.find((collection) => collection.id === state.value.collection),
 );
-const currentStatus = computed(
-  () =>
-    collectionBookStatus.value?.find(
-      (status) => status.id === state.value.status,
-    ),
+const currentStatus = computed(() =>
+  collectionBookStatus.value?.find(
+    (status) => status.id === state.value.status,
+  ),
 );
 
-function open(data: { id: string; name: string }[]) {
-  isOpen.value = true;
-  books.value = data;
-}
-
-function close() {
-  isOpen.value = false;
-}
-
-function handleCreateCollection() {
-  close();
-  createCollectionOpen();
+function handleClose() {
+  modal.isOpen.value = false;
 }
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  if (books.value.length <= 0) return;
-
   const [res, error] = await update(
     event.data.collection,
-    books.value.map((book) => ({
+    props.books.map((book) => ({
       bookId: book.id ?? "",
       quantity: event.data.quantity,
       status: event.data.status,
@@ -111,8 +88,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       },
     ],
   });
-  emit("update");
-  return close();
+  if (props.callback) {
+    props.callback();
+  }
+  return handleClose();
 }
 
 const uiMenu = {
@@ -121,7 +100,7 @@ const uiMenu = {
 </script>
 
 <template>
-  <UModal v-if="$pb.authStore.isAuthRecord && books" v-model="isOpen">
+  <UModal v-if="$pb.authStore.isAuthRecord">
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <template #header>
         <div class="flex items-center justify-between">
@@ -131,7 +110,7 @@ const uiMenu = {
             variant="ghost"
             icon="i-fluent-dismiss-20-filled"
             class="-my-1"
-            @click="close"
+            @click="handleClose"
           />
         </div>
       </template>
@@ -172,7 +151,13 @@ const uiMenu = {
               </UButton>
             </USelectMenu>
           </UFormGroup>
-          <UButton v-else color="gray" block @click="handleCreateCollection">
+          <UButton
+            v-else
+            to="/library/create"
+            color="gray"
+            block
+            @click="handleClose"
+          >
             {{ $t("library.createCollection") }}
           </UButton>
         </div>
@@ -203,7 +188,7 @@ const uiMenu = {
         <UProgress v-if="pending" :value="p" indicator />
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="close">
+          <UButton color="red" variant="ghost" @click="handleClose">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending">

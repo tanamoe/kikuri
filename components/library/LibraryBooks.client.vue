@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import MiniSearch from "minisearch";
-import type {
-  LibraryModalBookEdit,
-  LibraryModalBookRemove,
-} from "#build/components";
+import { LibraryModalBookRemove, LibraryModalBookEdit } from "#components";
 import type { CollectionBooksStatusOptions } from "@/types/pb";
+
+const modal = useModal();
 
 type SortParams = "+name" | "-name" | "+updated" | "-updated";
 
@@ -24,10 +23,9 @@ type Book = {
 };
 
 const props = defineProps<{
-  editModal?: InstanceType<typeof LibraryModalBookEdit>;
-  removeModal?: InstanceType<typeof LibraryModalBookRemove>;
-  books: Book[];
   editable: boolean;
+  books: Book[];
+  callback: () => any;
 }>();
 
 const miniSearch = new MiniSearch({
@@ -87,33 +85,29 @@ const ui = {
 };
 
 function handleEdit(row: Book) {
-  if (props.editModal) {
-    props.editModal.open(
-      {
-        id: row.id,
-        name: row.name,
-      },
-      {
-        collection: row.collection,
-        quantity: row.quantity,
-        status: row.status,
-      },
-    );
-  }
+  modal.open(LibraryModalBookEdit, {
+    book: {
+      id: row.id,
+      name: row.name,
+    },
+    state: {
+      collection: row.collection,
+      quantity: row.quantity,
+      status: row.status,
+    },
+    callback: props.callback,
+  });
 }
 
 function handleRemove(row: Book) {
-  if (props.removeModal) {
-    props.removeModal.open(
-      {
-        id: row.id,
-        name: row.name,
-      },
-      {
-        collection: row.collection,
-      },
-    );
-  }
+  modal.open(LibraryModalBookRemove, {
+    book: {
+      id: row.id,
+      name: row.name,
+    },
+    collection: row.collection,
+    callback: props.callback,
+  });
 }
 </script>
 
@@ -144,7 +138,6 @@ function handleRemove(row: Book) {
       <div class="w-full">
         <div v-if="editable" class="float-right flex gap-1">
           <UButton
-            v-if="editModal"
             icon="i-fluent-edit-20-filled"
             color="gray"
             variant="ghost"
@@ -152,7 +145,6 @@ function handleRemove(row: Book) {
             @click="handleEdit(item)"
           />
           <UButton
-            v-if="removeModal"
             icon="i-fluent-delete-20-filled"
             color="red"
             variant="ghost"

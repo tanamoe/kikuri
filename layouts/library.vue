@@ -1,9 +1,10 @@
 <script setup lang="ts">
-const { $pb } = useNuxtApp();
-const { open } = useCollectionCreateModal();
+import { LibraryModalCollectionCreate } from "#components";
 
-const route = useRoute();
+const { $pb } = useNuxtApp();
 const { collections } = useLibrary();
+const modal = useModal();
+const route = useRoute();
 
 const links = computed(() => [
   collections.value.map(
@@ -41,7 +42,7 @@ const sticky = computed(() => route.meta.stickyNav as boolean);
             icon="i-fluent-collections-20-filled"
             color="gray"
             variant="ghost"
-            @click="open"
+            @click="modal.open(LibraryModalCollectionCreate)"
           >
             {{ $t("library.createCollection") }}
           </UButton>

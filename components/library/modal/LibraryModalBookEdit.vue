@@ -2,23 +2,12 @@
 import { z } from "zod";
 import type { FormSubmitEvent } from "#ui/types";
 import { CollectionBooksStatusOptions } from "@/types/pb";
-import type { UserCollectionBookResponse } from "@/types/collections";
 
 const toast = useToast();
 const { t } = useI18n({ useScope: "global" });
 const { pending, update } = useCollectionBooks();
 const { collectionBookStatus } = useOptions();
-
-const emit = defineEmits<{
-  update: [UserCollectionBookResponse];
-}>();
-
-defineExpose({
-  open,
-  close,
-});
-
-const isOpen = ref(false);
+const modal = useModal();
 
 const schema = z.object({
   quantity: z.coerce.number().min(0),
@@ -28,37 +17,28 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>;
 
-const book = ref<{
-  id?: string;
-  name?: string;
-}>({});
-const state = ref<Partial<Schema>>({});
-
-const currentStatus = computed(() =>
-  collectionBookStatus.value.find((status) => status.id === state.value.status),
-);
-
-function open(
-  data: {
+const props = defineProps<{
+  book: {
     id: string;
     name: string;
-  },
-  value: Schema,
-) {
-  isOpen.value = true;
-  book.value = data;
-  state.value = value;
-}
+  };
+  state: Partial<Schema>;
+  callback?: () => any;
+}>();
 
-function close() {
-  isOpen.value = false;
+const s = ref(props.state);
+
+const currentStatus = computed(() =>
+  collectionBookStatus.value.find((status) => status.id === props.state.status),
+);
+
+function handleClose() {
+  modal.isOpen.value = false;
 }
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  if (!book.value.id) return;
-
   const [res, error] = await update(event.data.collection, {
-    bookId: book.value.id,
+    bookId: props.book.id,
     quantity: event.data.quantity,
     status: event.data.status,
   });
@@ -79,13 +59,16 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     }),
     icon: "i-fluent-checkmark-circle-20-filled",
   });
-  emit("update", res);
-  return close();
+
+  if (props.callback) {
+    props.callback();
+  }
+  return handleClose();
 }
 </script>
 
 <template>
-  <UModal v-if="$pb.authStore.isAuthRecord && book" v-model="isOpen">
+  <UModal v-if="$pb.authStore.isAuthRecord">
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <template #header>
         <div class="flex items-center justify-between">
@@ -95,7 +78,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             variant="ghost"
             icon="i-fluent-dismiss-20-filled"
             class="-my-1"
-            @click="close"
+            @click="handleClose"
           />
         </div>
       </template>
@@ -109,7 +92,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <div class="grid grid-cols-2 gap-3">
           <UFormGroup :label="$t('general.status')" name="status">
             <USelectMenu
-              v-model="state.status"
+              v-model="s.status"
               :options="collectionBookStatus"
               value-attribute="id"
               option-attribute="label"
@@ -125,12 +108,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             </USelectMenu>
           </UFormGroup>
           <UFormGroup :label="$t('general.quantity')" name="quantity">
-            <AppNumberInput v-model="state.quantity" />
+            <AppNumberInput v-model="s.quantity" />
           </UFormGroup>
         </div>
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="close">
+          <UButton color="red" variant="ghost" @click="handleClose">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending">

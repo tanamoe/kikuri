@@ -31,7 +31,7 @@ export function useLibrary() {
         },
       );
 
-      if (res.success) {
+      if (res.success && res.items.length > 0) {
         collections.value = res.items;
         settingsStore.library.defaultLibraryId = res.items[0].collectionId;
       } else {

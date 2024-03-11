@@ -53,8 +53,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   }
 
   toast.add({
-    title: res.item.name,
-    description: t("library.createCollectionSuccess"),
+    title: t("general.success"),
+    description: t("library.createCollectionSuccess", {
+      name: res.item.name,
+    }),
     icon: "i-fluent-checkmark-circle-20-filled",
   });
   await update();

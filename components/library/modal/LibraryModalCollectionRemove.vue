@@ -3,6 +3,7 @@ const { pending, remove } = useCollections();
 const toast = useToast();
 const { t } = useI18n({ useScope: "global" });
 const { update } = useLibrary();
+const modal = useModal();
 
 const props = defineProps<{
   collection: {
@@ -11,19 +12,10 @@ const props = defineProps<{
   };
 }>();
 
-defineExpose({
-  open,
-  close,
-});
-
 const isOpen = ref(false);
 
-function open() {
-  isOpen.value = true;
-}
-
-function close() {
-  isOpen.value = false;
+function handleClose() {
+  modal.isOpen.value = false;
 }
 
 async function onSubmit() {
@@ -45,7 +37,7 @@ async function onSubmit() {
     }),
     icon: "i-fluent-checkmark-circle-20-filled",
   });
-  close();
+  handleClose();
   await update();
   return navigateTo("/library");
 }
@@ -62,7 +54,7 @@ async function onSubmit() {
             variant="ghost"
             icon="i-fluent-dismiss-20-filled"
             class="-my-1"
-            @click="close"
+            @click="handleClose"
           />
         </div>
       </template>
@@ -73,7 +65,7 @@ async function onSubmit() {
         </div>
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="close">
+          <UButton color="red" variant="ghost" @click="handleClose">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending" @click="onSubmit">
