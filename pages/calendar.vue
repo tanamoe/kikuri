@@ -72,14 +72,6 @@ const dates = computed(() => {
   } else return [];
 });
 
-const ui = {
-  base: "relative",
-  shadow: "shadow",
-  body: {
-    padding: "p-0 sm:p-0",
-  },
-};
-
 function handleAdd(book: BookDetailsCommon) {
   modal.open(LibraryModalBookAdd, {
     book: {
@@ -108,50 +100,14 @@ useSeoMeta({
 
 <template>
   <div>
-    <CalendarToolbar v-model:month="month" v-model:publishers="publishers" />
-
-    <UContainer v-if="pending">
-      <div
-        v-for="row in 4"
-        :key="row"
-        class="release-day mb-24 flex scroll-mt-28 gap-6 sm:scroll-mt-16"
-        :class="{
-          'flex-col': store.display.datePosition === 'top',
-        }"
-        style="scroll-margin-top: calc(var(--toolbar-height) + 1rem)"
-      >
-        <div
-          class="sticky top-28 flex-shrink-0 self-start sm:top-16"
-          :class="{
-            'w-12 md:w-20': store.display.datePosition === 'left',
-            'z-30 w-full bg-gray-50 ring-8 ring-gray-50 dark:bg-gray-900 dark:ring-gray-900':
-              store.display.datePosition === 'top',
-          }"
-          style="top: var(--toolbar-height)"
-        >
-          <div class="space-y-3">
-            <USkeleton class="h-4 w-12 rounded-md md:w-20" />
-            <USkeleton class="h-12 w-12 rounded-md md:w-20" />
-            <USkeleton class="h-12 w-12 rounded-md md:w-20" />
-          </div>
-        </div>
-        <div
-          class="grid w-full grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-6"
-        >
-          <div v-for="col in 12" :key="col" class="space-y-3">
-            <UCard :ui="ui">
-              <USkeleton class="aspect-[2/3] h-auto w-full rounded-md" />
-            </UCard>
-            <USkeleton class="h-6 w-full rounded-md" />
-            <USkeleton class="h-4 w-1/3 rounded-md" />
-            <USkeleton class="h-4 w-2/3 rounded-md" />
-          </div>
-        </div>
-      </div>
-    </UContainer>
+    <CalendarToolbar
+      v-model:month="month"
+      v-model:publishers="publishers"
+      :pending
+    />
 
     <UContainer
-      v-else-if="error || !releases || Object.keys(releases).length === 0"
+      v-if="error || !releases || Object.keys(releases).length === 0"
       class="my-12 flex items-center justify-center"
     >
       <div class="text-center">
@@ -213,14 +169,14 @@ useSeoMeta({
       <UButton
         icon="i-fluent-arrow-left-20-filled"
         color="gray"
-        @click="month.subtract(1, 'month')"
+        @click="month = month.subtract(1, 'month')"
       >
         {{ $t("general.monthPrevious") }}
       </UButton>
       <UButton
         trailing-icon="i-fluent-arrow-right-20-filled"
         color="gray"
-        @click="month.add(1, 'month')"
+        @click="month = month.add(1, 'month')"
       >
         {{ $t("general.monthAfter") }}
       </UButton>
