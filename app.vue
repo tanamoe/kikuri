@@ -64,12 +64,16 @@ useSeoMeta({
 </script>
 
 <template>
-  <NuxtLayout>
-    <NuxtPage />
+  <div>
+    <NuxtLoadingIndicator color="#89C4F4" />
 
-    <UNotifications />
-    <SearchBar />
+    <NuxtLayout>
+      <NuxtPage />
 
-    <UModals />
-  </NuxtLayout>
+      <UNotifications />
+      <SearchBar />
+
+      <UModals />
+    </NuxtLayout>
+  </div>
 </template>
