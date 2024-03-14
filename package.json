@@ -19,8 +19,8 @@
     ]
   },
   "devDependencies": {
-    "@commitlint/cli": "^18.4.3",
-    "@commitlint/config-conventional": "^18.4.3",
+    "@commitlint/cli": "^19.0.0",
+    "@commitlint/config-conventional": "^19.0.0",
     "@nuxt/content": "^2.10.0",
     "@nuxt/image": "1.4.0",
     "@nuxt/ui": "^2.14.2",
