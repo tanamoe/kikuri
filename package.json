@@ -22,7 +22,7 @@
     "@commitlint/cli": "^19.0.0",
     "@commitlint/config-conventional": "^19.0.0",
     "@nuxt/content": "^2.10.0",
-    "@nuxt/image": "1.4.0",
+    "@nuxt/image": "1.5.0",
     "@nuxt/ui": "^2.14.2",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@nuxtjs/i18n": "8.0.0",
