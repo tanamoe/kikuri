@@ -93,7 +93,7 @@ const ui = computed(() => ({
     "flex min-h-full items-start sm:items-center justify-center text-center",
 }));
 
-async function onSelect(option: any) {
+async function onSelect(option: Command) {
   if (option.click) {
     option.click();
   } else if (option.to) {

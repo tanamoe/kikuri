@@ -9,7 +9,7 @@ import {
   type TitlesResponse,
 } from "@/types/pb";
 
-type Tmetadata = {};
+type Tmetadata = Record<string, never>;
 type Texpand = {
   "releases(title)": ReleasesResponse<{
     publisher: PublishersResponse;
@@ -39,20 +39,19 @@ const { data: title } = await useAsyncData(
   },
 );
 
-const releases = computed(
-  () =>
-    title.value?.expand?.["releases(title)"].map((release) => ({
-      id: release.id,
-      label: release.name,
-      avatar: {
-        src: release.expand?.publisher
-          ? $pb.files.getUrl(
-              release.expand?.publisher,
-              release.expand?.publisher.logo,
-            )
-          : undefined,
-      },
-    })),
+const releases = computed(() =>
+  title.value?.expand?.["releases(title)"].map((release) => ({
+    id: release.id,
+    label: release.name,
+    avatar: {
+      src: release.expand?.publisher
+        ? $pb.files.getUrl(
+            release.expand?.publisher,
+            release.expand?.publisher.logo,
+          )
+        : undefined,
+    },
+  })),
 );
 
 const schema = z.object({
@@ -75,8 +74,8 @@ const state = ref<Partial<Schema>>({
 });
 
 const content = useStorage("review-content", "");
-const currentRelease = computed(
-  () => releases.value?.find((release) => release.id === state.value.release),
+const currentRelease = computed(() =>
+  releases.value?.find((release) => release.id === state.value.release),
 );
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
