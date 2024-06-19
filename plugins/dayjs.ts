@@ -1,4 +1,3 @@
-/* eslint-disable import/no-named-as-default-member */
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -7,7 +6,7 @@ import localeData from "dayjs/plugin/localeData";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import "dayjs/locale/vi";
 
-export default defineNuxtPlugin((_) => {
+export default defineNuxtPlugin(() => {
   dayjs.extend(utc);
   dayjs.extend(timezone);
   dayjs.extend(objectSupport);

@@ -10,7 +10,7 @@ export function useUpdateAccount() {
 
   async function update(args: {
     id: string;
-    record: Partial<UsersRecord> | FormData | { [k: string]: any };
+    record: Partial<UsersRecord> | FormData | { [k: string]: unknown };
   }) {
     pending.value = true;
 

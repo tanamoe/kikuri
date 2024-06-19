@@ -1,11 +1,12 @@
 <script setup lang="ts">
-const props = defineProps({
-  // eslint-disable-next-line vue/require-default-prop
-  error: Object,
-});
+import type { NuxtError } from "#app";
 
-const is404 = computed(() => props.error!.statusCode === 404);
-const isDev = process.dev;
+const props = defineProps<{
+  error: NuxtError;
+}>();
+
+const is404 = computed(() => props.error?.statusCode === 404);
+const isDev = import.meta.dev;
 
 const i18nHead = useLocaleHead({
   addSeoAttributes: true,

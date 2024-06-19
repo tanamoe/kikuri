@@ -1,9 +1,14 @@
+import type { PublishersRecord } from "~/types/pb";
+
 export type FilterDigital = "show" | "hide" | "only";
 
 export type FilterPublishers = {
   id: string;
   label: string;
-  [k: string]: any;
+  avatar?: {
+    src: string;
+  };
+  [k: string]: unknown;
 };
 
 export function parseCalendarFilter(
