@@ -95,17 +95,23 @@ const ogImage = computed(() => {
 
     return url;
   }
+
+  return null;
 });
 
 const description = computed(() => {
   if (title.value?.description) {
     // replace formatting tags
     const desc = title.value.description.replace(/<[^>]*>/g, "");
+
     if (desc.length > 250) {
-      return desc.slice(0, 250) + "...";
+      return desc.slice(0, 250) + "…";
     }
+
     return desc;
   }
+
+  return null;
 });
 
 useSeoMeta({

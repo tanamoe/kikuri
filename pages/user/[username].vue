@@ -67,11 +67,15 @@ const ui = {
 const description = computed(() => {
   if (user.value?.bio) {
     const bio = user.value.bio.replace(/<[^>]*>/g, "");
+
     if (bio.length > 250) {
-      return bio.slice(0, 250) + "...";
+      return bio.slice(0, 250) + "…";
     }
+
     return bio;
   }
+
+  return null;
 });
 
 useSeoMeta({
@@ -89,7 +93,7 @@ useSeoMeta({
 <template>
   <div v-if="user" class="flex flex-col gap-6 md:flex-row">
     <AppUserProfile
-      class="h-min w-full rounded-md bg-gray-200 dark:bg-gray-800 md:max-w-xs"
+      class="h-min w-full rounded-md bg-gray-200 md:max-w-xs dark:bg-gray-800"
       :user="user"
     />
     <UTabs :items="items" :ui="ui" class="w-full flex-1">
