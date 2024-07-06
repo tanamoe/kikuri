@@ -11,6 +11,7 @@ export default defineNuxtConfig({
       umamiSiteId: process.env.UMAMI_SITE_ID,
     },
   },
+
   modules: [
     "@nuxt/eslint",
     "@vueuse/nuxt",
@@ -22,23 +23,27 @@ export default defineNuxtConfig({
     "@nuxt/content",
     "nuxt-swiper",
   ],
+
   // https://nuxt.com/docs/getting-started/installation#prerequisites
   typescript: {
     strict: true,
     shim: false,
     typeCheck: true,
   },
+
   css: [
     "~/assets/fonts/inter.css",
     "~/assets/fonts/ibm-plex.css",
     "~/assets/fonts/lexend.css",
   ],
+
   routeRules: {
     "/": { prerender: true, isr: 3600 },
     "/calendar": { prerender: true, isr: 3600 },
     "/title/*": { isr: 3600 },
     "/library/*": { ssr: false },
   },
+
   image: {
     provider: "imagor",
     providers: {
@@ -56,15 +61,19 @@ export default defineNuxtConfig({
       },
     },
   },
+
   swiper: {
     modules: ["autoplay", "effect-creative", "mousewheel"],
   },
+
   ui: {
     icons: ["fluent", "simple-icons"],
   },
+
   i18n: {
     detectBrowserLanguage: false,
   },
+
   content: {
     locales: ["vi"],
     defaultLocale: "vi",
@@ -72,5 +81,7 @@ export default defineNuxtConfig({
       anchorLinks: false,
     },
   },
+
   experimental: { appManifest: false },
+  compatibilityDate: "2024-07-06",
 });
