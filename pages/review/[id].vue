@@ -82,16 +82,22 @@ const ogImage = computed(() => {
 
     return url;
   }
+
+  return null;
 });
 
 const description = computed(() => {
   if (review.value?.content) {
     const content = review.value.content.replace(/<[^>]*>/g, "");
+
     if (content.length > 250) {
-      return content.slice(0, 250) + "...";
+      return content.slice(0, 250) + "…";
     }
+
     return content;
   }
+
+  return null;
 });
 
 useSeoMeta({
