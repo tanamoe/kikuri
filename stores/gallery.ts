@@ -3,9 +3,9 @@ export const useGalleryStore = defineStore("gallery", () => {
   const currentIndex = ref(0);
   const images = ref<
     {
-      alt: string;
+      alt?: string;
       src: string;
-      srcset: string;
+      srcset?: string;
     }[]
   >();
   const transitionName = ref<"slide-rtl" | "slide-ltr">("slide-rtl");
