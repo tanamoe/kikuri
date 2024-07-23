@@ -13,6 +13,7 @@ import {
   type DemographicsResponse,
   type ReviewsResponse,
   type UsersResponse,
+  type AdditionalTitleNamesResponse,
 } from "@/types/pb";
 import type { MetadataCommon } from "@/types/common";
 
@@ -26,20 +27,25 @@ const { data: title } = await useAsyncData(() =>
     TitlesResponse<
       MetadataCommon,
       {
-        "releases(title)": ReleasesResponse<{
+        releases_via_title: ReleasesResponse<{
           publisher: PublishersResponse;
         }>[];
-        "links(title)": LinksResponse<{
+        links_via_title: LinksResponse<{
           source: LinkSourcesResponse;
         }>[];
         format: FormatsResponse;
         genres: GenresResponse[];
         demographic: DemographicsResponse;
+        additionalTitleNames_via_title: AdditionalTitleNamesResponse[];
+        works_via_title: WorksResponse<{
+          staff: StaffsResponse;
+        }>[];
       }
     >
   >($pb.filter("slug = {:slug}", { slug: route.params.slug }), {
     expand:
-      "releases(title).publisher,links(title).source,format,genres,demographic",
+      "releases_via_title.publisher,links_via_title.source,format,genres,demographic,additionalTitleNames_via_title,works_via_title.staff",
+    sort: "+works_via_title.priority",
   }),
 );
 
@@ -49,18 +55,6 @@ if (!title.value) {
     statusMessage: t("error.notFoundMessage"),
   });
 }
-
-const { data: works } = await useAsyncData(() =>
-  $pb.collection(Collections.Works).getFullList<
-    WorksResponse<{
-      staff: StaffsResponse;
-    }>
-  >({
-    filter: $pb.filter("title = {:title}", { title: title.value?.id }),
-    expand: "staff",
-    sort: "+priority",
-  }),
-);
 
 const { data: reviews } = await useAsyncData(() =>
   $pb.collection(Collections.Reviews).getFullList<
@@ -132,18 +126,22 @@ useSeoMeta({
       <div class="flex-1">
         <PageTitleSectionReleases
           v-if="
-            title.expand?.['releases(title)'] &&
-            title.expand?.['releases(title)'].length > 0
+            title.expand?.releases_via_title &&
+            title.expand?.releases_via_title.length > 0
           "
-          :releases="title.expand?.['releases(title)']"
+          :releases="title.expand.releases_via_title"
+        />
+
+        <PageTitleSectionCovers
+          v-if="title.expand?.releases_via_title"
+          :releases="title.expand.releases_via_title"
+          :title-id="title.id"
         />
 
         <PageTitleSectionReviews
           v-if="reviews && reviews.length > 0"
           :reviews="reviews"
         />
-
-        <PageTitleSectionCovers :title-id="title.id" />
       </div>
 
       <div class="w-full flex-shrink-0 space-y-6 lg:w-64">
@@ -157,15 +155,16 @@ useSeoMeta({
         <PageTitleSectionDetails
           :genres="title.expand?.genres"
           :demographic="title.expand?.demographic"
-          :works="works"
+          :works="title.expand?.works_via_title"
+          :additional-names="title.expand?.additionalTitleNames_via_title"
         />
 
         <PageTitleSectionLinks
           v-if="
-            title.expand?.['links(title)'] &&
-            title.expand?.['links(title)'].length > 0
+            title.expand?.links_via_title &&
+            title.expand?.links_via_title.length > 0
           "
-          :links="title.expand?.['links(title)']"
+          :links="title.expand?.links_via_title"
         />
 
         <UButton
