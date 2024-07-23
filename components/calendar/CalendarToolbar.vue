@@ -121,16 +121,12 @@ onUnmounted(() => {
         <div class="flex gap-3">
           <USelectMenu
             v-if="publisherOptions"
+            v-slot="{ open }"
             v-model="publishers"
             :options="publisherOptions"
             multiple
           >
-            <UButton
-              color="gray"
-              trailing-icon="i-fluent-chevron-down-20-filled"
-              class="w-max"
-              block
-            >
+            <UButton color="gray" class="w-max" block>
               <template #leading>
                 <UAvatarGroup
                   v-if="publishers.length"
@@ -150,6 +146,11 @@ onUnmounted(() => {
               <span>
                 {{ $t("general.publisher", publishers.length) }}
               </span>
+              <UIcon
+                name="i-fluent-chevron-right-20-filled"
+                class="h-5 w-5 text-gray-400 transition-transform dark:text-gray-500"
+                :class="[open && 'rotate-90 transform']"
+              />
             </UButton>
           </USelectMenu>
 

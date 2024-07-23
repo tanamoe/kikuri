@@ -27,6 +27,8 @@ const nearestDay = computed(() => {
       })
       .format("YYYY-MM-DD");
   }
+
+  return null;
 });
 
 function doScroll(position: string) {
