@@ -6,16 +6,16 @@ import type {
   StaffsResponse,
   GenresResponse,
   DemographicsResponse,
+  AdditionalTitleNamesResponse,
 } from "@/types/pb";
 
 defineProps<{
   demographic?: DemographicsResponse;
   genres?: GenresResponse[];
-  works:
-    | WorksResponse<{
-        staff: StaffsResponse;
-      }>[]
-    | null;
+  works?: WorksResponse<{
+    staff: StaffsResponse;
+  }>[];
+  additionalNames?: AdditionalTitleNamesResponse[];
 }>();
 </script>
 
@@ -60,6 +60,15 @@ defineProps<{
         <ULink :to="'/staff/' + work.staff">
           {{ work.expand!.staff.name }}
         </ULink>
+      </div>
+    </div>
+    <div
+      v-if="additionalNames && additionalNames.length > 0"
+      class="p-4 sm:p-4"
+    >
+      <h4 class="font-bold">{{ $t("general.differentName") }}</h4>
+      <div v-for="{ id, name } in additionalNames" :key="id">
+        {{ name }}
       </div>
     </div>
   </UCard>
