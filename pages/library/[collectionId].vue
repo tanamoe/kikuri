@@ -39,7 +39,7 @@ const { data: books, refresh } = await useAsyncData(
       {
         method: "GET",
         perPage: 999,
-        expand: "book.publication,collection",
+        expand: "book.publication.release.title,collection",
       },
     ),
   {
@@ -57,7 +57,6 @@ const { data: books, refresh } = await useAsyncData(
           : undefined,
         name: item.book!.publication.name,
         edition: item.book!.edition,
-        digital: item.book!.publication.digital,
         publishDate: item.book?.publishDate
           ? new Date(item.book.publishDate)
           : undefined,
@@ -273,7 +272,7 @@ useSeoMeta({
       </div>
     </div>
 
-    <LibraryBooks
+    <LibraryBooksGroup
       v-if="books"
       :editable="editable"
       :books="books"
