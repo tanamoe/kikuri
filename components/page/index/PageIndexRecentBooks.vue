@@ -1,19 +1,13 @@
 <script setup lang="ts">
-import { Collections } from "@/types/pb";
-import type { BookDetailsCommon } from "@/types/common";
+import type { BooksCommon } from "@/types/common";
 
-const { $pb } = useNuxtApp();
-
-const { data: books } = await useLazyAsyncData(() =>
-  $pb.collection(Collections.BookDetails).getList<BookDetailsCommon>(1, 6, {
-    expand: "publication,release,release.title",
-    sort: "-updated",
-  }),
-);
+defineProps<{
+  books: BooksCommon[];
+}>();
 </script>
 
 <template>
-  <div v-if="books">
+  <div>
     <UContainer class="mb-6">
       <NuxtLink to="/browse">
         <AppH3
@@ -34,12 +28,12 @@ const { data: books } = await useLazyAsyncData(() =>
       class="mx-auto flex snap-x snap-mandatory gap-6 overflow-x-scroll sm:container sm:grid sm:grid-cols-3 sm:overflow-x-hidden sm:px-6 lg:grid-cols-6"
     >
       <div
-        v-for="(book, i) in books.items"
+        v-for="(book, i) in books"
         :key="book.id"
         :class="[
           'w-1/3 flex-shrink-0 snap-start scroll-ml-6 sm:w-full',
           i === 0 && 'ml-6 sm:ml-0',
-          i === books.items.length - 1 && 'mr-6 sm:mr-0',
+          i === books.length - 1 && 'mr-6 sm:mr-0',
         ]"
       >
         <AppBook

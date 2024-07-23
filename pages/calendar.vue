@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { joinURL } from "ufo";
 import { Collections } from "@/types/pb";
 import type { FilterPublishers } from "@/utils/releases";
-import type { BookDetailsCommon } from "@/types/common";
+import type { BooksCommon } from "@/types/common";
 import { LibraryModalBookAdd } from "#components";
 
 const { ogUrl } = useRuntimeConfig().public;
@@ -44,21 +44,19 @@ const filter = computed(() =>
 
 const {
   data: releases,
+  status,
   error,
-  pending,
   refresh,
 } = await useAsyncData(
   () =>
-    $pb.collection(Collections.BookDetails).getFullList<BookDetailsCommon>({
+    $pb.collection(Collections.Books).getFullList<BooksCommon>({
       filter: filter.value,
-      sort: "+publishDate, +release.title.name, +publication.volume, +edition",
-      expand: "publication, release, release.title",
-      fields:
-        "*, expand.publication.volume, expand.publication.name, expand.publication.digital, expand.release.title, expand.release.expand.title.name, expand.release.expand.title.slug",
+      sort: "+publishDate, +publication.release.title.name, +publication.volume, +edition, +assets_via_book.priority",
+      expand: "publication.release.title, assets_via_book",
     }),
   {
     transform: (releases) =>
-      groupBy<BookDetailsCommon>(releases, (p) => p.publishDate),
+      groupBy(releases, (release) => release.publishDate),
     watch: [filter],
     deep: false,
   },
@@ -72,7 +70,7 @@ const dates = computed(() => {
   } else return [];
 });
 
-function handleAdd(book: BookDetailsCommon) {
+function handleAdd(book: BooksCommon) {
   modal.open(LibraryModalBookAdd, {
     book: {
       id: book.id,
@@ -103,7 +101,7 @@ useSeoMeta({
     <CalendarToolbar
       v-model:month="month"
       v-model:publishers="publishers"
-      :pending
+      :pending="status === 'pending'"
     />
 
     <UContainer

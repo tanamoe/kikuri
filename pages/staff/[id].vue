@@ -15,7 +15,7 @@ const { t } = useI18n({ useScope: "global" });
 const { data: staff } = await useAsyncData(() =>
   $pb.collection(Collections.Staffs).getOne<
     StaffsResponse<{
-      "works(staff)": WorksResponse<{
+      works_via_staff: WorksResponse<{
         title: TitlesResponse<
           MetadataCommon,
           {
@@ -25,7 +25,7 @@ const { data: staff } = await useAsyncData(() =>
       }>[];
     }>
   >(route.params.id as string, {
-    expand: "works(staff).title.format",
+    expand: "works_via_staff.title.format",
   }),
 );
 
@@ -45,8 +45,8 @@ useSeoMeta({
   <div v-if="staff">
     <AppH1 class="mb-6">{{ staff.name }}</AppH1>
 
-    <AppGrid v-if="staff.expand?.['works(staff)']">
-      <template v-for="work in staff.expand['works(staff)']" :key="work.id">
+    <AppGrid v-if="staff.expand?.works_via_staff">
+      <template v-for="work in staff.expand.works_via_staff" :key="work.id">
         <AppTitle
           v-if="work.expand?.title"
           :title="work.expand.title"

@@ -2,13 +2,12 @@
 import dayjs from "dayjs";
 import {
   Collections,
-  type BookDetailsResponse,
-  type PublicationsResponse,
-  type ReleasesResponse,
+  type FormatsResponse,
   type PublishersResponse,
+  type ReleaseDetailsResponse,
   type TitlesResponse,
 } from "@/types/pb";
-import type { MetadataCommon } from "@/types/common";
+import type { BooksCommon, MetadataCommon } from "@/types/common";
 
 const {
   public: { ogUrl },
@@ -18,29 +17,43 @@ const { $pb } = useNuxtApp();
 
 const now = dayjs.tz();
 
-type Texpand = {
-  publication: Pick<PublicationsResponse, "name">;
-  release: Pick<
-    ReleasesResponse<{
-      publisher: PublishersResponse;
-      title: Pick<TitlesResponse, "slug">;
-    }>,
-    "expand" | "title"
-  >;
-};
-
-const { data: releases } = await useAsyncData(() =>
-  $pb
-    .collection(Collections.BookDetails)
-    .getFullList<BookDetailsResponse<MetadataCommon, string, Texpand>>({
-      filter: `publishDate >= '${now.startOf("day").format("YYYY-MM-DD")}'
-         && publishDate <= '${now
-           .add(3, "days")
-           .endOf("day")
-           .format("YYYY-MM-DD")}'`,
-      sort: "+publishDate",
-      expand: "publication,release.publisher,release.title",
+const { data: upcoming } = await useAsyncData(() =>
+  $pb.collection(Collections.Books).getFullList<BooksCommon>({
+    filter: $pb.filter("publishDate >= {:start} && publishDate <= {:end}", {
+      start: now.startOf("day").format("YYYY-MM-DD"),
+      end: now.add(3, "days").endOf("day").format("YYYY-MM-DD"),
     }),
+    sort: "+publishDate, +publication.release.title.name, +publication.volume, +edition, +assets_via_book.priority",
+    expand:
+      "publication.release.title, publication.release.publisher, assets_via_book",
+  }),
+);
+
+const { data: updatedBooks } = await useAsyncData(() =>
+  $pb.collection(Collections.Books).getList<BooksCommon>(1, 6, {
+    sort: "-updated",
+    expand: "publication.release.title, assets_via_book",
+  }),
+);
+
+const { data: updatedReleases } = await useLazyAsyncData(() =>
+  $pb.collection(Collections.ReleaseDetails).getList<
+    ReleaseDetailsResponse<
+      MetadataCommon,
+      {
+        title: TitlesResponse<
+          MetadataCommon,
+          {
+            format: FormatsResponse;
+          }
+        >;
+        publisher: PublishersResponse;
+      }
+    >
+  >(1, 6, {
+    expand: "title.format,publisher",
+    sort: "-updated",
+  }),
 );
 
 useSeoMeta({
@@ -58,17 +71,17 @@ definePageMeta({
 
 <template>
   <div class="space-y-24">
-    <PageIndexSwiper
-      v-if="releases && releases.length > 0"
-      :releases="releases"
-    />
+    <PageIndexSwiper v-if="upcoming && upcoming.length > 0" :books="upcoming" />
 
     <UContainer>
       <AppRegisterBanner />
     </UContainer>
 
-    <PageIndexRecentBooks />
+    <PageIndexRecentBooks v-if="updatedBooks" :books="updatedBooks.items" />
 
-    <PageIndexRecentReleases />
+    <PageIndexRecentReleases
+      v-if="updatedReleases"
+      :releases="updatedReleases.items"
+    />
   </div>
 </template>

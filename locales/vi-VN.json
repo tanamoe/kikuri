@@ -53,6 +53,9 @@
     "publisher": "Nhà xuất bản",
     "publisherCount": "{count} nhà xuất bản",
     "publisherSelect": "Chọn nhà xuất bản",
+    "release": "Bản in",
+    "releaseCount": "{count} bản in",
+    "releaseSelect": "Chọn bản in",
     "genre": "Thể loại",
     "genreCount": "{count} thể loại",
     "genres": "Thể loại",
@@ -87,7 +90,8 @@
     "share": "Chia sẻ",
     "missingBooks": "Thiếu truyện?",
     "termsOfService": "Điều khoản sử dụng",
-    "privacyPolicy": "Chính sách bảo mật"
+    "privacyPolicy": "Chính sách bảo mật",
+    "differentName": "Tên khác"
   },
   "status": {
     "waitingForApproval": "Chờ duyệt",

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const props = defineProps<{
   items: {
-    alt: string;
+    alt?: string;
     src: string;
-    srcset: string;
+    srcset?: string;
   }[];
 }>();
 
@@ -11,7 +11,9 @@ const store = useGalleryStore();
 const { open } = store;
 const { images } = storeToRefs(store);
 
-images.value = props.items;
+watchEffect(() => {
+  images.value = props.items;
+});
 
 const ui = {
   base: "relative overflow-hidden cursor-zoom-in",
