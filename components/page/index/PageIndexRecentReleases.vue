@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {
-  Collections,
   type ReleaseDetailsResponse,
   type FormatsResponse,
   type TitlesResponse,
@@ -8,31 +7,24 @@ import {
 } from "@/types/pb";
 import type { MetadataCommon } from "@/types/common";
 
-type ResponseType = ReleaseDetailsResponse<
-  MetadataCommon,
-  {
-    title: TitlesResponse<
-      MetadataCommon,
-      {
-        format: FormatsResponse;
-      }
-    >;
-    publisher: PublishersResponse;
-  }
->;
-
-const { $pb } = useNuxtApp();
-
-const { data: releases } = await useLazyAsyncData(() =>
-  $pb.collection(Collections.ReleaseDetails).getList<ResponseType>(1, 6, {
-    expand: "title,title.format,publisher",
-    sort: "-updated",
-  }),
-);
+defineProps<{
+  releases: ReleaseDetailsResponse<
+    MetadataCommon,
+    {
+      title: TitlesResponse<
+        MetadataCommon,
+        {
+          format: FormatsResponse;
+        }
+      >;
+      publisher: PublishersResponse;
+    }
+  >[];
+}>();
 </script>
 
 <template>
-  <div v-if="releases">
+  <div>
     <UContainer class="mb-6">
       <NuxtLink to="/browse">
         <AppH3
@@ -54,12 +46,12 @@ const { data: releases } = await useLazyAsyncData(() =>
       class="mx-auto flex snap-x snap-mandatory gap-6 overflow-x-scroll sm:container sm:grid sm:grid-cols-3 sm:overflow-x-hidden sm:px-6 lg:grid-cols-6"
     >
       <div
-        v-for="(release, i) in releases.items"
+        v-for="(release, i) in releases"
         :key="release.id"
         :class="[
           'w-1/3 flex-shrink-0 snap-start scroll-ml-6 sm:w-full',
           i === 0 && 'ml-6 sm:ml-0',
-          i === releases.items.length - 1 && 'mr-6 sm:mr-0',
+          i === releases.length - 1 && 'mr-6 sm:mr-0',
         ]"
       >
         <AppTitle

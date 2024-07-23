@@ -1,30 +1,15 @@
 <script setup lang="ts">
 import { joinURL } from "ufo";
-import {
-  type BookDetailsResponse,
-  type PublicationsResponse,
-  type PublishersResponse,
-  type ReleasesResponse,
-  type TitlesResponse,
-} from "@/types/pb";
-import type { MetadataCommon } from "@/types/common";
+import type { BooksCommon } from "@/types/common";
 
-defineProps<{
-  book: BookDetailsResponse<
-    MetadataCommon,
-    string,
-    {
-      publication: Pick<PublicationsResponse, "name">;
-      release: Pick<
-        ReleasesResponse<{
-          publisher: PublishersResponse;
-          title: Pick<TitlesResponse, "slug">;
-        }>,
-        "expand" | "title"
-      >;
-    }
-  >;
+const props = defineProps<{
+  book: BooksCommon;
 }>();
+
+const publication = props.book.expand?.publication;
+const release = publication?.expand?.release;
+const publisher = release?.expand?.publisher;
+const title = release?.expand?.title;
 </script>
 
 <template>
@@ -36,14 +21,14 @@ defineProps<{
         })
       }}
     </div>
-    <h2 class="mb-6 line-clamp-3 font-lexend text-3xl">
-      {{ book.expand?.publication.name }}
+    <h2 v-if="publication" class="mb-6 line-clamp-3 font-lexend text-3xl">
+      {{ publication.name }}
     </h2>
     <div>
       <p class="mb-6 text-gray-500 dark:text-gray-300">
-        <span>
+        <span v-if="publisher">
           <b>{{ $t("general.publishedBy") }}</b>
-          {{ book.expand?.release.expand?.publisher.name }}
+          {{ publisher.name }}
         </span>
         <br />
         <span v-if="book.price !== 0">
@@ -52,8 +37,8 @@ defineProps<{
         </span>
       </p>
       <UButton
-        v-if="book.expand?.release.expand?.title"
-        :to="joinURL('/title', book.expand.release.expand.title.slug)"
+        v-if="title"
+        :to="joinURL('/title', title.slug)"
         icon="i-fluent-info-20-filled"
         color="gray"
       >
