@@ -1,5 +1,3 @@
-import type { PublishersRecord } from "~/types/pb";
-
 export type FilterDigital = "show" | "hide" | "only";
 
 export type FilterPublishers = {
@@ -35,9 +33,9 @@ export function parseCalendarFilter(
   }
 
   if (digital === "hide") {
-    query.push("publication.digital = false");
+    query.push("publication.release.digital = false");
   } else if (digital === "only") {
-    query.push("publication.digital = true");
+    query.push("publication.release.digital = true");
   }
 
   if (edition === false) {

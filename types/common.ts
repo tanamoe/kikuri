@@ -1,7 +1,10 @@
 import type { CollectionResponse } from "@/types/collections";
 import type {
+  AssetsResponse,
   BookDetailsResponse,
+  BooksResponse,
   PublicationsResponse,
+  PublishersResponse,
   ReleasesResponse,
   TitleCoversResponse,
   TitlesResponse,
@@ -24,6 +27,22 @@ export type MetadataLibrary = {
 export type MetadataCommon = {
   images?: MetadataImages | MetadataImages[];
 };
+
+export type BooksCommon = BooksResponse<
+  MetadataLibrary,
+  {
+    publication: PublicationsResponse<
+      unknown,
+      {
+        release: ReleasesResponse<{
+          publisher: PublishersResponse;
+          title: TitlesResponse;
+        }>;
+      }
+    >;
+    assets_via_book: AssetsResponse<MetadataImages>[];
+  }
+>;
 
 export type BookDetailsCommon = BookDetailsResponse<
   MetadataCommon & MetadataLibrary,
