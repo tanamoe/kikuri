@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import { Collections } from "@/types/pb";
-import type { BookDetailsCommon } from "@/types/common";
+import {
+  type BooksResponse,
+  Collections,
+  type BookMetadataResponse,
+  type PublicationsResponse,
+} from "@/types/pb";
+import type { MetadataLibrary } from "@/types/common";
 import { LibraryModalBookAdd, LibraryModalBookAddBulk } from "#components";
 
 const props = defineProps<{
@@ -19,10 +24,22 @@ const {
 } = await useLazyAsyncData(
   props.releaseId,
   () =>
-    $pb.collection(Collections.BookDetails).getFullList<BookDetailsCommon>({
-      filter: $pb.filter("release = {:release}", { release: props.releaseId }),
-      expand: "publication",
+    $pb.collection(Collections.Books).getFullList<
+      BooksResponse<
+        MetadataLibrary["inCollections"],
+        {
+          publication: PublicationsResponse;
+          bookMetadata_via_book: BookMetadataResponse;
+        }
+      >
+    >({
+      filter: $pb.filter("publication.release = {:release}", {
+        release: props.releaseId,
+      }),
+      expand: "publication,bookMetadata_via_book",
       sort: "+publication.volume,+publishDate,+edition",
+      fields:
+        "*,expand.publication.*,expand.bookMetadata_via_book.isbn,expand.bookMetadata_via_book.sizeX,expand.bookMetadata_via_book.sizeY,expand.bookMetadata_via_book.sizeZ,expand.bookMetadata_via_book.pageCount,expand.bookMetadata_via_book.weight",
     }),
   {
     transform: (books) =>
@@ -31,12 +48,13 @@ const {
         volume: book.expand?.publication?.volume
           ? parseVolume(book.expand?.publication.volume)
           : 0,
-        name: book.expand!.publication?.name || book.id,
+        name: book.expand?.publication.name ?? book.id,
         edition: book.edition,
         publishDate: book.publishDate,
         price: book.price,
         note: book.note,
-        metadata: book.metadata,
+        metadata: book.expand?.bookMetadata_via_book,
+        inCollections: book.metadata,
       })),
   },
 );
@@ -92,7 +110,7 @@ function handleAdd(row: NonNullable<typeof rows.value>[0]) {
       id: row.id,
       name: row.name,
     },
-    inCollections: row.metadata?.inCollections?.map((c) => c.id),
+    inCollections: row.inCollections?.map((c) => c.id),
     callback: refresh,
   });
 }
@@ -133,6 +151,9 @@ const selected = ref<NonNullable<typeof rows.value> | undefined>(
       class="[font-feature-settings:'ss01']"
       :ui="ui"
     >
+      <template #name-data="{ row }">
+        <div>{{ row.name }}</div>
+      </template>
       <template #edition-data="{ row }">
         <UBadge
           v-if="row.edition"
@@ -170,7 +191,7 @@ const selected = ref<NonNullable<typeof rows.value> | undefined>(
           v-if="$pb.authStore.isValid"
           class="flex items-center justify-end gap-1 whitespace-nowrap text-right"
         >
-          <UPopover v-if="row.metadata?.inCollections" mode="hover">
+          <UPopover v-if="row.inCollections" mode="hover">
             <UTooltip :text="$t('library.view')" :popper="{ placement: 'top' }">
               <UButton
                 icon="i-fluent-library-20-filled"
@@ -180,7 +201,7 @@ const selected = ref<NonNullable<typeof rows.value> | undefined>(
               />
             </UTooltip>
 
-            <template v-if="row.metadata?.inCollections" #panel>
+            <template v-if="row.inCollections" #panel>
               <UCard
                 :ui="{
                   body: {
@@ -192,7 +213,7 @@ const selected = ref<NonNullable<typeof rows.value> | undefined>(
                 }"
               >
                 <UButton
-                  v-for="collection in row.metadata.inCollections"
+                  v-for="collection in row.inCollections"
                   :key="collection.id"
                   :to="`/library/${collection.id}`"
                   color="gray"
