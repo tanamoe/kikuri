@@ -23,16 +23,17 @@ const { data: upcoming } = await useAsyncData(() =>
       start: now.startOf("day").format("YYYY-MM-DD"),
       end: now.add(3, "days").endOf("day").format("YYYY-MM-DD"),
     }),
-    sort: "+publishDate, +publication.release.title.name, +publication.volume, +edition, +assets_via_book.priority",
+    sort: "+publishDate, +publication.release.title.name, +publication.volume, +edition, +publication.defaultBook.assets_via_book.priority, +assets_via_book.priority",
     expand:
-      "publication.release.title, publication.release.publisher, assets_via_book",
+      "publication.release.title, publication.release.publisher, assets_via_book, publication.defaultBook.assets_via_book",
   }),
 );
 
 const { data: updatedBooks } = await useAsyncData(() =>
   $pb.collection(Collections.Books).getList<BooksCommon>(1, 6, {
     sort: "-updated",
-    expand: "publication.release.title, assets_via_book",
+    expand:
+      "publication.release.title, assets_via_book, publication.defaultBook.assets_via_book",
   }),
 );
 

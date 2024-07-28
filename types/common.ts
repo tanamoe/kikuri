@@ -36,11 +36,18 @@ export type BooksCommon = BooksResponse<
       {
         release: ReleasesResponse<{
           publisher: PublishersResponse;
+          partner?: PublishersResponse;
           title: TitlesResponse;
         }>;
+        defaultBook?: BooksResponse<
+          unknown,
+          {
+            assets_via_book?: AssetsResponse<MetadataImages>[];
+          }
+        >;
       }
     >;
-    assets_via_book: AssetsResponse<MetadataImages>[];
+    assets_via_book?: AssetsResponse<MetadataImages>[];
   }
 >;
 

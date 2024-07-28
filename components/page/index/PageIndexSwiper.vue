@@ -67,30 +67,7 @@ const swiperEl = ref();
           :key="book.id"
           class="relative overflow-hidden"
         >
-          <UBadge
-            v-if="book.expand?.publication.expand?.release.digital == true"
-            class="absolute right-2 top-2 z-20 text-gray-900"
-            color="red"
-          >
-            Digital
-          </UBadge>
-          <UBadge
-            v-if="book.edition !== ''"
-            class="absolute right-2 top-2 z-20 text-gray-900"
-            color="tanaamber"
-          >
-            {{ book.edition }}
-          </UBadge>
-          <div
-            class="absolute inset-0 bg-gradient-to-t from-gray-50 to-transparent to-50% sm:hidden dark:from-gray-900"
-          ></div>
-          <AppCover
-            class="rounded-md"
-            :name="book.expand?.publication.name"
-            :src="book.expand?.assets_via_book?.[0].resizedImage?.['1920w']"
-            :srcset="book.expand?.assets_via_book?.[0].resizedImage!"
-            sizes="(max-width: 640px) 80vw, 300px"
-          />
+          <PageIndexSwiperCard :book />
         </SwiperSlide>
       </Swiper>
     </div>
