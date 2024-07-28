@@ -29,6 +29,7 @@ const { data: title } = await useAsyncData(() =>
       {
         releases_via_title: ReleasesResponse<{
           publisher: PublishersResponse;
+          partner?: PublishersResponse;
         }>[];
         links_via_title: LinksResponse<{
           source: LinkSourcesResponse;
@@ -44,7 +45,7 @@ const { data: title } = await useAsyncData(() =>
     >
   >($pb.filter("slug = {:slug}", { slug: route.params.slug }), {
     expand:
-      "releases_via_title.publisher,links_via_title.source,format,genres,demographic,additionalTitleNames_via_title,works_via_title.staff",
+      "releases_via_title.publisher,releases_via_title.partner,links_via_title.source,format,genres,demographic,additionalTitleNames_via_title,works_via_title.staff",
     sort: "+works_via_title.priority",
   }),
 );

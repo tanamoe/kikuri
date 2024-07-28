@@ -6,6 +6,7 @@ const { releaseStatus } = useOptions();
 const props = defineProps<{
   releases: ReleasesResponse<{
     publisher: PublishersResponse;
+    partner?: PublishersResponse;
   }>[];
 }>();
 
@@ -13,6 +14,9 @@ const items = props.releases.map((release) => ({
   label: release.name,
   id: release.id,
   publisher: release.expand?.publisher,
+  partner: release.expand?.partner,
+  disambiguation: release.disambiguation,
+  digital: release.digital,
   status: release.status,
 }));
 
@@ -29,6 +33,17 @@ const ui = {
         <UButton color="gray" variant="ghost">
           <template #leading>
             <UAvatar
+              v-if="item.partner"
+              :src="
+                $pb.files.getUrl(item.partner, item.partner.logo, {
+                  thumb: '24x24',
+                })
+              "
+              :alt="item.publisher.name"
+              :ui="ui"
+              size="2xs"
+            />
+            <UAvatar
               :src="
                 $pb.files.getUrl(item.publisher, item.publisher.logo, {
                   thumb: '24x24',
@@ -41,6 +56,14 @@ const ui = {
           </template>
 
           <span class="truncate">{{ item.label }}</span>
+          <span
+            v-if="item.disambiguation"
+            class="text-xs text-gray-500 dark:text-gray-400"
+            >({{ item.disambiguation }})</span
+          >
+
+          <UBadge v-if="item.digital" color="red"> Digital </UBadge>
+
           <UBadge :color="item.status === 'CANCELLED' ? 'red' : 'primary'">
             {{ releaseStatus.find((s) => s.id === item.status)?.label }}
           </UBadge>
