@@ -20,7 +20,15 @@ defineEmits<{
 const publication = props.book.expand?.publication;
 const release = publication?.expand?.release;
 const title = release?.expand?.title;
-const image = props.book.expand?.assets_via_book?.[0].resizedImage as
+
+const _asset = props.book.expand?.assets_via_book?.find(
+  (asset) => asset.type === "0000000000cover",
+);
+const _default =
+  props.book.expand?.publication.expand?.defaultBook?.expand?.assets_via_book?.find(
+    (asset) => asset.type === "0000000000cover",
+  );
+const image = (_asset ? _asset.resizedImage : _default?.resizedImage) as
   | MetadataImages
   | undefined;
 

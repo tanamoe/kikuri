@@ -51,8 +51,9 @@ const {
   () =>
     $pb.collection(Collections.Books).getFullList<BooksCommon>({
       filter: filter.value,
-      sort: "+publishDate, +publication.release.title.name, +publication.volume, +edition, +assets_via_book.priority",
-      expand: "publication.release.title, assets_via_book",
+      sort: "+publishDate, +publication.release.title.name, +publication.volume, +edition, +publication.defaultBook.assets_via_book.priority, +assets_via_book.priority",
+      expand:
+        "publication.release.title, assets_via_book, publication.defaultBook.assets_via_book",
     }),
   {
     transform: (releases) =>

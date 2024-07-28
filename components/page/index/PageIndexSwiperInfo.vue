@@ -9,6 +9,7 @@ const props = defineProps<{
 const publication = props.book.expand?.publication;
 const release = publication?.expand?.release;
 const publisher = release?.expand?.publisher;
+const partner = release?.expand?.partner;
 const title = release?.expand?.title;
 </script>
 
@@ -28,7 +29,7 @@ const title = release?.expand?.title;
       <p class="mb-6 text-gray-500 dark:text-gray-300">
         <span v-if="publisher">
           <b>{{ $t("general.publishedBy") }}</b>
-          {{ publisher.name }}
+          {{ partner?.name ?? publisher.name }}
         </span>
         <br />
         <span v-if="book.price !== 0">
