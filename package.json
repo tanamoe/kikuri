@@ -26,6 +26,7 @@
     "@nuxt/image": "1.7.0",
     "@nuxt/ui": "^2.18.3",
     "@nuxtjs/i18n": "8.3.3",
+    "@nuxtjs/seo": "^2.0.0-rc.16",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.1",
     "@tailwindcss/typography": "^0.5.13",
     "@types/node": "^20.14.10",
