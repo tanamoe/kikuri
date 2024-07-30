@@ -61,7 +61,7 @@ const isOpen = ref(false);
     </div>
     <div class="relative ml-auto w-64 flex-shrink-0">
       <div
-        class="absolute inset-0 z-10 bg-gradient-to-t from-gray-50 to-transparent to-50% dark:from-gray-900 sm:hidden"
+        class="absolute inset-0 z-10 bg-gradient-to-t from-gray-50 to-transparent to-50% sm:hidden dark:from-gray-900"
       />
       <AppCover
         class="rounded-lg"
