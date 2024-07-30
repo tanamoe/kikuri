@@ -91,7 +91,12 @@
     "missingBooks": "Thiếu truyện?",
     "termsOfService": "Điều khoản sử dụng",
     "privacyPolicy": "Chính sách bảo mật",
-    "differentName": "Tên khác"
+    "differentName": "Tên khác",
+    "originStatus": "Trạng thái bản gốc",
+    "startedYear": "Năm bắt đầu",
+    "originPublisher": "Xuất bản bởi",
+    "originPublication": "Phát hành trên",
+    "informationFrom": "Thông tin từ {0}"
   },
   "status": {
     "waitingForApproval": "Chờ duyệt",

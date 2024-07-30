@@ -46,7 +46,7 @@ const { data: title } = await useAsyncData(() =>
   >($pb.filter("slug = {:slug}", { slug: route.params.slug }), {
     expand:
       "releases_via_title.publisher,releases_via_title.partner,links_via_title.source,format,genres,demographic,additionalTitleNames_via_title,works_via_title.staff",
-    sort: "+works_via_title.priority",
+    sort: "+works_via_title.priority,-additionalTitleNames_via_title.language,-additionalTitleNames_via_title.name",
   }),
 );
 
@@ -121,7 +121,7 @@ useSeoMeta({
 
 <template>
   <div v-if="title">
-    <PageTitleHeader :title="title" />
+    <PageTitleHeader :title />
 
     <div class="mt-6 flex flex-col-reverse gap-6 lg:flex-row">
       <div class="flex-1">
@@ -159,6 +159,8 @@ useSeoMeta({
           :works="title.expand?.works_via_title"
           :additional-names="title.expand?.additionalTitleNames_via_title"
         />
+
+        <PageTitleSectionMangaUpdates :title />
 
         <PageTitleSectionLinks
           v-if="
