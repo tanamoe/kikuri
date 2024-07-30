@@ -32,16 +32,9 @@ const { data } = await useAsyncData(() =>
       }
     >
   >({
-    filter: $pb
-      .filter("type = {:type}", {
-        type: "0000000000cover",
-      })
-      .concat(
-        " && ",
-        props.releases
-          .map((release) => `book.publication.release = "${release.id}"`)
-          .join(" || "),
-      ),
+    filter: props.releases
+      .map((release) => `book.publication.release = "${release.id}"`)
+      .join(" || "),
     sort: "+book.publication.volume,+book.publication.release,+priority",
     expand: "book.publication",
     fields:
