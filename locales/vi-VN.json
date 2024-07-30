@@ -322,5 +322,12 @@
     "selectVisibility": "Chọn chế độ riêng tư",
     "visibility": "Chế độ riêng tư",
     "goToCollection": "Xem bộ sưu tập"
+  },
+  "metadata": {
+    "isbn": "ISBN",
+    "weight": "Trọng lượng",
+    "pageCount": "Số trang",
+    "size": "Kích thước",
+    "dimension": "{x} cm × {y} cm × {z} cm"
   }
 }
