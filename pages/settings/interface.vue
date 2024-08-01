@@ -35,6 +35,7 @@ definePageMeta({
 
 <template>
   <form class="space-y-6">
+    <AppH3>{{ $t("general.releaseCalendar") }}</AppH3>
     <UFormGroup name="showBookDetails" :label="$t('settings.showBookDetails')">
       <UToggle v-model="store.display.bookDetails" />
     </UFormGroup>
@@ -60,6 +61,11 @@ definePageMeta({
         :options="positionOptions"
         option-attribute="name"
       />
+    </UFormGroup>
+
+    <AppH3>{{ $t("general.title") }}</AppH3>
+    <UFormGroup name="showMetadata" :label="$t('settings.showMetadata')">
+      <UToggle v-model="store.display.bookMetadata" />
     </UFormGroup>
   </form>
 </template>

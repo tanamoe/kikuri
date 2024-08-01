@@ -6,6 +6,7 @@ export type DisplaySettings = {
   digital: FilterDigital;
   editionedBook: boolean;
   datePosition: "left" | "top";
+  bookMetadata: boolean;
 };
 
 export type LibrarySettings = {
@@ -21,6 +22,7 @@ export const useSettingsStore = defineStore(
       digital: "show",
       editionedBook: true,
       datePosition: "left",
+      bookMetadata: true,
     });
 
     const library = ref<LibrarySettings>({

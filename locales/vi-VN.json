@@ -217,7 +217,9 @@
     "selectDefaultCollection": "Chọn bộ sưu tập",
     "requestEmailChange": "Yêu cầu đổi email",
     "libraryColumns": "Tùy chọn cột",
-    "columns": "{count} cột đã chọn"
+    "columns": "{count} cột đã chọn",
+    "showMetadata": "Hiển thị thông tin chi tiết",
+    "showMetadataLocal": "Hiển thị thông tin chi tiết (bản in này)"
   },
   "monthPicker": {
     "reset": "Hiện tại",
