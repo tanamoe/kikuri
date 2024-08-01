@@ -45,19 +45,6 @@ const ui = {
   },
 };
 
-function onScroll() {
-  const toolbar = document.getElementById("toolbar");
-  const separator = document.getElementById("separator");
-
-  if (separator) {
-    if (toolbar && toolbar.getBoundingClientRect().top < 1) {
-      separator.style.opacity = "1";
-    } else {
-      separator.style.opacity = "0";
-    }
-  }
-}
-
 onMounted(async () => {
   await nextTick();
   if (toolbar.value)
@@ -65,12 +52,6 @@ onMounted(async () => {
       "--toolbar-height",
       `${toolbar.value.clientHeight + 12}px`,
     );
-
-  window.addEventListener("scroll", onScroll);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("scroll", onScroll);
 });
 </script>
 
@@ -160,7 +141,7 @@ onUnmounted(() => {
     </div>
     <UProgress
       id="separator"
-      class="opacity-0 transition-opacity"
+      class="transition-opacity"
       :animation="pending ? 'carousel' : undefined"
       :value="!pending ? 100 : undefined"
       size="xs"
