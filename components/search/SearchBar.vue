@@ -2,6 +2,7 @@
 import type { Command, Group } from "#ui/types";
 import type { UCommandPalette } from "#build/components";
 import type { APISearchResponse } from "@/types/search";
+import { joinURL } from "ufo";
 
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
@@ -28,8 +29,8 @@ async function search(query: string) {
     return result.items.map((title) => ({
       id: title.id,
       label: title.name,
-      to: `/title/${title.slug}`,
-      suffix: title.format?.name,
+      to: joinURL("/title", title.slug || ""),
+      prefix: title.format?.name,
     })) as Command[];
   } catch (e) {
     return [];
@@ -121,6 +122,7 @@ defineShortcuts({
       ref="commandPalletteRef"
       :groups="groups"
       :placeholder="$t('general.searchPlaceholder')"
+      :autoselect="false"
       @update:model-value="onSelect"
     >
       <template #empty-state>
