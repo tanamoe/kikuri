@@ -22,7 +22,7 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxt/content",
     "nuxt-swiper",
-    "@nuxtjs/seo",
+    "@nuxtjs/sitemap",
   ],
 
   // https://nuxt.com/docs/getting-started/installation#prerequisites
@@ -84,11 +84,9 @@ export default defineNuxtConfig({
   },
 
   site: {
-    url: "https://example.com",
     name: "Tana.moe",
     description:
       "Tana.moe là một tủ truyện trực tuyến giúp theo dõi các tựa truyện sắp ra mắt dễ dàng hơn và khám phá những bộ truyện bạn có thể đã bỏ lỡ!",
-    ogImage: { enabled: false },
   },
 
   sitemap: {
@@ -98,6 +96,7 @@ export default defineNuxtConfig({
         defaults: { priority: 0.7 },
       },
     },
+    autoI18n: false,
   },
 
   experimental: { appManifest: false },
