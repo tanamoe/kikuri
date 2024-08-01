@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { PublishersResponse, ReleasesResponse } from "@/types/pb";
 
-const { releaseStatus } = useOptions();
-
 const props = defineProps<{
   releases: ReleasesResponse<{
     publisher: PublishersResponse;
@@ -59,14 +57,13 @@ const ui = {
           <span
             v-if="item.disambiguation"
             class="text-xs text-gray-500 dark:text-gray-400"
-            >({{ item.disambiguation }})</span
           >
+            ({{ item.disambiguation }})
+          </span>
 
-          <UBadge v-if="item.digital" color="red"> Digital </UBadge>
+          <UBadge v-if="item.digital" color="red">Digital</UBadge>
 
-          <UBadge :color="item.status === 'CANCELLED' ? 'red' : 'primary'">
-            {{ releaseStatus.find((s) => s.id === item.status)?.label }}
-          </UBadge>
+          <AppStatusBadge :status="item.status" class="text-nowrap" />
 
           <template #trailing>
             <UIcon
