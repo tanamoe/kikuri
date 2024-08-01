@@ -4,13 +4,10 @@ import {
   Collections,
   type BookMetadataResponse,
   type PublicationsResponse,
+  type AssetsResponse,
 } from "@/types/pb";
-import type { MetadataLibrary } from "@/types/common";
-import {
-  LibraryModalBookAdd,
-  LibraryModalBookAddBulk,
-  ModalFahasaStock,
-} from "#components";
+import type { MetadataImages, MetadataLibrary } from "@/types/common";
+import { LibraryModalBookAdd, LibraryModalBookAddBulk } from "#components";
 
 const props = defineProps<{
   open: boolean;
@@ -20,6 +17,7 @@ const props = defineProps<{
 const { $pb } = useNuxtApp();
 const { t } = useI18n();
 const modal = useModal();
+const { display } = useSettingsStore();
 
 const {
   data: rows,
@@ -34,15 +32,17 @@ const {
         {
           publication: PublicationsResponse;
           bookMetadata_via_book: BookMetadataResponse;
+          assets_via_book: AssetsResponse<MetadataImages>[];
         }
       >
     >({
       filter: $pb.filter("publication.release = {:release}", {
         release: props.releaseId,
       }),
-      expand: "publication,bookMetadata_via_book",
-      sort: "+publication.volume,+publishDate,+edition",
-      fields: "*,expand.publication.*,expand.bookMetadata_via_book.*",
+      expand: "publication,bookMetadata_via_book,assets_via_book",
+      sort: "+publication.volume,+publishDate,+edition,+assets_via_book.priority",
+      fields:
+        "*,expand.publication.*,expand.bookMetadata_via_book.*,expand.assets_via_book.*",
     }),
   {
     transform: (books) =>
@@ -58,12 +58,14 @@ const {
         note: book.note,
         metadata: book.expand?.bookMetadata_via_book,
         inCollections: book.metadata,
+        assets: book.expand?.assets_via_book,
       })),
   },
 );
 
-const showMetadata = ref(true);
-const showNote = ref(true);
+const show = ref({
+  metadata: display.bookMetadata,
+});
 
 const ui = {
   wrapper: "relative overflow-x-auto",
@@ -83,12 +85,6 @@ const columns = [
   {
     key: "name",
     label: t("general.name"),
-  },
-  {
-    key: "edition",
-    label: t("general.edition"),
-    class: "whitespace-nowrap w-0",
-    sortable: true,
   },
   {
     key: "publishDate",
@@ -129,12 +125,6 @@ function handleAddBulk() {
   }
 }
 
-function fahasa(sku: string) {
-  modal.open(ModalFahasaStock, {
-    sku,
-  });
-}
-
 const watcher = watch(
   () => props.open,
   () => {
@@ -152,16 +142,11 @@ const selected = ref<NonNullable<typeof rows.value> | undefined>(
 
 <template>
   <div class="space-y-3">
-    <div class="flex gap-3">
+    <div class="flex justify-end">
       <UCheckbox
-        v-model="showMetadata"
-        name="showMetadata"
-        :label="$t('setting.showMetadata')"
-      />
-      <UCheckbox
-        v-model="showNote"
-        name="showNote"
-        :label="$t('setting.showNote')"
+        v-model="show.metadata"
+        name="show.metadata"
+        :label="$t('settings.showMetadataLocal')"
       />
     </div>
     <UTable
@@ -174,51 +159,75 @@ const selected = ref<NonNullable<typeof rows.value> | undefined>(
       <template #volume-data="{ row }">
         <UBadge variant="soft" color="gray">{{ row.volume }}</UBadge>
       </template>
-      <template #name-data="{ row }">
-        <div>{{ row.name }}</div>
-        <div
-          v-if="row.metadata && showMetadata"
-          class="mt-2 text-xs dark:text-gray-400"
-        >
-          <div>
-            <span v-if="row.metadata.isbn">
-              {{ $t("metadata.isbn") }}: {{ row.metadata.isbn }}
-            </span>
-          </div>
-          <div class="space-x-3">
-            <span v-if="row.metadata.pageCount">
-              {{ $t("metadata.pageCount") }}: {{ row.metadata.pageCount }}
-            </span>
-            <span v-if="row.metadata.weight">
-              {{ $t("metadata.weight") }}: {{ row.metadata.weight }}
-            </span>
-          </div>
-          <div>
-            {{ $t("metadata.size") }}:
-            {{
-              $t("metadata.dimension", {
-                x: row.metadata.sizeX,
-                y: row.metadata.sizeY,
-                z: row.metadata.sizeZ || "?",
-              })
-            }}
-          </div>
-        </div>
-        <div
-          v-if="row.note && showNote"
-          class="mt-2 text-xs dark:text-gray-400"
-        >
-          <p v-for="(note, key) of row.note.split('\n')" :key>{{ note }}</p>
-        </div>
-      </template>
-      <template #edition-data="{ row }">
+      <template
+        #name-data="{ row }: { row: NonNullable<typeof rows.value>[0] }"
+      >
         <UBadge
           v-if="row.edition"
           color="tanaamber"
-          class="bg-opacity-50 text-gray-900 backdrop-blur"
+          class="mb-2 bg-opacity-50 text-gray-900 backdrop-blur"
         >
           {{ row.edition }}
         </UBadge>
+        <div>{{ row.name }}</div>
+        <div
+          v-if="show.metadata"
+          class="mt-3 space-y-3 text-xs dark:text-gray-400"
+        >
+          <div v-if="row.metadata">
+            <div>
+              <span v-if="row.metadata.isbn">
+                {{ $t("metadata.isbn") }}: {{ row.metadata.isbn }}
+              </span>
+            </div>
+            <div class="space-x-3">
+              <span v-if="row.metadata.pageCount">
+                {{ $t("metadata.pageCount") }}: {{ row.metadata.pageCount }}
+              </span>
+              <span v-if="row.metadata.weight">
+                {{ $t("metadata.weight") }}: {{ row.metadata.weight }}
+              </span>
+            </div>
+            <div>
+              {{ $t("metadata.size") }}:
+              {{
+                $t("metadata.dimension", {
+                  x: row.metadata.sizeX,
+                  y: row.metadata.sizeY,
+                  z: row.metadata.sizeZ || "?",
+                })
+              }}
+            </div>
+          </div>
+          <div v-if="row.note" class="text-xs dark:text-gray-400">
+            <p v-for="(note, key) of row.note.split('\n')" :key>{{ note }}</p>
+          </div>
+
+          <div
+            v-if="
+              row.assets &&
+              row.assets.filter((asset) => asset.type != '0000000000cover')
+                .length > 0
+            "
+            class="grid grid-cols-6 gap-3 lg:grid-cols-4 xl:grid-cols-8"
+          >
+            <template
+              v-for="asset in row.assets.filter(
+                (asset) => asset.type != '0000000000cover',
+              )"
+              :key="asset.id"
+            >
+              <ULink :to="$pb.files.getUrl(asset, asset.image)" target="_blank">
+                <AppImage
+                  v-if="asset.resizedImage"
+                  class="aspect-[1/1] h-full w-full rounded object-cover transition-all hover:brightness-75"
+                  :src="asset.resizedImage['1280w']"
+                  :srcset="asset.resizedImage"
+                />
+              </ULink>
+            </template>
+          </div>
+        </div>
       </template>
       <template #publishDate-data="{ row }">
         <span v-if="row.publishDate">
@@ -288,15 +297,6 @@ const selected = ref<NonNullable<typeof rows.value> | undefined>(
               />
             </UTooltip>
           </template>
-
-          <UButton
-            v-if="row.metadata?.fahasaSKU"
-            icon="i-fluent-book-20-filled"
-            color="gray"
-            variant="ghost"
-            square
-            @click="fahasa(row.metadata.fahasaSKU)"
-          />
         </div>
       </template>
     </UTable>
