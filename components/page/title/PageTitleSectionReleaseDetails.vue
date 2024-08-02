@@ -70,7 +70,7 @@ const show = ref({
 const ui = {
   wrapper: "relative overflow-x-auto",
   td: {
-    base: "whitespace-nowrap lg:whitespace-normal",
+    base: "whitespace-normal lg:whitespace-normal",
     color: "text-gray-600 dark:text-gray-300",
   },
 };
@@ -162,70 +162,75 @@ const selected = ref<NonNullable<typeof rows.value> | undefined>(
       <template
         #name-data="{ row }: { row: NonNullable<typeof rows.value>[0] }"
       >
-        <UBadge
-          v-if="row.edition"
-          color="tanaamber"
-          class="mb-2 bg-opacity-50 text-gray-900 backdrop-blur"
-        >
-          {{ row.edition }}
-        </UBadge>
-        <div>{{ row.name }}</div>
-        <div
-          v-if="show.metadata"
-          class="mt-3 space-y-3 text-xs dark:text-gray-400"
-        >
-          <div v-if="row.metadata">
-            <div>
-              <span v-if="row.metadata.isbn">
-                {{ $t("metadata.isbn") }}: {{ row.metadata.isbn }}
-              </span>
-            </div>
-            <div class="space-x-3">
-              <span v-if="row.metadata.pageCount">
-                {{ $t("metadata.pageCount") }}: {{ row.metadata.pageCount }}
-              </span>
-              <span v-if="row.metadata.weight">
-                {{ $t("metadata.weight") }}: {{ row.metadata.weight }}
-              </span>
-            </div>
-            <div>
-              {{ $t("metadata.size") }}:
-              {{
-                $t("metadata.dimension", {
-                  x: row.metadata.sizeX,
-                  y: row.metadata.sizeY,
-                  z: row.metadata.sizeZ || "?",
-                })
-              }}
-            </div>
-          </div>
-          <div v-if="row.note" class="text-xs dark:text-gray-400">
-            <p v-for="(note, key) of row.note.split('\n')" :key>{{ note }}</p>
-          </div>
-
-          <div
-            v-if="
-              row.assets &&
-              row.assets.filter((asset) => asset.type != '0000000000cover')
-                .length > 0
-            "
-            class="grid grid-cols-6 gap-3 lg:grid-cols-4 xl:grid-cols-8"
+        <div class="min-w-52">
+          <UBadge
+            v-if="row.edition"
+            color="tanaamber"
+            class="mb-2 bg-opacity-50 text-gray-900 backdrop-blur"
           >
-            <template
-              v-for="asset in row.assets.filter(
-                (asset) => asset.type != '0000000000cover',
-              )"
-              :key="asset.id"
+            {{ row.edition }}
+          </UBadge>
+          <div>{{ row.name }}</div>
+          <div
+            v-if="show.metadata"
+            class="mt-3 space-y-3 text-xs dark:text-gray-400"
+          >
+            <div v-if="row.metadata">
+              <div>
+                <span v-if="row.metadata.isbn">
+                  {{ $t("metadata.isbn") }}: {{ row.metadata.isbn }}
+                </span>
+              </div>
+              <div class="space-x-3">
+                <span v-if="row.metadata.pageCount">
+                  {{ $t("metadata.pageCount") }}: {{ row.metadata.pageCount }}
+                </span>
+                <span v-if="row.metadata.weight">
+                  {{ $t("metadata.weight") }}: {{ row.metadata.weight }}
+                </span>
+              </div>
+              <div>
+                {{ $t("metadata.size") }}:
+                {{
+                  $t("metadata.dimension", {
+                    x: row.metadata.sizeX,
+                    y: row.metadata.sizeY,
+                    z: row.metadata.sizeZ || "?",
+                  })
+                }}
+              </div>
+            </div>
+            <div v-if="row.note" class="text-xs dark:text-gray-400">
+              <p v-for="(note, key) of row.note.split('\n')" :key>{{ note }}</p>
+            </div>
+
+            <div
+              v-if="
+                row.assets &&
+                row.assets.filter((asset) => asset.type != '0000000000cover')
+                  .length > 0
+              "
+              class="grid grid-cols-4 gap-3 lg:grid-cols-6 xl:grid-cols-8"
             >
-              <ULink :to="$pb.files.getUrl(asset, asset.image)" target="_blank">
-                <AppImage
-                  v-if="asset.resizedImage"
-                  class="aspect-[1/1] h-full w-full rounded object-cover transition-all hover:brightness-75"
-                  :src="asset.resizedImage['1280w']"
-                  :srcset="asset.resizedImage"
-                />
-              </ULink>
-            </template>
+              <template
+                v-for="asset in row.assets.filter(
+                  (asset) => asset.type != '0000000000cover',
+                )"
+                :key="asset.id"
+              >
+                <ULink
+                  :to="$pb.files.getUrl(asset, asset.image)"
+                  target="_blank"
+                >
+                  <AppImage
+                    v-if="asset.resizedImage"
+                    class="aspect-[1/1] h-full w-full rounded object-cover transition-all hover:brightness-75"
+                    :src="asset.resizedImage['1280w']"
+                    :srcset="asset.resizedImage"
+                  />
+                </ULink>
+              </template>
+            </div>
           </div>
         </div>
       </template>
