@@ -63,7 +63,7 @@ const isOpen = ref(false);
       <div
         class="absolute inset-0 z-10 bg-gradient-to-t from-gray-50 to-transparent to-50% sm:hidden dark:from-gray-900"
       />
-      <AppCover
+      <AppBookCover
         class="rounded-lg"
         loading="eager"
         :src="
