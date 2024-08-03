@@ -35,7 +35,7 @@ const image = (_asset ? _asset.resizedImage : _default?.resizedImage) as
   <div
     class="absolute inset-0 bg-gradient-to-t from-gray-50 to-transparent to-50% sm:hidden dark:from-gray-900"
   ></div>
-  <AppCover
+  <AppBookCover
     class="rounded-md"
     :name="book.expand?.publication.name"
     :src="image && image['1920w']"

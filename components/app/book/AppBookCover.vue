@@ -4,7 +4,7 @@ import type { MetadataImages } from "@/types/common";
 defineProps<{
   name?: string;
   src?: string;
-  srcset?: MetadataImages;
+  srcset?: MetadataImages | null;
 }>();
 </script>
 

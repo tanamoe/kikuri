@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { joinURL } from "ufo";
-import type { BooksCommon, MetadataImages } from "@/types/common";
+import type { BooksCommon } from "@/types/common";
 
 const store = useSettingsStore();
 
@@ -28,9 +28,7 @@ const _default =
   props.book.expand?.publication.expand?.defaultBook?.expand?.assets_via_book?.find(
     (asset) => asset.type === "0000000000cover",
   );
-const image = (_asset ? _asset.resizedImage : _default?.resizedImage) as
-  | MetadataImages
-  | undefined;
+const image = _asset ? _asset.resizedImage : _default?.resizedImage;
 
 const ui = {
   base: "relative overflow-hidden",
@@ -52,7 +50,7 @@ const ui = {
         Digital
       </UBadge>
       <UBadge
-        v-else-if="book.edition !== ''"
+        v-else-if="book.edition"
         class="absolute right-2 top-2 z-20 text-gray-900"
         color="tanaamber"
       >
@@ -113,10 +111,10 @@ const ui = {
         </div>
       </ClientOnly>
 
-      <AppCover
+      <AppBookCover
         class="relative z-10 transition-all group-hover:brightness-90 dark:group-hover:brightness-75"
-        :name="publication?.name"
-        :src="image && image['1920w']"
+        :name="publication?.name || release?.name"
+        :src="image?.['1920w']"
         :srcset="image"
         v-bind="$attrs"
       />
@@ -127,17 +125,17 @@ const ui = {
     <div v-if="store.display.bookDetails" class="mt-2">
       <div
         v-if="
-          publication &&
-          publication?.volume < 90000000 &&
+          publication?.volume &&
+          publication.volume < 90000000 &&
           publication.volume > 0
         "
         class="space-y-1"
       >
         <div
-          v-if="title?.name"
+          v-if="release"
           class="decoration-primary-400 line-clamp-4 font-condensed text-xl font-black decoration-[.2rem] underline-offset-[.2rem] group-hover:underline"
         >
-          {{ title.name }}
+          {{ release.name }}
         </div>
         <div class="text-gray-500 dark:text-gray-400">
           {{
@@ -156,7 +154,7 @@ const ui = {
       </div>
     </div>
 
-    <div v-if="store.display.bookPrice" class="mt-1">
+    <div v-if="store.display.bookPrice && book.price" class="mt-1">
       <span class="block text-gray-500 dark:text-gray-400">
         {{ $n(book.price, "currency", "vi") }}
       </span>

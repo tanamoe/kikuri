@@ -3,13 +3,11 @@ import type { MetadataImages } from "~/types/common";
 
 const props = defineProps<{
   src: string;
-  srcset?: MetadataImages;
+  srcset?: MetadataImages | null;
 }>();
 
-const imgSrc = computed(() => joinSrc(props.src));
-const imgSrcset = computed(() =>
-  props.srcset ? joinSrcset(props.srcset) : undefined,
-);
+const imgSrc = joinSrc(props.src);
+const imgSrcset = props.srcset ? joinSrcset(props.srcset) : undefined;
 </script>
 
 <template>
