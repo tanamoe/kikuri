@@ -37,10 +37,11 @@ const { data } = await useAsyncData(() =>
         type: "0000000000cover",
       })
       .concat(
-        " && ",
+        " && (",
         props.releases
           .map((release) => `book.publication.release = "${release.id}"`)
           .join(" || "),
+        ")",
       ),
     sort: "+book.publication.volume,+book.publication.release,+priority",
     expand: "book.publication",
