@@ -1,25 +1,24 @@
 <script setup lang="ts">
-import { LibraryModalCollectionCreate } from "#components";
+import { ModalCollectionCreate } from "#components";
 
 const { $pb } = useNuxtApp();
 const { collections } = useLibrary();
+const { t } = useI18n();
 const modal = useModal();
 const route = useRoute();
 
 const links = computed(() => [
-  collections.value.map(
-    (
-      item,
-    ): {
-      icon?: string;
-      label: string;
-      to?: string;
-      click?: () => void;
-    } => ({
-      label: item.collection!.name,
-      to: item.collection!.id,
-    }),
-  ),
+  collections.value.map((item) => ({
+    label: item.collection!.name,
+    to: item.collection!.id,
+  })),
+  [
+    {
+      label: t("library.createCollection"),
+      icon: "i-fluent-collections-20-filled",
+      click: () => modal.open(ModalCollectionCreate),
+    },
+  ],
 ]);
 
 const sticky = computed(() => route.meta.stickyNav as boolean);
@@ -29,25 +28,23 @@ const sticky = computed(() => route.meta.stickyNav as boolean);
   <div>
     <NavigationBar :sticky="sticky" />
 
-    <main class="container mx-auto min-h-[80vh] overflow-x-hidden px-6 pb-6">
+    <main
+      class="mx-auto min-h-[80vh] overflow-x-hidden pb-6 sm:container sm:px-6"
+    >
       <div class="flex flex-col gap-6 sm:flex-row">
         <aside
           v-if="links && $pb.authStore.isAuthRecord"
           class="flex flex-shrink-0 items-center gap-1 overflow-x-auto sm:block sm:w-48"
         >
-          <AppSideNavigation :links="links" />
-          <UButton
-            class="sm:mt-3 sm:w-full"
-            active-class="bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100"
-            icon="i-fluent-collections-20-filled"
-            color="gray"
-            variant="ghost"
-            @click="modal.open(LibraryModalCollectionCreate)"
-          >
-            {{ $t("library.createCollection") }}
-          </UButton>
+          <UHorizontalNavigation
+            class="ms-6 block sm:hidden"
+            :links="links[0]"
+          />
+          <UVerticalNavigation class="mb-6 hidden sm:block" :links />
+
+          <slot name="sidebar" />
         </aside>
-        <div class="flex-1">
+        <div class="flex-1 px-6 sm:px-0">
           <slot />
         </div>
       </div>

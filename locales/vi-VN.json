@@ -18,6 +18,7 @@
     "filter": "Lọc",
     "advancedFilter": "Lọc nâng cao",
     "sort": "Sắp xếp",
+    "group": "Nhóm",
     "options": "Tuỳ chọn",
     "print": "In",
     "download": "Tải về",
@@ -212,6 +213,12 @@
     "position": {
       "left": "Bên trái",
       "top": "Bên trên"
+    },
+    "groupBy": {
+      "placeholder": "Sắp xếp theo",
+      "none": "Không",
+      "release": "Bản in",
+      "status": "Trạng thái"
     },
     "defaultCollection": "Bộ sưu tập mặc định",
     "selectDefaultCollection": "Chọn bộ sưu tập",

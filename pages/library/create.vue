@@ -6,7 +6,6 @@ import { CollectionsVisibilityOptions } from "@/types/pb";
 
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
-const { collectionVisibility } = useOptions();
 const { update } = useLibrary();
 const { pending, create } = useCollections();
 const toast = useToast();
@@ -32,10 +31,6 @@ const state = ref<Partial<Schema>>({
   visibility: undefined,
 });
 const content = ref("");
-
-const currentVisibility = computed(() =>
-  collectionVisibility.value.find((v) => v.id === state.value.visibility),
-);
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const [res, error] = await create({
@@ -90,32 +85,7 @@ useSeoMeta({
         </UFormGroup>
 
         <UFormGroup name="visibility">
-          <USelectMenu
-            v-model="state.visibility"
-            :options="collectionVisibility"
-            name="visibility"
-            value-attribute="id"
-            option-attribute="label"
-          >
-            <template #leading>
-              <UIcon
-                v-if="currentVisibility?.icon"
-                :name="currentVisibility.icon"
-                class="mx-0.5 h-4 w-4"
-              />
-              <UIcon
-                v-else
-                name="i-fluent-shield-20-filled"
-                class="mx-0.5 h-4 w-4"
-              />
-            </template>
-            <template #label>
-              <span v-if="currentVisibility">
-                {{ currentVisibility.label }}
-              </span>
-              <span v-else>{{ $t("library.selectVisibility") }}</span>
-            </template>
-          </USelectMenu>
+          <InputCollectionVisibility v-model="state.visibility" />
         </UFormGroup>
       </div>
 
