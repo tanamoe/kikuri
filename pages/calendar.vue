@@ -4,7 +4,7 @@ import { joinURL } from "ufo";
 import { Collections } from "@/types/pb";
 import type { FilterPublishers } from "@/utils/releases";
 import type { BooksCommon } from "@/types/common";
-import { LibraryModalBookAdd } from "#components";
+import { ModalCollectionBookAdd } from "#components";
 
 const { ogUrl } = useRuntimeConfig().public;
 const nuxtApp = useNuxtApp();
@@ -74,7 +74,7 @@ const dates = computed(() => {
 });
 
 function handleAdd(book: BooksCommon) {
-  modal.open(LibraryModalBookAdd, {
+  modal.open(ModalCollectionBookAdd, {
     book: {
       id: book.id,
       name: book.expand?.publication?.name ?? book.id,
@@ -156,6 +156,9 @@ useSeoMeta({
           <div v-for="book in group" :key="book.id">
             <AppBook
               :book="book"
+              :publication="book.expand?.publication"
+              :release="book.expand?.publication.expand?.release"
+              :title="book.expand?.publication.expand?.release.expand?.title"
               sizes="(max-width: 640px) 40vw, (max-width: 768px) 30vw, 20vw"
               @add="handleAdd"
             />
