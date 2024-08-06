@@ -5,7 +5,7 @@ const { t } = useI18n({ useScope: "global" });
 const store = useSettingsStore();
 
 const emit = defineEmits<{
-  download: [void];
+  download: [];
 }>();
 
 const isOpen = ref(false);

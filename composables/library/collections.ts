@@ -1,7 +1,7 @@
 import { ClientResponseError } from "pocketbase";
 import { joinURL } from "ufo";
 import type { CollectionsRecord } from "@/types/pb";
-import type { UserCollectionResponse } from "@/types/collections";
+import type { UserCollectionResponse } from "@/types/api/collections";
 
 export type LibraryCollectionUpdateResponse =
   | [UserCollectionResponse, null]

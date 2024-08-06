@@ -7,7 +7,7 @@ import {
   type TitlesResponse,
   type UsersResponse,
 } from "@/types/pb";
-import { type UserCollectionsResponse } from "@/types/collections";
+import { type UserCollectionsResponse } from "@/types/api/collections";
 
 const route = useRoute();
 const { $pb } = useNuxtApp();

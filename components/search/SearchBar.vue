@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Command, Group } from "#ui/types";
 import type { UCommandPalette } from "#build/components";
-import type { APISearchResponse } from "@/types/search";
+import type { APISearchResponse } from "@/types/api/search";
 import { joinURL } from "ufo";
 
 const { $pb } = useNuxtApp();
