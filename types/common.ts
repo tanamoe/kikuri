@@ -1,4 +1,4 @@
-import type { CollectionResponse } from "@/types/collections";
+import type { CollectionResponse } from "@/types/api/collections";
 import type {
   AssetsResponse,
   BookDetailsResponse,

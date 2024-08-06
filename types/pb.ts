@@ -12,6 +12,7 @@ export enum Collections {
   BookDetails = "bookDetails",
   BookMetadata = "bookMetadata",
   Books = "books",
+  BooksComplete = "booksComplete",
   CollectionBooks = "collectionBooks",
   CollectionMembers = "collectionMembers",
   Collections = "collections",
@@ -111,6 +112,20 @@ export type BooksRecord<Tmetadata = unknown> = {
   price?: number;
   publication: RecordIdString;
   publishDate?: IsoDateString;
+};
+
+export type BooksCompleteRecord = {
+  assets?: RecordIdString;
+  digital?: boolean;
+  edition?: string;
+  metadata?: RecordIdString;
+  note?: HTMLString;
+  price?: number;
+  publication?: RecordIdString;
+  publishDate?: IsoDateString;
+  release: RecordIdString;
+  title: RecordIdString;
+  volume?: number;
 };
 
 export enum CollectionBooksStatusOptions {
@@ -312,6 +327,8 @@ export type BooksResponse<Tmetadata = unknown, Texpand = unknown> = Required<
   BooksRecord<Tmetadata>
 > &
   BaseSystemFields<Texpand>;
+export type BooksCompleteResponse<Texpand = unknown> =
+  Required<BooksCompleteRecord> & BaseSystemFields<Texpand>;
 export type CollectionBooksResponse<Texpand = unknown> =
   Required<CollectionBooksRecord> & BaseSystemFields<Texpand>;
 export type CollectionMembersResponse<Texpand = unknown> =
@@ -375,6 +392,7 @@ export type CollectionRecords = {
   bookDetails: BookDetailsRecord;
   bookMetadata: BookMetadataRecord;
   books: BooksRecord;
+  booksComplete: BooksCompleteRecord;
   collectionBooks: CollectionBooksRecord;
   collectionMembers: CollectionMembersRecord;
   collections: CollectionsRecord;
@@ -403,6 +421,7 @@ export type CollectionResponses = {
   bookDetails: BookDetailsResponse;
   bookMetadata: BookMetadataResponse;
   books: BooksResponse;
+  booksComplete: BooksCompleteResponse;
   collectionBooks: CollectionBooksResponse;
   collectionMembers: CollectionMembersResponse;
   collections: CollectionsResponse;
@@ -436,6 +455,7 @@ export type TypedPocketBase = PocketBase & {
   collection(idOrName: "bookDetails"): RecordService<BookDetailsResponse>;
   collection(idOrName: "bookMetadata"): RecordService<BookMetadataResponse>;
   collection(idOrName: "books"): RecordService<BooksResponse>;
+  collection(idOrName: "booksComplete"): RecordService<BooksCompleteResponse>;
   collection(
     idOrName: "collectionBooks",
   ): RecordService<CollectionBooksResponse>;

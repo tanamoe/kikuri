@@ -13,10 +13,9 @@ import type {
   CollectionMembersRoleOptions,
   CollectionBooksStatusOptions,
   CollectionsVisibilityOptions,
-  BookDetailsRecord,
-  PublicationsRecord,
   UsersResponse,
 } from "@/types/pb";
+import type { BaseBookRecord, BaseBookResponse } from "@/types/api/book";
 
 /**
  * Collection items returned from `/api/user-collections/:userId`
@@ -59,18 +58,16 @@ export type UserCollectionResponse = BaseAPISingleResult<CollectionResponse>;
  *
  * @see {@link UserCollectionBooksResponse}
  */
-export type CollectionBookResponse = {
+export type CollectionBookRecord<T> = T & {
   collectionId: string;
   bookId: string;
-  collection?: CollectionsRecord & BaseAPIFields;
-  book?: {
-    publication: PublicationsRecord;
-    publicationId: string;
-  } & Omit<BookDetailsRecord, "publication"> &
-    BaseAPIFields;
+  collection?: CollectionsRecord & T;
+  book?: BaseBookRecord<T>;
   quantity: number;
   status: CollectionBooksStatusOptions;
 };
+
+export type CollectionBookResponse = CollectionBookRecord<BaseAPIFields>;
 
 /**
  * User collection books returned from `/api/user-collection/:userId/books`
@@ -81,7 +78,7 @@ export type UserCollectionBooksResponse =
   BaseAPIListResult<CollectionBookResponse>;
 
 /**
- * User collection book returned from editing `/api/user-collection/:userId/books`
+ * User collection book returned from <b>editing</b> `/api/user-collection/:userId/books`
  *
  * @see {@link https://github.com/tanamoe/momoka-lite/blob/master/models/collection_book.go}
  */
