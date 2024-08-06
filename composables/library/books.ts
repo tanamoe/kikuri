@@ -4,7 +4,7 @@ import type { BaseAPIResponse } from "@/types/api";
 import type {
   CollectionBookResponse,
   UserCollectionBookResponse,
-} from "@/types/collections";
+} from "@/types/api/collections";
 
 export type LibraryBookArgument = Pick<
   CollectionBookResponse,

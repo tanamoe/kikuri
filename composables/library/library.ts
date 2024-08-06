@@ -2,7 +2,7 @@ import { joinURL } from "ufo";
 import type {
   UserCollectionsResponse,
   CollectionMemberResponse,
-} from "@/types/collections";
+} from "@/types/api/collections";
 import type { BaseAPIFields } from "@/types/api";
 
 /**
