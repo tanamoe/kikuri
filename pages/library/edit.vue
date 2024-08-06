@@ -3,12 +3,11 @@ import { z } from "zod";
 import { joinURL } from "ufo";
 import type { BreadcrumbLink, FormSubmitEvent } from "#ui/types";
 import { CollectionsVisibilityOptions } from "@/types/pb";
-import type { UserCollectionResponse } from "@/types/collections";
+import type { UserCollectionResponse } from "@/types/api/collections";
 
 const route = useRoute();
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
-const { collectionVisibility } = useOptions();
 const { update } = useLibrary();
 const { pending, edit } = useCollections();
 const toast = useToast();
@@ -54,10 +53,6 @@ const state = ref<Partial<Schema>>({
   visibility: collection.value.item.visibility,
 });
 const content = ref(collection.value.item.description);
-
-const currentVisibility = computed(() =>
-  collectionVisibility.value.find((v) => v.id === state.value.visibility),
-);
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   if (!collection.value) return;
@@ -118,20 +113,7 @@ useSeoMeta({
         </UFormGroup>
 
         <UFormGroup name="visibility">
-          <USelectMenu
-            v-model="state.visibility"
-            :options="collectionVisibility"
-            name="visibility"
-            value-attribute="id"
-            option-attribute="label"
-          >
-            <template #label>
-              <span v-if="currentVisibility">{{
-                currentVisibility.label
-              }}</span>
-              <span v-else>{{ $t("library.selectVisibility") }}</span>
-            </template>
-          </USelectMenu>
+          <InputCollectionVisibility v-model="state.visibility" />
         </UFormGroup>
       </div>
 

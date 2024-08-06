@@ -11,6 +11,12 @@ export type DisplaySettings = {
 
 export type LibrarySettings = {
   defaultLibraryId?: string;
+  groupBy: "none" | "release" | "status";
+  sort:
+    | "+updated"
+    | "-updated"
+    | "+book.publication.name"
+    | "-book.publication.name";
 };
 
 export const useSettingsStore = defineStore(
@@ -27,6 +33,8 @@ export const useSettingsStore = defineStore(
 
     const library = ref<LibrarySettings>({
       defaultLibraryId: undefined,
+      groupBy: "none",
+      sort: "+updated",
     });
 
     return {
