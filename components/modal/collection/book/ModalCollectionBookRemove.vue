@@ -10,16 +10,12 @@ const props = defineProps<{
     name: string;
   };
   collection: string;
-  callback?: () => any;
+  callback?: () => unknown;
 }>();
 
 const s = ref({
   collection: props.collection,
 });
-
-function handleClose() {
-  modal.isOpen.value = false;
-}
 
 async function onSubmit() {
   const [, error] = await remove(s.value.collection, props.book.id);
@@ -44,7 +40,7 @@ async function onSubmit() {
   if (props.callback) {
     props.callback();
   }
-  return handleClose();
+  return modal.close();
 }
 </script>
 
@@ -59,7 +55,7 @@ async function onSubmit() {
             variant="ghost"
             icon="i-fluent-dismiss-20-filled"
             class="-my-1"
-            @click="handleClose"
+            @click="modal.close"
           />
         </div>
       </template>
@@ -70,7 +66,7 @@ async function onSubmit() {
         </div>
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="handleClose">
+          <UButton color="red" variant="ghost" @click="modal.close">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending" @click="onSubmit">

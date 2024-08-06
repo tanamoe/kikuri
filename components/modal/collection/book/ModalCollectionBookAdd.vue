@@ -5,9 +5,8 @@ import type { FormSubmitEvent } from "#ui/types";
 import { CollectionBooksStatusOptions } from "@/types/pb";
 
 const { $pb } = useNuxtApp();
-const { t } = useI18n({ useScope: "global" });
+const { t } = useI18n();
 const { pending, update } = useCollectionBooks();
-const { collectionBookStatus } = useOptions();
 const { collections } = useLibrary();
 const toast = useToast();
 const settingsStore = useSettingsStore();
@@ -19,7 +18,7 @@ const props = defineProps<{
     name: string;
   };
   inCollections?: string[];
-  callback?: () => any;
+  callback?: () => unknown;
 }>();
 
 const c = computed(() =>
@@ -32,7 +31,7 @@ const c = computed(() =>
 
 const schema = z.object({
   collection: z.string(),
-  quantity: z.coerce.number().min(0),
+  quantity: z.coerce.number().min(1),
   status: z.nativeEnum(CollectionBooksStatusOptions),
 });
 type Schema = z.output<typeof schema>;
@@ -46,15 +45,6 @@ const state = ref<Partial<Schema>>({
 const currentCollection = computed(() =>
   c.value?.find((collection) => collection.id === state.value.collection),
 );
-const currentStatus = computed(() =>
-  collectionBookStatus.value?.find(
-    (status) => status.id === state.value.status,
-  ),
-);
-
-function handleClose() {
-  modal.isOpen.value = false;
-}
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const [res, error] = await update(event.data.collection, {
@@ -75,7 +65,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   toast.add({
     title: t("general.success"),
     description: t("library.addBookSuccessful", {
-      name: res.item.book?.publication.name,
+      name: res.item.book?.publication?.name,
       collection: res.item.collection?.name,
     }),
     icon: "i-fluent-checkmark-circle-20-filled",
@@ -90,7 +80,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   if (props.callback) {
     props.callback();
   }
-  return handleClose();
+  return modal.close();
 }
 
 const uiMenu = {
@@ -109,7 +99,7 @@ const uiMenu = {
             variant="ghost"
             icon="i-fluent-dismiss-20-filled"
             class="-my-1"
-            @click="handleClose"
+            @click="modal.close"
           />
         </div>
       </template>
@@ -151,7 +141,7 @@ const uiMenu = {
             to="/library/create"
             color="gray"
             block
-            @click="handleClose"
+            @click="modal.close"
           >
             {{ $t("library.createCollection") }}
           </UButton>
@@ -159,21 +149,7 @@ const uiMenu = {
 
         <div class="grid grid-cols-2 gap-3">
           <UFormGroup :label="$t('general.status')" name="status">
-            <USelectMenu
-              v-model="state.status"
-              :options="collectionBookStatus"
-              value-attribute="id"
-              option-attribute="label"
-            >
-              <template #label>
-                <span v-if="currentStatus">
-                  {{ currentStatus.label }}
-                </span>
-                <span v-else>
-                  {{ $t("general.statusSelect") }}
-                </span>
-              </template>
-            </USelectMenu>
+            <InputBookStatus v-model="state.status" />
           </UFormGroup>
           <UFormGroup :label="$t('general.quantity')" name="quantity">
             <AppNumberInput v-model="state.quantity" />
@@ -181,7 +157,7 @@ const uiMenu = {
         </div>
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="handleClose">
+          <UButton color="red" variant="ghost" @click="modal.close">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending">
