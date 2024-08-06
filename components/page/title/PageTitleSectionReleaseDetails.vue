@@ -7,7 +7,10 @@ import {
   type AssetsResponse,
 } from "@/types/pb";
 import type { MetadataImages, MetadataLibrary } from "@/types/common";
-import { LibraryModalBookAdd, LibraryModalBookAddBulk } from "#components";
+import {
+  ModalCollectionBookAdd,
+  ModalCollectionBookAddBulk,
+} from "#components";
 
 const props = defineProps<{
   open: boolean;
@@ -28,7 +31,9 @@ const {
   () =>
     $pb.collection(Collections.Books).getFullList<
       BooksResponse<
-        MetadataLibrary["inCollections"],
+        {
+          inCollections: MetadataLibrary["inCollections"];
+        },
         {
           publication: PublicationsResponse;
           bookMetadata_via_book: BookMetadataResponse;
@@ -57,7 +62,7 @@ const {
         price: book.price,
         note: book.note,
         metadata: book.expand?.bookMetadata_via_book,
-        inCollections: book.metadata,
+        inCollections: book.metadata?.inCollections,
         assets: book.expand?.assets_via_book,
       })),
   },
@@ -103,7 +108,7 @@ const columns = [
 ];
 
 function handleAdd(row: NonNullable<typeof rows.value>[0]) {
-  modal.open(LibraryModalBookAdd, {
+  modal.open(ModalCollectionBookAdd, {
     book: {
       id: row.id,
       name: row.name,
@@ -115,7 +120,7 @@ function handleAdd(row: NonNullable<typeof rows.value>[0]) {
 
 function handleAddBulk() {
   if (selected.value) {
-    modal.open(LibraryModalBookAddBulk, {
+    modal.open(ModalCollectionBookAddBulk, {
       books: selected.value.map((book) => ({
         id: book.id,
         name: book.name,
