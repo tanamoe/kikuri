@@ -4,7 +4,6 @@ import type { FormSubmitEvent } from "#ui/types";
 import { CollectionsVisibilityOptions } from "@/types/pb";
 
 const { t } = useI18n({ useScope: "global" });
-const { collectionVisibility } = useOptions();
 const { update } = useLibrary();
 const { pending, create } = useCollections();
 const toast = useToast();
@@ -18,14 +17,6 @@ type Schema = z.output<typeof schema>;
 
 const state = ref<Partial<Schema>>({});
 const content = ref("");
-
-const currentVisibility = computed(() =>
-  collectionVisibility.value.find((v) => v.id === state.value.visibility),
-);
-
-function handleClose() {
-  modal.isOpen.value = false;
-}
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const [res, error] = await create({
@@ -50,7 +41,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     icon: "i-fluent-checkmark-circle-20-filled",
   });
   await update();
-  return handleClose();
+  return modal.close();
 }
 </script>
 
@@ -65,7 +56,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             variant="ghost"
             icon="i-fluent-dismiss-20-filled"
             class="-my-1"
-            @click="handleClose"
+            @click="modal.close"
           />
         </div>
       </template>
@@ -84,19 +75,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         </UFormGroup>
 
         <UFormGroup name="visibility">
-          <USelectMenu
-            v-model="state.visibility"
-            :options="collectionVisibility"
-            value-attribute="id"
-            option-attribute="label"
-          >
-            <template #label>
-              <span v-if="currentVisibility">{{
-                currentVisibility.label
-              }}</span>
-              <span v-else>{{ $t("library.selectVisibility") }}</span>
-            </template>
-          </USelectMenu>
+          <InputCollectionVisibility v-model="state.visibility" />
         </UFormGroup>
 
         <AppEditor v-model="content" />
@@ -109,7 +88,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
               color="gray"
               variant="ghost"
               square
-              @click="handleClose"
+              @click="modal.close"
             />
           </UTooltip>
           <UButton type="submit" :loading="pending">

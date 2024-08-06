@@ -2,47 +2,41 @@
 import { z } from "zod";
 import type { FormSubmitEvent } from "#ui/types";
 import { CollectionBooksStatusOptions } from "@/types/pb";
+import { InputBookStatus } from "#components";
 
 const toast = useToast();
 const { t } = useI18n({ useScope: "global" });
 const { pending, update } = useCollectionBooks();
-const { collectionBookStatus } = useOptions();
 const modal = useModal();
-
-const schema = z.object({
-  quantity: z.coerce.number().min(0),
-  collection: z.string(),
-  status: z.nativeEnum(CollectionBooksStatusOptions),
-});
-
-type Schema = z.output<typeof schema>;
 
 const props = defineProps<{
   book: {
     id: string;
     name: string;
   };
-  state: Partial<Schema>;
-  callback?: () => any;
+  quantity: number;
+  status: CollectionBooksStatusOptions;
+  collection: string;
+  callback?: () => unknown;
 }>();
 
-const s = ref(props.state);
+const schema = z.object({
+  quantity: z.coerce.number().min(1),
+  status: z.nativeEnum(CollectionBooksStatusOptions),
+});
 
-const currentStatus = computed(() =>
-  collectionBookStatus.value.find((status) => status.id === props.state.status),
-);
+type Schema = z.output<typeof schema>;
 
-function handleClose() {
-  modal.isOpen.value = false;
-}
+const state = ref({
+  quantity: props.quantity,
+  status: props.status,
+});
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  const [res, error] = await update(event.data.collection, {
+  const [res, error] = await update(props.collection, {
     bookId: props.book.id,
-    quantity: event.data.quantity,
-    status: event.data.status,
+    ...event.data,
   });
-
   if (error) {
     return toast.add({
       title: t("error.generalMessage"),
@@ -51,19 +45,17 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       icon: "i-fluent-error-circle-20-filled",
     });
   }
-
   toast.add({
     title: t("general.success"),
     description: t("library.editBookSuccessful", {
-      name: res.item.book?.publication.name,
+      name: res.item.book?.publication?.name,
     }),
     icon: "i-fluent-checkmark-circle-20-filled",
   });
-
   if (props.callback) {
     props.callback();
   }
-  return handleClose();
+  return modal.close();
 }
 </script>
 
@@ -78,7 +70,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             variant="ghost"
             icon="i-fluent-dismiss-20-filled"
             class="-my-1"
-            @click="handleClose"
+            @click="modal.close"
           />
         </div>
       </template>
@@ -91,29 +83,15 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       >
         <div class="grid grid-cols-2 gap-3">
           <UFormGroup :label="$t('general.status')" name="status">
-            <USelectMenu
-              v-model="s.status"
-              :options="collectionBookStatus"
-              value-attribute="id"
-              option-attribute="label"
-            >
-              <template #label>
-                <span v-if="currentStatus">
-                  {{ currentStatus.label }}
-                </span>
-                <span v-else>
-                  {{ $t("general.statusSelect") }}
-                </span>
-              </template>
-            </USelectMenu>
+            <InputBookStatus v-model="state.status" />
           </UFormGroup>
           <UFormGroup :label="$t('general.quantity')" name="quantity">
-            <AppNumberInput v-model="s.quantity" />
+            <AppNumberInput v-model="state.quantity" />
           </UFormGroup>
         </div>
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="handleClose">
+          <UButton color="red" variant="ghost" @click="modal.close">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending">

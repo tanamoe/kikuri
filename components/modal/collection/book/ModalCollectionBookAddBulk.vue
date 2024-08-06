@@ -5,9 +5,8 @@ import type { FormSubmitEvent } from "#ui/types";
 import { CollectionBooksStatusOptions } from "@/types/pb";
 
 const { $pb } = useNuxtApp();
-const { t } = useI18n({ useScope: "global" });
+const { t } = useI18n();
 const { pending, progress, update } = useCollectionBooks();
-const { collectionBookStatus } = useOptions();
 const { collections } = useLibrary();
 const toast = useToast();
 const settingsStore = useSettingsStore();
@@ -15,10 +14,10 @@ const modal = useModal();
 
 const props = defineProps<{
   books: {
-    id?: string;
+    id: string;
     name?: string;
   }[];
-  callback?: () => any;
+  callback?: () => unknown;
 }>();
 
 const c = computed(() =>
@@ -46,21 +45,12 @@ const state = ref<Partial<Schema>>({
 const currentCollection = computed(() =>
   c.value?.find((collection) => collection.id === state.value.collection),
 );
-const currentStatus = computed(() =>
-  collectionBookStatus.value?.find(
-    (status) => status.id === state.value.status,
-  ),
-);
-
-function handleClose() {
-  modal.isOpen.value = false;
-}
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const [res, error] = await update(
     event.data.collection,
     props.books.map((book) => ({
-      bookId: book.id ?? "",
+      bookId: book.id,
       quantity: event.data.quantity,
       status: event.data.status,
     })),
@@ -91,7 +81,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   if (props.callback) {
     props.callback();
   }
-  return handleClose();
+  return modal.close();
 }
 
 const uiMenu = {
@@ -110,7 +100,7 @@ const uiMenu = {
             variant="ghost"
             icon="i-fluent-dismiss-20-filled"
             class="-my-1"
-            @click="handleClose"
+            @click="modal.close"
           />
         </div>
       </template>
@@ -156,7 +146,7 @@ const uiMenu = {
             to="/library/create"
             color="gray"
             block
-            @click="handleClose"
+            @click="modal.close"
           >
             {{ $t("library.createCollection") }}
           </UButton>
@@ -164,21 +154,7 @@ const uiMenu = {
 
         <div class="grid grid-cols-2 gap-3">
           <UFormGroup :label="$t('general.status')" name="status">
-            <USelectMenu
-              v-model="state.status"
-              :options="collectionBookStatus"
-              value-attribute="id"
-              option-attribute="label"
-            >
-              <template #label>
-                <span v-if="currentStatus">
-                  {{ currentStatus.label }}
-                </span>
-                <span v-else>
-                  {{ $t("general.statusSelect") }}
-                </span>
-              </template>
-            </USelectMenu>
+            <InputBookStatus v-model="state.status" />
           </UFormGroup>
           <UFormGroup :label="$t('general.quantity')" name="quantity">
             <AppNumberInput v-model="state.quantity" />
@@ -188,7 +164,7 @@ const uiMenu = {
         <UProgress v-if="pending" :value="p" indicator />
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="handleClose">
+          <UButton color="red" variant="ghost" @click="modal.close">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending">

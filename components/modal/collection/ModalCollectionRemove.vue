@@ -12,12 +12,6 @@ const props = defineProps<{
   };
 }>();
 
-const isOpen = ref(false);
-
-function handleClose() {
-  modal.isOpen.value = false;
-}
-
 async function onSubmit() {
   const [, error] = await remove(props.collection.id);
 
@@ -37,14 +31,14 @@ async function onSubmit() {
     }),
     icon: "i-fluent-checkmark-circle-20-filled",
   });
-  handleClose();
+  modal.close();
   await update();
   return navigateTo("/library");
 }
 </script>
 
 <template>
-  <UModal v-model="isOpen">
+  <UModal>
     <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
       <template #header>
         <div class="flex items-center justify-between">
@@ -54,7 +48,7 @@ async function onSubmit() {
             variant="ghost"
             icon="i-fluent-dismiss-20-filled"
             class="-my-1"
-            @click="handleClose"
+            @click="modal.close"
           />
         </div>
       </template>
@@ -65,7 +59,7 @@ async function onSubmit() {
         </div>
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="handleClose">
+          <UButton color="red" variant="ghost" @click="modal.close">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending" @click="onSubmit">
