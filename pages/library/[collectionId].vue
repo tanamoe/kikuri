@@ -4,16 +4,15 @@ import type {
   UserCollectionMembersResponse,
   UserCollectionBooksResponse,
   UserCollectionResponse,
-} from "@/types/collections";
-import { LibraryModalCollectionRemove } from "#components";
+  CollectionBookResponse,
+} from "@/types/api/collections";
+import MiniSearch from "minisearch";
 
 const route = useRoute();
-const settingsStore = useSettingsStore();
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
+const settingsStore = useSettingsStore();
 const { ogUrl } = useRuntimeConfig().public;
-const { collectionVisibility } = useOptions();
-const modal = useModal();
 
 const { data: collection } = await useAsyncData(() =>
   $pb.send<UserCollectionResponse>(
@@ -32,63 +31,85 @@ const { data: members } = await useAsyncData(() =>
   ),
 );
 
-const { data: books, refresh } = await useAsyncData(
-  () =>
-    $pb.send<UserCollectionBooksResponse>(
-      `/api/user-collection/${route.params.collectionId}/books`,
-      {
-        method: "GET",
-        perPage: 999,
-        expand: "book.publication.release.title,collection",
-      },
-    ),
-  {
-    transform: (response) =>
-      response.items.map((item) => ({
-        id: item.bookId,
-        cover: item.book?.covers
-          ? $pb.files.getUrl(
-              {
-                collectionId: item.book!.parentCollection,
-                id: item.book!.parentId,
-              },
-              item.book!.covers[0],
-            )
-          : undefined,
-        name: item.book!.publication.name,
-        edition: item.book!.edition,
-        publishDate: item.book?.publishDate
-          ? new Date(item.book.publishDate)
-          : undefined,
-        quantity: item.quantity,
-        price: item.book!.price,
-        status: item.status,
-        collection: item.collectionId,
-        updated: new Date(item.updated),
-        created: new Date(item.created),
-      })),
-  },
+const { data, refresh } = await useAsyncData(() =>
+  $pb.send<UserCollectionBooksResponse>(
+    `/api/user-collection/${route.params.collectionId}/books`,
+    {
+      method: "GET",
+      perPage: 999,
+      expand: "book.publication.release.title,collection,book.defaultAsset",
+    },
+  ),
 );
+
+const miniSearch = new MiniSearch({
+  fields: ["normalizedName"],
+  searchOptions: {
+    fuzzy: 0.1,
+    prefix: true,
+  },
+});
+
+const state = ref({
+  group: settingsStore.library.groupBy,
+  sort: settingsStore.library.sort,
+});
+const query = ref("");
+const debounced = refDebounced(query, 500);
+
+const items = computed<Record<string, CollectionBookResponse[]>>(() => {
+  const items = data.value?.items;
+  if (!items) return {};
+
+  if (state.value.group === "status") {
+    return Object.groupBy(items, (item) => item.status);
+  }
+  if (state.value.group === "release") {
+    return Object.groupBy(
+      items,
+      (item) => item.book!.publication!.release!.name!,
+    );
+  }
+  if (debounced.value !== "") {
+    const results = miniSearch.search(normalize(debounced.value));
+    return {
+      nogroup: items.filter((item) => results.some(({ id }) => item.id === id)),
+    };
+  }
+  return {
+    nogroup: items,
+  };
+});
+
+watchEffect(() => {
+  if (debounced.value != "") {
+    state.value.group = "none";
+  }
+
+  if (data.value) {
+    miniSearch.removeAll();
+    miniSearch.addAll(
+      data.value.items.map(
+        (book) =>
+          book.book?.publication?.name && {
+            id: book.id,
+            name: book.book.publication.name,
+            normalizedName: normalize(book.book.publication.name),
+          },
+      ),
+    );
+  }
+});
 
 const editable = computed(() => {
   if (!$pb.authStore.isAuthRecord) return false;
-
   const m = members.value?.items.find(
     (member) => member.userId === $pb.authStore.model?.id,
   );
-
   if (!m) return false;
-
   if (m.role === "EDITOR") return true;
-
   return false;
 });
-
-const currentVisibility = computed(() =>
-  collectionVisibility.value.find(
-    (v) => v.id === collection.value?.item.visibility,
-  ),
-);
 
 const links = computed<BreadcrumbLink[]>(() => [
   {
@@ -104,57 +125,8 @@ const links = computed<BreadcrumbLink[]>(() => [
   },
 ]);
 
-const items = computed(() => [
-  [
-    {
-      label: t("general.missingBooks"),
-      icon: "i-fluent-book-question-mark-20-filled",
-      to: "/missing-entries",
-    },
-  ],
-  [
-    {
-      label: t("library.editCollection"),
-      icon: "i-fluent-edit-20-filled",
-      to: `/library/edit?id=${route.params.collectionId}`,
-    },
-    {
-      label: t("library.setDefaultCollection"),
-      icon: "i-fluent-library-20-filled",
-      disabled:
-        settingsStore.library.defaultLibraryId === route.params.collectionId,
-      click: () => {
-        settingsStore.library.defaultLibraryId = route.params
-          .collectionId as string;
-      },
-    },
-  ],
-  [
-    {
-      label: t("general.settings"),
-      icon: "i-fluent-settings-20-filled",
-      to: "/settings/library",
-    },
-  ],
-  [
-    {
-      label: t("library.removeCollection"),
-      icon: "i-fluent-delete-20-filled",
-      disabled: collection.value === null,
-      click: () => {
-        modal.open(LibraryModalCollectionRemove, {
-          collection: {
-            id: collection.value?.item.id ?? "",
-            name: collection.value?.item.name ?? "",
-          },
-        });
-      },
-    },
-  ],
-]);
-
 definePageMeta({
-  layout: "library",
+  layout: false,
 });
 
 const ogImage = computed(() => {
@@ -218,65 +190,59 @@ useSeoMeta({
 </script>
 
 <template>
-  <div v-if="collection">
-    <UBreadcrumb class="mb-3" :links="links" />
+  <NuxtLayout v-if="collection && items" name="library">
+    <template #sidebar>
+      <LibraryBooksGroupNavigation
+        v-if="state.group !== 'none'"
+        :groups="items"
+      />
+    </template>
 
     <div>
+      <UBreadcrumb class="mb-3" :links />
+
       <div class="float-right flex h-min items-center justify-end gap-3">
         <AppShareButton :title="collection.item.name" show-label />
-        <ClientOnly>
-          <UDropdown
-            v-if="editable"
-            :items="items"
-            :popper="{ placement: 'bottom-end' }"
-          >
-            <UButton
-              color="gray"
-              trailing-icon="i-fluent-more-vertical-20-filled"
-            />
-          </UDropdown>
-        </ClientOnly>
+        <LibraryOptions
+          :id="collection.item.id"
+          :name="collection.item.name"
+          :editable
+        />
       </div>
       <AppH1>{{ collection.item.name }}</AppH1>
-    </div>
 
-    <div class="prose prose-sm mb-6 max-w-none space-y-2 dark:prose-invert">
-      <div v-html="collection.item.description" />
+      <div class="prose prose-sm mb-6 max-w-none space-y-2 dark:prose-invert">
+        <div v-html="collection.item.description" />
 
-      <div class="flex gap-6">
-        <div>
-          <h4>{{ $t("library.member") }}</h4>
-          <UAvatarGroup v-if="members" size="sm">
-            <UAvatar
-              v-for="member in members.items"
-              :key="member.userId"
-              :src="
-                member.user?.avatar
-                  ? $pb.files.getUrl(
-                      { collectionId: 'users', id: member.userId },
-                      member.user.avatar,
-                      { thumb: '32x32' },
-                    )
-                  : undefined
-              "
-              :alt="member.user?.displayName || member.user?.username"
-            />
-          </UAvatarGroup>
-        </div>
-        <div v-if="currentVisibility">
-          <h4>{{ $t("library.visibility") }}</h4>
-          <UBadge color="gray">
-            {{ currentVisibility.label }}
-          </UBadge>
+        <div class="flex gap-6">
+          <LibraryMembers v-if="members" :members />
+          <LibraryVisibility
+            v-if="collection.item.visibility"
+            :visibility="collection.item.visibility"
+          />
         </div>
       </div>
-    </div>
 
-    <LibraryBooksGroup
-      v-if="books"
-      :editable="editable"
-      :books="books"
-      :callback="refresh"
-    />
-  </div>
+      <LibraryToolbar
+        v-model:query="query"
+        v-model:group="state.group"
+        v-model:sort="state.sort"
+        class="mb-6"
+      />
+
+      <LibraryBooksGroup
+        v-if="state.group !== 'none'"
+        :groups="items"
+        :editable
+        :callback="refresh"
+      />
+
+      <LibraryBooksList
+        v-else
+        :editable
+        :books="items.nogroup"
+        :callback="refresh"
+      />
+    </div>
+  </NuxtLayout>
 </template>
