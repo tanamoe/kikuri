@@ -26,7 +26,10 @@ export function parseCalendarFilter(
     query.push(
       "(" +
         publishers
-          .map((publisher) => `release.publisher = '${publisher}'`)
+          .map(
+            (publisher) =>
+              `publication.release.publisher = '${publisher}' || publication.release.partner = '${publisher}'`,
+          )
           .join(" || ") +
         ")",
     );
