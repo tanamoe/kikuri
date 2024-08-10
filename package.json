@@ -59,7 +59,7 @@
     "class-variance-authority": "^0.7.0",
     "dayjs": "^1.11.12",
     "fuzzball": "^2.1.2",
-    "minisearch": "^6.3.0",
+    "minisearch": "^7.0.0",
     "nuxt-swiper": "^1.2.2",
     "pinia": "^2.2.0",
     "pocketbase": "^0.21.4",
