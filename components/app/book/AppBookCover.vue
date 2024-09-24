@@ -14,6 +14,7 @@ defineProps<{
     class="aspect-[2/3] h-full w-full object-cover"
     :src="src"
     :srcset="srcset"
+    :title="name"
     :alt="name"
   />
   <div
