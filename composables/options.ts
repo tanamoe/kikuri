@@ -3,12 +3,13 @@ import type {
   CollectionBooksStatusOptions,
   CollectionsVisibilityOptions,
 } from "@/types/pb";
+import type { BadgeColor } from "#ui/types/badge";
 
 type Options<T> = {
   id: T;
   label: string;
   icon?: string;
-  color: string;
+  color: BadgeColor;
 };
 
 export function useOptions() {
