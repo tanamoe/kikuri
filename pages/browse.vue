@@ -86,7 +86,7 @@ const filter = computed(() => {
 
 const {
   data: releases,
-  pending,
+  status,
   execute,
 } = await useAsyncData(
   () =>
@@ -130,13 +130,13 @@ useSeoMeta({
         :placeholder="$t('general.searchPlaceholder')"
       />
       <div class="flex justify-between gap-3">
-        <PageBrowseFilter @change="execute" />
+        <PageBrowseFilter @change="() => execute" />
         <PageBrowseSort />
       </div>
     </div>
 
     <div
-      v-if="pending"
+      v-if="status == 'pending'"
       class="mt-6 grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-4 lg:grid-cols-6"
     >
       <div v-for="i in 24" :key="i">
