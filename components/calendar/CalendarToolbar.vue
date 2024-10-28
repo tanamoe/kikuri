@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Dayjs } from "dayjs";
+import type { Dayjs } from "dayjs";
 import { Collections, type PublishersResponse } from "@/types/pb";
 
 const { $pb } = useNuxtApp();
@@ -50,7 +50,7 @@ onMounted(async () => {
   if (toolbar.value)
     document.documentElement.style.setProperty(
       "--toolbar-height",
-      `${toolbar.value.clientHeight + 12}px`,
+      `${toolbar.value.clientHeight}px`,
     );
 });
 </script>
