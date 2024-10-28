@@ -93,10 +93,18 @@ export default defineNuxtConfig({
     sitemaps: {
       titles: {
         sources: ["/api/__sitemap__/titles"],
+        defaults: { priority: 0.3 },
+      },
+      releases: {
+        sources: ["/api/__sitemap__/releases"],
         defaults: { priority: 0.7 },
       },
+      books: {
+        sources: ["/api/__sitemap__/books"],
+        defaults: { priority: 0.5 },
+      },
     },
-    autoI18n: false,
+    autoI18n: true,
   },
 
   experimental: { appManifest: false },

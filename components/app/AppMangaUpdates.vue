@@ -1,36 +1,30 @@
 <script setup lang="ts">
-import type { AdditionalTitleNamesResponse, TitlesResponse } from "@/types/pb";
-
 const props = defineProps<{
-  title: TitlesResponse<
-    unknown,
-    {
-      additionalTitleNames_via_title: AdditionalTitleNamesResponse[];
-    }
-  >;
+  name: string;
 }>();
+
 const { data: series } = await useFetch("/api/mangaupdates", {
   query: {
-    name:
-      props.title.expand?.additionalTitleNames_via_title?.[0].name ||
-      props.title.name,
+    name: props.name,
   },
 });
+
+const ui = {
+  body: {
+    base: "divide-y divide-gray-200 dark:divide-gray-800",
+    padding: "p-4 sm:p-4",
+  },
+  footer: {
+    padding: "px-4 py-2 sm:px-4",
+  },
+};
 </script>
 
 <template>
   <UCard
     v-if="series"
     class="prose prose-sm max-w-none dark:prose-invert prose-h4:my-0 prose-a:text-gray-500 prose-a:no-underline hover:prose-a:text-[#db9b4f] hover:prose-a:underline prose-hr:my-3 dark:prose-a:text-gray-400 dark:hover:prose-a:text-[#db9b4f]"
-    :ui="{
-      body: {
-        base: 'divide-y divide-gray-200 dark:divide-gray-800',
-        padding: 'p-4 sm:p-4',
-      },
-      footer: {
-        padding: 'px-4 py-2 sm:px-4',
-      },
-    }"
+    :ui
   >
     <div class="space-y-3">
       <div v-if="series.status">

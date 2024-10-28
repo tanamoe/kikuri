@@ -197,10 +197,12 @@ export type LinksRecord = {
 export type PublicationsRecord<Tmetadata = unknown> = {
   covers?: string[];
   defaultBook?: RecordIdString;
+  description?: HTMLString;
   metadata?: null | Tmetadata;
   name: string;
   old_id?: string;
   release: RecordIdString;
+  subtitle?: string;
   volume?: number;
 };
 

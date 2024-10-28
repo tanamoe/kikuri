@@ -39,7 +39,7 @@ export type BooksCommon = BooksResponse<
           partner?: PublishersResponse;
           title: TitlesResponse;
         }>;
-        defaultBook?: BooksResponse<
+        defaultBook: BooksResponse<
           unknown,
           {
             assets_via_book?: AssetsResponse<MetadataImages>[];

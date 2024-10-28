@@ -37,7 +37,10 @@ defineProps<{
         ]"
       >
         <AppBook
-          :book="book"
+          v-if="book.expand?.publication.expand?.release.expand?.title"
+          :book
+          :release="book.expand.publication.expand.release"
+          :title="book.expand.publication.expand.release.expand.title"
           sizes="(max-width: 640px) 40vw, (max-width: 768px) 30vw, 20vw"
           :show-button="false"
         />

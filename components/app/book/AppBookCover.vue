@@ -1,21 +1,31 @@
 <script setup lang="ts">
 import type { MetadataImages } from "@/types/common";
 
-defineProps<{
+interface Props {
+  aspect?: "2/3" | "full";
   name?: string;
-  src?: string;
+  src?: string | null;
   srcset?: MetadataImages | null;
-}>();
+  loading?: HTMLImageElement["loading"];
+  sizes?: HTMLImageElement["sizes"];
+  draggable?: HTMLImageElement["draggable"];
+}
+
+defineProps<Props>();
 </script>
 
 <template>
   <AppImage
     v-if="src"
-    class="aspect-[2/3] h-full w-full object-cover"
+    class="h-full w-full object-cover"
+    :class="aspect === 'full' ? '' : 'aspect-[2/3]'"
     :src="src"
     :srcset="srcset"
     :title="name"
     :alt="name"
+    :sizes
+    :draggable
+    :loading
   />
   <div
     v-else

@@ -4,7 +4,6 @@ import { joinURL } from "ufo";
 import { Collections } from "@/types/pb";
 import type { FilterPublishers } from "@/utils/releases";
 import type { BooksCommon } from "@/types/common";
-import { ModalCollectionBookAdd } from "#components";
 
 const { ogUrl } = useRuntimeConfig().public;
 const nuxtApp = useNuxtApp();
@@ -13,7 +12,6 @@ const { t } = useI18n({ useScope: "global" });
 const store = useSettingsStore();
 const route = useRoute();
 const router = useRouter();
-const modal = useModal();
 
 const month = computed({
   get: () =>
@@ -55,7 +53,7 @@ const {
       expand:
         "publication.release.title, assets_via_book, publication.defaultBook.assets_via_book",
       fields:
-        "id,edition,publishDate,price,metadata,expand.publication.name,expand.publication.volume,expand.publication.expand.release.name,expand.publication.expand.release.digital,expand.publication.expand.release.expand.title.slug,expand.assets_via_book.type,expand.assets_via_book.resizedImage,expand.publication.expand.defaultBook.expand.assets_via_book.type,expand.publication.expand.defaultBook.expand.assets_via_book.resizedImage",
+        "id,edition,publishDate,price,metadata,expand.publication.name,expand.publication.volume,expand.publication.expand.release.id,expand.publication.expand.release.name,expand.publication.expand.release.digital,expand.publication.expand.release.expand.title.slug,expand.assets_via_book.*,expand.publication.expand.defaultBook.expand.assets_via_book.*",
     }),
   {
     transform: (releases) =>
@@ -72,17 +70,6 @@ const dates = computed(() => {
     );
   } else return [];
 });
-
-function handleAdd(book: BooksCommon) {
-  modal.open(ModalCollectionBookAdd, {
-    book: {
-      id: book.id,
-      name: book.expand?.publication?.name ?? book.id,
-    },
-    inCollections: book.metadata?.inCollections?.map((c) => c.id),
-    callback: refresh,
-  });
-}
 
 definePageMeta({
   layout: "full",
@@ -155,12 +142,12 @@ useSeoMeta({
         >
           <div v-for="book in group" :key="book.id">
             <AppBook
+              v-if="book.expand?.publication.expand?.release.expand?.title"
               :book="book"
-              :publication="book.expand?.publication"
-              :release="book.expand?.publication.expand?.release"
-              :title="book.expand?.publication.expand?.release.expand?.title"
+              :release="book.expand.publication.expand.release"
+              :title="book.expand.publication.expand.release.expand.title"
               sizes="(max-width: 640px) 40vw, (max-width: 768px) 30vw, 20vw"
-              @add="handleAdd"
+              @add="refresh"
             />
           </div>
         </div>

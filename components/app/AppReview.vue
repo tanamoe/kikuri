@@ -20,7 +20,7 @@ const ui = { body: { base: "relative", padding: "p-0 sm:p-0" } };
 
 <template>
   <ULink :to="joinURL('/review', review.id)" class="group">
-    <UCard :ui="ui">
+    <UCard :ui>
       <div class="relative flex">
         <div v-if="release?.expand?.title" class="w-32 flex-shrink-0">
           <img
@@ -50,13 +50,14 @@ const ui = { body: { base: "relative", padding: "p-0 sm:p-0" } };
             class="flex items-center justify-between gap-2 overflow-hidden"
           >
             <div class="flex items-center gap-2">
-              <img
+              <UAvatar
+                size="xs"
                 :src="
                   $pb.files.getUrl(user, user.avatar, {
                     thumb: '32x32',
                   })
                 "
-                class="h-6 w-6 rounded-full"
+                :alt="user.displayName || user.username"
               />
               <span
                 class="overflow-hidden text-ellipsis whitespace-nowrap text-sm"
