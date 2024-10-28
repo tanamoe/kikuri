@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ModalCollectionBookAdd } from "#components";
-import type { MetadataLibrary } from "~/types/common";
+import type { MetadataLibrary } from "@/types/common";
 
 const modal = useModal();
 
