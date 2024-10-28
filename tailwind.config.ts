@@ -1,3 +1,4 @@
+import typography from "@tailwindcss/typography";
 import type { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
 
@@ -38,7 +39,16 @@ export default {
         lexend: "Lexend",
         condensed: "IBM Plex Sans Condensed",
       },
+      animation: {
+        scrolling: "scrolling 30s linear infinite",
+      },
+      keyframes: {
+        scrolling: {
+          "0%": { transform: "translateY(0)" },
+          "100%": { transform: "translateY(-100%)" },
+        },
+      },
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [typography],
 } satisfies Config;
