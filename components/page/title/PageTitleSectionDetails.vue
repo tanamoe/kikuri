@@ -22,7 +22,7 @@ defineProps<{
 <template>
   <UCard
     v-if="works || genres"
-    class="prose prose-sm max-w-none dark:prose-invert prose-h4:my-0 prose-a:text-gray-800 prose-a:no-underline hover:prose-a:text-tanablue-500 hover:prose-a:underline prose-hr:my-3 dark:prose-a:text-gray-300 dark:hover:prose-a:text-tanablue-400"
+    class="prose prose-sm max-w-none dark:prose-invert prose-h4:my-0 prose-a:text-gray-800 prose-a:no-underline hover:prose-a:text-tanablue-500 hover:prose-a:underline prose-hr:my-3 dark:prose-a:text-gray-400 dark:hover:prose-a:text-tanablue-400"
     :ui="{
       body: {
         base: 'divide-y divide-gray-200 dark:divide-gray-800',
@@ -31,7 +31,7 @@ defineProps<{
     }"
   >
     <div v-if="demographic" class="p-4 sm:p-4">
-      <h4 class="font-bold">{{ $t("general.demographic") }}</h4>
+      <h4>{{ $t("general.demographic") }}</h4>
       <ULink
         :to="withQuery('/browse', { demographic: demographic.slug })"
         :external="true"
@@ -42,7 +42,7 @@ defineProps<{
       </ULink>
     </div>
     <div v-if="genres && genres.length > 0" class="p-4 sm:p-4">
-      <h4 class="font-bold">{{ $t("general.genres") }}</h4>
+      <h4>{{ $t("general.genres") }}</h4>
       <ULink
         v-for="genre in genres"
         :key="genre.id"
@@ -56,7 +56,7 @@ defineProps<{
     </div>
     <div v-if="works && works.length > 0" class="space-y-3 p-4 sm:p-4">
       <div v-for="work in works" :key="work.id">
-        <h4 class="font-bold">{{ work.name }}</h4>
+        <h4>{{ work.name }}</h4>
         <ULink :to="'/staff/' + work.staff">
           {{ work.expand!.staff.name }}
         </ULink>
@@ -66,7 +66,7 @@ defineProps<{
       v-if="additionalNames && additionalNames.length > 0"
       class="p-4 sm:p-4"
     >
-      <h4 class="font-bold">{{ $t("general.differentName") }}</h4>
+      <h4>{{ $t("general.differentName") }}</h4>
       <div v-for="{ id, name } in additionalNames" :key="id">
         {{ name }}
       </div>
