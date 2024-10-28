@@ -13,6 +13,16 @@ export default defineI18nConfig(() => ({
         currency: "VND",
         notation: "standard",
       },
+      gram: {
+        style: "unit",
+        unit: "gram",
+        notation: "standard",
+      },
+      centimeter: {
+        style: "unit",
+        unit: "centimeter",
+        notation: "standard",
+      },
     },
   },
   datetimeFormats: {
