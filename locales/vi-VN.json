@@ -52,6 +52,7 @@
     "bookPrice": "Giá dự kiến",
     "publishedBy": "Phát hành bởi",
     "publisher": "Nhà xuất bản",
+    "partner": "Công ty phát hành",
     "publisherCount": "{count} nhà xuất bản",
     "publisherSelect": "Chọn nhà xuất bản",
     "release": "Bản in",
@@ -66,6 +67,7 @@
     "formatSelect": "Chọn định dạng",
     "status": "Trạng thái",
     "statusSelect": "Chọn trạng thái",
+    "type": "Bản in",
     "demographic": "Đối tượng",
     "demographicCount": "{count} đối tượng",
     "demographicSelect": "Chọn đối tượng",
@@ -97,7 +99,16 @@
     "startedYear": "Năm bắt đầu",
     "originPublisher": "Xuất bản bởi",
     "originPublication": "Phát hành trên",
-    "informationFrom": "Thông tin từ {0}"
+    "informationFrom": "Thông tin từ {0}",
+    "previousVolume": "Tập trước",
+    "nextVolume": "Tập tiếp theo",
+    "tba": "Đang cập nhật",
+    "bonus": "Quà tặng",
+    "assets": "Hình ảnh",
+    "otherVersion": "Phiên bản khác",
+    "volumes": "Tập truyện",
+    "otherVolume": "Tập khác",
+    "fullVolume": "Trọn bộ"
   },
   "status": {
     "waitingForApproval": "Chờ duyệt",
@@ -332,11 +343,20 @@
     "visibility": "Chế độ riêng tư",
     "goToCollection": "Xem bộ sưu tập"
   },
+  "release": {
+    "startedRelease": "Phát hành từ {startDate}.",
+    "endedRelease": "Phát hành từ {startDate} đến {endDate}."
+  },
   "metadata": {
+    "sku": "SKU",
     "isbn": "ISBN",
     "weight": "Trọng lượng",
     "pageCount": "Số trang",
     "size": "Kích thước",
-    "dimension": "{x} cm × {y} cm × {z} cm"
+    "dimension": "{x} × {y} × {z}"
+  },
+  "digital": {
+    "title": "Hoàn toàn trực tuyến!",
+    "description": "Theo dõi bộ truyện qua các ứng dụng và website bản quyền."
   }
 }
