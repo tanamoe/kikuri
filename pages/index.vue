@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
-import {
-  Collections,
-  type FormatsResponse,
-  type PublishersResponse,
-  type ReleaseDetailsResponse,
-  type TitlesResponse,
-} from "@/types/pb";
-import type { BooksCommon, MetadataCommon } from "@/types/common";
+import { Collections } from "@/types/pb";
+import type { BooksCommon } from "@/types/common";
 
 const {
   public: { ogUrl },
@@ -30,30 +24,10 @@ const { data: upcoming } = await useAsyncData(() =>
 );
 
 const { data: updatedBooks } = await useAsyncData(() =>
-  $pb.collection(Collections.Books).getList<BooksCommon>(1, 6, {
+  $pb.collection(Collections.Books).getList<BooksCommon>(1, 12, {
     sort: "-updated",
     expand:
       "publication.release.title, assets_via_book, publication.defaultBook.assets_via_book",
-  }),
-);
-
-const { data: updatedReleases } = await useLazyAsyncData(() =>
-  $pb.collection(Collections.ReleaseDetails).getList<
-    ReleaseDetailsResponse<
-      MetadataCommon,
-      {
-        title: TitlesResponse<
-          MetadataCommon,
-          {
-            format: FormatsResponse;
-          }
-        >;
-        publisher: PublishersResponse;
-      }
-    >
-  >(1, 6, {
-    expand: "title.format,publisher",
-    sort: "-updated",
   }),
 );
 
@@ -79,10 +53,5 @@ definePageMeta({
     </UContainer>
 
     <PageIndexRecentBooks v-if="updatedBooks" :books="updatedBooks.items" />
-
-    <PageIndexRecentReleases
-      v-if="updatedReleases"
-      :releases="updatedReleases.items"
-    />
   </div>
 </template>
