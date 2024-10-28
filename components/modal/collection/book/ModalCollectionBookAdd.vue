@@ -3,6 +3,7 @@ import { z } from "zod";
 import { joinURL } from "ufo";
 import type { FormSubmitEvent } from "#ui/types";
 import { CollectionBooksStatusOptions } from "@/types/pb";
+import type { MetadataLibrary } from "@/types/common";
 
 const { $pb } = useNuxtApp();
 const { t } = useI18n();
@@ -17,7 +18,7 @@ const props = defineProps<{
     id: string;
     name: string;
   };
-  inCollections?: string[];
+  inCollections?: MetadataLibrary["inCollections"];
   callback?: () => unknown;
 }>();
 
@@ -25,7 +26,10 @@ const c = computed(() =>
   collections.value.map((collection) => ({
     id: collection.collectionId,
     label: collection.collection?.name,
-    disabled: props.inCollections?.includes(collection.collectionId) ?? false,
+    disabled:
+      props.inCollections
+        ?.map((collection) => collection.id)
+        .includes(collection.collectionId) ?? false,
   })),
 );
 
