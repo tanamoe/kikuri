@@ -229,7 +229,7 @@ useSeoMeta({
             </UBadge>
             <UBadge v-if="release?.digital" color="red">Digital</UBadge>
           </div>
-          <AppH2 class="mt-3">
+          <AppH1 class="mt-3">
             <template
               v-if="publication.volume > 0 && publication.volume < 90000000"
             >
@@ -242,7 +242,7 @@ useSeoMeta({
               }}
             </template>
             <template v-else>{{ publication.name }}</template>
-          </AppH2>
+          </AppH1>
           <legend
             v-if="publication.subtitle"
             class="mt-1 font-lexend lg:text-lg"
@@ -291,7 +291,7 @@ useSeoMeta({
 
         <div class="mt-6 space-y-12">
           <div v-if="book.note">
-            <AppH3>{{ $t("general.bonus") }}</AppH3>
+            <AppH2>{{ $t("general.bonus") }}</AppH2>
             <p
               v-for="(sentence, key) in book.note.split('\n')"
               :key
@@ -307,7 +307,7 @@ useSeoMeta({
               book.expand?.assets_via_book.length > 0
             "
           >
-            <AppH3>{{ $t("general.assets") }}</AppH3>
+            <AppH2>{{ $t("general.assets") }}</AppH2>
             <div class="mt-3 grid grid-cols-2 gap-6 md:grid-cols-4">
               <UCard
                 v-for="asset in book.expand.assets_via_book"
@@ -340,7 +340,7 @@ useSeoMeta({
           </div>
 
           <div v-if="editions && editions.length > 0">
-            <AppH3>{{ $t("general.otherVersion") }}</AppH3>
+            <AppH2>{{ $t("general.otherVersion") }}</AppH2>
             <div class="mt-3 grid grid-cols-1 gap-6 md:grid-cols-2">
               <AppBook
                 v-for="_book in editions"

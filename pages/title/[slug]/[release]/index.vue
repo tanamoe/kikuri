@@ -124,7 +124,7 @@ useSeoMeta({
             </UBadge>
             <UBadge v-if="release.digital" color="red">Digital</UBadge>
           </div>
-          <AppH2>
+          <AppH1>
             {{ release.name }}
             <span
               v-if="release.disambiguation"
@@ -132,7 +132,7 @@ useSeoMeta({
             >
               ({{ release.disambiguation }})
             </span>
-          </AppH2>
+          </AppH1>
         </div>
       </div>
 
@@ -168,7 +168,7 @@ useSeoMeta({
         <div class="mt-6 space-y-12">
           <div v-if="reviews && reviews.length > 0" class="space-y-3">
             <div class="flex items-center justify-between">
-              <AppH3>{{ $t("general.review") }}</AppH3>
+              <AppH2>{{ $t("general.review") }}</AppH2>
               <UButton
                 :to="`/review/create?title=${title.id}`"
                 color="gray"
@@ -188,7 +188,7 @@ useSeoMeta({
 
           <div v-if="books && books.length > 0" class="space-y-3">
             <div class="flex items-center justify-between">
-              <AppH3>{{ $t("general.volumes") }}</AppH3>
+              <AppH2>{{ $t("general.volumes") }}</AppH2>
               <UButtonGroup size="sm" orientation="horizontal">
                 <UButton
                   icon="i-fluent-grid-20-filled"
