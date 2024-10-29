@@ -479,7 +479,6 @@ useSeoMeta({
           v-if="previous"
           icon="i-fluent-arrow-left-20-filled"
           :to="joinURL('/title', title.slug, release.id, previous.id)"
-          color="black"
         >
           {{ $t("general.previousVolume") }}
         </UButton>
@@ -490,7 +489,6 @@ useSeoMeta({
           icon="i-fluent-arrow-right-20-filled"
           :to="joinURL('/title', title.slug, release.id, next.id)"
           trailing
-          color="black"
         >
           {{ $t("general.nextVolume") }}
         </UButton>
