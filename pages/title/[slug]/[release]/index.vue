@@ -210,7 +210,7 @@ useSeoMeta({
 
       <div class="w-full flex-shrink-0 space-y-6 lg:w-64 xl:w-80">
         <UCard
-          class="hover:prose-a:text-primary-400 prose prose-sm max-w-none dark:prose-invert prose-h4:my-0 prose-a:text-gray-500 hover:prose-a:underline prose-hr:my-3"
+          class="hover:prose-a:text-primary-400 dark:hover:prose-a:text-primary-400 prose prose-sm max-w-none dark:prose-invert prose-h4:my-0 prose-a:text-gray-700 hover:prose-a:underline prose-hr:my-3 dark:prose-a:text-gray-200"
           :ui="{
             body: {
               base: 'divide-y divide-gray-200 dark:divide-gray-800',
