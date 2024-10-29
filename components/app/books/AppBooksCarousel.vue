@@ -23,7 +23,7 @@ const ui = {
 
 <template>
   <div class="space-y-3">
-    <AppH3 v-if="heading">{{ heading }}</AppH3>
+    <AppH2 v-if="heading">{{ heading }}</AppH2>
     <UCarousel
       v-slot="{ item: book }"
       :items="books"

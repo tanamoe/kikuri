@@ -124,7 +124,7 @@ useSeoMeta({
             </UBadge>
             <UBadge v-if="release.digital" color="red">Digital</UBadge>
           </div>
-          <AppH2>
+          <AppH1>
             {{ release.name }}
             <span
               v-if="release.disambiguation"
@@ -132,7 +132,7 @@ useSeoMeta({
             >
               ({{ release.disambiguation }})
             </span>
-          </AppH2>
+          </AppH1>
         </div>
       </div>
 
@@ -168,7 +168,7 @@ useSeoMeta({
         <div class="mt-6 space-y-12">
           <div v-if="reviews && reviews.length > 0" class="space-y-3">
             <div class="flex items-center justify-between">
-              <AppH3>{{ $t("general.review") }}</AppH3>
+              <AppH2>{{ $t("general.review") }}</AppH2>
               <UButton
                 :to="`/review/create?title=${title.id}`"
                 color="gray"
@@ -188,7 +188,7 @@ useSeoMeta({
 
           <div v-if="books && books.length > 0" class="space-y-3">
             <div class="flex items-center justify-between">
-              <AppH3>{{ $t("general.volumes") }}</AppH3>
+              <AppH2>{{ $t("general.volumes") }}</AppH2>
               <UButtonGroup size="sm" orientation="horizontal">
                 <UButton
                   icon="i-fluent-grid-20-filled"
@@ -210,7 +210,7 @@ useSeoMeta({
 
       <div class="w-full flex-shrink-0 space-y-6 lg:w-64 xl:w-80">
         <UCard
-          class="hover:prose-a:text-primary-400 prose prose-sm max-w-none dark:prose-invert prose-h4:my-0 prose-a:text-gray-500 hover:prose-a:underline prose-hr:my-3"
+          class="hover:prose-a:text-primary-400 dark:hover:prose-a:text-primary-400 prose prose-sm max-w-none dark:prose-invert prose-h4:my-0 prose-a:text-gray-700 hover:prose-a:underline prose-hr:my-3 dark:prose-a:text-gray-200"
           :ui="{
             body: {
               base: 'divide-y divide-gray-200 dark:divide-gray-800',

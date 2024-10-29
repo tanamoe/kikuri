@@ -86,7 +86,7 @@ function handleAddBulk() {
 
 <template>
   <div class="space-y-3">
-    <AppH3 v-if="heading">{{ heading }}</AppH3>
+    <AppH2 v-if="heading">{{ heading }}</AppH2>
     <div v-if="view === 'list'" class="space-y-3">
       <UTable v-model="selected" :columns :rows :ui>
         <template #volume-data="{ row }">

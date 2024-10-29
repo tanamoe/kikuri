@@ -66,7 +66,7 @@ const items = computed(() =>
 <template>
   <div>
     <div class="mb-3 mt-12 flex items-center justify-between">
-      <AppH3>{{ $t("general.coverImages") }}</AppH3>
+      <AppH2>{{ $t("general.coverImages") }}</AppH2>
       <USelectMenu
         v-slot="{ open }"
         v-model="selected"
