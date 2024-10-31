@@ -284,7 +284,7 @@ useSeoMeta({
         />
 
         <AppDigitalBanner
-          v-if="title.expand?.links_via_title && assets"
+          v-if="title.expand?.links_via_title && assets && assets.length > 0"
           :assets
           :links="title.expand?.links_via_title"
         />

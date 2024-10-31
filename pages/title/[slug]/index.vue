@@ -144,7 +144,11 @@ useSeoMeta({
         />
 
         <AppDigitalBanner
-          v-if="title.expand?.links_via_title && assets?.items"
+          v-if="
+            title.expand?.links_via_title &&
+            assets?.items &&
+            assets.items.length > 0
+          "
           :assets="assets.items"
           :links="title.expand?.links_via_title"
         />
