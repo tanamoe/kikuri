@@ -70,6 +70,7 @@ export type AssetTypesRecord = {
 
 export type AssetsRecord<TresizedImage = unknown> = {
   book?: RecordIdString;
+  description?: string;
   image?: string;
   priority?: number;
   resizedImage?: null | TresizedImage;
@@ -241,8 +242,11 @@ export enum ReleasesStatusOptions {
   "CANCELLED" = "CANCELLED",
 }
 export type ReleasesRecord = {
+  banner?: RecordIdString;
   digital?: boolean;
   disambiguation?: string;
+  front?: RecordIdString;
+  logo?: RecordIdString;
   name?: string;
   old_id?: number;
   partner?: RecordIdString;
