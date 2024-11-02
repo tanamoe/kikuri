@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { parseURL } from "ufo";
 import type { MetadataImages } from "~/types/common";
 
 const props = defineProps<{
@@ -9,16 +10,15 @@ const props = defineProps<{
   draggable?: HTMLImageElement["draggable"];
 }>();
 
-const imgSrc = joinSrc(props.src);
-const imgSrcset = props.srcset ? joinSrcset(props.srcset) : undefined;
+const src = computed(() =>
+  !parseURL(props.src).host ? joinSrc(props.src) : props.src,
+);
+
+const srcset = computed(() =>
+  props.srcset ? joinSrcset(props.srcset) : undefined,
+);
 </script>
 
 <template>
-  <img
-    :src="imgSrc"
-    :srcset="imgSrcset"
-    :sizes
-    :draggable
-    :loading="loading ?? 'lazy'"
-  />
+  <img :src :srcset :sizes :draggable :loading="loading ?? 'lazy'" />
 </template>
