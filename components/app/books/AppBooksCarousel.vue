@@ -45,7 +45,7 @@ const ui = {
         :release
         :title
         :draggable="false"
-        sizes="40vw, (min-width: 640px) 20vw, (min-width: 1280px) 10vw"
+        sizes="(max-width: 640px) 40vw, (max-width: 768px) 30vw, (max-width: 1280px) 20vw, 10vw"
         @add="() => $emit('add')"
       />
     </UCarousel>
