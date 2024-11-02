@@ -325,7 +325,7 @@ useSeoMeta({
               >
                 <AppImage
                   class="h-full w-full object-contain"
-                  :src="asset.image"
+                  :src="$pb.files.getUrl(asset, asset.image)"
                   :srcset="asset.resizedImage"
                   :draggable="false"
                   sizes="(max-width: 640px) 40vw, (max-width: 768px) 30vw, 20vw"
