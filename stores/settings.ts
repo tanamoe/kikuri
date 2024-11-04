@@ -1,4 +1,5 @@
 import type { FilterDigital } from "@/utils/releases";
+import type { LibraryBooksView } from "@/components/library/books/LibraryBooks.vue";
 
 export type DisplaySettings = {
   bookDetails: boolean;
@@ -12,6 +13,7 @@ export type DisplaySettings = {
 export type LibrarySettings = {
   defaultLibraryId?: string;
   groupBy: "none" | "release" | "status";
+  view: LibraryBooksView;
   sort:
     | "+updated"
     | "-updated"
@@ -34,6 +36,7 @@ export const useSettingsStore = defineStore(
     const library = ref<LibrarySettings>({
       defaultLibraryId: undefined,
       groupBy: "none",
+      view: "list",
       sort: "+updated",
     });
 
