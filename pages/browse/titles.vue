@@ -15,16 +15,19 @@ const perPage = useRouteQuery("limit", "48", { transform: Number });
 const formats = useRouteQuery(
   "format",
   meta.formats.value.map(({ id }) => id),
+  { transform: (value) => (Array.isArray(value) ? value : [value]) },
 );
 
 const demographics = useRouteQuery(
   "demographic",
   meta.demographics.value.map(({ id }) => id),
+  { transform: (value) => (Array.isArray(value) ? value : [value]) },
 );
 
 const genres = useRouteQuery(
   "genre",
   meta.genres.value.map(({ id }) => id),
+  { transform: (value) => (Array.isArray(value) ? value : [value]) },
 );
 
 const { data: titles, execute } = await useAsyncData(
