@@ -40,6 +40,8 @@ const { data: release, error } = await useAsyncData(() =>
           additionalTitleNames_via_title: AdditionalTitleNamesResponse[];
         }
       >;
+      logo: AssetsResponse<MetadataImages>;
+      banner: AssetsResponse<MetadataImages>;
       reviews_via_release: ReviewsResponse<{
         user: UsersResponse;
       }>[];
@@ -51,7 +53,7 @@ const { data: release, error } = await useAsyncData(() =>
     }),
     {
       expand:
-        "publisher, partner, title, title.format, title.demographic, title.genres, title.links_via_title.source, title.additionalTitleNames_via_title, reviews_via_release.user",
+        "publisher, partner, title, title.format, title.demographic, title.genres, title.links_via_title.source, title.additionalTitleNames_via_title, reviews_via_release.user, logo, banner",
       fields:
         "*, expand.*, expand.reviews_via_release.*, expand.reviews_via_release.content:excerpt(200,true)",
     },
@@ -118,6 +120,16 @@ useSeoMeta({
     <header class="flex flex-col-reverse gap-6 sm:flex-row sm:items-end">
       <div class="z-20 -mt-24 flex-1 sm:mt-0">
         <div class="space-y-3">
+          <AppImage
+            v-if="release.expand?.logo"
+            :src="
+              $pb.files.getUrl(release.expand.logo, release.expand.logo.image)
+            "
+            :srcset="release.expand.logo.resizedImage"
+            class="max-h-72 max-w-64"
+            sizes="16rem"
+          />
+
           <div class="space-x-3">
             <UBadge v-if="title.expand?.format">
               {{ title.expand.format.name }}

@@ -34,6 +34,8 @@ const { data: release } = await useAsyncData(() =>
           }>[];
         }
       >;
+      logo: AssetsResponse<MetadataImages>;
+      banner: AssetsResponse<MetadataImages>;
     }>
   >(
     $pb.filter("title.slug = {:slug} && id = {:release}", {
@@ -41,7 +43,8 @@ const { data: release } = await useAsyncData(() =>
       release: route.params.release,
     }),
     {
-      expand: "publisher, partner, title.links_via_title.source, title.format",
+      expand:
+        "publisher, partner, title.links_via_title.source, title.format, logo, banner",
     },
   ),
 );
@@ -219,7 +222,17 @@ useSeoMeta({
   <div v-if="book && title && publication && release">
     <header class="flex flex-col-reverse gap-6 sm:flex-row sm:items-end">
       <div class="z-20 -mt-24 flex-1 sm:mt-0">
-        <div>
+        <div class="space-y-3">
+          <AppImage
+            v-if="release.expand?.logo"
+            :src="
+              $pb.files.getUrl(release.expand.logo, release.expand.logo.image)
+            "
+            :srcset="release.expand.logo.resizedImage"
+            class="max-h-72 max-w-64"
+            sizes="16rem"
+          />
+
           <div class="space-x-3">
             <UBadge v-if="title.expand?.format">
               {{ title.expand.format.name }}
@@ -229,26 +242,29 @@ useSeoMeta({
             </UBadge>
             <UBadge v-if="release?.digital" color="red">Digital</UBadge>
           </div>
-          <AppH1 class="mt-3">
-            <template
-              v-if="publication.volume > 0 && publication.volume < 90000000"
+
+          <div>
+            <AppH1 class="mt-3">
+              <template
+                v-if="publication.volume > 0 && publication.volume < 90000000"
+              >
+                {{ release.name }}
+                -
+                {{
+                  $t("general.volumeNumber", {
+                    volume: parseVolume(publication.volume),
+                  })
+                }}
+              </template>
+              <template v-else>{{ publication.name }}</template>
+            </AppH1>
+            <legend
+              v-if="publication.subtitle"
+              class="mt-1 font-lexend lg:text-lg"
             >
-              {{ release.name }}
-              -
-              {{
-                $t("general.volumeNumber", {
-                  volume: parseVolume(publication.volume),
-                })
-              }}
-            </template>
-            <template v-else>{{ publication.name }}</template>
-          </AppH1>
-          <legend
-            v-if="publication.subtitle"
-            class="mt-1 font-lexend lg:text-lg"
-          >
-            {{ publication.subtitle }}
-          </legend>
+              {{ publication.subtitle }}
+            </legend>
+          </div>
         </div>
       </div>
 
