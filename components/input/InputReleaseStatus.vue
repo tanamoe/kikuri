@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { collectionBookStatus: options } = useOptions();
+const { releaseStatus: options } = useOptions();
 
 const model = defineModel<string>();
 
