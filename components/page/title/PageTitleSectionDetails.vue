@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // TODO: replace /browse links with proper pages, etc.
-import { withQuery } from "ufo";
+import { joinURL, withQuery } from "ufo";
 import type {
   WorksResponse,
   StaffsResponse,
@@ -32,10 +32,7 @@ defineProps<{
   >
     <div v-if="demographic" class="p-4 sm:p-4">
       <h4>{{ $t("general.demographic") }}</h4>
-      <ULink
-        :to="withQuery('/browse', { demographic: demographic.slug })"
-        :external="true"
-      >
+      <ULink :to="withQuery('/browse/titles', { demographic: demographic.id })">
         <UBadge class="mr-1.5 mt-1.5" color="gray">
           {{ demographic.name }}
         </UBadge>
@@ -46,8 +43,7 @@ defineProps<{
       <ULink
         v-for="genre in genres"
         :key="genre.id"
-        :to="withQuery('/browse', { genre: genre.slug })"
-        :external="true"
+        :to="withQuery('/browse/titles', { genre: genre.id })"
       >
         <UBadge class="mr-1.5 mt-1.5" color="gray">
           {{ genre.name }}
@@ -57,7 +53,7 @@ defineProps<{
     <div v-if="works && works.length > 0" class="space-y-3 p-4 sm:p-4">
       <div v-for="work in works" :key="work.id">
         <h4>{{ work.name }}</h4>
-        <ULink :to="'/staff/' + work.staff">
+        <ULink :to="joinURL('/staff', work.staff)">
           {{ work.expand!.staff.name }}
         </ULink>
       </div>
