@@ -5,10 +5,13 @@ const i18nHead = useLocaleHead({
 });
 const { $pb } = useNuxtApp();
 const { update } = useLibrary();
+const { init } = useMeta();
 
 onMounted(() => {
   $pb.authStore.onChange(update, true);
 });
+
+await callOnce(init);
 
 useHead({
   htmlAttrs: {
