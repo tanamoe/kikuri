@@ -49,6 +49,8 @@
     "quantity": "Số lượng",
     "title": "Tựa truyện",
     "viewTitleDetails": "Xem chi tiết",
+    "book": "Sách",
+    "bookCount": "{count} tập sách",
     "bookPrice": "Giá dự kiến",
     "publishedBy": "Phát hành bởi",
     "publisher": "Nhà xuất bản",
