@@ -4,15 +4,16 @@ import type {
   UserCollectionMembersResponse,
   UserCollectionBooksResponse,
   UserCollectionResponse,
-  CollectionBookResponse,
 } from "@/types/api/collections";
-import MiniSearch from "minisearch";
 
 const route = useRoute();
 const { $pb } = useNuxtApp();
-const { t } = useI18n({ useScope: "global" });
+const { t } = useI18n();
 const settingsStore = useSettingsStore();
-const { ogUrl } = useRuntimeConfig().public;
+
+const view = ref(settingsStore.library.view);
+const page = useRouteQuery("p", "1", { transform: Number });
+const perPage = useRouteQuery("limit", "12", { transform: Number });
 
 const { data: collection } = await useAsyncData(() =>
   $pb.send<UserCollectionResponse>(
@@ -31,75 +32,19 @@ const { data: members } = await useAsyncData(() =>
   ),
 );
 
-const { data, refresh } = await useAsyncData(() =>
-  $pb.send<UserCollectionBooksResponse>(
-    `/api/user-collection/${route.params.collectionId}/books`,
-    {
-      method: "GET",
-      perPage: 999,
-      expand: "book.publication.release.title,collection,book.defaultAsset",
-    },
-  ),
+const { data: books, refresh } = await useLazyAsyncData(
+  () =>
+    $pb.send<UserCollectionBooksResponse>(
+      `/api/user-collection/${route.params.collectionId}/books`,
+      {
+        method: "GET",
+        page: page.value,
+        perPage: perPage.value,
+        expand: "book.publication.release.title,collection,book.defaultAsset",
+      },
+    ),
+  { watch: [page, perPage] },
 );
-
-const miniSearch = new MiniSearch({
-  fields: ["normalizedName"],
-  searchOptions: {
-    fuzzy: 0.1,
-    prefix: true,
-  },
-});
-
-const state = ref({
-  group: settingsStore.library.groupBy,
-  sort: settingsStore.library.sort,
-});
-const query = ref("");
-const debounced = refDebounced(query, 500);
-
-const items = computed<Record<string, CollectionBookResponse[]>>(() => {
-  const items = data.value?.items;
-  if (!items) return {};
-
-  if (state.value.group === "status") {
-    return Object.groupBy(items, (item) => item.status);
-  }
-  if (state.value.group === "release") {
-    return Object.groupBy(
-      items,
-      (item) => item.book!.publication!.release!.name!,
-    );
-  }
-  if (debounced.value !== "") {
-    const results = miniSearch.search(normalize(debounced.value));
-    return {
-      nogroup: items.filter((item) => results.some(({ id }) => item.id === id)),
-    };
-  }
-  return {
-    nogroup: items,
-  };
-});
-
-watchEffect(() => {
-  if (debounced.value != "") {
-    state.value.group = "none";
-  }
-
-  if (data.value) {
-    miniSearch.removeAll();
-    miniSearch.addAll(
-      data.value.items.map(
-        (book) =>
-          book.book?.publication?.name && {
-            id: book.id,
-            name: book.book.publication.name,
-            normalizedName: normalize(book.book.publication.name),
-          },
-      ),
-    );
-  }
-});
 
 const editable = computed(() => {
   if (!$pb.authStore.isAuthRecord) return false;
@@ -125,94 +70,50 @@ const links = computed<BreadcrumbLink[]>(() => [
   },
 ]);
 
+watchEffect(() => {
+  if (books.value && books.value.totalPages < page.value)
+    page.value = books.value.totalPages;
+  if (page.value === 0) page.value = 1;
+});
+
+watch(page, () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
 definePageMeta({
-  layout: false,
-});
-
-const ogImage = computed(() => {
-  if (collection.value?.item) {
-    const url = new URL("/collection", ogUrl);
-    url.searchParams.set("title", collection.value.item.name);
-
-    if (description.value) {
-      url.searchParams.set("description", description.value);
-    }
-
-    if (collection.value.item.owner) {
-      const user = collection.value.item.owner;
-      url.searchParams.set("user", user.displayName || user.username);
-      if (user.avatar) {
-        url.searchParams.set(
-          "avatar",
-          $pb.files.getUrl(
-            {
-              collectionId: "users",
-              id: user.id,
-            },
-            user.avatar,
-            { thumb: "32x32" },
-          ),
-        );
-      }
-    }
-
-    return url;
-  }
-
-  return null;
-});
-
-const description = computed(() => {
-  if (collection.value?.item.description) {
-    const desc = collection.value.item.description.replace(/<[^>]*>/g, "");
-
-    if (desc.length > 250) {
-      return desc.slice(0, 250) + "…";
-    }
-
-    return desc;
-  }
-
-  return null;
+  layout: "library",
 });
 
 useSeoMeta({
   title: t("seo.collectionTitle", {
     name: collection.value.item.name,
   }),
-  description: description.value,
+  description: collection.value.item.description,
   ogTitle: t("seo.collectionTitle", {
     name: collection.value.item.name,
   }),
-  ogDescription: description.value,
-  ogImage: ogImage.value?.toString(),
+  ogDescription: collection.value.item.description,
 });
 </script>
 
 <template>
-  <NuxtLayout v-if="collection && items" name="library">
-    <template #sidebar>
-      <LibraryBooksGroupNavigation
-        v-if="state.group !== 'none'"
-        :groups="items"
+  <div v-if="collection && books">
+    <UBreadcrumb class="mb-3" :links />
+
+    <div class="float-right flex h-min items-center justify-end gap-3">
+      <AppShareButton :title="collection.item.name" show-label />
+      <LibraryOptions
+        :id="collection.item.id"
+        :name="collection.item.name"
+        :editable
       />
-    </template>
+    </div>
+    <AppH1>{{ collection.item.name }}</AppH1>
 
-    <div>
-      <UBreadcrumb class="mb-3" :links />
-
-      <div class="float-right flex h-min items-center justify-end gap-3">
-        <AppShareButton :title="collection.item.name" show-label />
-        <LibraryOptions
-          :id="collection.item.id"
-          :name="collection.item.name"
-          :editable
+    <div class="space-y-6">
+      <div class="prose prose-sm max-w-none space-y-2 dark:prose-invert">
+        <div
+          v-if="collection.item.description"
+          v-html="collection.item.description"
         />
-      </div>
-      <AppH1>{{ collection.item.name }}</AppH1>
-
-      <div class="prose prose-sm mb-6 max-w-none space-y-2 dark:prose-invert">
-        <div v-html="collection.item.description" />
 
         <div class="flex gap-6">
           <LibraryMembers v-if="members" :members />
@@ -223,26 +124,38 @@ useSeoMeta({
         </div>
       </div>
 
-      <LibraryToolbar
-        v-model:query="query"
-        v-model:group="state.group"
-        v-model:sort="state.sort"
-        class="mb-6"
-      />
+      <div class="flex items-center justify-end gap-3">
+        <InputLibraryPerPageOption v-model="perPage" />
+        <UButtonGroup size="sm" orientation="horizontal">
+          <UButton
+            icon="i-fluent-grid-20-filled"
+            :color="view === 'grid' ? 'primary' : 'gray'"
+            @click="() => (view = 'grid')"
+          />
+          <UButton
+            icon="i-fluent-grid-kanban-20-filled"
+            :color="view === 'list' ? 'primary' : 'gray'"
+            @click="() => (view = 'list')"
+          />
+          <UButton
+            icon="i-fluent-list-20-filled"
+            :color="view === 'table' ? 'primary' : 'gray'"
+            @click="() => (view = 'table')"
+          />
+        </UButtonGroup>
+      </div>
 
-      <LibraryBooksGroup
-        v-if="state.group !== 'none'"
-        :groups="items"
-        :editable
-        :callback="refresh"
-      />
+      <LibraryBooks :books="books.items" :view :editable @change="refresh" />
 
-      <LibraryBooksList
-        v-else
-        :editable
-        :books="items.nogroup"
-        :callback="refresh"
+      <UPagination
+        v-model="page"
+        class="justify-center"
+        size="sm"
+        :page-count="books.perPage"
+        :total="books.totalItems"
+        show-last
+        show-first
       />
     </div>
-  </NuxtLayout>
+  </div>
 </template>

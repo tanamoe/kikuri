@@ -10,5 +10,5 @@ export type BaseBookRecord<T> = T &
 
 export type BaseBookResponse = Required<BaseBookRecord<BaseAPIFields>> & {
   publication?: BasePublicationResponse;
-  defaultAsset?: AssetsRecord<MetadataImages>;
+  defaultAsset?: Required<AssetsRecord<MetadataImages>>;
 };
