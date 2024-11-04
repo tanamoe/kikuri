@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const { t } = useI18n({ useScope: "global" });
-const store = useBrowseStore();
+const { t } = useI18n();
+const model = defineModel<string>();
 
 const options = computed(() => [
   {
@@ -8,15 +8,15 @@ const options = computed(() => [
     label: t("sort.latest"),
   },
   {
-    id: "+updated",
+    id: "updated",
     label: t("sort.oldest"),
   },
   {
-    id: "+title.name",
+    id: "-name",
     label: t("sort.nameAscending"),
   },
   {
-    id: "-title.name",
+    id: "name",
     label: t("sort.nameDescending"),
   },
 ]);
@@ -24,8 +24,8 @@ const options = computed(() => [
 
 <template>
   <USelectMenu
-    v-model="store.sort"
-    :options="options"
+    v-model="model"
+    :options
     class="flex-shrink-0"
     :ui-menu="{
       width: 'w-48',
