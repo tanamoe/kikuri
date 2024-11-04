@@ -16,6 +16,7 @@ const status = useRouteQuery("status", "");
 const publishers = useRouteQuery(
   "publisher",
   meta.publishers.value.map(({ id }) => id),
+  { transform: (value) => (Array.isArray(value) ? value : [value]) },
 );
 
 const { data: releases, execute } = await useAsyncData(
