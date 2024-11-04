@@ -24,7 +24,7 @@ const emit = defineEmits<{
   add: [];
 }>();
 
-const columns = [
+const columns = computed(() => [
   {
     key: "volume",
     label: t("general.volume"),
@@ -46,7 +46,7 @@ const columns = [
   {
     key: "actions",
   },
-];
+]);
 
 const rows = computed(() =>
   props.books.map((book) => ({
@@ -95,14 +95,7 @@ function handleAddBulk() {
         <template
           #name-data="{ row }: { row: NonNullable<typeof rows.value>[0] }"
         >
-          <div class="min-w-52">
-            <UBadge
-              v-if="row.edition"
-              color="tanaamber"
-              class="mb-2 bg-opacity-50 text-gray-900 backdrop-blur"
-            >
-              {{ row.edition }}
-            </UBadge>
+          <div class="flex min-w-52 items-center gap-3">
             <ULink
               v-if="title && release"
               :to="joinURL('/title', title.slug, release.id, row.id)"
@@ -110,7 +103,14 @@ function handleAddBulk() {
             >
               {{ row.name }}
             </ULink>
-            <div v-else>{{ row.name }}</div>
+            <span v-else>{{ row.name }}</span>
+            <UBadge
+              v-if="row.edition"
+              color="tanaamber"
+              class="w-fit text-gray-900"
+            >
+              {{ row.edition }}
+            </UBadge>
           </div>
         </template>
         <template #publishDate-data="{ row }">
