@@ -52,6 +52,8 @@ defineProps<{
       >
         {{ title.name }}
       </h3>
+
+      <slot name="after" />
     </div>
   </NuxtLink>
 </template>

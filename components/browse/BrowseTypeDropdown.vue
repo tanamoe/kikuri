@@ -15,6 +15,10 @@ const items = computed(() => [
       label: t("general.publisher"),
       to: "/browse/publishers",
     },
+    {
+      label: t("general.staff"),
+      to: "/browse/staffs",
+    },
   ],
 ]);
 </script>

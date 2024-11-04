@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import {
   Collections,
+  type AssetsResponse,
   type FormatsResponse,
+  type ReleasesResponse,
   type StaffsResponse,
   type TitlesResponse,
   type WorksResponse,
 } from "@/types/pb";
-import type { MetadataCommon } from "~/types/common";
+import type { MetadataImages } from "@/types/common";
 
 const route = useRoute();
 const { $pb } = useNuxtApp();
@@ -17,15 +19,19 @@ const { data: staff } = await useAsyncData(() =>
     StaffsResponse<{
       works_via_staff: WorksResponse<{
         title: TitlesResponse<
-          MetadataCommon,
+          unknown,
           {
             format: FormatsResponse;
+            defaultRelease: ReleasesResponse<{
+              front: AssetsResponse<MetadataImages>;
+            }>;
           }
         >;
       }>[];
     }>
   >(route.params.id as string, {
-    expand: "works_via_staff.title.format",
+    expand:
+      "works_via_staff.title.format, works_via_staff.title.defaultRelease.front",
   }),
 );
 
@@ -50,17 +56,10 @@ useSeoMeta({
         <AppTitle
           v-if="work.expand?.title"
           :title="work.expand.title"
-          sizes="(max-width: 640px) 40vw, (max-width: 768px) 30vw, 20vw"
+          :format="work.expand.title.expand?.format"
+          :image="work.expand.title.expand?.defaultRelease.expand?.front"
+          sizes="(max-width: 640px) 40vw, (max-width: 768px) 30vw, (max-width: 1024px) 20vw, (max-width: 1280px) 15vw, 10vw"
         >
-          <template #before>
-            <UBadge
-              v-if="work.expand?.title.expand?.format"
-              color="gray"
-              class="mb-1 mr-1"
-            >
-              {{ work.expand?.title.expand.format.name }}
-            </UBadge>
-          </template>
           <template #after>
             {{ work.name }}
           </template>

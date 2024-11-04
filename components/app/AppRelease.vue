@@ -46,7 +46,10 @@ const ui = {
       />
     </UCard>
     <div class="space-y-1">
-      <div class="flex flex-wrap items-center gap-1">
+      <div
+        v-if="format || release.digital || partner || publisher"
+        class="flex flex-wrap items-center gap-1"
+      >
         <UBadge v-if="format" color="gray">
           {{ format.name }}
         </UBadge>
