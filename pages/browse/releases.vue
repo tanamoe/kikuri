@@ -10,6 +10,7 @@ const query = useRouteQuery("q", "");
 const debounced = refDebounced(query, 500);
 const page = useRouteQuery("p", "1", { transform: Number });
 const sort = useRouteQuery("s", "");
+const perPage = useRouteQuery("limit", "48", { transform: Number });
 
 const status = useRouteQuery("status", "");
 
@@ -32,7 +33,7 @@ const { data: releases, execute } = await useAsyncData(
         sort: sort.value,
       },
       expand: "front,title.format,publisher,partner",
-      perPage: 24,
+      perPage: perPage.value,
       page: page.value,
     }),
   { watch: [debounced, page, sort] },
@@ -84,7 +85,7 @@ useSeoMeta({
     </div>
 
     <template v-if="releases">
-      <div class="grid grid-cols-2 gap-6 md:grid-cols-4 lg:grid-cols-6">
+      <AppGrid>
         <template v-for="release in releases.items" :key="release.id">
           <AppRelease
             v-if="release.title"
@@ -111,7 +112,7 @@ useSeoMeta({
             "
           />
         </template>
-      </div>
+      </AppGrid>
 
       <UPagination
         v-model="page"
