@@ -387,7 +387,7 @@ useSeoMeta({
         </div>
 
         <UCard
-          class="hover:prose-a:text-primary-400 dark:hover:prose-a:text-primary-400 prose prose-sm max-w-none dark:prose-invert prose-h4:my-0 prose-a:text-gray-700 hover:prose-a:underline prose-hr:my-3 dark:prose-a:text-gray-200"
+          class="hover:prose-a:text-primary-400 dark:hover:prose-a:text-primary-400 prose prose-sm max-w-none dark:prose-invert prose-h4:my-0 prose-a:text-gray-700 hover:prose-a:underline prose-img:my-0 prose-hr:my-3 dark:prose-a:text-gray-200"
           :ui="{
             body: {
               base: 'divide-y divide-gray-200 dark:divide-gray-800',
@@ -412,19 +412,17 @@ useSeoMeta({
               <h4 class="font-bold">
                 {{ $t("general.publisher") }}
               </h4>
-              <AppPublisher
-                :publisher="release.expand.publisher"
-                class="not-prose"
-              />
+              <ULink :to="joinURL('/publisher', release.expand.publisher.slug)">
+                <AppPublisher :publisher="release.expand.publisher" />
+              </ULink>
             </div>
             <div v-if="release.expand?.partner">
               <h4 class="font-bold">
                 {{ $t("general.partner") }}
               </h4>
-              <AppPublisher
-                :publisher="release.expand.partner"
-                class="not-prose"
-              />
+              <ULink :to="joinURL('/publisher', release.expand.partner.slug)">
+                <AppPublisher :publisher="release.expand.partner" />
+              </ULink>
             </div>
           </div>
           <div class="space-y-3 p-4">

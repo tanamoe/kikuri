@@ -14,7 +14,7 @@ import {
   type ReviewsResponse,
   type AdditionalTitleNamesResponse,
 } from "@/types/pb";
-import { joinURL } from "ufo";
+import { joinURL, withQuery } from "ufo";
 import type { BooksCommon, MetadataImages } from "~/types/common";
 
 const route = useRoute();
@@ -222,7 +222,7 @@ useSeoMeta({
 
       <div class="w-full flex-shrink-0 space-y-6 lg:w-64 xl:w-80">
         <UCard
-          class="hover:prose-a:text-primary-400 dark:hover:prose-a:text-primary-400 prose prose-sm max-w-none dark:prose-invert prose-h4:my-0 prose-a:text-gray-700 hover:prose-a:underline prose-hr:my-3 dark:prose-a:text-gray-200"
+          class="hover:prose-a:text-primary-400 dark:hover:prose-a:text-primary-400 prose prose-sm max-w-none dark:prose-invert prose-h4:my-0 prose-a:text-gray-700 hover:prose-a:underline prose-img:my-0 prose-hr:my-3 dark:prose-a:text-gray-200"
           :ui="{
             body: {
               base: 'divide-y divide-gray-200 dark:divide-gray-800',
@@ -249,20 +249,29 @@ useSeoMeta({
             </div>
             <div v-if="title.expand?.demographic">
               <h4>{{ $t("general.demographic") }}</h4>
-              <UBadge class="mr-1.5 mt-1.5" color="gray">
-                {{ title.expand.demographic.name }}
-              </UBadge>
+              <ULink
+                :to="
+                  withQuery('/browse/titles', {
+                    demographic: title.expand.demographic.id,
+                  })
+                "
+              >
+                <UBadge class="mr-1.5 mt-1.5" color="gray">
+                  {{ title.expand.demographic.name }}
+                </UBadge>
+              </ULink>
             </div>
             <div v-if="title.expand?.genres && title.expand?.genres.length > 0">
               <h4>{{ $t("general.genres") }}</h4>
-              <UBadge
+              <ULink
                 v-for="genre in title.expand.genres"
                 :key="genre.id"
-                class="mr-1.5 mt-1.5"
-                color="gray"
+                :to="withQuery('/browse/titles', { genre: genre.id })"
               >
-                {{ genre.name }}
-              </UBadge>
+                <UBadge class="mr-1.5 mt-1.5" color="gray">
+                  {{ genre.name }}
+                </UBadge>
+              </ULink>
             </div>
           </div>
           <div class="space-y-3 p-4">
@@ -275,19 +284,17 @@ useSeoMeta({
               <h4>
                 {{ $t("general.publisher") }}
               </h4>
-              <AppPublisher
-                :publisher="release.expand.publisher"
-                class="not-prose"
-              />
+              <ULink :to="joinURL('/publisher', release.expand.publisher.slug)">
+                <AppPublisher :publisher="release.expand.publisher" />
+              </ULink>
             </div>
             <div v-if="release.expand?.partner">
               <h4 class="font-bold">
                 {{ $t("general.partner") }}
               </h4>
-              <AppPublisher
-                :publisher="release.expand.partner"
-                class="not-prose"
-              />
+              <ULink :to="joinURL('/publisher', release.expand.partner.slug)">
+                <AppPublisher :publisher="release.expand.partner" />
+              </ULink>
             </div>
           </div>
         </UCard>
