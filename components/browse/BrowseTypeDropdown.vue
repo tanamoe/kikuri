@@ -11,6 +11,10 @@ const items = computed(() => [
       label: t("general.release"),
       to: "/browse/releases",
     },
+    {
+      label: t("general.publisher"),
+      to: "/browse/publishers",
+    },
   ],
 ]);
 </script>
