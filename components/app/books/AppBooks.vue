@@ -2,7 +2,7 @@
 import { ModalCollectionBookAddBulk } from "#components";
 import type { ReleasesResponse, TitlesResponse } from "@/types/pb";
 import { joinURL } from "ufo";
-import type { AppBookProps } from "../book/AppBook.vue";
+import type { AppBookProps } from "../AppBook.vue";
 
 const modal = useModal();
 const { t } = useI18n();

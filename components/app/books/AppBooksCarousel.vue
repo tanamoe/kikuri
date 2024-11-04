@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ReleasesResponse, TitlesResponse } from "@/types/pb";
-import type { AppBookProps } from "../book/AppBook.vue";
+import type { AppBookProps } from "../AppBook.vue";
 
 defineProps<{
   heading?: string;
