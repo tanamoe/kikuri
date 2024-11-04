@@ -140,14 +140,14 @@ useSeoMeta({
         <div
           class="absolute inset-0 z-10 bg-gradient-to-t from-gray-50 to-transparent to-50% sm:hidden dark:from-gray-900"
         />
-        <AppBookCover
+        <AppImageCover
           aspect="full"
           class="rounded-lg"
           loading="eager"
           :src="cover && $pb.files.getUrl(cover, cover.image)"
           :srcset="cover && cover.resizedImage"
           :name="release.name"
-          sizes="(max-width: 640px) 80vw, 300px"
+          sizes="(max-width: 640px) 80vw, (max-width: 1280px) 30vw, 15vw"
         />
       </div>
     </header>

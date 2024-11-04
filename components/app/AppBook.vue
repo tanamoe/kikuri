@@ -127,7 +127,7 @@ const to = computed(() => {
         />
       </div>
 
-      <AppBookCover
+      <AppImageCover
         class="relative z-10 transition-all group-hover:brightness-90 dark:group-hover:brightness-75"
         :name
         :src="image && $pb.files.getUrl(image, image.image)"

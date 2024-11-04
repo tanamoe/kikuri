@@ -1,13 +1,14 @@
 import type { BaseAPIFields } from "@/types/api";
 import type { AssetsRecord, BooksRecord, RecordIdString } from "@/types/pb";
-import type { BasePublicationRecord } from "@/types/api/publication";
+import type { BasePublicationResponse } from "@/types/api/publication";
 import type { MetadataImages } from "@/types/common";
 
 export type BaseBookRecord<T> = T &
-  Omit<BooksRecord, "publication"> & {
+  Omit<BooksRecord, "publication" | "defaultAsset"> & {
     publicationId: RecordIdString;
-    publication?: BasePublicationRecord<T>;
-    defaultAsset?: AssetsRecord<MetadataImages>;
   };
 
-export type BaseBookResponse = BaseBookRecord<BaseAPIFields>;
+export type BaseBookResponse = Required<BaseBookRecord<BaseAPIFields>> & {
+  publication?: BasePublicationResponse;
+  defaultAsset?: AssetsRecord<MetadataImages>;
+};

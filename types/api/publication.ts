@@ -1,14 +1,17 @@
 import type { BaseAPIFields } from "@/types/api";
 import type { PublicationsRecord, RecordIdString } from "@/types/pb";
-import type { BaseBookRecord } from "@/types/api/book";
-import type { BaseReleaseRecord } from "@/types/api/release";
+import type { BaseBookResponse } from "@/types/api/book";
+import type { BaseReleaseResponse } from "@/types/api/release";
 
 export type BasePublicationRecord<T> = T &
   Omit<PublicationsRecord, "defaultBook" | "release"> & {
     defaultBookId: RecordIdString;
-    defaultBook?: BaseBookRecord<T>;
     releaseId: RecordIdString;
-    release?: BaseReleaseRecord<T>;
   };
 
-export type BasePublicationResponse = BasePublicationRecord<BaseAPIFields>;
+export type BasePublicationResponse = Required<
+  BasePublicationRecord<BaseAPIFields>
+> & {
+  defaultBook?: BaseBookResponse;
+  release?: BaseReleaseResponse;
+};

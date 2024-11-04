@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import type { BooksCommon, MetadataImages } from "~/types/common";
+import type { BooksCommon } from "~/types/common";
 
 const props = defineProps<{
   book: BooksCommon;
 }>();
 
-const _asset = props.book.expand?.assets_via_book?.find(
-  (asset) => asset.type === "0000000000cover",
-);
-const _default =
-  props.book.expand?.publication.expand?.defaultBook?.expand?.assets_via_book?.find(
+const image = computed(() => {
+  const _asset = props.book.expand?.assets_via_book?.find(
     (asset) => asset.type === "0000000000cover",
   );
-const image = (_asset ? _asset.resizedImage : _default?.resizedImage) as
-  | MetadataImages
-  | undefined;
+  const _default =
+    props.book.expand?.publication.expand?.defaultBook?.expand?.assets_via_book?.find(
+      (asset) => asset.type === "0000000000cover",
+    );
+  return _asset ?? _default;
+});
 </script>
 
 <template>
@@ -34,12 +34,12 @@ const image = (_asset ? _asset.resizedImage : _default?.resizedImage) as
   </UBadge>
   <div
     class="absolute inset-0 bg-gradient-to-t from-gray-50 to-transparent to-50% sm:hidden dark:from-gray-900"
-  ></div>
-  <AppBookCover
+  />
+  <AppImageCover
     class="rounded-md"
     :name="book.expand?.publication.name"
-    :src="image && image['1920w']"
-    :srcset="image"
-    sizes="(max-width: 640px) 80vw, 300px"
+    :src="image && $pb.files.getUrl(image, image.image)"
+    :srcset="image && image.resizedImage"
+    sizes="(max-width: 640px) 80vw, (max-width: 1280px) 30vw, 15vw"
   />
 </template>
