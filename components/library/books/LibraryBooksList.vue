@@ -1,46 +1,19 @@
 <script setup lang="ts">
-import {
-  ModalCollectionBookRemove,
-  ModalCollectionBookEdit,
-} from "#components";
 import type { CollectionBookResponse } from "@/types/api/collections";
 import { joinURL } from "ufo";
 
-const modal = useModal();
-
-const props = defineProps<{
+defineProps<{
   editable: boolean;
   books: CollectionBookResponse[];
-  callback?: () => unknown;
+}>();
+
+defineEmits<{
+  change: [];
 }>();
 
 const ui = {
   body: { base: "flex gap-3 text-sm hover:shadow-lg transition-shadow" },
 };
-
-function handleEdit(row: CollectionBookResponse) {
-  modal.open(ModalCollectionBookEdit, {
-    book: {
-      id: row.book!.id,
-      name: row.book?.publication?.name || "N/A",
-    },
-    collection: row.collectionId,
-    quantity: row.quantity,
-    status: row.status,
-    callback: props.callback,
-  });
-}
-
-function handleRemove(row: CollectionBookResponse) {
-  modal.open(ModalCollectionBookRemove, {
-    book: {
-      id: row.book!.id,
-      name: row.book?.publication?.name || "N/A",
-    },
-    collection: row.collectionId,
-    callback: props.callback,
-  });
-}
 </script>
 
 <template>
@@ -56,19 +29,19 @@ function handleRemove(row: CollectionBookResponse) {
       </div>
       <div class="w-full">
         <div v-if="editable" class="float-right flex gap-1">
-          <UButton
-            icon="i-fluent-edit-20-filled"
-            color="gray"
-            variant="ghost"
-            square
-            @click="handleEdit(item)"
+          <LibraryEditButton
+            :id="item.id"
+            :name="item.book?.publication?.name ?? $t('general.tba')"
+            :collection="item.collectionId"
+            :quantity="item.quantity"
+            :status="item.status"
+            @change="$emit('change')"
           />
-          <UButton
-            icon="i-fluent-delete-20-filled"
-            color="red"
-            variant="ghost"
-            square
-            @click="handleRemove(item)"
+          <LibraryRemoveButton
+            :id="item.id"
+            :name="item.book?.publication?.name ?? $t('general.tba')"
+            :collection="item.collectionId"
+            @change="$emit('change')"
           />
         </div>
 
@@ -99,7 +72,11 @@ function handleRemove(row: CollectionBookResponse) {
             v-if="item.book?.publishDate"
             class="text-gray-600 dark:text-gray-400"
           >
-            Phát hành {{ $d(new Date(item.book.publishDate), "publishDate") }}
+            {{
+              $t("general.dateRelease", {
+                date: $d(new Date(item.book.publishDate), "publishDate"),
+              })
+            }}
           </div>
           <div class="flex gap-2 text-gray-600 dark:text-gray-400">
             <div>
