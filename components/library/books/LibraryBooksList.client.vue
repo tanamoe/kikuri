@@ -47,7 +47,7 @@ function handleRemove(row: CollectionBookResponse) {
   <div class="grid grid-cols-1 gap-6">
     <UCard v-for="item in books" :key="item.id" :ui="ui">
       <div class="w-20 md:w-16 lg:w-14 xl:w-12">
-        <AppBookCover
+        <AppImageCover
           class="rounded"
           :name="item.book?.publication?.name"
           :src="item.book?.defaultAsset?.resizedImage?.['1920w']"
