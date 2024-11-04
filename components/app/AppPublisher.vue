@@ -2,7 +2,7 @@
 import type { PublishersResponse } from "@/types/pb";
 
 defineProps<{
-  publisher: PublishersResponse;
+  publisher: Pick<PublishersResponse, "collectionId" | "id" | "name" | "logo">;
 }>();
 </script>
 
