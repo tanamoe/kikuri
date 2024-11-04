@@ -155,7 +155,7 @@ function handleAddBulk() {
         :publication="book.expand?.publication"
         :release
         :title
-        sizes="(max-width: 640px) 40vw, (max-width: 768px) 30vw, 20vw"
+        sizes="(max-width: 640px) 40vw, (max-width: 768px) 30vw, (max-width: 1024px) 20vw, (max-width: 1280px) 15vw, 10vw"
         @add="() => $emit('add')"
       />
     </div>
