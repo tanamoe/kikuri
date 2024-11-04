@@ -29,7 +29,7 @@ const swiperEl = ref();
 
       <Swiper
         ref="swiperEl"
-        class="w-64"
+        class="w-64 xl:w-80"
         :modules="[SwiperAutoplay, SwiperEffectCreative, SwiperMousewheel]"
         :autoplay="{
           delay: 4000,
