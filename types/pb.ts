@@ -288,6 +288,7 @@ export type TitleCoversRecord<
 
 export type TitlesRecord<Tmetadata = unknown> = {
   cover?: string;
+  defaultRelease?: RecordIdString;
   demographic?: RecordIdString;
   description?: HTMLString;
   format: RecordIdString;

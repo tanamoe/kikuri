@@ -61,13 +61,16 @@ export type UserCollectionResponse = BaseAPISingleResult<CollectionResponse>;
 export type CollectionBookRecord<T> = T & {
   collectionId: string;
   bookId: string;
-  collection?: CollectionsRecord & T;
-  book?: BaseBookRecord<T>;
   quantity: number;
   status: CollectionBooksStatusOptions;
 };
 
-export type CollectionBookResponse = CollectionBookRecord<BaseAPIFields>;
+export type CollectionBookResponse = Required<
+  CollectionBookRecord<BaseAPIFields>
+> & {
+  collection?: Required<CollectionsRecord & BaseAPIFields>;
+  book?: BaseBookResponse;
+};
 
 /**
  * User collection books returned from `/api/user-collection/:userId/books`

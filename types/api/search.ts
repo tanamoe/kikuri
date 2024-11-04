@@ -14,4 +14,4 @@ export type APISearchResponse = BaseAPIListResult<BaseTitleResponse>;
  *
  * @see {@link BaseReleaseResponse }
  */
-export type APIReleaseResponse = BaseAPIListResult<BaseReleaseResponse>;
+export type APISearchReleaseResponse = BaseAPIListResult<BaseReleaseResponse>;
