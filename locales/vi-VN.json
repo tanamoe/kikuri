@@ -110,7 +110,8 @@
     "otherVersion": "Phiên bản khác",
     "volumes": "Tập truyện",
     "otherVolume": "Tập khác",
-    "fullVolume": "Trọn bộ"
+    "fullVolume": "Trọn bộ",
+    "staff": "Staff"
   },
   "status": {
     "waitingForApproval": "Chờ duyệt",
