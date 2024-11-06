@@ -17,7 +17,7 @@ const page = useRouteQuery("p", "1", { transform: Number });
 const perPage = useRouteQuery("limit", "24", { transform: Number });
 const sort = useRouteQuery("s", "-created");
 
-const { data: publisher } = await useLazyAsyncData(() =>
+const { data: publisher } = await useAsyncData(() =>
   $pb
     .collection(Collections.Publishers)
     .getFirstListItem<PublishersResponse>(

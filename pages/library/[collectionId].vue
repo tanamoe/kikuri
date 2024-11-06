@@ -32,7 +32,7 @@ const { data: members } = await useAsyncData(() =>
   ),
 );
 
-const { data: books, refresh } = await useLazyAsyncData(
+const { data: books, refresh } = await useAsyncData(
   () =>
     $pb.send<UserCollectionBooksResponse>(
       `/api/user-collection/${route.params.collectionId}/books`,
