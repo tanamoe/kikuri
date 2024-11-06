@@ -1,26 +1,16 @@
 <script setup lang="ts">
 const store = useSettingsStore();
-
-definePageMeta({
-  layout: "setting",
-});
 </script>
 
 <template>
-  <section class="space-y-6">
-    <AppH2>{{ $t("general.releaseCalendar") }}</AppH2>
+  <UModal>
     <FormSettingsDisplay
       v-model:book-details="store.display.bookDetails"
       v-model:book-price="store.display.bookPrice"
       v-model:editioned-book="store.display.editionedBook"
       v-model:digital="store.display.digital"
       v-model:date-position="store.display.datePosition"
-      class="space-y-6"
+      class="space-y-6 p-6"
     />
-
-    <AppH2>{{ $t("general.title") }}</AppH2>
-    <UFormGroup name="showMetadata" :label="$t('settings.showMetadata')">
-      <UToggle v-model="store.display.bookMetadata" />
-    </UFormGroup>
-  </section>
+  </UModal>
 </template>
