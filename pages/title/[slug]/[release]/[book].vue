@@ -245,18 +245,13 @@ useSeoMeta({
 
           <div>
             <AppH1 class="mt-3">
-              <template
-                v-if="publication.volume > 0 && publication.volume < 90000000"
+              {{ publication.name }}
+              <span
+                v-if="release.disambiguation"
+                class="text-gray-400 dark:text-gray-500"
               >
-                {{ release.name }}
-                -
-                {{
-                  $t("general.volumeNumber", {
-                    volume: parseVolume(publication.volume),
-                  })
-                }}
-              </template>
-              <template v-else>{{ publication.name }}</template>
+                ({{ release.disambiguation }})
+              </span>
             </AppH1>
             <legend
               v-if="publication.subtitle"
