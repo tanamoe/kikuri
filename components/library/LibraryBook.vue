@@ -94,8 +94,8 @@ const to = computed(() => {
         class="absolute bottom-2 right-2 z-20 flex items-center gap-1"
       >
         <LibraryEditButton
-          :id="item.id"
-          :name="item.book?.publication?.name ?? $t('general.tba')"
+          :id="book.id"
+          :name="book.publication?.name ?? $t('general.tba')"
           :collection="item.collectionId"
           :quantity="item.quantity"
           :status="item.status"
@@ -103,8 +103,8 @@ const to = computed(() => {
           @change="$emit('change')"
         />
         <LibraryRemoveButton
-          :id="item.id"
-          :name="item.book?.publication?.name ?? $t('general.tba')"
+          :id="book.id"
+          :name="book.publication?.name ?? $t('general.tba')"
           :collection="item.collectionId"
           color="gray"
           square
