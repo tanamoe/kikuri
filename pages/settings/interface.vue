@@ -1,32 +1,5 @@
 <script setup lang="ts">
-const { t } = useI18n({ useScope: "global" });
 const store = useSettingsStore();
-
-const digitalOptions = computed(() => [
-  {
-    name: t("settings.digital.show"),
-    value: "show",
-  },
-  {
-    name: t("settings.digital.hide"),
-    value: "hide",
-  },
-  {
-    name: t("settings.digital.only"),
-    value: "only",
-  },
-]);
-
-const positionOptions = computed(() => [
-  {
-    name: t("settings.position.left"),
-    value: "left",
-  },
-  {
-    name: t("settings.position.top"),
-    value: "top",
-  },
-]);
 
 definePageMeta({
   layout: "setting",
@@ -34,38 +7,20 @@ definePageMeta({
 </script>
 
 <template>
-  <form class="space-y-6">
-    <AppH3>{{ $t("general.releaseCalendar") }}</AppH3>
-    <UFormGroup name="showBookDetails" :label="$t('settings.showBookDetails')">
-      <UToggle v-model="store.display.bookDetails" />
-    </UFormGroup>
-    <UFormGroup name="showBookPrice" :label="$t('settings.showBookPrice')">
-      <UToggle v-model="store.display.bookPrice" />
-    </UFormGroup>
-    <UFormGroup
-      name="showEditionedBook"
-      :label="$t('settings.showEditionedBook')"
-    >
-      <UToggle v-model="store.display.editionedBook" />
-    </UFormGroup>
-    <UFormGroup name="digital" :label="$t('settings.showDigital')">
-      <USelect
-        v-model="store.display.digital"
-        :options="digitalOptions"
-        option-attribute="name"
-      />
-    </UFormGroup>
-    <UFormGroup name="datePosition" :label="$t('settings.datePosition')">
-      <USelect
-        v-model="store.display.datePosition"
-        :options="positionOptions"
-        option-attribute="name"
-      />
-    </UFormGroup>
+  <section class="space-y-6">
+    <AppH2>{{ $t("general.releaseCalendar") }}</AppH2>
+    <FormSettingsDisplay
+      v-model:book-details="store.display.bookDetails"
+      v-model:book-price="store.display.bookPrice"
+      v-model:editioned-book="store.display.editionedBook"
+      v-model:digital="store.display.digital"
+      v-model:date-position="store.display.datePosition"
+      class="space-y-6"
+    />
 
-    <AppH3>{{ $t("general.title") }}</AppH3>
+    <AppH2>{{ $t("general.title") }}</AppH2>
     <UFormGroup name="showMetadata" :label="$t('settings.showMetadata')">
       <UToggle v-model="store.display.bookMetadata" />
     </UFormGroup>
-  </form>
+  </section>
 </template>
