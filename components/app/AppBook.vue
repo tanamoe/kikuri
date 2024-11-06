@@ -91,7 +91,10 @@ const to = computed(() => {
   <NuxtLink
     :to
     class="group h-auto w-full"
-    :class="{ 'flex w-full gap-3': wide, 'select-none': !draggable }"
+    :class="{
+      'flex w-full gap-3': wide,
+      'select-none': !draggable,
+    }"
     :draggable
   >
     <UCard :ui :class="{ 'w-32 flex-shrink-0': wide }">
@@ -171,6 +174,12 @@ const to = computed(() => {
             class="decoration-primary-400 line-clamp-4 font-condensed text-xl font-black decoration-[.2rem] underline-offset-[.2rem] group-hover:underline"
           >
             {{ release.name }}
+            <span
+              v-if="release.disambiguation"
+              class="text-gray-400 dark:text-gray-500"
+            >
+              ({{ release.disambiguation }})
+            </span>
           </div>
           <div class="text-gray-500 dark:text-gray-400">
             {{
@@ -178,6 +187,9 @@ const to = computed(() => {
                 volume: parseVolume(publication.volume),
               })
             }}
+            <span v-if="publication.subtitle">
+              ({{ publication.subtitle }})
+            </span>
           </div>
         </div>
         <div v-else-if="publication">
