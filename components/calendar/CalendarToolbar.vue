@@ -1,35 +1,38 @@
 <script setup lang="ts">
 import type { Dayjs } from "dayjs";
-import { Collections, type PublishersResponse } from "@/types/pb";
+import type { DropdownItem } from "#ui/types";
+import { ModalSettingDisplay } from "#components";
 
 const { $pb } = useNuxtApp();
-
-defineProps<{
-  pending: boolean;
-}>();
+const { t } = useI18n({ useScope: "global" });
+const meta = useMeta();
+const modal = useModal();
 
 const month = defineModel<Dayjs>("month", { required: true });
 const publishers = defineModel<FilterPublishers[]>("publishers", {
   required: true,
 });
 
-const { data: publisherOptions } = await useAsyncData(
-  () =>
-    $pb.collection(Collections.Publishers).getFullList<PublishersResponse>(),
-  {
-    transform: (publishers) =>
-      publishers.map((publisher) => ({
-        id: publisher.id,
-        label: publisher.name,
-        avatar: publisher.logo
-          ? {
-              src: $pb.files.getUrl(publisher, publisher.logo, {
-                thumb: "24x24",
-              }),
-            }
-          : undefined,
-      })),
-  },
+defineProps<{
+  pending: boolean;
+}>();
+
+const emit = defineEmits<{
+  download: [];
+}>();
+
+const options = computed(() =>
+  meta.publishers.value?.map((publisher) => ({
+    id: publisher.id,
+    label: publisher.name,
+    avatar: publisher.logo
+      ? {
+          src: $pb.files.getUrl(publisher, publisher.logo, {
+            thumb: "24x24",
+          }),
+        }
+      : undefined,
+  })),
 );
 
 const toolbar = ref<HTMLDivElement>();
@@ -44,6 +47,29 @@ const ui = {
     },
   },
 };
+
+const items = computed<DropdownItem[][]>(() => [
+  [
+    {
+      label: t("general.print"),
+      icon: "i-fluent-print-20-filled",
+      disabled: true,
+    },
+    {
+      label: t("general.download"),
+      icon: "i-fluent-arrow-download-20-filled",
+      disabled: true,
+      click: () => emit("download"),
+    },
+  ],
+  [
+    {
+      label: t("general.options"),
+      icon: "i-fluent-options-20-filled",
+      click: () => modal.open(ModalSettingDisplay),
+    },
+  ],
+]);
 
 onMounted(async () => {
   await nextTick();
@@ -100,13 +126,7 @@ onMounted(async () => {
         </div>
 
         <div class="flex gap-3">
-          <USelectMenu
-            v-if="publisherOptions"
-            v-slot="{ open }"
-            v-model="publishers"
-            :options="publisherOptions"
-            multiple
-          >
+          <USelectMenu v-slot="{ open }" v-model="publishers" :options multiple>
             <UButton color="gray" class="w-max" block>
               <template #leading>
                 <UAvatarGroup
@@ -135,7 +155,13 @@ onMounted(async () => {
             </UButton>
           </USelectMenu>
 
-          <CalendarOptions />
+          <UDropdown :items :popper="{ placement: 'bottom-start' }">
+            <UButton
+              color="gray"
+              icon="i-fluent-more-vertical-20-filled"
+              square
+            />
+          </UDropdown>
         </div>
       </div>
     </div>
