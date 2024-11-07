@@ -118,20 +118,19 @@ useSeoMeta({
         v-for="(group, key) in releases"
         :id="dayjs(key).format('YYYY-MM-DD')"
         :key="key"
-        class="release-day mb-24 flex scroll-mt-28 gap-6 sm:scroll-mt-16"
+        class="release-day mb-24 flex scroll-mt-[calc(var(--toolbar-height)_+_1rem)] gap-6"
         :class="{
           'flex-col': store.display.datePosition === 'top',
         }"
-        style="scroll-margin-top: calc(var(--toolbar-height) + 1rem)"
       >
         <div
-          class="sticky top-28 flex-shrink-0 self-start sm:top-16"
+          class="sticky flex-shrink-0 self-start"
           :class="{
-            'w-12 md:w-20': store.display.datePosition === 'left',
-            'z-30 w-full bg-gray-50 ring-8 ring-gray-50 dark:bg-gray-900 dark:ring-gray-900':
+            'top-[calc(var(--toolbar-height)_+_1rem)] w-12 md:w-20':
+              store.display.datePosition === 'left',
+            'top-[calc(var(--toolbar-height)_+_0.5rem)] z-30 w-full bg-gray-50 ring-8 ring-gray-50 dark:bg-gray-900 dark:ring-gray-900':
               store.display.datePosition === 'top',
           }"
-          style="top: var(--toolbar-height)"
         >
           <CalendarDate :date="new Date(key)" />
         </div>
