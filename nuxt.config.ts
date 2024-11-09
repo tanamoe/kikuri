@@ -67,10 +67,6 @@ export default defineNuxtConfig({
     modules: ["autoplay", "effect-creative", "mousewheel"],
   },
 
-  icon: {
-    serverBundle: "remote",
-  },
-
   i18n: {
     detectBrowserLanguage: false,
   },
