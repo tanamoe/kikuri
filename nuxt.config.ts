@@ -78,12 +78,6 @@ export default defineNuxtConfig({
     },
   },
 
-  site: {
-    name: "Tana.moe",
-    description:
-      "Tana.moe là một tủ truyện trực tuyến giúp theo dõi các tựa truyện sắp ra mắt dễ dàng hơn và khám phá những bộ truyện bạn có thể đã bỏ lỡ!",
-  },
-
   experimental: { appManifest: false },
   compatibilityDate: "2024-07-06",
 });
