@@ -22,7 +22,6 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxt/content",
     "nuxt-swiper",
-    "@nuxtjs/sitemap",
   ],
 
   // https://nuxt.com/docs/getting-started/installation#prerequisites
@@ -77,30 +76,6 @@ export default defineNuxtConfig({
     markdown: {
       anchorLinks: false,
     },
-  },
-
-  site: {
-    name: "Tana.moe",
-    description:
-      "Tana.moe là một tủ truyện trực tuyến giúp theo dõi các tựa truyện sắp ra mắt dễ dàng hơn và khám phá những bộ truyện bạn có thể đã bỏ lỡ!",
-  },
-
-  sitemap: {
-    sitemaps: {
-      titles: {
-        sources: ["/api/__sitemap__/titles"],
-        defaults: { priority: 0.3 },
-      },
-      releases: {
-        sources: ["/api/__sitemap__/releases"],
-        defaults: { priority: 0.7 },
-      },
-      books: {
-        sources: ["/api/__sitemap__/books"],
-        defaults: { priority: 0.5 },
-      },
-    },
-    autoI18n: true,
   },
 
   experimental: { appManifest: false },
