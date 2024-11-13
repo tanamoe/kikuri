@@ -7,10 +7,11 @@ const { $pb } = useNuxtApp();
 const { update } = useLibrary();
 const { init } = useMeta();
 
-onMounted(async () => {
+onMounted(() => {
   $pb.authStore.onChange(update, true);
-  await callOnce(init);
 });
+
+await callOnce(init);
 
 useHead({
   htmlAttrs: {
