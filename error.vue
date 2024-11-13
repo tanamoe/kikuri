@@ -9,7 +9,7 @@ const is404 = computed(() => props.error?.statusCode === 404);
 const isDev = import.meta.dev;
 
 const i18nHead = useLocaleHead({
-  addSeoAttributes: true,
+  seo: true,
 });
 
 useHead({

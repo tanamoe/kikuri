@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { ogUrl, umamiUrl, umamiSiteId, fbAppId } = useRuntimeConfig().public;
 const i18nHead = useLocaleHead({
-  addSeoAttributes: true,
+  seo: true,
 });
 const { $pb } = useNuxtApp();
 const { update } = useLibrary();

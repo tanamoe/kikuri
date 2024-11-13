@@ -1,4 +1,4 @@
-import vi from "@/locales/vi-VN.json";
+import vi from "@/i18n/locales/vi-VN.json";
 
 export default defineI18nConfig(() => ({
   legacy: false,
