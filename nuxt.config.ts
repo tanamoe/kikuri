@@ -38,10 +38,10 @@ export default defineNuxtConfig({
   ],
 
   routeRules: {
-    "/": { prerender: true, isr: 3600 },
-    "/calendar": { prerender: true, isr: 3600 },
-    "/title/**": { isr: 3600 },
-    "/library/*": { ssr: false },
+    "/": { prerender: true, swr: 3600 },
+    "/calendar": { prerender: true, swr: 3600 },
+    "/title/**": { swr: 3600 },
+    // "/library/*": { ssr: false },
   },
 
   image: {
