@@ -80,6 +80,5 @@ export default defineNuxtConfig({
     },
   },
 
-  experimental: { appManifest: false },
   compatibilityDate: "2024-07-06",
 });
