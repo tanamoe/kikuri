@@ -38,8 +38,8 @@ export default defineNuxtConfig({
   ],
 
   routeRules: {
-    "/": { prerender: true, swr: 3600 },
-    "/calendar": { prerender: true, swr: 3600 },
+    "/": { swr: 3600 },
+    "/calendar": { swr: 3600 },
     "/title/**": { swr: 3600 },
     // "/library/*": { ssr: false },
   },
