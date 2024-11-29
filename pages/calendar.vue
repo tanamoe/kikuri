@@ -46,6 +46,7 @@ const {
   error,
   refresh,
 } = await useLazyAsyncData(
+  `calendar:${month.value.format("YYYY-MM")}`,
   () =>
     $pb.collection(Collections.Books).getFullList<BooksCommon>({
       filter: filter.value,
@@ -93,7 +94,20 @@ useSeoMeta({
     />
 
     <UContainer
-      v-if="error || !releases || Object.keys(releases).length === 0"
+      v-if="status === 'pending'"
+      class="my-12 flex items-center justify-center"
+    >
+      <div class="text-center">
+        <p>{{ "٩(>ᗜ<)و ♡" }}</p>
+        <h1 class="my-3 font-lexend text-4xl font-bold">
+          {{ $t("calendar.loading") }}
+        </h1>
+        <p>{{ $t("calendar.loadingDescription") }}</p>
+      </div>
+    </UContainer>
+
+    <UContainer
+      v-else-if="error || !releases || Object.keys(releases).length === 0"
       class="my-12 flex items-center justify-center"
     >
       <div class="text-center">
