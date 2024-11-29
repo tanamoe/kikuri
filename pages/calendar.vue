@@ -45,7 +45,7 @@ const {
   status,
   error,
   refresh,
-} = await useAsyncData(
+} = await useLazyAsyncData(
   () =>
     $pb.collection(Collections.Books).getFullList<BooksCommon>({
       filter: filter.value,
