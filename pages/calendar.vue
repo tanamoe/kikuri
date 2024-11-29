@@ -46,6 +46,7 @@ const {
   error,
   refresh,
 } = await useLazyAsyncData(
+  `calendar:${month.value.format("YYYY-MM")}`,
   () =>
     $pb.collection(Collections.Books).getFullList<BooksCommon>({
       filter: filter.value,
