@@ -12,6 +12,8 @@ export default defineNuxtConfig({
     },
   },
 
+  ssr: false,
+
   modules: [
     "@nuxt/eslint",
     "@vueuse/nuxt",
