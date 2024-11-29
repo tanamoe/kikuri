@@ -22,6 +22,7 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxt/content",
     "nuxt-swiper",
+    "@nuxthub/core",
   ],
 
   // https://nuxt.com/docs/getting-started/installation#prerequisites
@@ -29,6 +30,10 @@ export default defineNuxtConfig({
     strict: true,
     shim: false,
     typeCheck: true,
+  },
+
+  hub: {
+    cache: true,
   },
 
   css: [
