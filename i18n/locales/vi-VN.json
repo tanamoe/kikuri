@@ -250,7 +250,9 @@
     "noReleases": "Không tìm thấy!",
     "noReleasesDescription": "Có thể lịch phát hành tháng này chưa có, quay lại sau nhé!",
     "unknownError": "Lỗi không xác định",
-    "unknownErrorDescription": "Đã có gì đó sai sai xảy ra, hãy thử tải lại trang hoặc báo cáo với bọn mình..."
+    "unknownErrorDescription": "Đã có gì đó sai sai xảy ra, hãy thử tải lại trang hoặc báo cáo với bọn mình...",
+    "loading": "Đang tải",
+    "loadingDescription": "Lịch phát hành đang được tải xuống, vui lòng chờ trong giây lát..."
   },
   "footer": {
     "links": {
