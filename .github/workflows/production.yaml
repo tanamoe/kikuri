@@ -3,9 +3,19 @@ on:
   push:
     branches:
       - main
+env:
+  FB_APP_ID: ${{ vars.FB_APP_ID }}
+  IMAGE_URL: ${{ vars.IMAGE_URL }}
+  POCKETBASE_URL: ${{ vars.POCKETBASE_URL }}
+  SITE_URL: ${{ vars.SITE_URL }}
+  UMAMI_SITE_ID: ${{ vars.UMAMI_SITE_ID }}
+  UMAMI_URL: ${{ vars.UMAMI_URL }}
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ vars.SITE_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
