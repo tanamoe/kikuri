@@ -44,7 +44,7 @@ export default defineNuxtConfig({
 
   routeRules: {
     "/": { swr: 10800 },
-    "/calendar": { prerender: true },
+    "/calendar": { swr: 10800 },
     "/title/**": { swr: 10800 },
     // "/library/*": { ssr: false },
   },
