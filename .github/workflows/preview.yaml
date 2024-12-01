@@ -1,0 +1,27 @@
+name: Deployment
+on:
+  pull_request:
+env:
+  IMAGE_URL: ${{ vars.IMAGE_URL }}
+  POCKETBASE_URL: ${{ vars.POCKETBASE_URL }}
+  SITE_URL: ${{ vars.SITE_URL }}
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: preview
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: bun install
+      - name: Deploy with nuxthub
+        run: bunx nuxthub deploy --preview
+        env:
+          NUXT_HUB_PROJECT_KEY: ${{ secrets.NUXT_HUB_PROJECT_KEY}}
+          NUXT_HUB_USER_TOKEN: ${{ secrets.NUXT_HUB_USER_TOKEN }}

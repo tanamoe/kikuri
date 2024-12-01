@@ -1,0 +1,34 @@
+name: Deployment
+on:
+  push:
+    branches:
+      - main
+env:
+  FB_APP_ID: ${{ vars.FB_APP_ID }}
+  IMAGE_URL: ${{ vars.IMAGE_URL }}
+  POCKETBASE_URL: ${{ vars.POCKETBASE_URL }}
+  SITE_URL: ${{ vars.SITE_URL }}
+  UMAMI_SITE_ID: ${{ vars.UMAMI_SITE_ID }}
+  UMAMI_URL: ${{ vars.UMAMI_URL }}
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ vars.SITE_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: bun install
+      - name: Deploy with nuxthub
+        run: bunx nuxthub deploy --production
+        env:
+          NUXT_HUB_PROJECT_KEY: ${{ secrets.NUXT_HUB_PROJECT_KEY}}
+          NUXT_HUB_USER_TOKEN: ${{ secrets.NUXT_HUB_USER_TOKEN }}
