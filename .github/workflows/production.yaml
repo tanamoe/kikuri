@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-  pull_request:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -19,7 +18,7 @@ jobs:
       - name: Install dependencies
         run: bun install
       - name: Deploy with nuxthub
-        run: bunx nuxthub deploy
+        run: bunx nuxthub deploy --production
         env:
           NUXT_HUB_PROJECT_KEY: ${{ secrets.NUXT_HUB_PROJECT_KEY}}
           NUXT_HUB_USER_TOKEN: ${{ secrets.NUXT_HUB_USER_TOKEN }}
