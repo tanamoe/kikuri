@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type SwiperClass from "swiper";
 import type { BooksCommon } from "@/types/common";
+import { Autoplay, EffectCreative, Mousewheel } from "swiper/modules";
 
 defineProps<{
   books: BooksCommon[];
@@ -8,6 +8,43 @@ defineProps<{
 
 const index = ref(0);
 const swiperEl = ref();
+useSwiper(swiperEl, {
+  injectStyles: [".swiper { overflow: visible };"],
+  modules: [Autoplay, EffectCreative, Mousewheel],
+  autoplay: {
+    delay: 4000,
+    disableOnInteraction: false,
+    pauseOnMouseEnter: true,
+  },
+  slidesPerView: 1,
+  rewind: true,
+  effect: "creative",
+  grabCursor: true,
+  speed: 300,
+  observer: true,
+  observeParents: true,
+  watchSlidesProgress: true,
+  mousewheel: true,
+  creativeEffect: {
+    perspective: true,
+    limitProgress: 2,
+    shadowPerProgress: true,
+    prev: {
+      shadow: true,
+      translate: ["-10%", 0, -200],
+      rotate: [0, 0, -2],
+    },
+    next: {
+      shadow: false,
+      translate: ["120%", 0, 0],
+    },
+  },
+});
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function onSlideChange(swiper: any) {
+  index.value = swiper.target.swiper.activeIndex;
+}
 </script>
 
 <template>
@@ -27,49 +64,22 @@ const swiperEl = ref();
         </Transition>
       </div>
 
-      <Swiper
-        ref="swiperEl"
-        class="w-64 xl:w-80"
-        :modules="[SwiperAutoplay, SwiperEffectCreative, SwiperMousewheel]"
-        :autoplay="{
-          delay: 4000,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: true,
-        }"
-        :slides-per-view="1"
-        :rewind="true"
-        :effect="'creative'"
-        :grab-cursor="true"
-        :speed="300"
-        :observer="true"
-        :observe-parents="true"
-        :watch-slides-progress="true"
-        :mousewheel="true"
-        :creative-effect="{
-          perspective: true,
-          limitProgress: 2,
-          shadowPerProgress: true,
-          prev: {
-            shadow: true,
-            translate: ['-10%', 0, -200],
-            rotate: [0, 0, -2],
-          },
-          next: {
-            shadow: false,
-            translate: ['120%', 0, 0],
-          },
-        }"
-        style="overflow: visible; margin-right: 0"
-        @slide-change="(swiper: SwiperClass) => (index = swiper.activeIndex)"
-      >
-        <SwiperSlide
-          v-for="book in books"
-          :key="book.id"
-          class="relative overflow-hidden"
+      <ClientOnly>
+        <swiper-container
+          ref="swiperEl"
+          class="w-64 xl:w-80"
+          :init="false"
+          @swiperslidechange="onSlideChange"
         >
-          <PageIndexSwiperCard :book />
-        </SwiperSlide>
-      </Swiper>
+          <swiper-slide
+            v-for="book in books"
+            :key="book.id"
+            class="relative overflow-hidden"
+          >
+            <PageIndexSwiperCard :book />
+          </swiper-slide>
+        </swiper-container>
+      </ClientOnly>
     </div>
   </UContainer>
 </template>

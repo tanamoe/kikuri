@@ -71,10 +71,6 @@ export default defineNuxtConfig({
     },
   },
 
-  swiper: {
-    modules: ["autoplay", "effect-creative", "mousewheel"],
-  },
-
   i18n: {
     detectBrowserLanguage: false,
     vueI18n: "./i18n.config.ts",
