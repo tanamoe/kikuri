@@ -25,6 +25,10 @@ export default defineNuxtConfig({
     "@nuxthub/core",
   ],
 
+  devtools: {
+    enabled: false,
+  },
+
   // https://nuxt.com/docs/getting-started/installation#prerequisites
   typescript: {
     strict: true,
@@ -75,14 +79,6 @@ export default defineNuxtConfig({
     detectBrowserLanguage: false,
     vueI18n: "./i18n.config.ts",
     defaultLocale: "vi",
-  },
-
-  content: {
-    locales: ["vi"],
-    defaultLocale: "vi",
-    markdown: {
-      anchorLinks: false,
-    },
   },
 
   compatibilityDate: "2024-07-06",

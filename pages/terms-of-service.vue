@@ -1,16 +1,20 @@
 <script setup lang="ts">
-const { locale } = useI18n({ useScope: "global" });
+const { t, locale } = useI18n({ useScope: "global" });
+
+const { data } = await useAsyncData(() =>
+  queryCollection("content").path(`/${locale.value}/terms-of-service`).first(),
+);
+
+if (!data)
+  throw createError({
+    statusCode: 404,
+    statusMessage: t("error.notFoundMessage"),
+  });
 </script>
 
 <template>
-  <div class="prose mx-auto dark:prose-invert">
-    <ContentDoc
-      v-slot="{ doc }"
-      :query="{ locale: locale }"
-      path="terms-of-service"
-    >
-      <AppH1>{{ doc.title }}</AppH1>
-      <ContentRenderer :value="doc" />
-    </ContentDoc>
+  <div v-if="data" class="prose mx-auto dark:prose-invert">
+    <AppH1>{{ data.title }}</AppH1>
+    <ContentRenderer :value="data" />
   </div>
 </template>
