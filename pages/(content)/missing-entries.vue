@@ -13,7 +13,7 @@ if (!data)
 </script>
 
 <template>
-  <div v-if="data" class="prose mx-auto dark:prose-invert">
+  <div v-if="data" class="prose dark:prose-invert mx-auto">
     <AppH1>{{ data.title }}</AppH1>
     <ContentRenderer :value="data" />
   </div>
