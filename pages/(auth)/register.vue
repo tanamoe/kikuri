@@ -24,14 +24,14 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>;
 
-const state = ref({
-  username: "",
-  email: "",
-  password: "",
-  passwordConfirm: "",
+const state = reactive<Partial<Schema>>({
+  username: undefined,
+  email: undefined,
+  password: undefined,
+  passwordConfirm: undefined,
 });
 
-async function submit(event: FormSubmitEvent<Schema>) {
+async function onSubmit(event: FormSubmitEvent<Schema>) {
   await register(event.data);
 }
 
@@ -46,53 +46,59 @@ definePageMeta({
       <Title>{{ $t("account.register") }}</Title>
     </Head>
 
-    <div class="w-full max-w-sm rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
+    <div
+      class="w-full max-w-sm rounded-lg bg-neutral-100 p-6 dark:bg-neutral-800"
+    >
       <AppH1 class="mb-6">{{ $t("account.register") }}</AppH1>
-      <UForm class="space-y-6" :schema="schema" :state="state" @submit="submit">
+      <UForm class="space-y-6" :schema :state @submit="onSubmit">
         <div class="space-y-3">
-          <UFormGroup name="username" :label="$t('account.username')">
+          <UFormField name="username" :label="$t('account.username')">
             <UInput
               v-model="state.username"
+              class="w-full"
               placeholder="kikuri"
               icon="i-fluent-person-20-filled"
               size="lg"
             />
-          </UFormGroup>
-          <UFormGroup name="email" :label="$t('account.email')">
+          </UFormField>
+          <UFormField name="email" :label="$t('account.email')">
             <UInput
               v-model="state.email"
+              class="w-full"
               placeholder="user@tana.moe"
               icon="i-fluent-mail-20-filled"
               size="lg"
             />
-          </UFormGroup>
-          <UFormGroup name="password" :label="$t('account.password')">
+          </UFormField>
+          <UFormField name="password" :label="$t('account.password')">
             <UInput
               v-model="state.password"
+              class="w-full"
               placeholder="•••••••••••••••"
               icon="i-fluent-key-20-filled"
               type="password"
               size="lg"
             />
-          </UFormGroup>
-          <UFormGroup
+          </UFormField>
+          <UFormField
             name="passwordConfirm"
             :label="$t('account.passwordConfirm')"
           >
             <UInput
               v-model="state.passwordConfirm"
+              class="w-full"
               placeholder="•••••••••••••••"
               icon="i-fluent-key-20-filled"
               type="password"
               size="lg"
             />
-          </UFormGroup>
+          </UFormField>
         </div>
 
         <i18n-t
           keypath="auth.registerPrivacyPolicy"
           tag="p"
-          class="prose prose-sm text-gray-600 dark:prose-invert dark:text-gray-400"
+          class="prose prose-sm dark:prose-invert text-neutral-600 dark:text-neutral-400"
         >
           <nuxt-link to="/terms-of-service">
             {{ $t("general.termsOfService") }}
@@ -107,7 +113,9 @@ definePageMeta({
         </UButton>
       </UForm>
 
-      <div class="mt-3 text-center text-sm text-gray-600 dark:text-gray-400">
+      <div
+        class="mt-3 text-center text-sm text-neutral-600 dark:text-neutral-400"
+      >
         <NuxtLink
           class="decoration-tanablue-500 decoration-2 hover:underline"
           to="/login"

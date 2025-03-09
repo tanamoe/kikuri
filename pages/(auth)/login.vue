@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type AuthProviderInfo } from "pocketbase";
+import type { AuthProviderInfo } from "pocketbase";
 import { joinURL } from "ufo";
 import { z } from "zod";
 import type { FormSubmitEvent } from "#ui/types";
@@ -10,7 +10,7 @@ const { pending, login } = useAuthentication();
 const { siteUrl } = useRuntimeConfig().public;
 const authProvider = useCookie<AuthProviderInfo>("auth_provider");
 
-const { data: authMethods, pending: authPending } = await useLazyAsyncData(
+const { data, status } = await useLazyAsyncData(
   () => $pb.collection("users").listAuthMethods(),
   { server: false },
 );
@@ -26,14 +26,14 @@ const schema = z.object({
 
 type Schema = z.output<typeof schema>;
 
-const state = ref({
+const state = reactive<Partial<Schema>>({
   user: undefined,
   password: undefined,
 });
 
 const redirectUrl = joinURL(siteUrl, "redirect");
 
-async function submit(event: FormSubmitEvent<Schema>) {
+async function onSubmit(event: FormSubmitEvent<Schema>) {
   await login(event.data);
 }
 
@@ -60,35 +60,32 @@ definePageMeta({
     </Head>
 
     <div
-      class="w-full max-w-sm space-y-6 rounded-lg bg-gray-100 p-6 dark:bg-gray-800"
+      class="w-full max-w-sm space-y-6 rounded-lg bg-neutral-100 p-6 dark:bg-neutral-800"
     >
       <AppH1>{{ $t("account.login") }}</AppH1>
 
       <div>
-        <UForm
-          class="space-y-6"
-          :schema="schema"
-          :state="state"
-          @submit="submit"
-        >
+        <UForm class="space-y-6" :schema :state @submit="onSubmit">
           <div class="space-y-3">
-            <UFormGroup name="user" :label="$t('account.usernameOrEmail')">
+            <UFormField name="user" :label="$t('account.usernameOrEmail')">
               <UInput
                 v-model="state.user"
+                class="w-full"
                 placeholder="user@tana.moe"
                 icon="i-fluent-person-20-filled"
                 size="lg"
               />
-            </UFormGroup>
-            <UFormGroup name="password" :label="$t('account.password')">
+            </UFormField>
+            <UFormField name="password" :label="$t('account.password')">
               <UInput
                 v-model="state.password"
+                class="w-full"
                 placeholder="•••••••••••••••"
                 icon="i-fluent-key-20-filled"
                 type="password"
                 size="lg"
               />
-            </UFormGroup>
+            </UFormField>
           </div>
           <UButton :loading="pending" type="submit" block>
             {{ $t("account.login") }}
@@ -96,7 +93,7 @@ definePageMeta({
         </UForm>
 
         <div
-          class="mt-3 space-x-1 text-center text-sm text-gray-600 dark:text-gray-400"
+          class="mt-3 space-x-1 text-center text-sm text-neutral-600 dark:text-neutral-400"
         >
           <NuxtLink
             class="decoration-tanablue-500 decoration-2 hover:underline"
@@ -117,44 +114,43 @@ definePageMeta({
       <div class="space-y-6">
         <UDivider
           :label="$t('auth.or')"
-          color="gray"
-          :ui="{ border: { base: 'border-gray-200 dark:border-gray-700' } }"
+          color="neutral"
+          :ui="{
+            border: { base: 'border-neutral-200 dark:border-neutral-700' },
+          }"
         />
 
         <div>
-          <div v-if="authPending" class="space-y-3">
+          <div v-if="status == 'pending'" class="space-y-3">
             <USkeleton
               class="h-10 w-full"
-              :ui="{ background: 'bg-gray-200 dark:bg-gray-700' }"
+              :ui="{ background: 'bg-neutral-200 dark:bg-neutral-700' }"
             />
             <USkeleton
               class="h-10 w-full"
-              :ui="{ background: 'bg-gray-200 dark:bg-gray-700' }"
+              :ui="{ background: 'bg-neutral-200 dark:bg-neutral-700' }"
             />
             <USkeleton
               class="h-10 w-full"
-              :ui="{ background: 'bg-gray-200 dark:bg-gray-700' }"
+              :ui="{ background: 'bg-neutral-200 dark:bg-neutral-700' }"
             />
           </div>
-          <ul v-else-if="authMethods" class="space-y-3">
-            <li
-              v-for="provider in authMethods.authProviders"
-              :key="provider.name"
-            >
+          <ul v-else-if="data" class="space-y-3">
+            <li v-for="provider in data.oauth2.providers" :key="provider.name">
               <AppSignInGoogleButton
                 v-if="provider.name === 'google'"
-                :to="provider.authUrl + redirectUrl"
+                :to="provider.authURL + redirectUrl"
                 @click="authProvider = provider"
               />
               <AppSignInDiscordButton
                 v-else-if="provider.name === 'discord'"
-                :to="provider.authUrl + redirectUrl"
+                :to="provider.authURL + redirectUrl"
                 @click="authProvider = provider"
               />
               <AppSignInButton
                 v-else
                 :icon="getIcon(provider.name)"
-                :to="provider.authUrl + redirectUrl"
+                :to="provider.authURL + redirectUrl"
                 @click="authProvider = provider"
               >
                 {{
@@ -170,7 +166,7 @@ definePageMeta({
         <i18n-t
           keypath="auth.loginPrivacyPolicy"
           tag="p"
-          class="prose prose-sm text-gray-600 dark:prose-invert dark:text-gray-400"
+          class="prose prose-sm dark:prose-invert text-neutral-600 dark:text-neutral-400"
         >
           <nuxt-link to="/terms-of-service">
             {{ $t("general.termsOfService") }}

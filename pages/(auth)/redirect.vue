@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type AuthProviderInfo } from "pocketbase";
+import type { AuthProviderInfo } from "pocketbase";
 import { joinURL } from "ufo";
 
 const {
@@ -41,7 +41,9 @@ definePageMeta({
       <Title>{{ $t("account.login") }}</Title>
     </Head>
 
-    <div class="w-full max-w-sm rounded-lg bg-gray-100 p-6 dark:bg-gray-800">
+    <div
+      class="w-full max-w-sm rounded-lg bg-neutral-100 p-6 dark:bg-neutral-800"
+    >
       <AppH1 class="mb-6">{{ $t("account.login") }}</AppH1>
       <p class="mb-6">{{ $t("auth.oauthPending") }}</p>
       <UButton to="/login">{{ $t("auth.oauthStuck") }}</UButton>
