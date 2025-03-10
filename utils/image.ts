@@ -1,5 +1,5 @@
 import { joinURL } from "ufo";
-import type { MetadataImages } from "~/types/common";
+import type { MetadataImages } from "@/types/common";
 
 export function joinSrc(image: string) {
   const {
