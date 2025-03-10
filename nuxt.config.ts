@@ -26,7 +26,7 @@ export default defineNuxtConfig({
   ],
 
   devtools: {
-    enabled: false,
+    enabled: true,
   },
 
   // https://nuxt.com/docs/getting-started/installation#prerequisites
@@ -41,6 +41,7 @@ export default defineNuxtConfig({
   },
 
   css: [
+    "~/assets/css/main.css",
     "~/assets/fonts/inter.css",
     "~/assets/fonts/ibm-plex.css",
     "~/assets/fonts/lexend.css",
@@ -73,7 +74,6 @@ export default defineNuxtConfig({
 
   i18n: {
     detectBrowserLanguage: false,
-    vueI18n: "./i18n.config.ts",
     defaultLocale: "vi",
   },
 
