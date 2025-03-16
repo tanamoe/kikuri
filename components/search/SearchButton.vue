@@ -1,6 +1,8 @@
 <script setup lang="ts">
-const { metaSymbol } = useShortcuts();
-const { open } = useSearch();
+import { SearchModal } from "#components";
+
+const overlay = useOverlay();
+const modal = overlay.create(SearchModal);
 </script>
 
 <template>
@@ -8,32 +10,24 @@ const { open } = useSearch();
     <UButton
       icon="i-fluent-search-20-filled"
       variant="ghost"
-      color="gray"
+      color="neutral"
       class="flex sm:hidden"
       square
       :aria-label="$t('general.search')"
-      @click="open"
+      @click="modal.open"
     />
     <UButton
       icon="i-fluent-search-20-filled"
-      variant="solid"
-      color="white"
+      color="neutral"
+      variant="outline"
       class="hidden sm:flex"
-      :ui="{
-        color: {
-          white: {
-            solid:
-              'shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 text-gray-700 dark:text-400 bg-white hover:bg-gray-50 disabled:bg-white dark:bg-gray-900 dark:hover:bg-gray-800/50 dark:disabled:bg-gray-900 focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400',
-          },
-        },
-      }"
-      @click="open"
+      @click="modal.open"
     >
       {{ $t("general.searchPlaceholder") }}
       <template #trailing>
         <div class="flex items-center gap-0.5">
-          <UKbd>{{ metaSymbol }}</UKbd>
-          <UKbd>K</UKbd>
+          <UKbd value="meta" />
+          <UKbd value="K" />
         </div>
       </template>
     </UButton>
