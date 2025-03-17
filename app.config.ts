@@ -22,10 +22,50 @@ export default defineAppConfig({
         icon: "i-simple-icons-github",
       },
     ],
+    navigation: [
+      {
+        label: "general.releaseCalendar",
+        to: "/calendar",
+      },
+      {
+        label: "general.browse",
+        to: "/browse",
+        children: [
+          {
+            label: "general.title",
+            to: "/browse/titles",
+          },
+          {
+            label: "general.release",
+            to: "/browse/releases",
+          },
+          {
+            label: "general.publisher",
+            to: "/browse/publishers",
+          },
+          {
+            label: "general.staff",
+            to: "/browse/staffs",
+          },
+        ],
+      },
+      {
+        label: "general.library",
+        badge: {
+          label: "general.new",
+          color: "primary",
+          variant: "solid",
+        },
+        to: "/library",
+      },
+    ],
   },
   ui: {
-    primary: "tanablue",
-    gray: "zinc",
+    colors: {
+      primary: "tanablue",
+      secondary: "tanaamber",
+      neutral: "zinc",
+    },
     container: {
       base: "mx-auto",
       padding: "px-6 sm:px-6 lg:px-6",
@@ -45,7 +85,7 @@ export default defineAppConfig({
       },
       color: {
         gray: {
-          ghost: "hover:bg-gray-200",
+          ghost: "hover:bg-neutral-200",
         },
       },
       default: {
@@ -53,9 +93,9 @@ export default defineAppConfig({
       },
     },
     formGroup: {
-      description: "text-gray-500 dark:text-gray-400 text-sm",
-      hint: "text-gray-500 dark:text-gray-400 text-sm",
-      help: "mt-2 text-gray-500 dark:text-gray-400 text-sm",
+      description: "text-neutral-500 dark:text-neutral-400 text-sm",
+      hint: "text-neutral-500 dark:text-neutral-400 text-sm",
+      help: "mt-2 text-neutral-500 dark:text-neutral-400 text-sm",
       error: "mt-2 text-red-500 dark:text-red-400 text-sm",
     },
     table: {
@@ -121,7 +161,4 @@ export default defineAppConfig({
       base: "block whitespace-nowrap truncate",
     },
   },
-  // TODO: remove on upstream fix
-  // https://github.com/nuxt/ui/issues/1043
-  nuxtIcon: {},
 });

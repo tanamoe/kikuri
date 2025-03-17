@@ -1,25 +1,20 @@
 <script setup lang="ts">
-const { releaseStatus: options } = useOptions();
+import type { ReleasesStatusOptions } from "@/types/pb";
 
-const model = defineModel<string>();
+const { releaseStatus: items } = useOptions();
 
-const current = computed(() => options.value.find((s) => s.id === model.value));
+const model = defineModel<keyof typeof ReleasesStatusOptions>();
+
+const current = computed(() => items.value.find((s) => s.id === model.value));
 </script>
 
 <template>
-  <USelectMenu
-    v-model="model"
-    :options
-    value-attribute="id"
-    option-attribute="label"
-  >
-    <template #label>
-      <span v-if="current">
-        {{ current.label }}
-      </span>
-      <span v-else>
-        {{ $t("general.statusSelect") }}
-      </span>
-    </template>
+  <USelectMenu v-model="model" :items value-key="id" option-key="label">
+    <span v-if="current">
+      {{ current.label }}
+    </span>
+    <span v-else>
+      {{ $t("general.statusSelect") }}
+    </span>
   </USelectMenu>
 </template>

@@ -3,7 +3,6 @@ const { pending, remove } = useCollections();
 const toast = useToast();
 const { t } = useI18n({ useScope: "global" });
 const { update } = useLibrary();
-const modal = useModal();
 
 const props = defineProps<{
   collection: {
@@ -16,12 +15,13 @@ async function onSubmit() {
   const [, error] = await remove(props.collection.id);
 
   if (error) {
-    return toast.add({
+    toast.add({
       title: t("error.generalMessage"),
       description: error.message,
-      color: "red",
+      color: "error",
       icon: "i-fluent-error-circle-20-filled",
     });
+    return;
   }
 
   toast.add({
@@ -31,35 +31,34 @@ async function onSubmit() {
     }),
     icon: "i-fluent-checkmark-circle-20-filled",
   });
-  modal.close();
   await update();
-  return navigateTo("/library");
+  await navigateTo("/library");
+  return;
 }
 </script>
 
 <template>
   <UModal>
-    <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-      <template #header>
-        <div class="flex items-center justify-between">
-          {{ $t("library.removeCollection") }}
-          <UButton
-            color="gray"
-            variant="ghost"
-            icon="i-fluent-dismiss-20-filled"
-            class="-my-1"
-            @click="modal.close"
-          />
-        </div>
-      </template>
+    <template #header>
+      <div class="flex items-center justify-between">
+        {{ $t("library.removeCollection") }}
+        <UButton
+          color="neutral"
+          variant="ghost"
+          icon="i-fluent-dismiss-20-filled"
+          class="-my-1"
+        />
+      </div>
+    </template>
 
+    <template #body>
       <div class="space-y-3">
         <div>
           {{ $t("library.confirmRemoveCollection", { name: collection.name }) }}
         </div>
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="modal.close">
+          <UButton color="error" variant="ghost">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending" @click="onSubmit">
@@ -67,6 +66,6 @@ async function onSubmit() {
           </UButton>
         </div>
       </div>
-    </UCard>
+    </template>
   </UModal>
 </template>

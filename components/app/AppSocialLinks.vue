@@ -9,7 +9,7 @@ const appConfig = useAppConfig();
         :icon="social.icon"
         :to="social.url"
         target="_blank"
-        color="gray"
+        color="neutral"
         variant="ghost"
         size="sm"
         square

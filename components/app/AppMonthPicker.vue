@@ -3,6 +3,8 @@ import dayjs, { type Dayjs } from "dayjs";
 
 const date = defineModel<Dayjs>({ required: true });
 
+const open = ref(false);
+
 const today = dayjs.tz();
 
 // TODO: get only available year, that is, we have the releases data for.
@@ -41,25 +43,18 @@ watch(
 </script>
 
 <template>
-  <UPopover
-    :popper="{ placement: 'bottom-start' }"
-    :ui="{
-      width: 'w-max max-w-xs',
-      background: 'bg-white dark:bg-gray-800',
-      ring: 'ring-1 ring-gray-200 dark:ring-gray-700',
-    }"
-  >
+  <UPopover v-model:open="open">
     <UButton variant="solid" icon="i-fluent-chevron-down-20-filled" trailing>
       {{ $d(modelValue.toDate(), { month: "numeric", year: "numeric" }) }}
     </UButton>
 
-    <template #panel="{ close }">
+    <template #content>
       <div class="space-y-3 p-3">
         <USelect
           v-model="selected.year"
-          color="primary"
           size="md"
-          :options="availableYears"
+          :items="availableYears"
+          class="w-full"
         />
         <div class="grid grid-cols-3 gap-1">
           <template v-for="(monthName, i) in dayjs.months()" :key="i">
@@ -84,16 +79,8 @@ watch(
             <UButton
               v-else
               variant="ghost"
-              color="gray"
+              color="neutral"
               block
-              :ui="{
-                color: {
-                  gray: {
-                    ghost:
-                      'text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-900 focus-visible:ring-inset focus-visible:ring-2 focus-visible:ring-primary',
-                  },
-                },
-              }"
               @click="selected.month = i"
             >
               {{ monthName }}
@@ -101,10 +88,10 @@ watch(
           </template>
         </div>
         <div class="grid grid-cols-2 gap-3">
-          <UButton color="red" variant="outline" block @click="reset">
+          <UButton color="error" variant="outline" block @click="reset">
             {{ $t("monthPicker.reset") }}
           </UButton>
-          <UButton block @click="apply(close)">
+          <UButton block @click="apply(() => (open = false))">
             {{ $t("monthPicker.save") }}
           </UButton>
         </div>

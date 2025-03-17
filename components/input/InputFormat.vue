@@ -13,7 +13,7 @@ withDefaults(defineProps<Props>(), {
 
 const model = defineModel<string | string[]>();
 
-const options = computed(() =>
+const items = computed(() =>
   formats.value.map(({ id, name }) => ({
     id,
     label: name,
@@ -30,24 +30,22 @@ const selected = computed(() =>
 <template>
   <USelectMenu
     v-model="model"
-    :options
+    :items
     :multiple
     searchable
-    value-attribute="id"
+    value-key="id"
     :searchable-placeholder="$t('general.searchPlaceholder')"
   >
-    <template #label>
-      <span v-if="selected && selected.length > 0" class="truncate">
-        <template v-if="count">
-          {{ $t("general.formatCount", { count: selected.length }) }}
-        </template>
-        <template v-else>
-          {{ selected.map(({ name }) => name).join(", ") }}
-        </template>
-      </span>
-      <span v-else class="truncate">
-        {{ $t("general.formatSelect") }}
-      </span>
-    </template>
+    <span v-if="selected && selected.length > 0" class="truncate">
+      <template v-if="count">
+        {{ $t("general.formatCount", { count: selected.length }) }}
+      </template>
+      <template v-else>
+        {{ selected.map(({ name }) => name).join(", ") }}
+      </template>
+    </span>
+    <span v-else class="truncate">
+      {{ $t("general.formatSelect") }}
+    </span>
   </USelectMenu>
 </template>

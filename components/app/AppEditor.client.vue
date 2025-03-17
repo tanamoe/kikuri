@@ -12,37 +12,42 @@ const imageUrl = ref("");
 
 const content = defineModel<string>();
 
-const { metaSymbol } = useShortcuts();
-
-const toggleBold = () => editor.value?.chain().focus().toggleBold().run();
-const toggleItalic = () => editor.value?.chain().focus().toggleItalic().run();
-const toggleUnderline = () =>
+const toggleBold = () => {
+  editor.value?.chain().focus().toggleBold().run();
+};
+const toggleItalic = () => {
+  editor.value?.chain().focus().toggleItalic().run();
+};
+const toggleUnderline = () => {
   editor.value?.chain().focus().toggleUnderline().run();
-const toggleStrike = () => editor.value?.chain().focus().toggleStrike().run();
-const toggleBlockquote = () =>
+};
+const toggleStrike = () => {
+  editor.value?.chain().focus().toggleStrike().run();
+};
+const toggleBlockquote = () => {
   editor.value?.chain().focus().toggleBlockquote().run();
-const setHorizontalRule = () =>
+};
+const setHorizontalRule = () => {
   editor.value?.chain().focus().setHorizontalRule().run();
-const toggleHeading = (level: 1 | 2 | 3 | 4 | 5 | 6) =>
+};
+const toggleHeading = (level: 1 | 2 | 3 | 4 | 5 | 6) => {
   editor.value?.chain().focus().toggleHeading({ level }).run();
-const unsetLink = () =>
+};
+const unsetLink = () => {
   editor.value?.chain().focus().extendMarkRange("link").unsetLink().run();
+};
 
 function setLink() {
   if (url.value === null) return;
   if (url.value === "")
-    return editor.value
+    editor.value?.chain().focus().extendMarkRange("link").unsetLink().run();
+  else
+    editor.value
       ?.chain()
       .focus()
       .extendMarkRange("link")
-      .unsetLink()
+      .setLink({ href: url.value })
       .run();
-  return editor.value
-    ?.chain()
-    .focus()
-    .extendMarkRange("link")
-    .setLink({ href: url.value })
-    .run();
 }
 
 function setImage() {
@@ -86,16 +91,16 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    class="focus:ring-primary-500 dark:focus:ring-primary-400 rounded-md bg-white text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 dark:bg-gray-900 dark:text-white dark:ring-gray-700"
+    class="focus:ring-primary-500 dark:focus:ring-primary-400 rounded-md bg-white text-neutral-900 shadow-sm ring-1 ring-neutral-300 ring-inset focus:ring-2 dark:bg-neutral-900 dark:text-white dark:ring-neutral-700"
   >
     <div
       v-if="editor"
-      class="flex divide-x divide-gray-300 overflow-auto border-b border-gray-300 dark:divide-gray-700 dark:border-gray-700"
+      class="flex divide-x divide-neutral-300 overflow-auto border-b border-neutral-300 dark:divide-neutral-700 dark:border-neutral-700"
     >
       <div class="flex gap-1 px-2.5 py-1.5">
-        <UTooltip :text="$t('editor.bold')" :shortcuts="[metaSymbol, 'B']">
+        <UTooltip :text="$t('editor.bold')" :shortcuts="['meta', 'B']">
           <UButton
-            color="gray"
+            color="neutral"
             :variant="editor.isActive('bold') ? 'soft' : 'ghost'"
             icon="i-fluent-text-bold-20-filled"
             :disabled="!editor.can().chain().focus().toggleBold().run()"
@@ -104,9 +109,9 @@ onBeforeUnmount(() => {
             @click="toggleBold"
           />
         </UTooltip>
-        <UTooltip :text="$t('editor.italic')" :shortcuts="[metaSymbol, 'I']">
+        <UTooltip :text="$t('editor.italic')" :shortcuts="['meta', 'I']">
           <UButton
-            color="gray"
+            color="neutral"
             :variant="editor.isActive('italic') ? 'soft' : 'ghost'"
             icon="i-fluent-text-italic-20-filled"
             :disabled="!editor.can().chain().focus().toggleItalic().run()"
@@ -115,9 +120,9 @@ onBeforeUnmount(() => {
             @click="toggleItalic"
           />
         </UTooltip>
-        <UTooltip :text="$t('editor.underline')" :shortcuts="[metaSymbol, 'U']">
+        <UTooltip :text="$t('editor.underline')" :shortcuts="['meta', 'U']">
           <UButton
-            color="gray"
+            color="neutral"
             :variant="editor.isActive('underline') ? 'soft' : 'ghost'"
             icon="i-fluent-text-underline-20-filled"
             :disabled="!editor.can().chain().focus().toggleUnderline().run()"
@@ -128,10 +133,10 @@ onBeforeUnmount(() => {
         </UTooltip>
         <UTooltip
           :text="$t('editor.strikethrough')"
-          :shortcuts="[metaSymbol, 'Shift', 'X']"
+          :shortcuts="['meta', 'Shift', 'X']"
         >
           <UButton
-            color="gray"
+            color="neutral"
             :variant="editor.isActive('strike') ? 'soft' : 'ghost'"
             icon="i-fluent-text-strikethrough-20-filled"
             :disabled="!editor.can().chain().focus().toggleStrike().run()"
@@ -144,10 +149,10 @@ onBeforeUnmount(() => {
       <div class="flex gap-1 px-2.5 py-1.5">
         <UTooltip
           :text="$t('editor.quote')"
-          :shortcuts="[metaSymbol, 'Shift', 'B']"
+          :shortcuts="['meta', 'Shift', 'B']"
         >
           <UButton
-            color="gray"
+            color="neutral"
             variant="ghost"
             icon="i-fluent-text-quote-20-filled"
             square
@@ -156,7 +161,7 @@ onBeforeUnmount(() => {
           />
         </UTooltip>
         <UButton
-          color="gray"
+          color="neutral"
           variant="ghost"
           icon="i-fluent-line-horizontal-1-20-filled"
           square
@@ -166,7 +171,7 @@ onBeforeUnmount(() => {
       </div>
       <div class="flex gap-1 px-2.5 py-1.5">
         <UButton
-          color="gray"
+          color="neutral"
           :variant="editor.isActive('heading', { level: 1 }) ? 'soft' : 'ghost'"
           icon="i-fluent-text-header-1-20-filled"
           square
@@ -174,7 +179,7 @@ onBeforeUnmount(() => {
           @click="toggleHeading(1)"
         />
         <UButton
-          color="gray"
+          color="neutral"
           :variant="editor.isActive('heading', { level: 2 }) ? 'soft' : 'ghost'"
           icon="i-fluent-text-header-2-20-filled"
           square
@@ -182,7 +187,7 @@ onBeforeUnmount(() => {
           @click="toggleHeading(2)"
         />
         <UButton
-          color="gray"
+          color="neutral"
           :variant="editor.isActive('heading', { level: 3 }) ? 'soft' : 'ghost'"
           icon="i-fluent-text-header-3-20-filled"
           square
@@ -193,7 +198,7 @@ onBeforeUnmount(() => {
       <div class="flex gap-1 px-2.5 py-1.5">
         <UPopover>
           <UButton
-            color="gray"
+            color="neutral"
             variant="ghost"
             icon="i-fluent-link-20-filled"
             square
@@ -208,7 +213,7 @@ onBeforeUnmount(() => {
               <UButton
                 size="xs"
                 icon="i-fluent-link-remove-20-filled"
-                color="red"
+                color="error"
                 variant="outline"
                 class="mr-3"
                 @click="unsetLink"
@@ -223,7 +228,7 @@ onBeforeUnmount(() => {
         </UPopover>
         <UPopover>
           <UButton
-            color="gray"
+            color="neutral"
             variant="ghost"
             icon="i-fluent-image-add-20-filled"
             square
@@ -250,7 +255,7 @@ onBeforeUnmount(() => {
       </div>
     </div>
     <EditorContent :editor="editor" spellcheck="false" />
-    <div v-if="editor" class="p-3 text-right text-sm text-gray-500">
+    <div v-if="editor" class="p-3 text-right text-sm text-neutral-500">
       {{
         $t("editor.characterCount", {
           count: editor.storage.characterCount.characters(),

@@ -22,11 +22,11 @@ const title = release?.expand?.title;
         })
       }}
     </div>
-    <h2 v-if="publication" class="mb-6 line-clamp-3 font-lexend text-3xl">
+    <h2 v-if="publication" class="font-lexend mb-6 line-clamp-3 text-3xl">
       {{ publication.name }}
     </h2>
     <div>
-      <p class="mb-6 text-gray-500 dark:text-gray-300">
+      <p class="mb-6 text-neutral-500 dark:text-neutral-300">
         <span v-if="publisher">
           <b>{{ $t("general.publishedBy") }}</b>
           {{ partner?.name ?? publisher.name }}
@@ -41,7 +41,7 @@ const title = release?.expand?.title;
         v-if="title"
         :to="joinURL('/title', title.slug)"
         icon="i-fluent-info-20-filled"
-        color="gray"
+        color="neutral"
       >
         {{ $t("general.viewTitleDetails") }}
       </UButton>

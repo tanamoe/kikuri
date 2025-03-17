@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { z } from "zod";
 import { joinURL } from "ufo";
-import type { BreadcrumbLink, FormSubmitEvent } from "#ui/types";
+import type { FormSubmitEvent } from "#ui/types";
 import { CollectionsVisibilityOptions } from "@/types/pb";
 import type { UserCollectionResponse } from "@/types/api/collections";
 
@@ -26,9 +26,9 @@ const { data: collection } = await useAsyncData(() =>
 );
 if (!collection.value) throw createError({ statusCode: 404 });
 
-const links = computed<BreadcrumbLink[]>(() => [
+const links = computed(() => [
   {
-    label: $pb.authStore.model!.displayName || $pb.authStore.model!.username,
+    label: $pb.authStore.record!.displayName || $pb.authStore.record!.username,
     to: collection.value?.item.owner
       ? `/user/${collection.value.item.owner.username}`
       : undefined,
@@ -48,7 +48,7 @@ const schema = z.object({
 });
 type Schema = z.output<typeof schema>;
 
-const state = ref<Partial<Schema>>({
+const state = reactive<Partial<Schema>>({
   name: collection.value.item.name,
   visibility: collection.value.item.visibility,
 });
@@ -63,12 +63,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   });
 
   if (error) {
-    return toast.add({
+    toast.add({
       title: t("error.generalMessage"),
       description: error.message,
-      color: "red",
+      color: "error",
       icon: "i-fluent-error-circle-20-filled",
     });
+    return;
   }
 
   toast.add({
@@ -79,7 +80,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     icon: "i-fluent-checkmark-circle-20-filled",
   });
   await update();
-  return navigateTo(joinURL("/library", res.item.id));
+  await navigateTo(joinURL("/library", res.item.id));
 }
 
 definePageMeta({
@@ -102,7 +103,7 @@ useSeoMeta({
     <UBreadcrumb class="mb-3" :links="links" />
 
     <AppH1 class="mb-6">{{ $t("library.editCollection") }}</AppH1>
-    <UForm :schema="schema" :state="state" class="space-y-6" @submit="onSubmit">
+    <UForm :schema :state class="space-y-6" @submit="onSubmit">
       <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <UFormGroup name="name">
           <UInput

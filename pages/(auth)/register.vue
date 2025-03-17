@@ -5,22 +5,20 @@ import type { FormSubmitEvent } from "#ui/types";
 const { pending, register } = useAuthentication();
 const { t } = useI18n({ useScope: "global" });
 
-const schema = z.object({
-  username: z
-    .string()
-    .min(3, t("error.account.usernameInvalidMin"))
-    .max(150, t("error.account.usernameInvalidMax"))
-    .regex(/^[^\s]*$/, t("error.account.usernameIncludedSpace")),
-  email: z.string().email(t("error.account.emailInvalid")),
-  password: z.string().min(8, t("error.account.passwordInvalidMin")),
-  passwordConfirm: z
-    .string()
-    .min(8, t("error.account.passwordInvalidMin"))
-    .refine(
-      (val) => val === state.value.password,
-      () => ({ message: t("error.account.passwordNotMatch") }),
-    ),
-});
+const schema = z
+  .object({
+    username: z
+      .string()
+      .min(3, t("error.account.usernameInvalidMin"))
+      .max(150, t("error.account.usernameInvalidMax"))
+      .regex(/^[^\s]*$/, t("error.account.usernameIncludedSpace")),
+    email: z.string().email(t("error.account.emailInvalid")),
+    password: z.string().min(8, t("error.account.passwordInvalidMin")),
+    passwordConfirm: z.string().min(8, t("error.account.passwordInvalidMin")),
+  })
+  .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
+    message: t("error.account.passwordNotMatch"),
+  });
 
 type Schema = z.output<typeof schema>;
 

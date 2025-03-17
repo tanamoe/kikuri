@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ModalCollectionBookRemove } from "#components";
 
-const modal = useModal();
+const overlay = useOverlay();
+const modal = overlay.create(ModalCollectionBookRemove);
 
 interface Props {
   id: string;
@@ -17,7 +18,7 @@ const emit = defineEmits<{
 }>();
 
 function remove() {
-  modal.open(ModalCollectionBookRemove, {
+  modal.open({
     book: {
       id,
       name,

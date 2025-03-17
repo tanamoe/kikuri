@@ -1,11 +1,5 @@
 <script setup lang="ts">
 import { joinURL } from "ufo";
-import {
-  Dialog,
-  DialogPanel,
-  TransitionRoot,
-  TransitionChild,
-} from "@headlessui/vue";
 
 const store = useGalleryStore();
 const { prev, next } = store;
@@ -68,10 +62,10 @@ defineShortcuts({
           class="fixed inset-0 flex w-screen items-center justify-center p-6"
         >
           <DialogPanel>
-            <div class="fixed right-3 top-3 flex gap-3">
+            <div class="fixed top-3 right-3 flex gap-3">
               <UButton
                 icon="i-fluent-arrow-download-20-filled"
-                color="gray"
+                color="neutral"
                 square
                 :to="joinURL(images[currentIndex].src, '?download=1')"
               >
@@ -79,24 +73,24 @@ defineShortcuts({
               </UButton>
               <UButton
                 icon="i-fluent-dismiss-20-filled"
-                color="gray"
+                color="neutral"
                 square
                 @click="isOpen = false"
               />
             </div>
 
             <UButton
-              class="fixed left-3 top-1/2 z-10 -translate-y-1/2 transform"
+              class="fixed top-1/2 left-3 z-10 -translate-y-1/2 transform"
               icon="i-fluent-chevron-left-20-filled"
-              color="gray"
+              color="neutral"
               size="md"
               square
               @click="prev"
             />
             <UButton
-              class="fixed right-3 top-1/2 z-10 -translate-y-1/2 transform"
+              class="fixed top-1/2 right-3 z-10 -translate-y-1/2 transform"
               icon="i-fluent-chevron-right-20-filled"
-              color="gray"
+              color="neutral"
               size="md"
               square
               @click="next"
@@ -118,6 +112,8 @@ defineShortcuts({
 </template>
 
 <style>
+@reference "../../../assets/css/main.css";
+
 .slide-rtl-enter-from {
   @apply translate-x-3 opacity-0;
 }

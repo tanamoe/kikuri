@@ -31,7 +31,7 @@ const uiMenu = {
     option-attribute="label"
     :ui-menu
   >
-    <UButton color="gray" icon="i-fluent-group-list-20-filled">
+    <UButton color="neutral" icon="i-fluent-group-list-20-filled">
       {{ $t("general.group") }}
     </UButton>
   </USelectMenu>

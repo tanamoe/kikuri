@@ -6,6 +6,7 @@ import type {
   TitlesResponse,
   UsersResponse,
 } from "@/types/pb";
+import type { CardProps } from "@nuxt/ui";
 
 defineProps<{
   review: ReviewsResponse;
@@ -15,7 +16,7 @@ defineProps<{
   }>;
 }>();
 
-const ui = { body: { base: "relative", padding: "p-0 sm:p-0" } };
+const ui: CardProps["ui"] = { body: "relative p-0 sm:p-0" };
 </script>
 
 <template>
@@ -60,7 +61,7 @@ const ui = { body: { base: "relative", padding: "p-0 sm:p-0" } };
                 :alt="user.displayName || user.username"
               />
               <span
-                class="overflow-hidden text-ellipsis whitespace-nowrap text-sm"
+                class="overflow-hidden text-sm text-ellipsis whitespace-nowrap"
               >
                 {{ user.displayName || user.username }}
               </span>

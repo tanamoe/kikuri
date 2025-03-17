@@ -20,9 +20,7 @@ const { data: staffs } = await useAsyncData(
 );
 
 const ui = {
-  body: {
-    base: "space-y-3 text-center",
-  },
+  body: "space-y-3 text-center",
 };
 
 watchEffect(() => {

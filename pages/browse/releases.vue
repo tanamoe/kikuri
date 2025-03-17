@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { APISearchReleaseResponse } from "@/types/api/search";
-import { Collections } from "~/types/pb";
+import { Collections, type ReleasesStatusOptions } from "@/types/pb";
 
 const meta = useMeta();
 const { t } = useI18n();
@@ -12,7 +12,7 @@ const page = useRouteQuery("p", "1", { transform: Number });
 const sort = useRouteQuery("s", "");
 const perPage = useRouteQuery("limit", "48", { transform: Number });
 
-const status = useRouteQuery("status", "");
+const status = useRouteQuery<ReleasesStatusOptions>("status", undefined);
 
 const publishers = useRouteQuery(
   "publisher",

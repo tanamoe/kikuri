@@ -1,15 +1,6 @@
 <script setup lang="ts">
 import dayjs from "dayjs";
 
-const floatingButton = {
-  color: {
-    gray: {
-      solid:
-        "shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 text-gray-700 dark:text-gray-200 bg-gray-50 hover:bg-gray-100 disabled:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:disabled:bg-gray-800 focus-visible:ring-2 focus-visible:ring-primary-500 dark:focus-visible:ring-primary-400",
-    },
-  },
-};
-
 const props = defineProps<{
   dates: string[];
 }>();
@@ -74,18 +65,18 @@ onUnmounted(() => {
   <div class="fixed bottom-3 left-1/2 z-20 w-max -translate-x-1/2">
     <div class="flex gap-3">
       <UButton
-        color="gray"
+        color="neutral"
+        variant="subtle"
         class="touch-none"
         icon="i-fluent-chevron-up-20-filled"
         :disabled="dates.indexOf(position) === -1"
         square
-        :ui="floatingButton"
         @click="doScroll(dates[dates.indexOf(position) - 1])"
       />
       <UButton
         icon="i-fluent-arrow-up-20-filled"
-        color="gray"
-        :ui="floatingButton"
+        color="neutral"
+        variant="subtle"
         @click="scrollToTop"
       >
         {{ $t("general.top") }}
@@ -93,20 +84,20 @@ onUnmounted(() => {
       <UButton
         v-if="nearestDay"
         icon="i-fluent-arrow-turn-up-down-20-filled"
-        color="gray"
+        color="neutral"
+        variant="subtle"
         :trailing="true"
-        :ui="floatingButton"
         @click="scrollToNearest"
       >
         {{ $t("general.toNearest") }}
       </UButton>
       <UButton
-        color="gray"
+        color="neutral"
+        variant="subtle"
         class="touch-none"
         icon="i-fluent-chevron-down-20-filled"
         :disabled="dates.indexOf(position) === dates.length - 0"
         square
-        :ui="floatingButton"
         @click="doScroll(dates[dates.indexOf(position) + 1])"
       />
     </div>

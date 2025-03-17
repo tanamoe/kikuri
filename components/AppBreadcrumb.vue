@@ -17,14 +17,14 @@ defineProps<{
       :key="item.label"
       class="flex items-center gap-2"
       :class="{
-        'text-gray-500 dark:text-gray-400': !item.active,
+        'text-neutral-500 dark:text-neutral-400': !item.active,
       }"
     >
       <NuxtLink
         v-if="item.href"
         class="hover:underline"
         :to="item.href"
-        color="gray"
+        color="neutral"
         variant="link"
       >
         {{ item.label }}

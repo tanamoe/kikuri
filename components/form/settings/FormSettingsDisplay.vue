@@ -37,31 +37,35 @@ const digitalOptions = computed(() => [
 
 <template>
   <form class="space-y-6">
-    <UFormGroup name="showBookDetails" :label="$t('settings.showBookDetails')">
-      <UToggle v-model="bookDetails" />
-    </UFormGroup>
-    <UFormGroup name="showBookPrice" :label="$t('settings.showBookPrice')">
-      <UToggle v-model="bookPrice" />
-    </UFormGroup>
-    <UFormGroup
+    <UFormField name="showBookDetails" :label="$t('settings.showBookDetails')">
+      <USwitch v-model="bookDetails" />
+    </UFormField>
+    <UFormField name="showBookPrice" :label="$t('settings.showBookPrice')">
+      <USwitch v-model="bookPrice" />
+    </UFormField>
+    <UFormField
       name="showEditionedBook"
       :label="$t('settings.showEditionedBook')"
     >
-      <UToggle v-model="editionedBook" />
-    </UFormGroup>
-    <UFormGroup name="digital" :label="$t('settings.showDigital')">
+      <USwitch v-model="editionedBook" />
+    </UFormField>
+    <UFormField name="digital" :label="$t('settings.showDigital')">
       <USelect
         v-model="digital"
-        :options="digitalOptions"
-        option-attribute="name"
+        class="min-w-72"
+        :items="digitalOptions"
+        label-key="name"
+        value-key="value"
       />
-    </UFormGroup>
-    <UFormGroup name="datePosition" :label="$t('settings.datePosition')">
+    </UFormField>
+    <UFormField name="datePosition" :label="$t('settings.datePosition')">
       <USelect
         v-model="datePosition"
-        :options="positionOptions"
-        option-attribute="name"
+        class="min-w-72"
+        :items="positionOptions"
+        label-key="name"
+        value-key="value"
       />
-    </UFormGroup>
+    </UFormField>
   </form>
 </template>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { CardProps } from "@nuxt/ui";
+
 const props = defineProps<{
   name: string;
 }>();
@@ -9,21 +11,16 @@ const { data: series } = await useFetch("/api/mangaupdates", {
   },
 });
 
-const ui = {
-  body: {
-    base: "divide-y divide-gray-200 dark:divide-gray-800",
-    padding: "p-4 sm:p-4",
-  },
-  footer: {
-    padding: "px-4 py-2 sm:px-4",
-  },
+const ui: CardProps["ui"] = {
+  body: "divide-y divide-(--ui-border) p-4 sm:p-4",
+  footer: "px-4 py-2 sm:px-4",
 };
 </script>
 
 <template>
   <UCard
     v-if="series"
-    class="prose prose-sm max-w-none dark:prose-invert prose-h4:my-0 prose-a:text-gray-500 prose-a:no-underline hover:prose-a:text-[#db9b4f] hover:prose-a:underline prose-hr:my-3 dark:prose-a:text-gray-400 dark:hover:prose-a:text-[#db9b4f]"
+    class="prose-a:hover:text-(--ui-primary) prose prose-sm dark:prose-invert prose-h4:my-0 prose-a:text-(--ui-text-muted) prose-img:my-0 prose-hr:my-3 max-w-none"
     :ui
   >
     <div class="space-y-3">
@@ -62,7 +59,9 @@ const ui = {
       </div>
     </div>
     <template #footer>
-      <div class="flex items-center gap-1 text-gray-500 dark:text-gray-500">
+      <div
+        class="flex items-center gap-1 text-neutral-500 dark:text-neutral-500"
+      >
         <UIcon name="i-fluent-info-20-filled" />
         <i18n-t keypath="general.informationFrom" tag="span">
           <ULink :to="series.url">MangaUpdates</ULink>

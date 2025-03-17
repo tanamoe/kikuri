@@ -11,12 +11,12 @@ defineProps<{
     v-if="link.expand?.source"
     :to="link.url"
     target="_blank"
-    color="black"
+    color="neutral"
   >
     <img
       v-if="link.expand.source.icon"
       :src="
-        $pb.files.getUrl(link.expand.source, link.expand.source.icon, {
+        $pb.files.getURL(link.expand.source, link.expand.source.icon, {
           thumb: '50x50',
         })
       "

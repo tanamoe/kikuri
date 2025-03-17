@@ -4,7 +4,8 @@ import { ModalCollectionRemove } from "#components";
 const { t } = useI18n();
 const route = useRoute();
 const settingsStore = useSettingsStore();
-const modal = useModal();
+const overlay = useOverlay();
+const modal = overlay.create(ModalCollectionRemove);
 
 const props = defineProps<{
   id: string;
@@ -49,7 +50,7 @@ const items = computed(() => [
       label: t("library.removeCollection"),
       icon: "i-fluent-delete-20-filled",
       click: () => {
-        modal.open(ModalCollectionRemove, {
+        modal.open({
           collection: {
             id: props.id,
             name: props.name,
@@ -67,6 +68,6 @@ const items = computed(() => [
     :items="items"
     :popper="{ placement: 'bottom-end' }"
   >
-    <UButton color="gray" trailing-icon="i-fluent-more-vertical-20-filled" />
+    <UButton color="neutral" trailing-icon="i-fluent-more-vertical-20-filled" />
   </UDropdown>
 </template>

@@ -106,7 +106,7 @@ definePageMeta({
               max="10"
             >
               <template #trailing>
-                <span class="text-xs text-gray-500 dark:text-gray-400">
+                <span class="text-xs text-neutral-500 dark:text-neutral-400">
                   /10
                 </span>
               </template>
@@ -122,7 +122,7 @@ definePageMeta({
             </UButton>
             <UButton
               icon="i-fluent-delete-20-filled"
-              color="red"
+              color="error"
               variant="ghost"
               square
               @click="removePromptOpen = true"
@@ -138,7 +138,7 @@ definePageMeta({
         <template #footer>
           <div class="flex justify-end gap-3">
             <UButton
-              color="red"
+              color="error"
               variant="ghost"
               @click="removePromptOpen = false"
             >

@@ -2,7 +2,6 @@
 import dayjs from "dayjs";
 import { joinURL } from "ufo";
 import { Collections } from "@/types/pb";
-import type { FilterPublishers } from "@/utils/releases";
 import type { BooksCommon } from "@/types/common";
 
 const { ogUrl } = useRuntimeConfig().public;
@@ -26,14 +25,14 @@ const month = computed({
   },
 });
 
-const publishers = ref<FilterPublishers[]>([]);
+const publishers = ref<string[]>([]);
 
 const filter = computed(() =>
   parseCalendarFilter(
     month.value.startOf("month").format("YYYY-MM-DD"),
     month.value.startOf("month").add({ month: 1 }).format("YYYY-MM-DD"),
     {
-      publishers: publishers.value.map((publisher) => publisher.id),
+      publishers: publishers.value,
       digital: store.display.digital,
       edition: store.display.editionedBook,
     },
@@ -99,7 +98,7 @@ useSeoMeta({
     >
       <div class="text-center">
         <p>{{ "٩(>ᗜ<)و ♡" }}</p>
-        <h1 class="my-3 font-lexend text-4xl font-bold">
+        <h1 class="font-lexend my-3 text-4xl font-bold">
           {{ $t("calendar.loading") }}
         </h1>
         <p>{{ $t("calendar.loadingDescription") }}</p>
@@ -113,13 +112,13 @@ useSeoMeta({
       <div class="text-center">
         <p>{{ "~(>_<~)" }}</p>
         <template v-if="error">
-          <h1 class="my-3 font-lexend text-4xl font-bold">
+          <h1 class="font-lexend my-3 text-4xl font-bold">
             {{ error.name }}
           </h1>
           <p>{{ error.message }}</p>
         </template>
         <template v-else>
-          <h1 class="my-3 font-lexend text-4xl font-bold">
+          <h1 class="font-lexend my-3 text-4xl font-bold">
             {{ $t("calendar.noReleases") }}
           </h1>
           <p>{{ $t("calendar.noReleasesDescription") }}</p>
@@ -142,7 +141,7 @@ useSeoMeta({
           :class="{
             'top-[calc(var(--toolbar-height)_+_1rem)] w-12 md:w-20':
               store.display.datePosition === 'left',
-            'top-[calc(var(--toolbar-height)_+_0.5rem)] z-30 w-full bg-gray-50 ring-8 ring-gray-50 dark:bg-gray-900 dark:ring-gray-900':
+            'top-[calc(var(--toolbar-height)_+_0.5rem)] z-30 w-full bg-neutral-50 ring-8 ring-neutral-50 dark:bg-neutral-900 dark:ring-neutral-900':
               store.display.datePosition === 'top',
           }"
         >
@@ -170,14 +169,14 @@ useSeoMeta({
     <UContainer class="flex items-center justify-between">
       <UButton
         icon="i-fluent-arrow-left-20-filled"
-        color="gray"
+        color="neutral"
         @click="month = month.subtract(1, 'month')"
       >
         {{ $t("general.monthPrevious") }}
       </UButton>
       <UButton
         trailing-icon="i-fluent-arrow-right-20-filled"
-        color="gray"
+        color="neutral"
         @click="month = month.add(1, 'month')"
       >
         {{ $t("general.monthAfter") }}

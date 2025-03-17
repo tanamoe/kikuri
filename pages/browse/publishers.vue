@@ -19,9 +19,7 @@ const { data: publishers } = await useAsyncData(
 );
 
 const ui = {
-  body: {
-    base: "space-y-3 text-center",
-  },
+  body: "space-y-3 text-center",
 };
 
 watchEffect(() => {
@@ -67,7 +65,7 @@ useSeoMeta({
           <UCard :ui>
             <img
               v-if="publisher.logo"
-              :src="$pb.files.getUrl(publisher, publisher.logo)"
+              :src="$pb.files.getURL(publisher, publisher.logo)"
               class="inline-block h-20 w-20"
             />
             <div

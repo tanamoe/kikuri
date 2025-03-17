@@ -95,7 +95,7 @@ useSeoMeta({
           value-attribute="id"
         >
           <UButton
-            color="gray"
+            color="neutral"
             class="flex-1 justify-between"
             icon="i-fluent-arrow-sort-down-lines-20-filled"
           >

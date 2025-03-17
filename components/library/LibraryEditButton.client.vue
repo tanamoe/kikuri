@@ -2,7 +2,8 @@
 import { ModalCollectionBookEdit } from "#components";
 import type { CollectionBooksStatusOptions } from "~/types/pb";
 
-const modal = useModal();
+const overlay = useOverlay();
+const modal = overlay.create(ModalCollectionBookEdit);
 
 interface Props {
   id: string;
@@ -20,7 +21,7 @@ const emit = defineEmits<{
 }>();
 
 function edit() {
-  modal.open(ModalCollectionBookEdit, {
+  modal.open({
     book: {
       id,
       name,

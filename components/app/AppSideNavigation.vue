@@ -20,10 +20,10 @@ defineProps<{
               ? link.authenticated === $pb.authStore.isAuthRecord
               : true
           "
-          active-class="bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100"
+          active-class="bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
           :to="link.to"
           :icon="link.icon"
-          color="gray"
+          color="neutral"
           variant="ghost"
           @click="link.click"
         >

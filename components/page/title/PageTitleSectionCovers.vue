@@ -65,7 +65,7 @@ const items = computed(() =>
 
 <template>
   <div>
-    <div class="mb-3 mt-12 flex items-center justify-between">
+    <div class="mt-12 mb-3 flex items-center justify-between">
       <AppH2>{{ $t("general.coverImages") }}</AppH2>
       <USelectMenu
         v-slot="{ open }"
@@ -78,7 +78,7 @@ const items = computed(() =>
           width: 'w-fit',
         }"
       >
-        <UButton color="gray" class="w-max" block>
+        <UButton color="neutral" class="w-max" block>
           <UIcon name="i-fluent-book-20-filled" />
           <span v-if="selected.length == 0">
             {{ $t("general.releaseSelect") }}</span
@@ -86,7 +86,7 @@ const items = computed(() =>
           <span v-else>{{ $t("general.releaseCount", selected.length) }}</span>
           <UIcon
             name="i-fluent-chevron-right-20-filled"
-            class="h-5 w-5 text-gray-400 transition-transform dark:text-gray-500"
+            class="h-5 w-5 text-neutral-400 transition-transform dark:text-neutral-500"
             :class="[open && 'rotate-90 transform']"
           />
         </UButton>

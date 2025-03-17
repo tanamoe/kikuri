@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import * as locales from "@nuxt/ui/locale";
+
+const { locale } = useI18n();
 const { ogUrl, umamiUrl, umamiSiteId, fbAppId } = useRuntimeConfig().public;
 const i18nHead = useLocaleHead({
   seo: true,
@@ -16,9 +19,6 @@ await callOnce(init);
 useHead({
   htmlAttrs: {
     lang: i18nHead.value.htmlAttrs!.lang,
-  },
-  bodyAttrs: {
-    class: "dark:bg-gray-900 bg-gray-50 text-gray-700 dark:text-gray-200",
   },
   script: [
     {
@@ -67,16 +67,11 @@ useSeoMeta({
 </script>
 
 <template>
-  <div>
+  <UApp :locale="locales[locale as keyof typeof locales]">
     <NuxtLoadingIndicator color="#89C4F4" />
 
     <NuxtLayout>
       <NuxtPage />
-
-      <UNotifications />
-      <SearchBar />
-
-      <UModals />
     </NuxtLayout>
-  </div>
+  </UApp>
 </template>

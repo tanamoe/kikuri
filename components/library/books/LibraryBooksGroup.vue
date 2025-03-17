@@ -14,17 +14,10 @@ const items = computed(() =>
     group: group,
   })),
 );
-
-const ui = {
-  wrapper: "space-y-6",
-  item: {
-    color: "text-gray-700 dark:text-gray-200",
-  },
-};
 </script>
 
 <template>
-  <UAccordion default-open multiple color="gray" variant="ghost" :items :ui>
+  <UAccordion default-open multiple color="neutral" variant="ghost" :items>
     <template v-for="item in items" :key="item.slot" #[item.slot]>
       <LibraryBooksList
         v-if="item.group"

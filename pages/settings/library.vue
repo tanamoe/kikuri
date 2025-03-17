@@ -34,17 +34,15 @@ definePageMeta({
         value-attribute="id"
         option-attribute="name"
       >
-        <template #label>
-          <span v-if="selectedCollection">{{ selectedCollection.name }}</span>
-          <span v-else>
-            {{ $t("settings.selectDefaultCollection") }}
-          </span>
-        </template>
+        <span v-if="selectedCollection">{{ selectedCollection.name }}</span>
+        <span v-else>
+          {{ $t("settings.selectDefaultCollection") }}
+        </span>
       </USelectMenu>
       <div class="mt-3 text-right">
         <UButton
           v-if="selectedCollection"
-          color="gray"
+          color="neutral"
           @click="store.library.defaultLibraryId = undefined"
         >
           {{ $t("general.clear") }}

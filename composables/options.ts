@@ -3,13 +3,20 @@ import type {
   CollectionBooksStatusOptions,
   CollectionsVisibilityOptions,
 } from "@/types/pb";
-import type { BadgeColor } from "#ui/types/badge";
 
 type Options<T> = {
   id: T;
   label: string;
   icon?: string;
-  color: BadgeColor;
+  color:
+    | "neutral"
+    | "primary"
+    | "error"
+    | "info"
+    | "secondary"
+    | "success"
+    | "warning"
+    | undefined;
 };
 
 export function useOptions() {
@@ -21,7 +28,7 @@ export function useOptions() {
         id: "LICENSED",
         label: t("status.licensed"),
         icon: "i-fluent-book-information-20-filled",
-        color: "gray",
+        color: "neutral",
       },
       {
         id: "ON_GOING",
@@ -39,13 +46,13 @@ export function useOptions() {
         id: "HIATUS",
         label: t("status.hiatus"),
         icon: "i-fluent-book-clock-20-filled",
-        color: "amber",
+        color: "secondary",
       },
       {
         id: "CANCELLED",
         label: t("status.cancelled"),
         icon: "i-fluent-book-exclamation-mark-20-filled",
-        color: "red",
+        color: "error",
       },
     ],
   );
@@ -57,7 +64,7 @@ export function useOptions() {
       id: "PLANNING",
       label: t("status.planning"),
       icon: "i-fluent-book-information-20-filled",
-      color: "amber",
+      color: "secondary",
     },
     {
       id: "COMPLETED",
@@ -74,19 +81,19 @@ export function useOptions() {
       id: "PRIVATE",
       label: t("visibility.private"),
       icon: "i-fluent-lock-20-filled",
-      color: "gray",
+      color: "neutral",
     },
     {
       id: "UNLISTED",
       label: t("visibility.unlisted"),
       icon: "i-fluent-link-20-filled",
-      color: "amber",
+      color: "secondary",
     },
     {
       id: "PUBLIC",
       label: t("visibility.public"),
       icon: "i-fluent-globe-20-filled",
-      color: "green",
+      color: "success",
     },
   ]);
 

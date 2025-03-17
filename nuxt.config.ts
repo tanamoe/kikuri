@@ -40,12 +40,7 @@ export default defineNuxtConfig({
     cache: true,
   },
 
-  css: [
-    "~/assets/css/main.css",
-    "~/assets/fonts/inter.css",
-    "~/assets/fonts/ibm-plex.css",
-    "~/assets/fonts/lexend.css",
-  ],
+  css: ["~/assets/css/main.css"],
 
   routeRules: {
     "/": { swr: 10800 },
@@ -69,6 +64,14 @@ export default defineNuxtConfig({
           baseURL: "https://pb.tana.moe/api/files",
         },
       },
+    },
+  },
+
+  fonts: {
+    defaults: {
+      weights: [400, 700, 900],
+      styles: ["normal", "italic"],
+      subsets: ["vietnamese", "latin"],
     },
   },
 

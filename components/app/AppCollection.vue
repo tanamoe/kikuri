@@ -2,12 +2,15 @@
 import { joinURL } from "ufo";
 import type { BaseAPIFields } from "@/types/api";
 import type { CollectionsRecord } from "@/types/pb";
+import type { CardProps } from "@nuxt/ui";
 
 const props = defineProps<{
   collection: CollectionsRecord & BaseAPIFields;
 }>();
 
-const ui = { body: { base: "relative", padding: "p-0 sm:p-0" } };
+const ui: CardProps["ui"] = {
+  body: "relative p-0 sm:p-0",
+};
 
 const description = props.collection.description
   ?.replace(/<[^>]*>/g, "")
@@ -16,7 +19,7 @@ const description = props.collection.description
 
 <template>
   <ULink :to="joinURL('/library', collection.id)" class="group block">
-    <UCard :ui="ui">
+    <UCard :ui>
       <div class="space-y-4 p-4">
         <div class="prose prose-sm dark:prose-invert">
           <h4

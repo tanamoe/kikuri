@@ -5,23 +5,18 @@ const cookie = useCookie<boolean>("tana_register_banner", {
   default: () => true,
   maxAge: 31_536_000, // 1 year
 });
-
-const ui = {
-  base: "relative overflow-hidden",
-  background: "bg-gray-100 dark:bg-gray-800",
-  shadow: "shadow",
-  body: {
-    padding: "p-6 sm:p-6",
-  },
-};
 </script>
 
 <template>
-  <UCard v-if="cookie && !$pb.authStore.isAuthRecord" :ui="ui">
+  <UCard
+    v-if="cookie && !$pb.authStore.isAuthRecord"
+    variant="subtle"
+    class="relative overflow-hidden"
+  >
     <UButton
-      class="absolute right-3 top-3"
+      class="absolute top-3 right-3"
       variant="ghost"
-      color="gray"
+      color="neutral"
       icon="i-fluent-dismiss-20-filled"
       square
       :aria-label="$t('general.close')"
@@ -42,7 +37,12 @@ const ui = {
             {{ $t("general.registerBannerDescription") }}
           </p>
         </div>
-        <UButton to="/register">{{ $t("account.register") }}</UButton>
+        <div class="space-x-1.5">
+          <UButton to="/register">{{ $t("account.register") }}</UButton>
+          <UButton to="/login" variant="ghost">
+            {{ $t("account.login") }}
+          </UButton>
+        </div>
       </div>
       <div class="-mb-16 flex flex-1 items-end xl:-mb-48">
         <img

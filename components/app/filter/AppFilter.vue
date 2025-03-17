@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const status = defineModel<string>("status");
+import type { ReleasesStatusOptions } from "@/types/pb";
+
+const status = defineModel<ReleasesStatusOptions>("status");
 const genres = defineModel<string[]>("genres");
 const demographics = defineModel<string[]>("demographics");
 const publishers = defineModel<string[]>("publishers");
@@ -22,20 +24,20 @@ defineEmits<{
 
 <template>
   <UPopover
-    :ui="{ base: 'overflow-visible', width: 'w-full max-w-xs md:max-w-md' }"
-    :popper="{
-      placement: 'bottom-start',
+    :ui="{ content: 'w-full max-w-xs md:max-w-md' }"
+    :content="{
+      align: 'start',
+      side: 'bottom',
+      sideOffset: 8,
     }"
   >
-    <UButton icon="i-fluent-filter-20-filled" color="gray">
+    <UButton icon="i-fluent-filter-20-filled" color="neutral">
       {{ $t("general.advancedFilter") }}
       <span v-if="count.value > 0">({{ count }})</span>
     </UButton>
-    <template #panel>
-      <UCard
-        class="overflow-visible"
-        :ui="{ body: { base: 'space-y-6', padding: 'p-6 sm:p-6' } }"
-      >
+
+    <template #content>
+      <UCard class="overflow-visible" :ui="{ body: 'space-y-6 p-6 sm:p-6' }">
         <div class="grid grid-cols-2 gap-6">
           <div v-if="formats">
             {{ $t("general.format") }}
@@ -46,7 +48,7 @@ defineEmits<{
                 icon="i-fluent-delete-20-filled"
                 square
                 variant="ghost"
-                color="red"
+                color="error"
                 @click="formats = []"
               />
             </div>
@@ -65,7 +67,7 @@ defineEmits<{
                 icon="i-fluent-delete-20-filled"
                 square
                 variant="ghost"
-                color="red"
+                color="error"
                 @click="demographics = []"
               />
             </div>
@@ -80,8 +82,8 @@ defineEmits<{
                 icon="i-fluent-delete-20-filled"
                 square
                 variant="ghost"
-                color="red"
-                @click="status = ''"
+                color="error"
+                @click="status = undefined"
               />
             </div>
           </div>
@@ -100,7 +102,7 @@ defineEmits<{
                 icon="i-fluent-delete-20-filled"
                 square
                 variant="ghost"
-                color="red"
+                color="error"
                 @click="publishers = []"
               />
             </div>
@@ -120,7 +122,7 @@ defineEmits<{
                 icon="i-fluent-delete-20-filled"
                 square
                 variant="ghost"
-                color="red"
+                color="error"
                 @click="partners = []"
               />
             </div>
@@ -135,7 +137,7 @@ defineEmits<{
                 icon="i-fluent-delete-20-filled"
                 square
                 variant="ghost"
-                color="red"
+                color="error"
                 @click="genres = []"
               />
             </div>
@@ -143,7 +145,7 @@ defineEmits<{
         </div>
 
         <div class="space-x-3 text-right">
-          <UButton variant="ghost" color="red" @click="$emit('reset')">
+          <UButton variant="ghost" color="error" @click="$emit('reset')">
             {{ $t("general.reset") }}
           </UButton>
           <UButton @click="$emit('apply')">{{ $t("general.apply") }}</UButton>

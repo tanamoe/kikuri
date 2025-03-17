@@ -12,13 +12,13 @@ defineEmits<{
 }>();
 
 const ui = {
-  body: { base: "flex gap-3 text-sm hover:shadow-lg transition-shadow" },
+  root: "flex gap-3 text-sm hover:shadow-lg transition-shadow",
 };
 </script>
 
 <template>
   <div class="grid grid-cols-1 gap-6">
-    <UCard v-for="item in books" :key="item.id" :ui="ui">
+    <UCard v-for="item in books" :key="item.id" :ui>
       <div class="w-20 md:w-16 lg:w-14 xl:w-12">
         <AppImageCover
           class="rounded"
@@ -51,10 +51,13 @@ const ui = {
               item.book?.edition || item.book?.publication?.release?.digital
             "
           >
-            <UBadge v-if="item.book?.edition" color="tanaamber">
+            <UBadge v-if="item.book?.edition" color="secondary">
               {{ item.book.edition }}
             </UBadge>
-            <UBadge v-if="item.book?.publication?.release?.digital" color="red">
+            <UBadge
+              v-if="item.book?.publication?.release?.digital"
+              color="error"
+            >
               Digital
             </UBadge>
           </div>
@@ -70,7 +73,7 @@ const ui = {
           </h3>
           <div
             v-if="item.book?.publishDate"
-            class="text-gray-600 dark:text-gray-400"
+            class="text-neutral-600 dark:text-neutral-400"
           >
             {{
               $t("general.dateRelease", {
@@ -78,7 +81,7 @@ const ui = {
               })
             }}
           </div>
-          <div class="flex gap-2 text-gray-600 dark:text-gray-400">
+          <div class="flex gap-2 text-neutral-600 dark:text-neutral-400">
             <div>
               {{ $t(`status.${item.status.toLowerCase()}`) }}
             </div>
