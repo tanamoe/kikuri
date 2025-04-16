@@ -61,11 +61,39 @@ export default defineAppConfig({
     ],
   },
   ui: {
+    navigationMenu: {
+      slots: {
+        viewport: "z-50",
+        indicator: "z-50",
+        arrow: "z-50",
+      },
+    },
     colors: {
       primary: "tanablue",
       secondary: "tanaamber",
       neutral: "zinc",
     },
+    icons: {
+      arrowLeft: "fluent:arrow-left-20-filled",
+      arrowRight: "fluent:arrow-right-20-filled",
+      check: "fluent:checkmark-20-filled",
+      chevronDoubleLeft: "fluent:chevron-double-left-20-filled",
+      chevronDoubleRight: "fluent:chevron-double-right-20-filled",
+      chevronDown: "fluent:chevron-down-20-filled",
+      chevronLeft: "fluent:chevron-left-20-filled",
+      chevronRight: "fluent:chevron-right-20-filled",
+      chevronUp: "fluent:chevron-up-20-filled",
+      close: "fluent:dismiss-20-filled",
+      ellipsis: "fluent:more-horizontal-20-filled",
+      external: "fluent:arrow-exit-20-filled",
+      folder: "fluent:folder-20-filled",
+      folderOpen: "i-lucide-folder-open",
+      loading: "fluent:folder-open-20-filled",
+      minus: "fluent:subtract-20-filled",
+      plus: "fluent:add-20-filled",
+      search: "fluent:search-20-filled",
+    },
+
     container: {
       base: "mx-auto",
       padding: "px-6 sm:px-6 lg:px-6",
