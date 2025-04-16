@@ -63,9 +63,10 @@ withDefaults(
 
 <template>
   <nav
-    class="top-0 z-30 bg-(--ui-bg)/90 backdrop-blur"
+    class="top-0 z-40 bg-(--ui-bg)/90 backdrop-blur"
     :class="{
       'sticky mb-6': sticky,
+      relative: !sticky,
     }"
   >
     <UContainer

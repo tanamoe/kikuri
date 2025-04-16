@@ -98,12 +98,12 @@ function handleAddBulk() {
     <AppH2 v-if="heading">{{ heading }}</AppH2>
     <div v-if="view === 'list'" class="space-y-3">
       <UTable v-model:row-selection="selected" :columns :data="rows" :ui>
-        <template #volume-data="{ row }">
+        <template #volume-cell="{ row }">
           <UBadge variant="soft" color="neutral">{{
             row.original.volume
           }}</UBadge>
         </template>
-        <template #name-data="{ row }">
+        <template #name-cell="{ row }">
           <div class="flex min-w-52 items-center gap-3">
             <ULink
               v-if="title && release"
@@ -122,17 +122,17 @@ function handleAddBulk() {
             </UBadge>
           </div>
         </template>
-        <template #publishDate-data="{ row }">
+        <template #publishDate-cell="{ row }">
           <span v-if="row.original.publishDate">
             {{ $d(new Date(row.original.publishDate), "publishDate") }}
           </span>
         </template>
-        <template #price-data="{ row }">
+        <template #price-cell="{ row }">
           <span>
             {{ $n(row.original.price, "currency", "vi") }}
           </span>
         </template>
-        <template #actions-data="{ row }">
+        <template #actions-cell="{ row }">
           <LibraryAddButton
             :id="row.original.id"
             :name="row.original.name"

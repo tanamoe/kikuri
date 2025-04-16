@@ -1,5 +1,6 @@
 <script setup lang="tsx">
 import { ModalCollectionRemove } from "#components";
+import type { DropdownMenuItem } from "@nuxt/ui";
 
 const { t } = useI18n();
 const route = useRoute();
@@ -13,7 +14,7 @@ const props = defineProps<{
   editable: boolean;
 }>();
 
-const items = computed(() => [
+const items = computed<DropdownMenuItem[]>(() => [
   [
     {
       label: t("general.missingBooks"),
@@ -32,7 +33,7 @@ const items = computed(() => [
       icon: "i-fluent-library-20-filled",
       disabled:
         settingsStore.library.defaultLibraryId === route.params.collectionId,
-      click: () => {
+      onSelect() {
         settingsStore.library.defaultLibraryId = route.params
           .collectionId as string;
       },
@@ -49,7 +50,7 @@ const items = computed(() => [
     {
       label: t("library.removeCollection"),
       icon: "i-fluent-delete-20-filled",
-      click: () => {
+      onSelect() {
         modal.open({
           collection: {
             id: props.id,
@@ -63,11 +64,11 @@ const items = computed(() => [
 </script>
 
 <template>
-  <UDropdown
-    v-if="editable"
-    :items="items"
-    :popper="{ placement: 'bottom-end' }"
-  >
-    <UButton color="neutral" trailing-icon="i-fluent-more-vertical-20-filled" />
-  </UDropdown>
+  <UDropdownMenu v-if="editable" :items>
+    <UButton
+      color="neutral"
+      variant="subtle"
+      trailing-icon="i-fluent-more-vertical-20-filled"
+    />
+  </UDropdownMenu>
 </template>

@@ -19,6 +19,10 @@ const props = defineProps<{
   callback?: () => unknown;
 }>();
 
+const emit = defineEmits<{
+  close: [];
+}>();
+
 const schema = z.object({
   quantity: z.coerce.number().min(1),
   status: z.nativeEnum(CollectionBooksStatusOptions),
@@ -56,36 +60,28 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   if (props.callback) {
     props.callback();
   }
+  emit("close");
 }
 </script>
 
 <template>
-  <UModal v-if="$pb.authStore.record">
-    <template #header>
-      <div class="flex items-center justify-between">
-        {{ $t("library.editBook", { name: book.name }) }}
-        <UButton
-          color="neutral"
-          variant="ghost"
-          icon="i-fluent-dismiss-20-filled"
-          class="-my-1"
-        />
-      </div>
-    </template>
-
+  <UModal
+    v-if="$pb.authStore.record"
+    :title="t('library.editBook', { name: book.name })"
+  >
     <template #body>
-      <UForm :schema :state class="space-y-3" @submit="onSubmit">
+      <UForm :schema :state class="space-y-6" @submit="onSubmit">
         <div class="grid grid-cols-2 gap-3">
           <UFormField :label="$t('general.status')" name="status">
-            <InputBookStatus v-model="state.status" />
+            <InputBookStatus v-model="state.status" class="w-full" />
           </UFormField>
           <UFormField :label="$t('general.quantity')" name="quantity">
-            <UNumberInput v-model="state.quantity" />
+            <UInputNumber v-model="state.quantity" :min="1" class="w-full" />
           </UFormField>
         </div>
 
         <div class="flex justify-end gap-3">
-          <UButton color="error" variant="ghost">
+          <UButton color="error" variant="ghost" @click="$emit('close')">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending">

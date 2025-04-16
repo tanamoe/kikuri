@@ -12,6 +12,10 @@ const props = defineProps<{
   callback?: () => unknown;
 }>();
 
+const emit = defineEmits<{
+  close: [];
+}>();
+
 const s = ref({
   collection: props.collection,
 });
@@ -41,31 +45,20 @@ async function onSubmit() {
   if (props.callback) {
     props.callback();
   }
+  emit("close");
 }
 </script>
 
 <template>
-  <UModal v-if="$pb.authStore.record && book">
-    <template #header>
-      <div class="flex items-center justify-between">
-        {{ $t("library.remove") }}
-        <UButton
-          color="neutral"
-          variant="ghost"
-          icon="i-fluent-dismiss-20-filled"
-          class="-my-1"
-        />
-      </div>
-    </template>
-
+  <UModal v-if="$pb.authStore.record && book" :title="t('library.remove')">
     <template #body>
-      <div class="space-y-3">
+      <div class="space-y-6">
         <div>
           {{ $t("library.confirmRemoveBook", { name: book.name }) }}
         </div>
 
         <div class="flex justify-end gap-3">
-          <UButton color="error" variant="ghost">
+          <UButton color="error" variant="ghost" @click="$emit('close')">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending" @click="onSubmit">

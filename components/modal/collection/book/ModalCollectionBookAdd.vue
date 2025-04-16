@@ -23,6 +23,8 @@ const props = defineProps<{
   callback?: () => unknown;
 }>();
 
+const emit = defineEmits<{ close: [boolean] }>();
+
 const c = computed(() =>
   collections.value.map((collection) => ({
     id: collection.collectionId,
@@ -84,6 +86,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     ],
   });
 
+  emit("close", true);
+
   if (props.callback) {
     props.callback();
   }
@@ -95,19 +99,7 @@ const ui: ModalProps["ui"] = {
 </script>
 
 <template>
-  <UModal v-if="$pb.authStore.record" :ui>
-    <template #header>
-      <div class="flex items-center justify-between">
-        {{ $t("library.addToLibrary") }}
-        <UButton
-          color="neutral"
-          variant="ghost"
-          icon="i-fluent-dismiss-20-filled"
-          class="-my-1"
-        />
-      </div>
-    </template>
-
+  <UModal v-if="$pb.authStore.record" :title="$t('library.addToLibrary')" :ui>
     <template #body>
       <UForm
         ref="form"
@@ -151,7 +143,7 @@ const ui: ModalProps["ui"] = {
             <InputBookStatus v-model="state.status" class="w-full" />
           </UFormField>
           <UFormField :label="$t('general.quantity')" name="quantity">
-            <UInputNumber v-model="state.quantity" class="w-full" />
+            <UInputNumber v-model="state.quantity" class="w-full" :min="1" />
           </UFormField>
         </div>
       </UForm>
@@ -159,7 +151,7 @@ const ui: ModalProps["ui"] = {
 
     <template #footer>
       <div class="flex justify-end gap-3">
-        <UButton color="error" variant="ghost">
+        <UButton color="error" variant="ghost" @click="emit('close', true)">
           {{ $t("general.return") }}
         </UButton>
         <UButton :loading="pending" @click="form?.submit">

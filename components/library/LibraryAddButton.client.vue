@@ -58,11 +58,7 @@ function add() {
       </template>
     </UPopover>
 
-    <UTooltip
-      v-if="square"
-      :text="$t('library.addToLibrary')"
-      :popper="{ placement: 'top' }"
-    >
+    <UTooltip v-if="square" :text="$t('library.addToLibrary')">
       <UButton
         icon="i-fluent-add-20-filled"
         v-bind="$attrs"

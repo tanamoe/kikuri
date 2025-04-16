@@ -3,7 +3,7 @@ const { t } = useI18n();
 
 const model = defineModel<number>();
 
-const options = computed(() => [
+const items = computed(() => [
   {
     count: 12,
     label: t("general.bookCount", { count: 12 }),
@@ -28,5 +28,5 @@ const options = computed(() => [
 </script>
 
 <template>
-  <USelectMenu v-model="model" :options value-attribute="count" />
+  <USelectMenu v-model="model" :items :search-input="false" value-key="count" />
 </template>

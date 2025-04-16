@@ -20,10 +20,12 @@ const items = computed(() =>
     id: publisher.id,
     label: publisher.name,
     color: publisher.color,
-    avatar: publisher.logo && {
-      src: joinURL(publisher.collectionId, publisher.id, publisher.logo),
-      provider: "pocketbase",
-    },
+    avatar: publisher.logo
+      ? {
+          src: joinURL(publisher.collectionId, publisher.id, publisher.logo),
+          provider: "pocketbase",
+        }
+      : undefined,
   })),
 );
 

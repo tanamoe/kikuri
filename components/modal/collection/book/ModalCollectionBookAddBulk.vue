@@ -118,8 +118,7 @@ const uiMenu = {
               v-model="state.collection"
               :ui-menu="uiMenu"
               :options="c"
-              value-attribute="id"
-              option-attribute="label"
+              value-key="id"
             >
               <UButton color="neutral" block>
                 <span v-if="currentCollection">

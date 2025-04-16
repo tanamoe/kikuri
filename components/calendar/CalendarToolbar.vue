@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Dayjs } from "dayjs";
 import { ModalSettingDisplay } from "#components";
+import type { DropdownMenuItem } from "@nuxt/ui";
 
 const { t } = useI18n({ useScope: "global" });
 const overlay = useOverlay();
@@ -26,7 +27,7 @@ const ui = {
   indicator: "rounded-none",
 };
 
-const items = computed(() => [
+const items = computed<DropdownMenuItem[]>(() => [
   [
     {
       label: t("general.print"),
@@ -37,14 +38,18 @@ const items = computed(() => [
       label: t("general.download"),
       icon: "i-fluent-arrow-download-20-filled",
       disabled: true,
-      click: () => emit("download"),
+      onSelect() {
+        emit("download");
+      },
     },
   ],
   [
     {
       label: t("general.options"),
       icon: "i-fluent-options-20-filled",
-      click: () => modal.open(),
+      onSelect() {
+        modal.open();
+      },
     },
   ],
 ]);
@@ -63,7 +68,7 @@ onMounted(async () => {
   <div
     id="toolbar"
     ref="toolbar"
-    class="sticky top-0 z-30 mb-3 bg-neutral-50 dark:bg-neutral-900"
+    class="sticky top-0 z-30 mb-3 bg-(--ui-bg)/90 backdrop-blur"
   >
     <UContainer class="mx-auto px-6 py-3">
       <div

@@ -50,6 +50,7 @@ const columns = computed<TableColumn<(typeof rows.value)[0]>[]>(() => [
   },
   {
     accessorKey: "actions",
+    header: "",
   },
 ]);
 
@@ -80,13 +81,13 @@ const ui = {
 
 <template>
   <div v-if="view === 'table'" class="space-y-3">
-    <UTable :columns :rows :ui>
-      <template #volume-data="{ row }">
+    <UTable :columns :data="rows" :ui>
+      <template #volume-cell="{ row }">
         <UBadge variant="soft" color="neutral">{{
           row.original.volume
         }}</UBadge>
       </template>
-      <template #name-data="{ row }">
+      <template #name-cell="{ row }">
         <div class="flex min-w-52 items-center gap-3">
           <ULink
             v-if="row.original.release && row.original.title"
@@ -112,17 +113,17 @@ const ui = {
           </UBadge>
         </div>
       </template>
-      <template #publishDate-data="{ row }">
+      <template #publishDate-cell="{ row }">
         <span v-if="row.original.publishDate">
           {{ $d(new Date(row.original.publishDate), "publishDate") }}
         </span>
       </template>
-      <template #price-data="{ row }">
+      <template #price-cell="{ row }">
         <span>
           {{ $n(row.original.price, "currency", "vi") }}
         </span>
       </template>
-      <template #actions-data="{ row }">
+      <template #actions-cell="{ row }">
         <div class="flex gap-1">
           <LibraryEditButton
             :id="row.id"
@@ -130,6 +131,7 @@ const ui = {
             :collection="row.original.collectionId"
             :quantity="row.original.quantity"
             :status="row.original.status"
+            variant="subtle"
             color="neutral"
             @change="$emit('change')"
           />
@@ -138,6 +140,7 @@ const ui = {
             :name="row.original.publication?.name ?? $t('general.tba')"
             :collection="row.original.collectionId"
             color="neutral"
+            variant="subtle"
             square
             @change="$emit('change')"
           />

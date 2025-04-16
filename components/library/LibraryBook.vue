@@ -37,7 +37,8 @@ const name = computed(
 );
 
 const ui = {
-  body: "relative overflow-hidden shadow p-0 sm:p-0",
+  root: "relative overflow-hidden shadow",
+  body: "p-0 sm:p-0 h-full w-full",
 };
 
 const to = computed(() => {
@@ -96,20 +97,21 @@ const to = computed(() => {
           :quantity="item.quantity"
           :status="item.status"
           color="neutral"
+          variant="subtle"
           @change="$emit('change')"
         />
         <LibraryRemoveButton
           :id="book.id"
           :name="book.publication?.name ?? $t('general.tba')"
           :collection="item.collectionId"
-          color="neutral"
+          color="error"
           square
           @change="$emit('change')"
         />
       </div>
 
       <AppImageCover
-        class="relative z-10 transition-all group-hover:brightness-90 dark:group-hover:brightness-75"
+        class="overflow-none relative transition-all group-hover:brightness-90 dark:group-hover:brightness-75"
         :name
         :src="
           book.defaultAsset &&
@@ -122,8 +124,6 @@ const to = computed(() => {
         :sizes
         :draggable
       />
-
-      <USkeleton class="absolute inset-0" />
     </UCard>
 
     <div>

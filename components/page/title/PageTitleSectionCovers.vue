@@ -48,7 +48,7 @@ const releases = computed(() =>
 
 const selected = ref<string[]>(releases.value.map((release) => release.id));
 
-const items = computed(() =>
+const _items = computed(() =>
   props.assets
     ?.filter((asset) =>
       asset.expand?.book.expand?.publication
@@ -71,8 +71,7 @@ const items = computed(() =>
         v-slot="{ open }"
         v-model="selected"
         :options="releases"
-        option-attribute="label"
-        value-attribute="id"
+        value-key="id"
         multiple
         :ui-menu="{
           width: 'w-fit',
@@ -92,7 +91,5 @@ const items = computed(() =>
         </UButton>
       </USelectMenu>
     </div>
-
-    <AppGallery v-if="items.length > 0" :items />
   </div>
 </template>

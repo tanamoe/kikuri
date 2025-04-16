@@ -26,7 +26,7 @@ const items = computed(() => [
 <template>
   <UDropdownMenu :items :popper="{ placement: 'bottom-start' }">
     <AppH1
-      class="rounded-lg px-2 py-1 transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800"
+      class="cursor-default rounded-lg px-2 py-1 transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800"
     >
       <span class="decoration-primary-400 underline decoration-4">
         <slot />

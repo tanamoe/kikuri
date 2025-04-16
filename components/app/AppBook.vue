@@ -113,7 +113,7 @@ const to = computed(() => {
       </template>
 
       <div
-        v-if="$pb.authStore.model"
+        v-if="$pb.authStore.record"
         class="absolute right-2 bottom-2 z-20 flex items-center gap-1"
       >
         <LibraryAddButton
@@ -128,7 +128,7 @@ const to = computed(() => {
       </div>
 
       <AppImageCover
-        class="relative z-10 transition-all group-hover:brightness-90 dark:group-hover:brightness-75"
+        class="relative transition-all group-hover:brightness-90 dark:group-hover:brightness-75"
         :name
         :src="image && $pb.files.getURL(image, image.image)"
         :srcset="image && image.resizedImage"

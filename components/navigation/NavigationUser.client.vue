@@ -65,11 +65,11 @@ const items = computed(() => [
   ],
 ]);
 
-const ui: DropdownMenuProps<unknown>["ui"] = {
+const ui: DropdownMenuProps["ui"] = {
   content: "z-50",
 };
 
-const content: DropdownMenuProps<unknown>["content"] = {
+const content: DropdownMenuProps["content"] = {
   align: "end",
   side: "bottom",
 };

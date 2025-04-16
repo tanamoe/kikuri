@@ -101,7 +101,7 @@ function select(row: TableRow<TitlesResponse>, _e?: Event) {
       :loading="status == 'pending'"
       @select="select"
     >
-      <template #cover-data="{ row }">
+      <template #cover-cell="{ row }">
         <div v-if="row.original.cover" class="flex justify-center">
           <img
             class="aspect-[2/3] h-14 rounded object-cover"
@@ -109,7 +109,7 @@ function select(row: TableRow<TitlesResponse>, _e?: Event) {
           />
         </div>
       </template>
-      <template #name-data="{ row }">
+      <template #name-cell="{ row }">
         <div class="space-y-1.5">
           <UBadge color="neutral">
             {{ row.original.expand?.format.name }}
@@ -117,7 +117,7 @@ function select(row: TableRow<TitlesResponse>, _e?: Event) {
           <div>{{ row.original.name }}</div>
         </div>
       </template>
-      <template #actions-data>
+      <template #actions-cell>
         <div class="flex justify-end text-lg">
           <UIcon name="i-fluent-chevron-right-20-filled" />
         </div>
