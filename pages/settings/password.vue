@@ -38,15 +38,19 @@ definePageMeta({
 <template>
   <div>
     <UForm class="space-y-6" :schema :state @submit="onSubmit">
-      <UFormGroup name="oldPassword" :label="$t('account.oldPassword')">
-        <UInput v-model="state.oldPassword" type="password" />
-      </UFormGroup>
-      <UFormGroup name="password" :label="$t('account.password')">
-        <UInput v-model="state.password" type="password" />
-      </UFormGroup>
-      <UFormGroup name="passwordConfirm" :label="$t('account.passwordConfirm')">
-        <UInput v-model="state.passwordConfirm" type="password" />
-      </UFormGroup>
+      <UFormField name="oldPassword" :label="$t('account.oldPassword')">
+        <UInput v-model="state.oldPassword" type="password" class="w-full" />
+      </UFormField>
+      <UFormField name="password" :label="$t('account.password')">
+        <UInput v-model="state.password" type="password" class="w-full" />
+      </UFormField>
+      <UFormField name="passwordConfirm" :label="$t('account.passwordConfirm')">
+        <UInput
+          v-model="state.passwordConfirm"
+          type="password"
+          class="w-full"
+        />
+      </UFormField>
       <div class="text-right">
         <UButton
           :loading="pending"

@@ -121,7 +121,7 @@ useSeoMeta({
       </div>
       <div class="relative ml-auto w-64 flex-shrink-0 xl:w-80">
         <div
-          class="absolute inset-0 z-10 bg-gradient-to-t from-neutral-50 to-transparent to-50% sm:hidden dark:from-neutral-900"
+          class="absolute inset-0 bg-gradient-to-t from-neutral-50 to-transparent to-50% sm:hidden dark:from-neutral-900"
         />
         <AppImageCover
           aspect="full"

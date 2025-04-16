@@ -141,7 +141,7 @@ useSeoMeta({
           :class="{
             'top-[calc(var(--toolbar-height)_+_1rem)] w-12 md:w-20':
               store.display.datePosition === 'left',
-            'top-[calc(var(--toolbar-height)_+_0.5rem)] z-30 w-full bg-neutral-50 ring-8 ring-neutral-50 dark:bg-neutral-900 dark:ring-neutral-900':
+            'top-[calc(var(--toolbar-height)_+_0.5rem)] w-full bg-neutral-50 ring-8 ring-neutral-50 dark:bg-neutral-900 dark:ring-neutral-900':
               store.display.datePosition === 'top',
           }"
         >
@@ -170,6 +170,7 @@ useSeoMeta({
       <UButton
         icon="i-fluent-arrow-left-20-filled"
         color="neutral"
+        variant="subtle"
         @click="month = month.subtract(1, 'month')"
       >
         {{ $t("general.monthPrevious") }}
@@ -177,6 +178,7 @@ useSeoMeta({
       <UButton
         trailing-icon="i-fluent-arrow-right-20-filled"
         color="neutral"
+        variant="subtle"
         @click="month = month.add(1, 'month')"
       >
         {{ $t("general.monthAfter") }}

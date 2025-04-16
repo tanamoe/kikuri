@@ -23,16 +23,18 @@ definePageMeta({
 
 <template>
   <form class="space-y-6">
-    <UFormGroup
+    <UFormField
       name="defaultCollection"
       :label="$t('settings.defaultCollection')"
     >
       <USelectMenu
         v-model="store.library.defaultLibraryId"
-        :options="c"
+        :items="c"
         :disabled="collections.length == 0"
-        value-attribute="id"
-        option-attribute="name"
+        value-key="id"
+        label-key="name"
+        :search-input="false"
+        class="w-full"
       >
         <span v-if="selectedCollection">{{ selectedCollection.name }}</span>
         <span v-else>
@@ -48,6 +50,6 @@ definePageMeta({
           {{ $t("general.clear") }}
         </UButton>
       </div>
-    </UFormGroup>
+    </UFormField>
   </form>
 </template>

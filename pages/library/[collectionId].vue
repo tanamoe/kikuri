@@ -129,16 +129,19 @@ useSeoMeta({
           <UButton
             icon="i-fluent-grid-20-filled"
             :color="view === 'grid' ? 'primary' : 'neutral'"
+            :variant="view === 'grid' ? 'solid' : 'subtle'"
             @click="view = 'grid'"
           />
           <UButton
             icon="i-fluent-grid-kanban-20-filled"
             :color="view === 'list' ? 'primary' : 'neutral'"
+            :variant="view === 'list' ? 'solid' : 'subtle'"
             @click="view = 'list'"
           />
           <UButton
             icon="i-fluent-list-20-filled"
             :color="view === 'table' ? 'primary' : 'neutral'"
+            :variant="view === 'table' ? 'solid' : 'subtle'"
             @click="view = 'table'"
           />
         </UButtonGroup>
@@ -147,13 +150,12 @@ useSeoMeta({
       <LibraryBooks :books="books.items" :view :editable @change="refresh" />
 
       <UPagination
-        v-model="page"
-        class="justify-center"
+        v-model:page="page"
+        :ui="{ list: 'justify-center' }"
+        variant="subtle"
         size="sm"
-        :page-count="books.perPage"
+        :items-per-page="books.perPage"
         :total="books.totalItems"
-        show-last
-        show-first
       />
     </div>
   </div>

@@ -61,12 +61,12 @@ definePageMeta({
       :state="state"
       @submit="onSubmit"
     >
-      <UFormGroup name="displayName" :label="$t('account.displayName')">
-        <UInput v-model="state.displayName" />
-      </UFormGroup>
-      <UFormGroup name="bio" :label="$t('account.bio')">
-        <UTextarea v-model="state.bio" />
-      </UFormGroup>
+      <UFormField name="displayName" :label="$t('account.displayName')">
+        <UInput v-model="state.displayName" class="w-full" />
+      </UFormField>
+      <UFormField name="bio" :label="$t('account.bio')">
+        <UTextarea v-model="state.bio" class="w-full" />
+      </UFormField>
       <div class="flex justify-end gap-3">
         <UButton :loading="pending" type="submit">
           {{ $t("general.save") }}

@@ -201,26 +201,7 @@ useSeoMeta({
           <div v-if="books && books.length > 0" class="space-y-3">
             <div class="flex items-center justify-between">
               <AppH2>{{ $t("general.volumes") }}</AppH2>
-              <UButtonGroup size="sm" orientation="horizontal">
-                <UButton
-                  icon="i-fluent-grid-20-filled"
-                  :color="view === 'grid' ? 'primary' : 'neutral'"
-                  @click="
-                    () => {
-                      view = 'grid';
-                    }
-                  "
-                />
-                <UButton
-                  icon="i-fluent-list-20-filled"
-                  :color="view === 'list' ? 'primary' : 'neutral'"
-                  @click="
-                    () => {
-                      view = 'list';
-                    }
-                  "
-                />
-              </UButtonGroup>
+              <AppButtonListGrid v-model="view" />
             </div>
 
             <AppBooks :books :title :release :view @add="refresh" />

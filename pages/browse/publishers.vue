@@ -51,6 +51,7 @@ useSeoMeta({
         size="lg"
         icon="i-fluent-search-24-filled"
         :placeholder="$t('general.searchPlaceholder')"
+        class="w-full"
       />
     </div>
 

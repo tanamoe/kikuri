@@ -19,8 +19,8 @@ definePageMeta({
     />
 
     <AppH2>{{ $t("general.title") }}</AppH2>
-    <UFormGroup name="showMetadata" :label="$t('settings.showMetadata')">
-      <UToggle v-model="store.display.bookMetadata" />
-    </UFormGroup>
+    <UFormField name="showMetadata" :label="$t('settings.showMetadata')">
+      <USwitch v-model="store.display.bookMetadata" />
+    </UFormField>
   </section>
 </template>

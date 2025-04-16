@@ -128,8 +128,7 @@ definePageMeta({
               :options="releases || []"
               :loading="pending"
               :disabled="!releases || releases.length == 0"
-              value-attribute="id"
-              option-attribute="label"
+              value-key="id"
             >
               <span v-if="currentRelease">{{ currentRelease.label }}</span>
               <span v-else>{{ $t("review.releaseSelect") }}</span>
