@@ -17,7 +17,8 @@ useHead({
     lang: i18nHead.value.htmlAttrs!.lang,
   },
   bodyAttrs: {
-    class: "dark:bg-gray-900 bg-gray-50 text-gray-700 dark:text-gray-200",
+    class:
+      "dark:bg-neutral-900 bg-neutral-50 text-neutral-700 dark:text-neutral-200",
   },
   link: [...(i18nHead.value.link || [])],
   meta: [...(i18nHead.value.meta || [])],
@@ -39,7 +40,7 @@ const handleError = () => clearError({ redirect: "/" });
           <span v-else>{{ $t("error.generalMessage") }}</span>
         </p>
         <div class="flex justify-center gap-3">
-          <UButton color="black" @click="handleError">
+          <UButton color="primary" @click="handleError">
             {{ $t("error.returnHome") }}
           </UButton>
         </div>

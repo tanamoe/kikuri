@@ -1,4 +1,4 @@
-import PocketBase, { type AuthModel } from "pocketbase";
+import PocketBase, { type AuthRecord } from "pocketbase";
 import { Collections, type TypedPocketBase } from "@/types/pb";
 
 export default defineNuxtPlugin(async () => {
@@ -7,7 +7,7 @@ export default defineNuxtPlugin(async () => {
 
   const cookie = useCookie<{
     token: string;
-    model: AuthModel;
+    record: AuthRecord;
   }>("pb_auth", {
     path: "/",
     secure: true,
@@ -17,13 +17,13 @@ export default defineNuxtPlugin(async () => {
   });
 
   // load the store data from the cookie value
-  pb.authStore.save(cookie.value?.token, cookie.value?.model);
+  pb.authStore.save(cookie.value?.token, cookie.value?.record);
 
   // send back the default 'pb_auth' cookie to the client with the latest store state
   pb.authStore.onChange(() => {
     cookie.value = {
       token: pb.authStore.token,
-      model: pb.authStore.model,
+      record: pb.authStore.record,
     };
   });
 

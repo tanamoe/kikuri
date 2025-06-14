@@ -65,11 +65,8 @@ const name = computed(
 );
 
 const ui = {
-  base: "relative overflow-hidden",
-  shadow: "shadow",
-  body: {
-    padding: "p-0 sm:p-0",
-  },
+  root: "overflow-hidden relative",
+  body: "p-0 sm:p-0",
 };
 
 const to = computed(() => {
@@ -101,60 +98,58 @@ const to = computed(() => {
       <template v-if="!wide">
         <UBadge
           v-if="release && release.digital == true"
-          class="absolute right-2 top-2 z-20 text-gray-900"
-          color="red"
+          class="absolute top-2 right-2 z-20 text-neutral-900"
+          color="error"
         >
           Digital
         </UBadge>
         <UBadge
           v-else-if="book.edition"
-          class="absolute right-2 top-2 z-20 text-gray-900"
-          color="tanaamber"
+          class="absolute top-2 right-2 z-20 text-neutral-900"
+          color="primary"
         >
           {{ book.edition }}
         </UBadge>
       </template>
 
       <div
-        v-if="$pb.authStore.model"
-        class="absolute bottom-2 right-2 z-20 flex items-center gap-1"
+        v-if="$pb.authStore.record"
+        class="absolute right-2 bottom-2 z-20 flex items-center gap-1"
       >
         <LibraryAddButton
           :id="book.id"
           :name="publication?.name ?? book.id"
           :in-collections="book.metadata?.inCollections"
           square
-          color="gray"
+          color="neutral"
           class="gap-1"
           @add="() => $emit('add')"
         />
       </div>
 
       <AppImageCover
-        class="relative z-10 transition-all group-hover:brightness-90 dark:group-hover:brightness-75"
+        class="relative transition-all group-hover:brightness-90 dark:group-hover:brightness-75"
         :name
-        :src="image && $pb.files.getUrl(image, image.image)"
+        :src="image && $pb.files.getURL(image, image.image)"
         :srcset="image && image.resizedImage"
         :sizes
         :draggable
       />
-
-      <USkeleton class="absolute inset-0" />
     </UCard>
 
     <div>
       <template v-if="wide">
         <UBadge
           v-if="release && release.digital == true"
-          class="text-gray-900"
-          color="red"
+          class="text-neutral-900"
+          color="error"
         >
           Digital
         </UBadge>
         <UBadge
           v-else-if="book.edition"
-          class="text-gray-900"
-          color="tanaamber"
+          class="text-neutral-900"
+          color="primary"
         >
           {{ book.edition }}
         </UBadge>
@@ -171,17 +166,17 @@ const to = computed(() => {
         >
           <div
             v-if="release"
-            class="decoration-primary-400 line-clamp-4 font-condensed text-xl font-black decoration-[.2rem] underline-offset-[.2rem] group-hover:underline"
+            class="decoration-primary-400 font-condensed line-clamp-4 text-xl font-black decoration-[.2rem] underline-offset-[.2rem] group-hover:underline"
           >
             {{ release.name }}
             <span
               v-if="release.disambiguation"
-              class="text-gray-400 dark:text-gray-500"
+              class="text-neutral-400 dark:text-neutral-500"
             >
               ({{ release.disambiguation }})
             </span>
           </div>
-          <div class="text-gray-500 dark:text-gray-400">
+          <div class="text-neutral-500 dark:text-neutral-400">
             {{
               $t("general.volumeNumber", {
                 volume: parseVolume(publication.volume),
@@ -202,7 +197,7 @@ const to = computed(() => {
       </div>
 
       <div v-if="store.display.bookPrice && book.price" class="mt-1">
-        <span class="block text-gray-500 dark:text-gray-400">
+        <span class="block text-neutral-500 dark:text-neutral-400">
           {{ $n(book.price, "currency", "vi") }}
         </span>
       </div>

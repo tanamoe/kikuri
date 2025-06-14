@@ -2,7 +2,6 @@
 const toast = useToast();
 const { t } = useI18n({ useScope: "global" });
 const { pending, remove } = useCollectionBooks();
-const modal = useModal();
 
 const props = defineProps<{
   book: {
@@ -13,6 +12,10 @@ const props = defineProps<{
   callback?: () => unknown;
 }>();
 
+const emit = defineEmits<{
+  close: [];
+}>();
+
 const s = ref({
   collection: props.collection,
 });
@@ -21,12 +24,14 @@ async function onSubmit() {
   const [, error] = await remove(s.value.collection, props.book.id);
 
   if (error) {
-    return toast.add({
+    toast.add({
       title: t("error.generalMessage"),
       description: error.message,
-      color: "red",
+      color: "error",
       icon: "i-fluent-error-circle-20-filled",
     });
+
+    return;
   }
 
   toast.add({
@@ -40,33 +45,20 @@ async function onSubmit() {
   if (props.callback) {
     props.callback();
   }
-  return modal.close();
+  emit("close");
 }
 </script>
 
 <template>
-  <UModal v-if="$pb.authStore.isAuthRecord && book">
-    <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-      <template #header>
-        <div class="flex items-center justify-between">
-          {{ $t("library.remove") }}
-          <UButton
-            color="gray"
-            variant="ghost"
-            icon="i-fluent-dismiss-20-filled"
-            class="-my-1"
-            @click="modal.close"
-          />
-        </div>
-      </template>
-
-      <div class="space-y-3">
+  <UModal v-if="$pb.authStore.record && book" :title="t('library.remove')">
+    <template #body>
+      <div class="space-y-6">
         <div>
           {{ $t("library.confirmRemoveBook", { name: book.name }) }}
         </div>
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="modal.close">
+          <UButton color="error" variant="ghost" @click="$emit('close')">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending" @click="onSubmit">
@@ -74,6 +66,6 @@ async function onSubmit() {
           </UButton>
         </div>
       </div>
-    </UCard>
+    </template>
   </UModal>
 </template>

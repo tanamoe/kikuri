@@ -134,13 +134,13 @@ useSeoMeta({
             <UBadge v-if="title.expand?.format">
               {{ title.expand.format.name }}
             </UBadge>
-            <UBadge v-if="release.digital" color="red">Digital</UBadge>
+            <UBadge v-if="release.digital" color="error">Digital</UBadge>
           </div>
           <AppH1>
             {{ release.name }}
             <span
               v-if="release.disambiguation"
-              class="text-gray-400 dark:text-gray-500"
+              class="text-neutral-400 dark:text-neutral-500"
             >
               ({{ release.disambiguation }})
             </span>
@@ -150,7 +150,7 @@ useSeoMeta({
 
       <div class="relative ml-auto w-64 flex-shrink-0 xl:w-80">
         <div
-          class="absolute inset-0 z-10 bg-gradient-to-t from-gray-50 to-transparent to-50% sm:hidden dark:from-gray-900"
+          class="absolute inset-0 z-10 bg-gradient-to-t from-neutral-50 to-transparent to-50% sm:hidden dark:from-neutral-900"
         />
         <AppImageCover
           aspect="full"
@@ -167,7 +167,7 @@ useSeoMeta({
     <div class="mt-6 flex flex-col-reverse gap-6 lg:flex-row">
       <div class="flex-1 space-y-12">
         <div
-          class="prose prose-sm max-w-none dark:prose-invert"
+          class="prose prose-sm dark:prose-invert max-w-none"
           v-html="title.description"
         />
 
@@ -183,7 +183,7 @@ useSeoMeta({
               <AppH2>{{ $t("general.review") }}</AppH2>
               <UButton
                 :to="`/review/create?title=${title.id}`"
-                color="gray"
+                color="neutral"
                 icon="i-fluent-pen-20-filled"
                 square
               />
@@ -201,18 +201,7 @@ useSeoMeta({
           <div v-if="books && books.length > 0" class="space-y-3">
             <div class="flex items-center justify-between">
               <AppH2>{{ $t("general.volumes") }}</AppH2>
-              <UButtonGroup size="sm" orientation="horizontal">
-                <UButton
-                  icon="i-fluent-grid-20-filled"
-                  :color="view === 'grid' ? 'primary' : 'gray'"
-                  @click="() => (view = 'grid')"
-                />
-                <UButton
-                  icon="i-fluent-list-20-filled"
-                  :color="view === 'list' ? 'primary' : 'gray'"
-                  @click="() => (view = 'list')"
-                />
-              </UButtonGroup>
+              <AppButtonListGrid v-model="view" />
             </div>
 
             <AppBooks :books :title :release :view @add="refresh" />
@@ -222,15 +211,10 @@ useSeoMeta({
 
       <div class="w-full flex-shrink-0 space-y-6 lg:w-64 xl:w-80">
         <UCard
-          class="hover:prose-a:text-primary-400 dark:hover:prose-a:text-primary-400 prose prose-sm max-w-none dark:prose-invert prose-h4:my-0 prose-a:text-gray-700 hover:prose-a:underline prose-img:my-0 prose-hr:my-3 dark:prose-a:text-gray-200"
+          class="prose-a:hover:text-primary prose prose-sm dark:prose-invert prose-h4:my-0 prose-a:text-muted prose-img:my-0 prose-hr:my-3 max-w-none"
           :ui="{
-            body: {
-              base: 'divide-y divide-gray-200 dark:divide-gray-800',
-              padding: 'p-0 sm:p-0',
-            },
-            footer: {
-              padding: 'px-4 py-2 sm:px-4',
-            },
+            body: 'divide-y divide-default p-0 sm:p-0',
+            footer: 'px-4 py-2 sm:px-4',
           }"
         >
           <div class="space-y-3 p-4">
@@ -256,7 +240,7 @@ useSeoMeta({
                   })
                 "
               >
-                <UBadge class="mr-1.5 mt-1.5" color="gray">
+                <UBadge class="mt-1.5 mr-1.5" color="neutral" variant="soft">
                   {{ title.expand.demographic.name }}
                 </UBadge>
               </ULink>
@@ -268,7 +252,7 @@ useSeoMeta({
                 :key="genre.id"
                 :to="withQuery('/browse/titles', { genre: genre.id })"
               >
-                <UBadge class="mr-1.5 mt-1.5" color="gray">
+                <UBadge class="mt-1.5 mr-1.5" color="neutral" variant="soft">
                   {{ genre.name }}
                 </UBadge>
               </ULink>
@@ -299,7 +283,7 @@ useSeoMeta({
           </div>
         </UCard>
 
-        <AppMangaUpdates
+        <AppCardMangaUpdates
           :name="
             title.expand?.additionalTitleNames_via_title?.at(0)?.name ??
             title.name

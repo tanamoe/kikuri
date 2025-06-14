@@ -31,25 +31,28 @@ const currentTheme = computed({
 </script>
 
 <template>
-  <footer class="mt-12 bg-gray-100 dark:bg-gray-800">
-    <div class="container mx-auto p-6">
+  <footer class="bg-muted mt-12">
+    <UContainer class="mx-auto p-6">
       <div class="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
         <div class="flex-1">
           <div class="w-fit">
             <ClientOnly>
-              <USelectMenu v-model="currentTheme" :options="themes">
-                <UButton
-                  color="gray"
-                  :icon="currentTheme?.icon"
-                  trailing-icon="i-fluent-chevron-down-20-filled"
-                >
-                  {{ currentTheme?.label }}
-                </UButton>
+              <USelectMenu
+                v-model="currentTheme"
+                :items="themes"
+                :icon="currentTheme?.icon"
+                color="neutral"
+                variant="subtle"
+                trailing-icon="i-fluent-chevron-down-20-filled"
+              >
+                {{ currentTheme?.label }}
               </USelectMenu>
             </ClientOnly>
           </div>
         </div>
-        <div class="links grid w-full grid-cols-3 gap-6 sm:w-fit sm:gap-12">
+        <div
+          class="text-dimmed grid w-full grid-cols-3 gap-6 sm:w-fit sm:gap-12"
+        >
           <ul>
             <li>
               <NuxtLink to="https://blog.tana.moe">
@@ -105,17 +108,11 @@ const currentTheme = computed({
       </div>
 
       <div
-        class="mt-6 flex items-center justify-between border-t border-gray-200 pt-6 text-gray-500 dark:border-gray-700"
+        class="border-muted text-muted mt-6 flex items-center justify-between border-t pt-6"
       >
-        <div>Tana.moe &copy; {{ new Date().getFullYear() }}</div>
+        <div>Tana.moe</div>
         <AppSocialLinks />
       </div>
-    </div>
+    </UContainer>
   </footer>
 </template>
-
-<style scoped>
-.links a {
-  @apply text-gray-500 transition-colors duration-100 ease-linear hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-400;
-}
-</style>

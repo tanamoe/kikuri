@@ -7,7 +7,6 @@ const { t } = useI18n({ useScope: "global" });
 const { update } = useLibrary();
 const { pending, create } = useCollections();
 const toast = useToast();
-const modal = useModal();
 
 const schema = z.object({
   name: z.string().min(1, t("error.review.releaseInvalid")),
@@ -25,12 +24,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   });
 
   if (error) {
-    return toast.add({
+    toast.add({
       title: t("error.generalMessage"),
       description: error.message,
-      color: "red",
+      color: "error",
       icon: "i-fluent-error-circle-20-filled",
     });
+    return;
   }
 
   toast.add({
@@ -41,42 +41,40 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     icon: "i-fluent-checkmark-circle-20-filled",
   });
   await update();
-  return modal.close();
 }
 </script>
 
 <template>
-  <UModal v-if="$pb.authStore.isAuthRecord">
-    <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-      <template #header>
-        <div class="flex items-center justify-between">
-          {{ $t("library.createCollection") }}
-          <UButton
-            color="gray"
-            variant="ghost"
-            icon="i-fluent-dismiss-20-filled"
-            class="-my-1"
-            @click="modal.close"
-          />
-        </div>
-      </template>
+  <UModal v-if="$pb.authStore.record">
+    <template #header>
+      <div class="flex items-center justify-between">
+        {{ $t("library.createCollection") }}
+        <UButton
+          color="neutral"
+          variant="ghost"
+          icon="i-fluent-dismiss-20-filled"
+          class="-my-1"
+        />
+      </div>
+    </template>
 
+    <template #body>
       <UForm
         :schema="schema"
         :state="state"
         class="space-y-6"
         @submit="onSubmit"
       >
-        <UFormGroup name="name">
+        <UFormField name="name">
           <UInput
             v-model="state.name"
             :placeholder="$t('library.collectionName')"
           />
-        </UFormGroup>
+        </UFormField>
 
-        <UFormGroup name="visibility">
+        <UFormField name="visibility">
           <InputCollectionVisibility v-model="state.visibility" />
-        </UFormGroup>
+        </UFormField>
 
         <AppEditor v-model="content" />
 
@@ -85,10 +83,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
             <UButton
               to="/library/create"
               icon="i-fluent-more-vertical-20-filled"
-              color="gray"
+              color="neutral"
               variant="ghost"
               square
-              @click="modal.close"
             />
           </UTooltip>
           <UButton type="submit" :loading="pending">
@@ -96,6 +93,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           </UButton>
         </div>
       </UForm>
-    </UCard>
+    </template>
   </UModal>
 </template>

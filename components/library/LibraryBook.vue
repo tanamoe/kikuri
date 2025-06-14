@@ -37,11 +37,8 @@ const name = computed(
 );
 
 const ui = {
-  base: "relative overflow-hidden",
-  shadow: "shadow",
-  body: {
-    padding: "p-0 sm:p-0",
-  },
+  root: "relative overflow-hidden shadow",
+  body: "p-0 sm:p-0 h-full w-full",
 };
 
 const to = computed(() => {
@@ -75,15 +72,15 @@ const to = computed(() => {
       <template v-if="!wide">
         <UBadge
           v-if="release && release.digital == true"
-          class="absolute right-2 top-2 z-20 text-gray-900"
-          color="red"
+          class="absolute top-2 right-2 z-20 text-neutral-900"
+          color="error"
         >
           Digital
         </UBadge>
         <UBadge
           v-else-if="book.edition"
-          class="absolute right-2 top-2 z-20 text-gray-900"
-          color="tanaamber"
+          class="absolute top-2 right-2 z-20 text-neutral-900"
+          color="secondary"
         >
           {{ book.edition }}
         </UBadge>
@@ -91,7 +88,7 @@ const to = computed(() => {
 
       <div
         v-if="editable"
-        class="absolute bottom-2 right-2 z-20 flex items-center gap-1"
+        class="absolute right-2 bottom-2 z-20 flex items-center gap-1"
       >
         <LibraryEditButton
           :id="book.id"
@@ -99,25 +96,26 @@ const to = computed(() => {
           :collection="item.collectionId"
           :quantity="item.quantity"
           :status="item.status"
-          color="gray"
+          color="neutral"
+          variant="subtle"
           @change="$emit('change')"
         />
         <LibraryRemoveButton
           :id="book.id"
           :name="book.publication?.name ?? $t('general.tba')"
           :collection="item.collectionId"
-          color="gray"
+          color="error"
           square
           @change="$emit('change')"
         />
       </div>
 
       <AppImageCover
-        class="relative z-10 transition-all group-hover:brightness-90 dark:group-hover:brightness-75"
+        class="overflow-none relative transition-all group-hover:brightness-90 dark:group-hover:brightness-75"
         :name
         :src="
           book.defaultAsset &&
-          $pb.files.getUrl(
+          $pb.files.getURL(
             { ...book.defaultAsset, collectionId: Collections.Assets },
             book.defaultAsset.image,
           )
@@ -126,23 +124,21 @@ const to = computed(() => {
         :sizes
         :draggable
       />
-
-      <USkeleton class="absolute inset-0" />
     </UCard>
 
     <div>
       <template v-if="wide">
         <UBadge
           v-if="release && release.digital == true"
-          class="text-gray-900"
-          color="red"
+          class="text-neutral-900"
+          color="error"
         >
           Digital
         </UBadge>
         <UBadge
           v-else-if="book.edition"
-          class="text-gray-900"
-          color="tanaamber"
+          class="text-neutral-900"
+          color="secondary"
         >
           {{ book.edition }}
         </UBadge>
@@ -159,11 +155,11 @@ const to = computed(() => {
         >
           <div
             v-if="release"
-            class="decoration-primary-400 line-clamp-4 font-condensed text-xl font-black decoration-[.2rem] underline-offset-[.2rem] group-hover:underline"
+            class="decoration-primary-400 font-condensed line-clamp-4 text-xl font-black decoration-[.2rem] underline-offset-[.2rem] group-hover:underline"
           >
             {{ release.name }}
           </div>
-          <div class="text-gray-500 dark:text-gray-400">
+          <div class="text-neutral-500 dark:text-neutral-400">
             {{
               $t("general.volumeNumber", {
                 volume: parseVolume(publication.volume),
@@ -180,11 +176,11 @@ const to = computed(() => {
         </div>
       </div>
 
-      <div class="mt-1 text-gray-600 dark:text-gray-400">
+      <div class="mt-1 text-neutral-600 dark:text-neutral-400">
         {{ $t(`status.${item.status.toLowerCase()}`) }}
       </div>
 
-      <div class="mt-1 flex gap-2 text-gray-600 dark:text-gray-400">
+      <div class="mt-1 flex gap-2 text-neutral-600 dark:text-neutral-400">
         <div>
           <span v-if="book.price">
             {{ $n(book.price, "currency", "vi") }}

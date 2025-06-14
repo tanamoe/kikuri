@@ -32,10 +32,14 @@ definePageMeta({
 
 <template>
   <div>
-    <UForm :schema="schema" :state="state" class="space-y-6" @submit="onSubmit">
-      <UFormGroup name="username" :label="$t('account.username')">
-        <UInput v-model="state.username" icon="i-fluent-person-20-filled" />
-      </UFormGroup>
+    <UForm :schema :state class="space-y-6" @submit="onSubmit">
+      <UFormField name="username" :label="$t('account.username')">
+        <UInput
+          v-model="state.username"
+          icon="i-fluent-person-20-filled"
+          class="w-full"
+        />
+      </UFormField>
       <div class="text-right">
         <UButton :loading="pending" :label="$t('general.save')" type="submit" />
       </div>

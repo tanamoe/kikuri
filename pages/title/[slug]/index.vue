@@ -121,7 +121,7 @@ useSeoMeta({
       </div>
       <div class="relative ml-auto w-64 flex-shrink-0 xl:w-80">
         <div
-          class="absolute inset-0 z-10 bg-gradient-to-t from-gray-50 to-transparent to-50% sm:hidden dark:from-gray-900"
+          class="absolute inset-0 bg-gradient-to-t from-neutral-50 to-transparent to-50% sm:hidden dark:from-neutral-900"
         />
         <AppImageCover
           aspect="full"
@@ -139,7 +139,7 @@ useSeoMeta({
       <div class="flex-1 space-y-12">
         <div
           v-if="title.description"
-          class="prose prose-sm max-w-none dark:prose-invert"
+          class="prose prose-sm dark:prose-invert max-w-none"
           v-html="title.description"
         />
 

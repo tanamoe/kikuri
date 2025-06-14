@@ -6,13 +6,11 @@ import type {
   FormatsResponse,
   TitlesResponse,
 } from "@/types/pb";
+import type { CardProps } from "@nuxt/ui";
 
-const ui = {
-  base: "relative overflow-hidden",
-  shadow: "shadow",
-  body: {
-    padding: "p-0 sm:p-0",
-  },
+const ui: CardProps["ui"] = {
+  root: "relative overflow-hidden",
+  body: "p-0 sm:p-0",
 };
 
 defineProps<{
@@ -42,13 +40,13 @@ defineProps<{
     </UCard>
     <div class="space-y-1">
       <div class="flex flex-wrap items-center gap-1">
-        <UBadge v-if="format" color="gray">
+        <UBadge v-if="format" color="neutral">
           {{ format.name }}
         </UBadge>
       </div>
 
       <h3
-        class="decoration-primary-400 line-clamp-4 font-condensed text-xl font-black decoration-[.2rem] underline-offset-[.2rem] group-hover:underline"
+        class="decoration-primary-400 font-condensed line-clamp-4 text-xl font-black decoration-[.2rem] underline-offset-[.2rem] group-hover:underline"
       >
         {{ title.name }}
       </h3>

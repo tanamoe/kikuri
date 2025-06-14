@@ -24,14 +24,8 @@ const uiMenu = {
 </script>
 
 <template>
-  <USelectMenu
-    v-model="model"
-    :options
-    value-attribute="id"
-    option-attribute="label"
-    :ui-menu
-  >
-    <UButton color="gray" icon="i-fluent-group-list-20-filled">
+  <USelectMenu v-model="model" :options value-key="id" :ui-menu>
+    <UButton color="neutral" icon="i-fluent-group-list-20-filled">
       {{ $t("general.group") }}
     </UButton>
   </USelectMenu>

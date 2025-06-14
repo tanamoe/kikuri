@@ -11,7 +11,7 @@ defineProps<{
     <UContainer class="mb-6">
       <NuxtLink to="/browse">
         <AppH3
-          class="flex items-center gap-3 underline decoration-tanablue-400 decoration-[.2rem] underline-offset-[.2rem]"
+          class="decoration-tanablue-400 flex items-center gap-3 underline decoration-[.2rem] underline-offset-[.2rem]"
         >
           <img
             src="/icon.svg"
@@ -24,8 +24,8 @@ defineProps<{
         </AppH3>
       </NuxtLink>
     </UContainer>
-    <div
-      class="mx-auto flex snap-x snap-mandatory gap-6 overflow-x-scroll sm:container sm:grid sm:grid-cols-3 sm:overflow-x-hidden sm:px-6 lg:grid-cols-6"
+    <UContainer
+      class="mx-auto flex snap-x snap-mandatory gap-6 overflow-x-scroll sm:grid sm:grid-cols-3 sm:overflow-x-hidden sm:px-6 lg:grid-cols-6"
     >
       <div
         v-for="(book, i) in books"
@@ -45,6 +45,6 @@ defineProps<{
           :show-button="false"
         />
       </div>
-    </div>
+    </UContainer>
   </div>
 </template>

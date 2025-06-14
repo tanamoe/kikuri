@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { z } from "zod";
 import { joinURL } from "ufo";
-import type { BreadcrumbLink, FormSubmitEvent } from "#ui/types";
+import type { FormSubmitEvent } from "#ui/types";
 import { CollectionsVisibilityOptions } from "@/types/pb";
 
 const { $pb } = useNuxtApp();
@@ -10,10 +10,10 @@ const { update } = useLibrary();
 const { pending, create } = useCollections();
 const toast = useToast();
 
-const links = computed<BreadcrumbLink[]>(() => [
+const links = computed(() => [
   {
-    label: $pb.authStore.model!.displayName || $pb.authStore.model!.username,
-    to: `/user/${$pb.authStore.model!.username}`,
+    label: $pb.authStore.record!.displayName || $pb.authStore.record!.username,
+    to: `/user/${$pb.authStore.record!.username}`,
   },
   {
     label: t("general.library"),
@@ -39,12 +39,13 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   });
 
   if (error) {
-    return toast.add({
+    toast.add({
       title: t("error.generalMessage"),
       description: error.message,
-      color: "red",
+      color: "error",
       icon: "i-fluent-error-circle-20-filled",
     });
+    return;
   }
 
   toast.add({
@@ -55,7 +56,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     icon: "i-fluent-checkmark-circle-20-filled",
   });
   await update();
-  return navigateTo(joinURL("/library", res.item.id));
+  await navigateTo(joinURL("/library", res.item.id));
 }
 
 definePageMeta({

@@ -15,7 +15,7 @@ defineProps<{
         :key="member.userId"
         :src="
           member.user?.avatar
-            ? $pb.files.getUrl(
+            ? $pb.files.getURL(
                 { collectionId: 'users', id: member.userId },
                 member.user.avatar,
                 { thumb: '32x32' },

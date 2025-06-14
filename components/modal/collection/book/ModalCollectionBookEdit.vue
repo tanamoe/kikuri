@@ -7,7 +7,6 @@ import { InputBookStatus } from "#components";
 const toast = useToast();
 const { t } = useI18n({ useScope: "global" });
 const { pending, update } = useCollectionBooks();
-const modal = useModal();
 
 const props = defineProps<{
   book: {
@@ -18,6 +17,10 @@ const props = defineProps<{
   status: CollectionBooksStatusOptions;
   collection: string;
   callback?: () => unknown;
+}>();
+
+const emit = defineEmits<{
+  close: [];
 }>();
 
 const schema = z.object({
@@ -38,12 +41,14 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     ...event.data,
   });
   if (error) {
-    return toast.add({
+    toast.add({
       title: t("error.generalMessage"),
       description: error.message,
-      color: "red",
+      color: "error",
       icon: "i-fluent-error-circle-20-filled",
     });
+
+    return;
   }
   toast.add({
     title: t("general.success"),
@@ -55,43 +60,28 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   if (props.callback) {
     props.callback();
   }
-  return modal.close();
+  emit("close");
 }
 </script>
 
 <template>
-  <UModal v-if="$pb.authStore.isAuthRecord">
-    <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-      <template #header>
-        <div class="flex items-center justify-between">
-          {{ $t("library.editBook", { name: book.name }) }}
-          <UButton
-            color="gray"
-            variant="ghost"
-            icon="i-fluent-dismiss-20-filled"
-            class="-my-1"
-            @click="modal.close"
-          />
-        </div>
-      </template>
-
-      <UForm
-        :schema="schema"
-        :state="state"
-        class="space-y-3"
-        @submit="onSubmit"
-      >
+  <UModal
+    v-if="$pb.authStore.record"
+    :title="t('library.editBook', { name: book.name })"
+  >
+    <template #body>
+      <UForm :schema :state class="space-y-6" @submit="onSubmit">
         <div class="grid grid-cols-2 gap-3">
-          <UFormGroup :label="$t('general.status')" name="status">
-            <InputBookStatus v-model="state.status" />
-          </UFormGroup>
-          <UFormGroup :label="$t('general.quantity')" name="quantity">
-            <AppNumberInput v-model="state.quantity" />
-          </UFormGroup>
+          <UFormField :label="$t('general.status')" name="status">
+            <InputBookStatus v-model="state.status" class="w-full" />
+          </UFormField>
+          <UFormField :label="$t('general.quantity')" name="quantity">
+            <UInputNumber v-model="state.quantity" :min="1" class="w-full" />
+          </UFormField>
         </div>
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="modal.close">
+          <UButton color="error" variant="ghost" @click="$emit('close')">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending">
@@ -99,6 +89,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
           </UButton>
         </div>
       </UForm>
-    </UCard>
+    </template>
   </UModal>
 </template>

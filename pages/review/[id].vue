@@ -1,7 +1,6 @@
 <script setup lang="ts">
 /* eslint-disable vue/no-v-html */
 import { joinURL } from "ufo";
-import type { BreadcrumbLink } from "#ui/types";
 import {
   Collections,
   type UsersResponse,
@@ -36,7 +35,7 @@ if (!review.value)
 if (!review.value.expand?.user || !review.value.expand.release.expand?.title)
   throw createError({ statusCode: 500 });
 
-const links = computed<BreadcrumbLink[]>(() => {
+const links = computed(() => {
   if (!review.value?.expand?.release.expand?.title) return [];
 
   return [
@@ -64,7 +63,7 @@ const ogImage = computed(() => {
       if (user.avatar) {
         url.searchParams.set(
           "avatar",
-          $pb.files.getUrl(user, user.avatar, { thumb: "32x32" }),
+          $pb.files.getURL(user, user.avatar, { thumb: "32x32" }),
         );
       }
     }
@@ -77,7 +76,7 @@ const ogImage = computed(() => {
       const title = review.value.expand.release.expand.title;
       url.searchParams.set("name", title.name);
       if (title.cover)
-        url.searchParams.set("image", $pb.files.getUrl(title, title.cover));
+        url.searchParams.set("image", $pb.files.getURL(title, title.cover));
     }
 
     return url;
@@ -121,7 +120,7 @@ useSeoMeta({
 
 <template>
   <div v-if="review">
-    <article class="prose mx-auto dark:prose-invert prose-img:mx-auto">
+    <article class="prose dark:prose-invert prose-img:mx-auto mx-auto">
       <UBreadcrumb class="not-prose mb-3" :links="links" />
 
       <AppH1 class="mb-6">{{ review.header }}</AppH1>
@@ -130,7 +129,7 @@ useSeoMeta({
         <div v-if="review.expand?.user" class="flex items-center gap-3">
           <UAvatar
             :src="
-              $pb.files.getUrl(review.expand.user, review.expand.user.avatar, {
+              $pb.files.getURL(review.expand.user, review.expand.user.avatar, {
                 thumb: '32x32',
               })
             "
@@ -141,12 +140,12 @@ useSeoMeta({
           </ULink>
         </div>
         <div
-          v-if="review.user == $pb.authStore.model?.id"
+          v-if="review.user == $pb.authStore.record?.id"
           class="flex items-center gap-3"
         >
           <UButton
             trailing-icon="i-fluent-edit-20-filled"
-            color="gray"
+            color="neutral"
             variant="link"
             :to="'/review/edit?id=' + review.id"
           >
@@ -160,20 +159,10 @@ useSeoMeta({
       <UDivider />
 
       <div class="mt-6 text-center">
-        <UBadge class="text-bold px-2.5 py-1.5 font-condensed text-3xl">
+        <UBadge class="text-bold font-condensed px-2.5 py-1.5 text-3xl">
           {{ review.score }}/10
         </UBadge>
       </div>
     </article>
   </div>
 </template>
-
-<style scoped>
-.chevron ol {
-  @apply flex list-none items-center p-0;
-}
-
-.chevron li {
-  @apply flex items-center;
-}
-</style>

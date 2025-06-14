@@ -6,28 +6,27 @@ const { $pb } = useNuxtApp();
 const { pending, update } = useUpdateAccount();
 const { t } = useI18n({ useScope: "global" });
 
-const schema = z.object({
-  oldPassword: z.string().min(8, t("error.account.passwordInvalidMin")),
-  password: z.string().min(8, t("error.account.passwordInvalidMin")),
-  passwordConfirm: z
-    .string()
-    .min(8, t("error.account.passwordInvalidMin"))
-    .refine(
-      (val) => val === state.value.password,
-      () => ({ message: t("error.account.passwordNotMatch") }),
-    ),
-});
+const schema = z
+  .object({
+    oldPassword: z.string().min(8, t("error.account.passwordInvalidMin")),
+    password: z.string().min(8, t("error.account.passwordInvalidMin")),
+    passwordConfirm: z.string().min(8, t("error.account.passwordInvalidMin")),
+  })
+  .refine(
+    ({ password, passwordConfirm }) => password === passwordConfirm,
+    () => ({ message: t("error.account.passwordNotMatch") }),
+  );
 
 type Schema = z.output<typeof schema>;
 
-const state = ref({
+const state = reactive<Partial<Schema>>({
   oldPassword: undefined,
   password: undefined,
   passwordConfirm: undefined,
 });
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
-  await update({ id: $pb.authStore.model!.id, record: event.data });
+  await update({ id: $pb.authStore.record!.id, record: event.data });
 }
 
 definePageMeta({
@@ -38,16 +37,20 @@ definePageMeta({
 
 <template>
   <div>
-    <UForm class="space-y-6" :schema="schema" :state="state" @submit="onSubmit">
-      <UFormGroup name="oldPassword" :label="$t('account.oldPassword')">
-        <UInput v-model="state.oldPassword" type="password" />
-      </UFormGroup>
-      <UFormGroup name="password" :label="$t('account.password')">
-        <UInput v-model="state.password" type="password" />
-      </UFormGroup>
-      <UFormGroup name="passwordConfirm" :label="$t('account.passwordConfirm')">
-        <UInput v-model="state.passwordConfirm" type="password" />
-      </UFormGroup>
+    <UForm class="space-y-6" :schema :state @submit="onSubmit">
+      <UFormField name="oldPassword" :label="$t('account.oldPassword')">
+        <UInput v-model="state.oldPassword" type="password" class="w-full" />
+      </UFormField>
+      <UFormField name="password" :label="$t('account.password')">
+        <UInput v-model="state.password" type="password" class="w-full" />
+      </UFormField>
+      <UFormField name="passwordConfirm" :label="$t('account.passwordConfirm')">
+        <UInput
+          v-model="state.passwordConfirm"
+          type="password"
+          class="w-full"
+        />
+      </UFormField>
       <div class="text-right">
         <UButton
           :loading="pending"

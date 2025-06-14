@@ -32,7 +32,8 @@ function copyLink() {
   <UButton
     v-if="shareSupported"
     icon="i-fluent-share-ios-20-regular"
-    color="gray"
+    color="neutral"
+    variant="subtle"
     :square="!showLabel"
     :label="showLabel ? $t('general.share') : undefined"
     @click="startShare"
@@ -42,7 +43,8 @@ function copyLink() {
     :icon="
       copied ? 'i-fluent-checkmark-20-filled' : 'i-fluent-share-ios-20-filled'
     "
-    color="gray"
+    color="neutral"
+    variant="subtle"
     :square="!showLabel"
     :label="showLabel ? $t('general.share') : undefined"
     @click="copyLink"

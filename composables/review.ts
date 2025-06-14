@@ -32,7 +32,7 @@ export function useReview() {
     } catch (error) {
       if (error instanceof ClientResponseError) {
         toast.add({
-          color: "red",
+          color: "error",
           title: t("error.generalMessage"),
           description: error.message,
           icon: "i-fluent-error-circle-20-filled",
@@ -63,7 +63,7 @@ export function useReview() {
     } catch (error) {
       if (error instanceof ClientResponseError) {
         toast.add({
-          color: "red",
+          color: "error",
           title: t("error.generalMessage"),
           description: error.message,
           icon: "i-fluent-error-circle-20-filled",
@@ -92,7 +92,7 @@ export function useReview() {
     } catch (error) {
       if (error instanceof ClientResponseError) {
         toast.add({
-          color: "red",
+          color: "error",
           title: t("error.generalMessage"),
           description: error.message,
           icon: "i-fluent-error-circle-20-filled",

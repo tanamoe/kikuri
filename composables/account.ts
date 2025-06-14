@@ -29,7 +29,7 @@ export function useUpdateAccount() {
     } catch (err) {
       if (err instanceof ClientResponseError) {
         toast.add({
-          color: "red",
+          color: "error",
           title: t("general.error"),
           description: err.message,
           icon: "i-fluent-error-circle-20-filled",
@@ -58,7 +58,7 @@ export function useUpdateAccount() {
     } catch (err) {
       if (err instanceof ClientResponseError) {
         toast.add({
-          color: "red",
+          color: "error",
           title: t("general.error"),
           description: err.message,
           icon: "i-fluent-error-circle-20-filled",
@@ -98,7 +98,7 @@ export function useRequestVerification() {
     } catch (err) {
       if (err instanceof ClientResponseError) {
         toast.add({
-          color: "red",
+          color: "error",
           title: t("general.error"),
           description: err.message,
           icon: "i-fluent-error-circle-20-filled",

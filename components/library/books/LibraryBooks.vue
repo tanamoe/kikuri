@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { CollectionBookResponse } from "@/types/api/collections";
+import type { TableColumn } from "@nuxt/ui";
 import { joinURL } from "ufo";
 
 export type LibraryBooksView = "list" | "grid" | "table";
@@ -21,35 +22,35 @@ defineEmits<{
   change: [];
 }>();
 
-const columns = computed(() => [
+const columns = computed<TableColumn<(typeof rows.value)[0]>[]>(() => [
   {
-    key: "volume",
-    label: t("general.volume"),
+    accessorKey: "volume",
+    header: t("general.volume"),
+  },
+  {
+    accessorKey: "name",
+    header: t("general.name"),
+  },
+  {
+    accessorKey: "status",
+    header: t("general.status"),
+  },
+  {
+    accessorKey: "quantity",
+    header: t("general.quantity"),
+  },
+  {
+    accessorKey: "publishDate",
+    header: t("general.publishDate"),
     sortable: true,
   },
   {
-    key: "name",
-    label: t("general.name"),
+    accessorKey: "price",
+    header: t("general.price"),
   },
   {
-    key: "status",
-    label: t("general.status"),
-  },
-  {
-    key: "quantity",
-    label: t("general.quantity"),
-  },
-  {
-    key: "publishDate",
-    label: t("general.publishDate"),
-    sortable: true,
-  },
-  {
-    key: "price",
-    label: t("general.price"),
-  },
-  {
-    key: "actions",
+    accessorKey: "actions",
+    header: "",
   },
 ]);
 
@@ -73,69 +74,73 @@ const rows = computed(() =>
 );
 
 const ui = {
-  wrapper: "relative overflow-x-auto [font-feature-settings:'ss01']",
-  td: {
-    base: "whitespace-normal lg:whitespace-normal",
-    color: "text-gray-600 dark:text-gray-300",
-  },
+  root: "relative overflow-x-auto [font-feature-settings:'ss01']",
+  td: "whitespace-normal lg:whitespace-normal text-neutral-600 dark:text-neutral-300",
 };
 </script>
 
 <template>
   <div v-if="view === 'table'" class="space-y-3">
-    <UTable :columns :rows :ui>
-      <template #volume-data="{ row }">
-        <UBadge variant="soft" color="gray">{{ row.volume }}</UBadge>
+    <UTable :columns :data="rows" :ui>
+      <template #volume-cell="{ row }">
+        <UBadge variant="soft" color="neutral">{{
+          row.original.volume
+        }}</UBadge>
       </template>
-      <template
-        #name-data="{ row }: { row: NonNullable<typeof rows.value>[0] }"
-      >
+      <template #name-cell="{ row }">
         <div class="flex min-w-52 items-center gap-3">
           <ULink
-            v-if="row.release && row.title"
-            :to="joinURL('/title', row.title.slug, row.release.id, row.id!)"
+            v-if="row.original.release && row.original.title"
+            :to="
+              joinURL(
+                '/title',
+                row.original.title.slug,
+                row.original.release.id,
+                row.id!,
+              )
+            "
             class="hover:underline"
           >
-            {{ row.name }}
+            {{ row.original.name }}
           </ULink>
-          <span v-else>{{ row.name }}</span>
+          <span v-else>{{ row.original.name }}</span>
           <UBadge
-            v-if="row.edition"
-            color="tanaamber"
-            class="w-fit text-gray-900"
+            v-if="row.original.edition"
+            color="secondary"
+            class="w-fit text-neutral-900"
           >
-            {{ row.edition }}
+            {{ row.original.edition }}
           </UBadge>
         </div>
       </template>
-      <template #publishDate-data="{ row }">
-        <span v-if="row.publishDate">
-          {{ $d(new Date(row.publishDate), "publishDate") }}
+      <template #publishDate-cell="{ row }">
+        <span v-if="row.original.publishDate">
+          {{ $d(new Date(row.original.publishDate), "publishDate") }}
         </span>
       </template>
-      <template #price-data="{ row }">
+      <template #price-cell="{ row }">
         <span>
-          {{ $n(row.price, "currency", "vi") }}
+          {{ $n(row.original.price, "currency", "vi") }}
         </span>
       </template>
-      <template
-        #actions-data="{ row }: { row: NonNullable<typeof rows.value>[0] }"
-      >
+      <template #actions-cell="{ row }">
         <div class="flex gap-1">
           <LibraryEditButton
             :id="row.id"
-            :name="row.publication?.name ?? $t('general.tba')"
-            :collection="row.collectionId"
-            :quantity="row.quantity"
-            :status="row.status"
-            color="gray"
+            :name="row.original.publication?.name ?? $t('general.tba')"
+            :collection="row.original.collectionId"
+            :quantity="row.original.quantity"
+            :status="row.original.status"
+            variant="subtle"
+            color="neutral"
             @change="$emit('change')"
           />
           <LibraryRemoveButton
             :id="row.id"
-            :name="row.publication?.name ?? $t('general.tba')"
-            :collection="row.collectionId"
-            color="gray"
+            :name="row.original.publication?.name ?? $t('general.tba')"
+            :collection="row.original.collectionId"
+            color="neutral"
+            variant="subtle"
             square
             @change="$emit('change')"
           />

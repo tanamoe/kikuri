@@ -7,7 +7,7 @@ import {
   type TitlesResponse,
   type UsersResponse,
 } from "@/types/pb";
-import { type UserCollectionsResponse } from "@/types/api/collections";
+import type { UserCollectionsResponse } from "@/types/api/collections";
 
 const route = useRoute();
 const { $pb } = useNuxtApp();
@@ -60,10 +60,6 @@ const items = computed(() => [
   },
 ]);
 
-const ui = {
-  wrapper: "space-y-6",
-};
-
 const description = computed(() => {
   if (user.value?.bio) {
     const bio = user.value.bio.replace(/<[^>]*>/g, "");
@@ -84,7 +80,7 @@ useSeoMeta({
   ogTitle: user.value.displayName || user.value.username,
   ogDescription: description.value,
   ogImage: user.value.avatar
-    ? $pb.files.getUrl(user.value, user.value.avatar)
+    ? $pb.files.getURL(user.value, user.value.avatar)
     : undefined,
   twitterCard: null,
 });
@@ -93,10 +89,10 @@ useSeoMeta({
 <template>
   <div v-if="user" class="flex flex-col gap-6 md:flex-row">
     <AppUserProfile
-      class="h-min w-full rounded-md bg-gray-200 md:max-w-xs dark:bg-gray-800"
+      class="h-min w-full rounded-md bg-neutral-200 md:max-w-xs dark:bg-neutral-800"
       :user="user"
     />
-    <UTabs :items="items" :ui="ui" class="w-full flex-1">
+    <UTabs :items="items" class="w-full flex-1">
       <template #collections>
         <div
           v-if="collections && collections.items.length > 0"
@@ -114,7 +110,7 @@ useSeoMeta({
         </div>
         <div
           v-else
-          class="prose prose-sm max-w-none text-center dark:prose-invert"
+          class="prose prose-sm dark:prose-invert max-w-none text-center"
         >
           <h4>(╥﹏╥)</h4>
           <h3>{{ $t("library.noCollection") }}</h3>
@@ -134,7 +130,7 @@ useSeoMeta({
         </div>
         <div
           v-else
-          class="prose prose-sm max-w-none text-center dark:prose-invert"
+          class="prose prose-sm dark:prose-invert max-w-none text-center"
         >
           <h4>(╥﹏╥)</h4>
           <h3>{{ $t("review.noReview") }}</h3>

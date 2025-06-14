@@ -22,18 +22,15 @@ defineProps<{
 <template>
   <UCard
     v-if="works || genres"
-    class="prose prose-sm max-w-none dark:prose-invert prose-h4:my-0 prose-a:text-gray-800 prose-a:no-underline hover:prose-a:text-tanablue-500 hover:prose-a:underline prose-hr:my-3 dark:prose-a:text-gray-400 dark:hover:prose-a:text-tanablue-400"
+    class="prose prose-sm dark:prose-invert prose-h4:my-0 prose-a:text-neutral-800 prose-a:no-underline prose-a:hover:text-tanablue-500 prose-a:hover:underline prose-hr:my-3 dark:prose-a:text-neutral-400 dark:prose-a:hover:text-tanablue-400 max-w-none"
     :ui="{
-      body: {
-        base: 'divide-y divide-gray-200 dark:divide-gray-800',
-        padding: 'p-0 sm:p-0',
-      },
+      body: 'divide-y divide-neutral-200 dark:divide-neutral-800 p-0 sm:p-0',
     }"
   >
     <div v-if="demographic" class="p-4 sm:p-4">
       <h4>{{ $t("general.demographic") }}</h4>
       <ULink :to="withQuery('/browse/titles', { demographic: demographic.id })">
-        <UBadge class="mr-1.5 mt-1.5" color="gray">
+        <UBadge class="mt-1.5 mr-1.5" color="neutral" variant="soft">
           {{ demographic.name }}
         </UBadge>
       </ULink>
@@ -45,7 +42,7 @@ defineProps<{
         :key="genre.id"
         :to="withQuery('/browse/titles', { genre: genre.id })"
       >
-        <UBadge class="mr-1.5 mt-1.5" color="gray">
+        <UBadge class="mt-1.5 mr-1.5" color="neutral" variant="soft">
           {{ genre.name }}
         </UBadge>
       </ULink>

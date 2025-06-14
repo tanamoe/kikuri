@@ -2,7 +2,7 @@
 const { t } = useI18n();
 const model = defineModel<string>();
 
-const options = computed(() => [
+const items = computed(() => [
   {
     id: "-updated",
     label: t("sort.latest"),
@@ -25,19 +25,11 @@ const options = computed(() => [
 <template>
   <USelectMenu
     v-model="model"
-    :options
-    class="flex-shrink-0"
-    :ui-menu="{
-      width: 'w-48',
-    }"
-    value-attribute="id"
+    :items
+    :search-input="false"
+    value-key="id"
+    class="w-48"
   >
-    <UButton
-      color="gray"
-      class="flex-1 justify-between"
-      icon="i-fluent-arrow-sort-down-lines-20-filled"
-    >
-      {{ $t("general.sort") }}
-    </UButton>
+    {{ $t("general.sort") }}
   </USelectMenu>
 </template>

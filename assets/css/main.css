@@ -1,0 +1,64 @@
+@import "tailwindcss" theme(static);
+@import "@nuxt/ui";
+
+@plugin '@tailwindcss/typography';
+
+@theme static {
+  --font-*: initial;
+  --font-sans:
+    Inter, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-lexend: Lexend;
+  --font-condensed: IBM Plex Sans Condensed;
+
+  --color-tanablue-50: #e7f4ff;
+  --color-tanablue-100: #d5ecff;
+  --color-tanablue-200: #bce1fe;
+  --color-tanablue-300: #a1d3fc;
+  --color-tanablue-400: #89c4f4;
+  --color-tanablue-500: #6aafe6;
+  --color-tanablue-600: #4f98d3;
+  --color-tanablue-700: #2d6ea3;
+  --color-tanablue-800: #134369;
+  --color-tanablue-900: #031d33;
+
+  --color-tanaamber-50: #fffbf1;
+  --color-tanaamber-100: #fde9b7;
+  --color-tanaamber-200: #fbd67d;
+  --color-tanaamber-300: #fabf35;
+  --color-tanaamber-400: #f8b60b;
+  --color-tanaamber-500: #da9a0a;
+  --color-tanaamber-600: #a87504;
+  --color-tanaamber-700: #805802;
+  --color-tanaamber-800: #583c01;
+  --color-tanaamber-900: #302000;
+
+  --animate-scrolling: scrolling 30s linear infinite;
+
+  @keyframes scrolling {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-100%);
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-neutral-200, currentColor);
+  }
+}

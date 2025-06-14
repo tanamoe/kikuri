@@ -20,25 +20,25 @@ const image = computed(() => {
 <template>
   <UBadge
     v-if="book.expand?.publication.expand?.release.digital == true"
-    class="absolute right-2 top-2 z-20 text-gray-900"
-    color="red"
+    class="absolute top-2 right-2 z-20 text-neutral-900"
+    color="error"
   >
     Digital
   </UBadge>
   <UBadge
     v-if="book.edition !== ''"
-    class="absolute right-2 top-2 z-20 text-gray-900"
-    color="tanaamber"
+    class="absolute top-2 right-2 z-20 text-neutral-900"
+    color="secondary"
   >
     {{ book.edition }}
   </UBadge>
   <div
-    class="absolute inset-0 bg-gradient-to-t from-gray-50 to-transparent to-50% sm:hidden dark:from-gray-900"
+    class="absolute inset-0 bg-gradient-to-t from-neutral-50 to-transparent to-50% sm:hidden dark:from-neutral-900"
   />
   <AppImageCover
     class="rounded-md"
     :name="book.expand?.publication.name"
-    :src="image && $pb.files.getUrl(image, image.image)"
+    :src="image && $pb.files.getURL(image, image.image)"
     :srcset="image && image.resizedImage"
     sizes="(max-width: 640px) 80vw, (max-width: 1280px) 30vw, 15vw"
   />

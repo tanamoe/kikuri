@@ -9,7 +9,9 @@
   }: let
     overlays = [
       (final: prev: rec {
-        nodejs = prev.nodejs_20;
+        nodeVersion = 22;
+
+        nodejs = prev."nodejs_${toString nodeVersion}";
       })
     ];
     supportedSystems = ["x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin"];

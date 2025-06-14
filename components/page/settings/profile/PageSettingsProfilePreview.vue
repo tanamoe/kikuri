@@ -32,19 +32,15 @@ const items = computed(() => [
 
 const state = ref({
   avatar: props.user.avatar
-    ? $pb.getFileUrl(props.user, props.user.avatar, { thumb: "128x128" })
+    ? $pb.files.getURL(props.user, props.user.avatar, { thumb: "128x128" })
     : "/avatar.jpg",
   banner: props.user.banner
-    ? $pb.getFileUrl(props.user, props.user.banner)
+    ? $pb.files.getURL(props.user, props.user.banner)
     : "/banner.jpg",
 });
 
 const ui = {
-  base: "relative overflow-hidden",
-  shadow: "shadow",
-  body: {
-    padding: "p-0 sm:p-0",
-  },
+  body: "p-0 sm:p-0",
 };
 
 function handleAvatarChange() {
@@ -73,15 +69,15 @@ function handleBannerRemove() {
 </script>
 
 <template>
-  <UCard :ui="ui" class="w-full lg:max-w-sm" :hoverable="false">
+  <UCard :ui class="w-full lg:max-w-sm" :hoverable="false">
     <div>
       <img
-        class="aspect-[21/9] h-auto w-full cursor-pointer bg-gray-300 object-cover transition-all hover:brightness-90 dark:bg-gray-700 dark:hover:brightness-75"
+        class="aspect-[21/9] h-auto w-full cursor-pointer bg-neutral-300 object-cover transition-all hover:brightness-90 dark:bg-neutral-700 dark:hover:brightness-75"
         :src="state.banner"
         @click="bannerInput?.click()"
       />
       <img
-        class="relative -mt-16 ml-4 aspect-square h-32 w-32 cursor-pointer rounded-full border-4 border-gray-200 object-cover transition-all hover:brightness-90 dark:border-gray-800 dark:hover:brightness-75"
+        class="relative -mt-16 ml-4 aspect-square h-32 w-32 cursor-pointer rounded-full border-4 border-neutral-200 object-cover transition-all hover:brightness-90 dark:border-neutral-800 dark:hover:brightness-75"
         width="128px"
         height="128px"
         :src="state.avatar"
@@ -94,18 +90,18 @@ function handleBannerRemove() {
           :popper="{ placement: 'bottom-end' }"
         >
           <UButton
-            color="gray"
+            color="neutral"
             variant="ghost"
             trailing-icon="i-fluent-more-vertical-20-filled"
           />
         </UDropdown>
         <div>
           <h4 class="text-xl font-bold">{{ user.displayName }}</h4>
-          <h5 class="text-gray-500 dark:text-gray-400">
+          <h5 class="text-neutral-500 dark:text-neutral-400">
             {{ user.username }}
           </h5>
         </div>
-        <div v-if="user.bio" class="prose prose-sm mt-3 dark:prose-invert">
+        <div v-if="user.bio" class="prose prose-sm dark:prose-invert mt-3">
           <p>{{ user.bio }}</p>
         </div>
       </div>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { BreadcrumbLink } from "#ui/types";
 import type {
   UserCollectionMembersResponse,
   UserCollectionBooksResponse,
@@ -47,16 +46,16 @@ const { data: books, refresh } = await useAsyncData(
 );
 
 const editable = computed(() => {
-  if (!$pb.authStore.isAuthRecord) return false;
+  if (!$pb.authStore.record) return false;
   const m = members.value?.items.find(
-    (member) => member.userId === $pb.authStore.model?.id,
+    (member) => member.userId === $pb.authStore.record?.id,
   );
   if (!m) return false;
   if (m.role === "EDITOR") return true;
   return false;
 });
 
-const links = computed<BreadcrumbLink[]>(() => [
+const links = computed(() => [
   {
     label:
       collection.value!.item.owner!.displayName ||
@@ -109,7 +108,7 @@ useSeoMeta({
     <AppH1>{{ collection.item.name }}</AppH1>
 
     <div class="space-y-6">
-      <div class="prose prose-sm max-w-none space-y-2 dark:prose-invert">
+      <div class="prose prose-sm dark:prose-invert max-w-none space-y-2">
         <div
           v-if="collection.item.description"
           v-html="collection.item.description"
@@ -129,18 +128,21 @@ useSeoMeta({
         <UButtonGroup size="sm" orientation="horizontal">
           <UButton
             icon="i-fluent-grid-20-filled"
-            :color="view === 'grid' ? 'primary' : 'gray'"
-            @click="() => (view = 'grid')"
+            :color="view === 'grid' ? 'primary' : 'neutral'"
+            :variant="view === 'grid' ? 'solid' : 'subtle'"
+            @click="view = 'grid'"
           />
           <UButton
             icon="i-fluent-grid-kanban-20-filled"
-            :color="view === 'list' ? 'primary' : 'gray'"
-            @click="() => (view = 'list')"
+            :color="view === 'list' ? 'primary' : 'neutral'"
+            :variant="view === 'list' ? 'solid' : 'subtle'"
+            @click="view = 'list'"
           />
           <UButton
             icon="i-fluent-list-20-filled"
-            :color="view === 'table' ? 'primary' : 'gray'"
-            @click="() => (view = 'table')"
+            :color="view === 'table' ? 'primary' : 'neutral'"
+            :variant="view === 'table' ? 'solid' : 'subtle'"
+            @click="view = 'table'"
           />
         </UButtonGroup>
       </div>
@@ -148,13 +150,12 @@ useSeoMeta({
       <LibraryBooks :books="books.items" :view :editable @change="refresh" />
 
       <UPagination
-        v-model="page"
-        class="justify-center"
+        v-model:page="page"
+        :ui="{ list: 'justify-center' }"
+        variant="subtle"
         size="sm"
-        :page-count="books.perPage"
+        :items-per-page="books.perPage"
         :total="books.totalItems"
-        show-last
-        show-first
       />
     </div>
   </div>

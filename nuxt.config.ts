@@ -25,6 +25,10 @@ export default defineNuxtConfig({
     "@nuxthub/core",
   ],
 
+  devtools: {
+    enabled: true,
+  },
+
   // https://nuxt.com/docs/getting-started/installation#prerequisites
   typescript: {
     strict: true,
@@ -36,11 +40,7 @@ export default defineNuxtConfig({
     cache: true,
   },
 
-  css: [
-    "~/assets/fonts/inter.css",
-    "~/assets/fonts/ibm-plex.css",
-    "~/assets/fonts/lexend.css",
-  ],
+  css: ["~/assets/css/main.css"],
 
   routeRules: {
     "/": { swr: 10800 },
@@ -67,22 +67,17 @@ export default defineNuxtConfig({
     },
   },
 
-  swiper: {
-    modules: ["autoplay", "effect-creative", "mousewheel"],
+  fonts: {
+    defaults: {
+      weights: [400, 700, 900],
+      styles: ["normal", "italic"],
+      subsets: ["vietnamese", "latin"],
+    },
   },
 
   i18n: {
     detectBrowserLanguage: false,
-    vueI18n: "./i18n.config.ts",
     defaultLocale: "vi",
-  },
-
-  content: {
-    locales: ["vi"],
-    defaultLocale: "vi",
-    markdown: {
-      anchorLinks: false,
-    },
   },
 
   compatibilityDate: "2024-07-06",

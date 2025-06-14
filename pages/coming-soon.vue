@@ -8,7 +8,7 @@
       <p class="text-9xl">👷 🚧</p>
       <AppH1>{{ $t("general.comingSoon") }}</AppH1>
       <p>{{ $t("general.comingSoonDescription") }}</p>
-      <UButton color="black" to="/">
+      <UButton color="primary" to="/">
         {{ $t("error.returnHome") }}
       </UButton>
     </div>

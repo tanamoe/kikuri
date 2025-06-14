@@ -45,7 +45,7 @@ const releases = computed(() =>
     label: release.name,
     avatar: {
       src: release.expand?.publisher
-        ? $pb.files.getUrl(
+        ? $pb.files.getURL(
             release.expand?.publisher,
             release.expand?.publisher.logo,
           )
@@ -81,7 +81,7 @@ const currentRelease = computed(() =>
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   await post({
     ...event.data,
-    user: $pb.authStore.model?.id,
+    user: $pb.authStore.record?.id,
     content: content.value,
   });
 }
@@ -128,13 +128,10 @@ definePageMeta({
               :options="releases || []"
               :loading="pending"
               :disabled="!releases || releases.length == 0"
-              value-attribute="id"
-              option-attribute="label"
+              value-key="id"
             >
-              <template #label>
-                <span v-if="currentRelease">{{ currentRelease.label }}</span>
-                <span v-else>{{ $t("review.releaseSelect") }}</span>
-              </template>
+              <span v-if="currentRelease">{{ currentRelease.label }}</span>
+              <span v-else>{{ $t("review.releaseSelect") }}</span>
             </USelectMenu>
           </UFormGroup>
           <UFormGroup :label="$t('review.score')" name="score">
@@ -147,7 +144,7 @@ definePageMeta({
               max="10"
             >
               <template #trailing>
-                <span class="text-xs text-gray-500 dark:text-gray-400">
+                <span class="text-xs text-neutral-500 dark:text-neutral-400">
                   /10
                 </span>
               </template>

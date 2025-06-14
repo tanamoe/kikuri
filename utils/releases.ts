@@ -1,14 +1,5 @@
 export type FilterDigital = "show" | "hide" | "only";
 
-export type FilterPublishers = {
-  id: string;
-  label: string;
-  avatar?: {
-    src: string;
-  };
-  [k: string]: unknown;
-};
-
 export function parseCalendarFilter(
   from: string,
   to: string,

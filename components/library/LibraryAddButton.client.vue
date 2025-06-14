@@ -2,7 +2,8 @@
 import { ModalCollectionBookAdd } from "#components";
 import type { MetadataLibrary } from "@/types/common";
 
-const modal = useModal();
+const overlay = useOverlay();
+const modal = overlay.create(ModalCollectionBookAdd);
 
 interface Props {
   id: string;
@@ -18,7 +19,7 @@ const emit = defineEmits<{
 }>();
 
 function add() {
-  modal.open(ModalCollectionBookAdd, {
+  modal.open({
     book: {
       id: id,
       name: name,
@@ -39,19 +40,15 @@ function add() {
       <template #panel>
         <UCard
           :ui="{
-            body: {
-              padding: 'p-0 sm:p-0',
-            },
-            header: {
-              padding: 'px-3 py-2 sm:px-3 sm:py-2',
-            },
+            body: 'p-0 sm:p-0',
+            header: 'px-3 py-2 sm:px-3 sm:py-2',
           }"
         >
           <UButton
             v-for="collection in inCollections"
             :key="collection.id"
             :to="`/library/${collection.id}`"
-            color="gray"
+            color="neutral"
             variant="ghost"
             block
           >
@@ -61,16 +58,12 @@ function add() {
       </template>
     </UPopover>
 
-    <UTooltip
-      v-if="square"
-      :text="$t('library.addToLibrary')"
-      :popper="{ placement: 'top' }"
-    >
+    <UTooltip v-if="square" :text="$t('library.addToLibrary')">
       <UButton
         icon="i-fluent-add-20-filled"
         v-bind="$attrs"
         square
-        :disabled="!$pb.authStore.isAuthRecord"
+        :disabled="!$pb.authStore.record"
         @click.prevent="add"
       />
     </UTooltip>
@@ -81,7 +74,7 @@ function add() {
       v-bind="$attrs"
       class="w-full flex-1"
       block
-      :disabled="!$pb.authStore.isAuthRecord"
+      :disabled="!$pb.authStore.record"
       @click.prevent="add"
     >
       {{ $t("library.addToLibrary") }}

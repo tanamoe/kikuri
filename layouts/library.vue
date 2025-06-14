@@ -4,7 +4,8 @@ import { ModalCollectionCreate } from "#components";
 const { $pb } = useNuxtApp();
 const { collections } = useLibrary();
 const { t } = useI18n();
-const modal = useModal();
+const overlay = useOverlay();
+const modal = overlay.create(ModalCollectionCreate);
 const route = useRoute();
 
 const links = computed(() => [
@@ -16,7 +17,7 @@ const links = computed(() => [
     {
       label: t("library.createCollection"),
       icon: "i-fluent-collections-20-filled",
-      click: () => modal.open(ModalCollectionCreate),
+      click: () => modal.open(),
     },
   ],
 ]);
@@ -26,14 +27,12 @@ const sticky = computed(() => route.meta.stickyNav as boolean);
 
 <template>
   <div>
-    <NavigationBar :sticky="sticky" />
+    <NavigationBar :sticky />
 
-    <main
-      class="mx-auto min-h-[80vh] overflow-x-hidden pb-6 sm:container sm:px-6"
-    >
+    <UContainer class="mx-auto min-h-[80vh] overflow-x-hidden pb-6 sm:px-6">
       <div class="flex flex-col gap-6 md:flex-row">
         <aside
-          v-if="links && $pb.authStore.isAuthRecord"
+          v-if="links && $pb.authStore.record"
           class="flex flex-shrink-0 items-center gap-1 overflow-x-auto md:block md:w-48"
         >
           <UHorizontalNavigation
@@ -48,7 +47,7 @@ const sticky = computed(() => route.meta.stickyNav as boolean);
           <slot />
         </div>
       </div>
-    </main>
+    </UContainer>
 
     <TheFooter />
   </div>

@@ -1,20 +1,11 @@
 <script setup lang="ts">
 const ui = {
-  block: "gap-2.5",
-  padding: {
-    md: "px-3 py-2.5",
-  },
-  color: {
-    gray: {
-      solid:
-        "ring-0 bg-white text-[#1F1F1F] dark:bg-[#131314] hover:dark:bg-[#13131475] dark:text-[#E3E3E3] border border-[#747775] dark:border-[#8E918F]",
-    },
-  },
+  base: "gap-2.5 px-3 py-2.5",
 };
 </script>
 
 <template>
-  <UButton color="gray" block :ui="ui" size="md">
+  <UButton color="neutral" block :ui size="md">
     <template #leading>
       <svg
         class="block h-5 w-5"

@@ -10,7 +10,6 @@ const { pending, progress, update } = useCollectionBooks();
 const { collections } = useLibrary();
 const toast = useToast();
 const settingsStore = useSettingsStore();
-const modal = useModal();
 
 const props = defineProps<{
   books: {
@@ -60,7 +59,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     toast.add({
       title: t("error.generalMessage"),
       description: error.map((e) => e.message).join("\n"),
-      color: "red",
+      color: "error",
       icon: "i-fluent-error-circle-20-filled",
     });
   }
@@ -81,7 +80,6 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   if (props.callback) {
     props.callback();
   }
-  return modal.close();
 }
 
 const uiMenu = {
@@ -90,27 +88,21 @@ const uiMenu = {
 </script>
 
 <template>
-  <UModal v-if="$pb.authStore.isAuthRecord">
-    <UCard :ui="{ divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-      <template #header>
-        <div class="flex items-center justify-between">
-          {{ $t("library.addToLibrary") }}
-          <UButton
-            color="gray"
-            variant="ghost"
-            icon="i-fluent-dismiss-20-filled"
-            class="-my-1"
-            @click="modal.close"
-          />
-        </div>
-      </template>
+  <UModal v-if="$pb.authStore.record">
+    <template #header>
+      <div class="flex items-center justify-between">
+        {{ $t("library.addToLibrary") }}
+        <UButton
+          color="neutral"
+          variant="ghost"
+          icon="i-fluent-dismiss-20-filled"
+          class="-my-1"
+        />
+      </div>
+    </template>
 
-      <UForm
-        :schema="schema"
-        :state="state"
-        class="space-y-3"
-        @submit="onSubmit"
-      >
+    <template #body>
+      <UForm :schema :state class="space-y-3" @submit="onSubmit">
         <p>
           {{
             $t("library.addToLibraryBulkDescription", {
@@ -120,16 +112,15 @@ const uiMenu = {
         </p>
 
         <div class="text-center">
-          <UFormGroup v-if="c && c.length > 0" name="collection">
+          <UFormField v-if="c && c.length > 0" name="collection">
             <USelectMenu
               v-if="c"
               v-model="state.collection"
               :ui-menu="uiMenu"
               :options="c"
-              value-attribute="id"
-              option-attribute="label"
+              value-key="id"
             >
-              <UButton color="gray" block>
+              <UButton color="neutral" block>
                 <span v-if="currentCollection">
                   <strong>{{ $t("library.collection") }}</strong
                   >:
@@ -140,31 +131,25 @@ const uiMenu = {
                 </span>
               </UButton>
             </USelectMenu>
-          </UFormGroup>
-          <UButton
-            v-else
-            to="/library/create"
-            color="gray"
-            block
-            @click="modal.close"
-          >
+          </UFormField>
+          <UButton v-else to="/library/create" color="neutral" block>
             {{ $t("library.createCollection") }}
           </UButton>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
-          <UFormGroup :label="$t('general.status')" name="status">
+          <UFormField :label="$t('general.status')" name="status">
             <InputBookStatus v-model="state.status" />
-          </UFormGroup>
-          <UFormGroup :label="$t('general.quantity')" name="quantity">
-            <AppNumberInput v-model="state.quantity" />
-          </UFormGroup>
+          </UFormField>
+          <UFormField :label="$t('general.quantity')" name="quantity">
+            <UNumberInput v-model="state.quantity" />
+          </UFormField>
         </div>
 
         <UProgress v-if="pending" :value="p" indicator />
 
         <div class="flex justify-end gap-3">
-          <UButton color="red" variant="ghost" @click="modal.close">
+          <UButton color="error" variant="ghost">
             {{ $t("general.return") }}
           </UButton>
           <UButton type="submit" :loading="pending">
@@ -172,6 +157,6 @@ const uiMenu = {
           </UButton>
         </div>
       </UForm>
-    </UCard>
+    </template>
   </UModal>
 </template>

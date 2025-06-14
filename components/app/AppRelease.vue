@@ -8,6 +8,7 @@ import type {
 } from "@/types/pb";
 import type { MetadataImages } from "@/types/common";
 import { joinURL } from "ufo";
+import type { CardProps } from "@nuxt/ui";
 
 defineProps<{
   release: Pick<ReleasesResponse, "id" | "name" | "disambiguation" | "digital">;
@@ -20,12 +21,9 @@ defineProps<{
   draggable?: boolean;
 }>();
 
-const ui = {
-  base: "relative overflow-hidden",
-  shadow: "shadow",
-  body: {
-    padding: "p-0 sm:p-0",
-  },
+const ui: CardProps["ui"] = {
+  root: "relative overflow-hidden",
+  body: "p-0 sm:p-0",
 };
 </script>
 
@@ -50,20 +48,20 @@ const ui = {
         v-if="format || release.digital || partner || publisher"
         class="flex flex-wrap items-center gap-1"
       >
-        <UBadge v-if="format" color="gray">
+        <UBadge v-if="format" color="neutral">
           {{ format.name }}
         </UBadge>
-        <UBadge v-if="release.digital" color="red">Digital</UBadge>
-        <UBadge v-if="partner" color="gray">
+        <UBadge v-if="release.digital" color="error">Digital</UBadge>
+        <UBadge v-if="partner" color="neutral">
           <AppPublisher :publisher="partner" />
         </UBadge>
-        <UBadge v-if="publisher" color="gray">
+        <UBadge v-if="publisher" color="neutral">
           <AppPublisher :publisher />
         </UBadge>
       </div>
 
       <h3
-        class="decoration-primary-400 line-clamp-4 font-condensed text-xl font-black decoration-[.2rem] underline-offset-[.2rem] group-hover:underline"
+        class="decoration-primary-400 font-condensed line-clamp-4 text-xl font-black decoration-[.2rem] underline-offset-[.2rem] group-hover:underline"
       >
         {{ release.name }}
       </h3>

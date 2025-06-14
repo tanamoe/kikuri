@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import type { NavigationMenuItem } from "@nuxt/ui";
+import { joinURL } from "ufo";
+
 const { t } = useI18n({ useScope: "global" });
-const links = computed(() => [
+const library = useLibrary();
+
+const items = computed<NavigationMenuItem[]>(() => [
   {
     label: t("general.releaseCalendar"),
     to: "/calendar",
@@ -8,11 +13,41 @@ const links = computed(() => [
   {
     label: t("general.browse"),
     to: "/browse",
+    children: [
+      {
+        label: t("general.title"),
+        to: "/browse/titles",
+        icon: "i-fluent-book-20-filled",
+      },
+      {
+        label: t("general.release"),
+        to: "/browse/releases",
+        icon: "i-fluent-calendar-20-filled",
+      },
+      {
+        label: t("general.publisher"),
+        to: "/browse/publishers",
+        icon: "i-fluent-building-20-filled",
+      },
+      {
+        label: t("general.staff"),
+        to: "/browse/staffs",
+        icon: "i-fluent-person-20-filled",
+      },
+    ],
   },
   {
     label: t("general.library"),
-    badge: t("general.new"),
+    badge: {
+      label: t("general.new"),
+      color: "primary",
+      variant: "solid",
+    },
     to: "/library",
+    children: library.collections.value.map((collection) => ({
+      label: collection.collection?.name,
+      to: joinURL("/library", collection.collectionId),
+    })),
   },
 ]);
 
@@ -28,17 +63,18 @@ withDefaults(
 
 <template>
   <nav
-    class="top-0 z-30 bg-gray-50 dark:bg-gray-900"
+    class="bg-default/90 top-0 z-40 backdrop-blur"
     :class="{
       'sticky mb-6': sticky,
+      relative: !sticky,
     }"
   >
-    <div
-      class="container mx-auto grid grid-cols-2 items-center px-6 py-3 lg:grid-cols-6"
+    <UContainer
+      class="mx-auto grid grid-cols-2 items-center px-6 py-3 sm:px-6 sm:py-1 lg:grid-cols-6"
     >
       <div class="flex items-center justify-start gap-3">
         <div class="block lg:hidden">
-          <LazyNavigationSidebar :links="links" />
+          <LazyNavigationSidebar :items />
         </div>
         <ULink
           to="/"
@@ -52,51 +88,19 @@ withDefaults(
             height="24"
             alt="Tana.moe logo"
           />
-          <UBadge variant="soft" size="xs" class="invisible sm:visible">
-            Preview
-          </UBadge>
         </ULink>
       </div>
 
-      <ul class="col-span-4 hidden items-center justify-center gap-3 lg:flex">
-        <li v-for="link in links" :key="link.to">
-          <UChip
-            v-if="link.badge"
-            size="xs"
-            position="top-right"
-            inset
-            :ui="{ base: '-mx-5 rounded-none ring-0', background: '' }"
-          >
-            <UButton
-              color="gray"
-              variant="ghost"
-              active-class="bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100"
-              :to="link.to"
-            >
-              {{ link.label }}
-            </UButton>
-
-            <template #content>
-              <UBadge size="xs">{{ link.badge }}</UBadge>
-            </template>
-          </UChip>
-          <UButton
-            v-else
-            color="gray"
-            variant="ghost"
-            active-class="bg-gray-200 text-gray-700 dark:bg-gray-800 dark:text-gray-100"
-            :to="link.to"
-          >
-            {{ link.label }}
-          </UButton>
-        </li>
-      </ul>
+      <UNavigationMenu
+        :items
+        class="col-span-4 hidden justify-center sm:flex"
+      />
 
       <div class="flex items-center justify-end gap-3 whitespace-nowrap">
         <SearchButton />
         <UButton
           class="sm:hidden"
-          color="gray"
+          color="neutral"
           variant="ghost"
           icon="i-fluent-calendar-20-filled"
           to="/calendar"
@@ -105,6 +109,6 @@ withDefaults(
         />
         <NavigationUser />
       </div>
-    </div>
+    </UContainer>
   </nav>
 </template>

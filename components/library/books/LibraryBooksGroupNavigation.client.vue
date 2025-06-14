@@ -21,9 +21,9 @@ const horizontalUi = {
 
 const ui = {
   active:
-    "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:before:bg-gray-50 dark:hover:before:bg-gray-800/50 before:bg-transparent dark:before:bg-transparent",
+    "text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:before:bg-neutral-50 dark:hover:before:bg-neutral-800/50 before:bg-transparent dark:before:bg-transparent",
   inactive:
-    "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:before:bg-gray-50 dark:hover:before:bg-gray-800/50",
+    "text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:before:bg-neutral-50 dark:hover:before:bg-neutral-800/50",
 };
 </script>
 

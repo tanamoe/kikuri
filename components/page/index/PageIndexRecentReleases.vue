@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import {
-  type ReleaseDetailsResponse,
-  type FormatsResponse,
-  type TitlesResponse,
-  type PublishersResponse,
+import type {
+  ReleaseDetailsResponse,
+  FormatsResponse,
+  TitlesResponse,
+  PublishersResponse,
 } from "@/types/pb";
 import type { MetadataCommon } from "@/types/common";
 
@@ -28,7 +28,7 @@ defineProps<{
     <UContainer class="mb-6">
       <NuxtLink to="/browse">
         <AppH3
-          class="flex items-center gap-3 underline decoration-tanablue-400 decoration-[.2rem] underline-offset-[.2rem]"
+          class="decoration-tanablue-400 flex items-center gap-3 underline decoration-[.2rem] underline-offset-[.2rem]"
         >
           <img
             src="/icon.svg"
@@ -72,19 +72,19 @@ defineProps<{
           <template #before>
             <UBadge
               v-if="release.expand.title.expand"
-              color="gray"
-              class="mb-1 mr-1"
+              color="neutral"
+              class="mr-1 mb-1"
             >
               {{ release.expand.title.expand.format.name }}
             </UBadge>
-            <UBadge color="gray" class="mb-1 mr-1">
+            <UBadge color="neutral" class="mr-1 mb-1">
               <div class="flex items-center gap-1">
                 {{ release.expand.publisher.name }}
               </div>
             </UBadge>
           </template>
           <template #after>
-            <span class="text-gray-500 dark:text-gray-400">
+            <span class="text-neutral-500 dark:text-neutral-400">
               {{ release.name }}
             </span>
           </template>

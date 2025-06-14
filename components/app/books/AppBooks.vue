@@ -1,16 +1,31 @@
 <script setup lang="ts">
 import { ModalCollectionBookAddBulk } from "#components";
-import type { ReleasesResponse, TitlesResponse } from "@/types/pb";
+import type {
+  AssetsResponse,
+  ReleasesResponse,
+  TitlesResponse,
+} from "@/types/pb";
 import { joinURL } from "ufo";
 import type { AppBookProps } from "../AppBook.vue";
+import type { TableColumn } from "@nuxt/ui";
+import type { MetadataImages, MetadataLibrary } from "@/types/common";
 
-const modal = useModal();
+type Book = Pick<
+  AppBookProps["book"],
+  "id" | "edition" | "publishDate" | "price"
+> & {
+  name: string;
+  volume: number;
+  inCollections: MetadataLibrary["inCollections"];
+  assets?: AssetsResponse<MetadataImages>[];
+};
+
+const overlay = useOverlay();
+const modal = overlay.create(ModalCollectionBookAddBulk);
 const { t } = useI18n();
 const { $pb } = useNuxtApp();
 
-const selected = ref<NonNullable<typeof rows.value> | undefined>(
-  $pb.authStore.isAuthRecord ? [] : undefined,
-);
+const selected = ref<Record<string, boolean>>({});
 
 const props = defineProps<{
   heading?: string;
@@ -24,31 +39,29 @@ const emit = defineEmits<{
   add: [];
 }>();
 
-const columns = computed(() => [
+const columns = computed<TableColumn<Book>[]>(() => [
   {
-    key: "volume",
-    label: t("general.volume"),
-    sortable: true,
+    accessorKey: "volume",
+    header: t("general.volume"),
   },
   {
-    key: "name",
-    label: t("general.name"),
+    accessorKey: "name",
+    header: t("general.name"),
   },
   {
-    key: "publishDate",
-    label: t("general.publishDate"),
-    sortable: true,
+    accessorKey: "publishDate",
+    header: t("general.publishDate"),
   },
   {
-    key: "price",
-    label: t("general.price"),
+    accessorKey: "price",
+    header: t("general.price"),
   },
   {
-    key: "actions",
+    accessorKey: "actions",
   },
 ]);
 
-const rows = computed(() =>
+const rows = computed<Book[]>(() =>
   props.books.map((book) => ({
     id: book.id,
     volume: book.expand?.publication?.volume
@@ -64,20 +77,16 @@ const rows = computed(() =>
 );
 
 const ui = {
-  wrapper: "relative overflow-x-auto [font-feature-settings:'ss01']",
-  td: {
-    base: "whitespace-normal lg:whitespace-normal",
-    color: "text-gray-600 dark:text-gray-300",
-  },
+  root: "relative overflow-x-auto [font-feature-settings:'ss01']",
+  td: "whitespace-normal lg:whitespace-normal text-neutral-600 dark:text-neutral-300",
 };
 
 function handleAddBulk() {
   if (selected.value) {
-    modal.open(ModalCollectionBookAddBulk, {
-      books: selected.value.map((book) => ({
-        id: book.id,
-        name: book.name,
-      })),
+    modal.open({
+      books: rows.value
+        .filter((_, i) => i in selected.value)
+        .map(({ id, name }) => ({ id, name })),
       callback: () => emit("add"),
     });
   }
@@ -88,61 +97,58 @@ function handleAddBulk() {
   <div class="space-y-3">
     <AppH2 v-if="heading">{{ heading }}</AppH2>
     <div v-if="view === 'list'" class="space-y-3">
-      <UTable v-model="selected" :columns :rows :ui>
-        <template #volume-data="{ row }">
-          <UBadge variant="soft" color="gray">{{ row.volume }}</UBadge>
+      <UTable v-model:row-selection="selected" :columns :data="rows" :ui>
+        <template #volume-cell="{ row }">
+          <UBadge variant="soft" color="neutral">{{
+            row.original.volume
+          }}</UBadge>
         </template>
-        <template
-          #name-data="{ row }: { row: NonNullable<typeof rows.value>[0] }"
-        >
+        <template #name-cell="{ row }">
           <div class="flex min-w-52 items-center gap-3">
             <ULink
               v-if="title && release"
               :to="joinURL('/title', title.slug, release.id, row.id)"
               class="hover:underline"
             >
-              {{ row.name }}
+              {{ row.original.name }}
             </ULink>
-            <span v-else>{{ row.name }}</span>
+            <span v-else>{{ row.original.name }}</span>
             <UBadge
-              v-if="row.edition"
-              color="tanaamber"
-              class="w-fit text-gray-900"
+              v-if="row.original.edition"
+              color="secondary"
+              class="w-fit text-neutral-900"
             >
-              {{ row.edition }}
+              {{ row.original.edition }}
             </UBadge>
           </div>
         </template>
-        <template #publishDate-data="{ row }">
-          <span v-if="row.publishDate">
-            {{ $d(new Date(row.publishDate), "publishDate") }}
+        <template #publishDate-cell="{ row }">
+          <span v-if="row.original.publishDate">
+            {{ $d(new Date(row.original.publishDate), "publishDate") }}
           </span>
         </template>
-        <template #price-data="{ row }">
+        <template #price-cell="{ row }">
           <span>
-            {{ $n(row.price, "currency", "vi") }}
+            {{ $n(row.original.price, "currency", "vi") }}
           </span>
         </template>
-        <template
-          #actions-data="{ row }: { row: NonNullable<typeof rows.value>[0] }"
-        >
+        <template #actions-cell="{ row }">
           <LibraryAddButton
-            :id="row.id"
-            :name="row.name"
-            :in-collections="row.inCollections"
+            :id="row.original.id"
+            :name="row.original.name"
+            :in-collections="row.original.inCollections"
             square
-            color="gray"
+            color="neutral"
             class="justify-end gap-1"
             @add="() => $emit('add')"
           />
         </template>
       </UTable>
       <UButton
-        v-if="$pb.authStore.isAuthRecord && selected"
+        v-if="$pb.authStore.record && selected"
         :label="$t('library.addToLibraryBulk')"
         icon="i-fluent-book-add-20-filled"
-        color="gray"
-        :disabled="selected.length <= 0"
+        color="neutral"
         @click="handleAddBulk()"
       />
     </div>

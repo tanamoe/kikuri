@@ -12,7 +12,7 @@ const { data: upcoming } = await useAsyncData(() =>
   $pb.collection(Collections.Books).getFullList<BooksCommon>({
     filter: $pb.filter("publishDate >= {:start} && publishDate <= {:end}", {
       start: now.startOf("day").format("YYYY-MM-DD"),
-      end: now.add(3, "days").endOf("day").format("YYYY-MM-DD"),
+      end: now.add(4, "days").endOf("day").format("YYYY-MM-DD"),
     }),
     sort: "+publishDate, +publication.release.title.name, +publication.volume, +edition, +publication.defaultBook.assets_via_book.priority, +assets_via_book.priority",
     expand:

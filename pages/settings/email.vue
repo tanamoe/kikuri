@@ -31,9 +31,13 @@ definePageMeta({
 <template>
   <div>
     <UForm class="space-y-6" :schema="schema" :state="state" @submit="onSubmit">
-      <UFormGroup name="email" :label="$t('account.email')">
-        <UInput v-model="state.email" icon="i-fluent-mail-20-filled" />
-      </UFormGroup>
+      <UFormField name="email" :label="$t('account.email')">
+        <UInput
+          v-model="state.email"
+          icon="i-fluent-mail-20-filled"
+          class="w-full"
+        />
+      </UFormField>
       <div class="flex justify-end gap-3">
         <UButton :loading="pending" type="submit">
           {{ $t("settings.requestEmailChange") }}

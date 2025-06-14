@@ -6,7 +6,7 @@ const sticky = computed(() => route.meta.stickyNav as boolean);
 
 <template>
   <div>
-    <NavigationBar :sticky="sticky" />
+    <NavigationBar :sticky />
 
     <UContainer class="min-h-[80vh]" as="main">
       <slot />

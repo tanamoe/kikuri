@@ -1,12 +1,13 @@
 <script setup lang="ts">
+import type { DropdownMenuProps } from "@nuxt/ui";
 import { joinURL } from "ufo";
 
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 
 const avatar = computed(() => {
-  if ($pb.authStore.model && $pb.authStore.model.avatar !== "") {
-    return $pb.files.getUrl($pb.authStore.model, $pb.authStore.model.avatar, {
+  if ($pb.authStore.record && $pb.authStore.record.avatar !== "") {
+    return $pb.files.getURL($pb.authStore.record, $pb.authStore.record.avatar, {
       thumb: "32x32",
     });
   }
@@ -21,8 +22,8 @@ const authenticatedItems = computed(() => [
       avatar: {
         src: avatar.value,
       },
-      to: $pb.authStore.model
-        ? joinURL("/user", $pb.authStore.model.username)
+      to: $pb.authStore.record
+        ? joinURL("/user", $pb.authStore.record.username)
         : undefined,
     },
   ],
@@ -64,40 +65,47 @@ const items = computed(() => [
   ],
 ]);
 
-const ui = {
-  container: "z-50",
+const ui: DropdownMenuProps["ui"] = {
+  content: "z-50",
+};
+
+const content: DropdownMenuProps["content"] = {
+  align: "end",
+  side: "bottom",
 };
 </script>
 
 <template>
-  <UDropdown
-    v-if="$pb.authStore.isAuthRecord"
+  <UDropdownMenu
+    v-if="$pb.authStore.record"
     :items="authenticatedItems"
     :popper="{ placement: 'bottom-end' }"
-    :ui="ui"
+    :ui
+    :content
   >
     <UButton
-      color="gray"
+      color="neutral"
       variant="ghost"
       square
       :aria-label="$t('general.user')"
     >
       <UAvatar :src="avatar" size="2xs" />
     </UButton>
-  </UDropdown>
+  </UDropdownMenu>
 
-  <UDropdown
+  <UDropdownMenu
     v-else
     :items="items"
     :popper="{ placement: 'bottom-end' }"
-    :ui="ui"
+    :ui
+    :content
   >
     <UButton
       icon="i-fluent-person-20-filled"
-      color="gray"
+      color="neutral"
       square
       variant="ghost"
       :aria-label="$t('general.user')"
     />
-  </UDropdown>
+  </UDropdownMenu>
 </template>
