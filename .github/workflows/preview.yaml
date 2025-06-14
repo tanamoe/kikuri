@@ -16,11 +16,7 @@ jobs:
           node-version: 20
       - name: Install dependencies
         run: bun install
-      - name: Deploy with NuxtHub
-        run: bunx nuxthub deploy --preview
-        env:
-          NUXT_HUB_PROJECT_KEY: ${{ secrets.NUXT_HUB_PROJECT_KEY }}
-          NUXT_HUB_USER_TOKEN: ${{ secrets.NUXT_HUB_USER_TOKEN }}
-          IMAGE_URL: ${{ vars.IMAGE_URL }}
-          POCKETBASE_URL: ${{ vars.POCKETBASE_URL }}
-          SITE_URL: ${{ vars.SITE_URL }}
+      - name: Build & Deploy to NuxtHub
+        uses: nuxt-hub/action@v2
+        with:
+          project-key: ${{ secrets.NUXT_HUB_PROJECT_KEY }}
