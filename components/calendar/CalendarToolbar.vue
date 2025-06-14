@@ -68,7 +68,7 @@ onMounted(async () => {
   <div
     id="toolbar"
     ref="toolbar"
-    class="sticky top-0 z-30 mb-3 bg-(--ui-bg)/90 backdrop-blur"
+    class="bg-default/90 sticky top-0 z-30 mb-3 backdrop-blur"
   >
     <UContainer class="mx-auto px-6 py-3">
       <div

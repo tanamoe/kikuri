@@ -31,7 +31,7 @@ const currentTheme = computed({
 </script>
 
 <template>
-  <footer class="mt-12 bg-(--ui-bg-muted)">
+  <footer class="bg-muted mt-12">
     <UContainer class="mx-auto p-6">
       <div class="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
         <div class="flex-1">
@@ -51,7 +51,7 @@ const currentTheme = computed({
           </div>
         </div>
         <div
-          class="grid w-full grid-cols-3 gap-6 text-(--ui-text-dimmed) sm:w-fit sm:gap-12"
+          class="text-dimmed grid w-full grid-cols-3 gap-6 sm:w-fit sm:gap-12"
         >
           <ul>
             <li>
@@ -108,7 +108,7 @@ const currentTheme = computed({
       </div>
 
       <div
-        class="mt-6 flex items-center justify-between border-t border-(--ui-border-muted) pt-6 text-(--ui-text-muted)"
+        class="border-muted text-muted mt-6 flex items-center justify-between border-t pt-6"
       >
         <div>Tana.moe</div>
         <AppSocialLinks />

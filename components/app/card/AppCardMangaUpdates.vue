@@ -12,7 +12,7 @@ const { data: series } = await useFetch("/api/mangaupdates", {
 });
 
 const ui: CardProps["ui"] = {
-  body: "divide-y divide-(--ui-border) p-4 sm:p-4",
+  body: "divide-y divide-default p-4 sm:p-4",
   footer: "px-4 py-2 sm:px-4",
 };
 </script>
@@ -20,7 +20,7 @@ const ui: CardProps["ui"] = {
 <template>
   <UCard
     v-if="series"
-    class="prose-a:hover:text-(--ui-primary) prose prose-sm dark:prose-invert prose-h4:my-0 prose-a:text-(--ui-text-muted) prose-img:my-0 prose-hr:my-3 max-w-none"
+    class="prose-a:hover:text-primary prose prose-sm dark:prose-invert prose-h4:my-0 prose-a:text-muted prose-img:my-0 prose-hr:my-3 max-w-none"
     :ui
   >
     <div class="space-y-3">

@@ -31,7 +31,7 @@ defineProps<Props>();
     v-else
     :class="[
       'flex h-full w-full items-center justify-center text-center',
-      'bg-(--ui-bg-muted) text-(--ui-text-muted)',
+      'bg-muted text-muted',
       'font-condensed font-bold',
       'p-6',
       'aspect-[2/3]',

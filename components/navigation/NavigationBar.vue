@@ -63,7 +63,7 @@ withDefaults(
 
 <template>
   <nav
-    class="top-0 z-40 bg-(--ui-bg)/90 backdrop-blur"
+    class="bg-default/90 top-0 z-40 backdrop-blur"
     :class="{
       'sticky mb-6': sticky,
       relative: !sticky,

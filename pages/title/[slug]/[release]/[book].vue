@@ -377,9 +377,9 @@ useSeoMeta({
         </div>
 
         <UCard
-          class="prose-a:hover:text-(--ui-primary) prose prose-sm dark:prose-invert prose-h4:my-0 prose-a:text-(--ui-text-muted) prose-img:my-0 prose-hr:my-3 max-w-none"
+          class="prose-a:hover:text-primary prose prose-sm dark:prose-invert prose-h4:my-0 prose-a:text-muted prose-img:my-0 prose-hr:my-3 max-w-none"
           :ui="{
-            body: 'divide-y divide-(--ui-border) p-0 sm:p-0',
+            body: 'divide-y divide-default p-0 sm:p-0',
             footer: 'px-4 py-2 sm:px-4',
           }"
         >

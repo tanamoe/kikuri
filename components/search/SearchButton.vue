@@ -14,14 +14,22 @@ const modal = overlay.create(SearchModal);
       class="flex sm:hidden"
       square
       :aria-label="$t('general.search')"
-      @click="modal.open"
+      @click="
+        () => {
+          modal.open();
+        }
+      "
     />
     <UButton
       icon="i-fluent-search-20-filled"
       color="neutral"
       variant="outline"
       class="hidden sm:flex"
-      @click="modal.open"
+      @click="
+        () => {
+          modal.open();
+        }
+      "
     >
       {{ $t("general.searchPlaceholder") }}
       <template #trailing>
