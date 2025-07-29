@@ -20,7 +20,7 @@ const assets = computed(() =>
 <template>
   <div class="rotate-12">
     <div
-      class="grid animate-scrolling grid-cols-4 gap-6 pb-6 md:grid-cols-6 xl:grid-cols-8"
+      class="animate-scrolling grid grid-cols-4 gap-6 pb-6 md:grid-cols-6 xl:grid-cols-8"
     >
       <AppImage
         v-for="asset in assets"
@@ -34,7 +34,7 @@ const assets = computed(() =>
 
     <div
       aria-hidden
-      class="grid animate-scrolling grid-cols-4 gap-6 pb-6 md:grid-cols-6 xl:grid-cols-8"
+      class="animate-scrolling grid grid-cols-4 gap-6 pb-6 md:grid-cols-6 xl:grid-cols-8"
     >
       <AppImage
         v-for="asset in assets"

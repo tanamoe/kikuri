@@ -26,7 +26,7 @@ defineProps<{
   </div>
   <div
     v-if="store.display.datePosition === 'top'"
-    class="py-2 font-lexend text-2xl font-bold"
+    class="font-lexend py-2 text-2xl font-bold"
   >
     {{ $d(date, "full") }}
   </div>

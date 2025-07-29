@@ -6,7 +6,7 @@ const {
   public: { siteUrl },
 } = useRuntimeConfig();
 const { query } = useRoute();
-const { t } = useI18n({ useScope: "global" });
+const { t } = useI18n();
 const authProvider = useCookie<AuthProviderInfo>("auth_provider");
 
 onMounted(async () => {
