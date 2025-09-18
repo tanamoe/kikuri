@@ -29,7 +29,7 @@
     "@nuxtjs/i18n": "^9.5.3",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.1",
     "@tailwindcss/typography": "^0.5.16",
-    "@types/node": "~22.15.3",
+    "@types/node": "~22.18.0",
     "@vueuse/core": "^13.1.0",
     "@vueuse/nuxt": "^13.1.0",
     "eslint": "^9.25.1",
