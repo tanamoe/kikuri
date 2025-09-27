@@ -67,7 +67,7 @@ function onSlideChange(swiper: any) {
       <ClientOnly>
         <swiper-container
           ref="swiperEl"
-          class="w-64 xl:w-80"
+          class="ml-auto w-64 xl:w-80"
           :init="false"
           @swiperslidechange="onSlideChange"
         >
