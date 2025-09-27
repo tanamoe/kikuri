@@ -104,7 +104,7 @@ useSeoMeta({
   description: title.value && parseToText(title.value.description),
   ogTitle: title.value.name,
   ogDescription: title.value && parseToText(title.value.description),
-  ogImage: cover.value && $pb.files.getUrl(cover.value, cover.value.image),
+  ogImage: cover.value && $pb.files.getURL(cover.value, cover.value.image),
   // TODO: calculate ogImage alt text
   // ogImageAlt: release.value.name,
 });
@@ -127,7 +127,7 @@ useSeoMeta({
           aspect="full"
           class="rounded-lg"
           loading="eager"
-          :src="cover && $pb.files.getUrl(cover, cover.image)"
+          :src="cover && $pb.files.getURL(cover, cover.image)"
           :srcset="cover && cover.resizedImage"
           :name="title.name"
           sizes="(max-width: 640px) 80vw, (max-width: 1280px) 30vw, 15vw"
@@ -166,13 +166,6 @@ useSeoMeta({
           <PageTitleSectionReviews
             v-if="reviews && reviews.length > 0"
             :reviews="reviews"
-          />
-
-          <PageTitleSectionCovers
-            v-if="title.expand?.releases_via_title && assets?.items"
-            :assets="assets.items"
-            :releases="title.expand.releases_via_title"
-            :title-id="title.id"
           />
         </div>
       </div>

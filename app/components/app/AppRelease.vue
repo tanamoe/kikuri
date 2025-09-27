@@ -37,7 +37,7 @@ const ui: CardProps["ui"] = {
       <AppImageCover
         class="transition-all group-hover:brightness-90 dark:group-hover:brightness-75"
         :name="release.name"
-        :src="image && $pb.files.getUrl(image, image.image)"
+        :src="image && $pb.files.getURL(image, image.image)"
         :srcset="image && image.resizedImage"
         :sizes
         :draggable

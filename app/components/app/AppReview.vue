@@ -26,7 +26,7 @@ const ui: CardProps["ui"] = { body: "relative p-0 sm:p-0" };
         <div v-if="release?.expand?.title" class="w-32 flex-shrink-0">
           <img
             :src="
-              $pb.files.getUrl(release.expand.title, release.expand.title.cover)
+              $pb.files.getURL(release.expand.title, release.expand.title.cover)
             "
             class="h-full w-full object-cover transition-all group-hover:brightness-90 dark:group-hover:brightness-75"
           />
@@ -54,7 +54,7 @@ const ui: CardProps["ui"] = { body: "relative p-0 sm:p-0" };
               <UAvatar
                 size="xs"
                 :src="
-                  $pb.files.getUrl(user, user.avatar, {
+                  $pb.files.getURL(user, user.avatar, {
                     thumb: '32x32',
                   })
                 "

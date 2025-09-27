@@ -10,7 +10,7 @@ export const getImage: ProviderGetImage = (
   let url = joinURL(baseURL, src);
 
   if (width || height) {
-    url = joinURL(url, `?thumb=${width || 0}x${height || 0}`);
+    url = `${url}?thumb=${width || 0}x${height || 0}`;
   }
 
   return {

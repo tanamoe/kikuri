@@ -47,6 +47,7 @@ const ui = {
                     thumb: '24x24',
                   })
                 "
+                :alt="expand.partner.name"
               />
               <UAvatar
                 v-if="expand?.publisher"

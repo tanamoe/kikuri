@@ -16,28 +16,23 @@ defineProps<{
   partner?: PublishersResponse;
   front?: AssetsResponse<MetadataImages>;
 }>();
-
-const ui = {
-  base: "overflow-hidden",
-  body: { base: "relative", padding: "p-0 sm:p-0" },
-};
 </script>
 
 <template>
-  <UCard :ui>
+  <UCard>
     <div class="space-y-1">
       <div
         v-if="format || release.digital || partner || publisher"
         class="flex flex-wrap items-center gap-1"
       >
-        <UBadge v-if="format" color="gray">
+        <UBadge v-if="format" color="secondary">
           {{ format.name }}
         </UBadge>
-        <UBadge v-if="release.digital" color="red">Digital</UBadge>
-        <UBadge v-if="partner" color="gray">
+        <UBadge v-if="release.digital" color="error">Digital</UBadge>
+        <UBadge v-if="partner" color="secondary">
           <AppPublisher :publisher="partner" />
         </UBadge>
-        <UBadge v-if="publisher" color="gray">
+        <UBadge v-if="publisher" color="secondary">
           <AppPublisher :publisher />
         </UBadge>
       </div>
@@ -56,7 +51,7 @@ const ui = {
     </div>
 
     <AppImageCover
-      :src="front && $pb.files.getUrl(front, front.image)"
+      :src="front && $pb.files.getURL(front, front.image)"
       :srcset="front && front.resizedImage"
     />
   </UCard>

@@ -60,7 +60,7 @@ function onSlideChange(swiper: any) {
           leave-from-class="opacity-100 translate-x-0"
           leave-to-class="opacity-0 -translate-x-3"
         >
-          <PageIndexSwiperInfo :key="index" :book="books[index]" />
+          <PageIndexSwiperInfo :key="index" :book="books[index]!" />
         </Transition>
       </div>
 

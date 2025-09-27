@@ -16,7 +16,11 @@ if (defaultValid.value && settingsStore.library.defaultLibraryId) {
     joinURL("/library", settingsStore.library.defaultLibraryId),
     { replace: true },
   );
-} else if (collections.value && collections.value.length > 0) {
+} else if (
+  collections.value &&
+  collections.value.length > 0 &&
+  collections.value[0]?.collectionId
+) {
   await navigateTo(joinURL("/library", collections.value[0].collectionId), {
     replace: true,
   });

@@ -35,7 +35,7 @@ const releases = computed(() =>
     avatar: {
       src:
         release.expand?.publisher &&
-        $pb.files.getUrl(
+        $pb.files.getURL(
           release.expand.publisher,
           release.expand.publisher.logo,
           {
@@ -57,7 +57,7 @@ const _items = computed(() =>
     )
     .map((asset) => ({
       alt: asset.expand?.book.expand?.publication.name ?? "",
-      src: $pb.files.getUrl(asset, asset.image),
+      src: $pb.files.getURL(asset, asset.image),
       srcset: asset.resizedImage ? joinSrcset(asset.resizedImage) : undefined,
     })),
 );
@@ -68,27 +68,22 @@ const _items = computed(() =>
     <div class="mt-12 mb-3 flex items-center justify-between">
       <AppH2>{{ $t("general.coverImages") }}</AppH2>
       <USelectMenu
-        v-slot="{ open }"
         v-model="selected"
         :options="releases"
+        icon="i-fluent-book-20-filled"
+        arrow
         value-key="id"
+        :search-input="false"
         multiple
         :ui-menu="{
           width: 'w-fit',
         }"
+        :items="releases"
       >
-        <UButton color="neutral" class="w-max" block>
-          <UIcon name="i-fluent-book-20-filled" />
-          <span v-if="selected.length == 0">
-            {{ $t("general.releaseSelect") }}</span
-          >
-          <span v-else>{{ $t("general.releaseCount", selected.length) }}</span>
-          <UIcon
-            name="i-fluent-chevron-right-20-filled"
-            class="h-5 w-5 text-neutral-400 transition-transform dark:text-neutral-500"
-            :class="[open && 'rotate-90 transform']"
-          />
-        </UButton>
+        <span v-if="selected.length == 0">
+          {{ $t("general.releaseSelect") }}</span
+        >
+        <span v-else>{{ $t("general.releaseCount", selected.length) }}</span>
       </USelectMenu>
     </div>
   </div>

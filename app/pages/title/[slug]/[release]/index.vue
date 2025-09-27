@@ -109,7 +109,7 @@ useSeoMeta({
   description: title.value && parseToText(title.value.description),
   ogTitle: release.value.name,
   ogDescription: title.value && parseToText(title.value.description),
-  ogImage: cover.value && $pb.files.getUrl(cover.value, cover.value.image),
+  ogImage: cover.value && $pb.files.getURL(cover.value, cover.value.image),
   // TODO: calculate ogImage alt text
   // ogImageAlt: release.value.name,
 });
@@ -123,7 +123,7 @@ useSeoMeta({
           <AppImage
             v-if="release.expand?.logo"
             :src="
-              $pb.files.getUrl(release.expand.logo, release.expand.logo.image)
+              $pb.files.getURL(release.expand.logo, release.expand.logo.image)
             "
             :srcset="release.expand.logo.resizedImage"
             class="max-h-72 max-w-64"
@@ -156,7 +156,7 @@ useSeoMeta({
           aspect="full"
           class="rounded-lg"
           loading="eager"
-          :src="cover && $pb.files.getUrl(cover, cover.image)"
+          :src="cover && $pb.files.getURL(cover, cover.image)"
           :srcset="cover && cover.resizedImage"
           :name="release.name"
           sizes="(max-width: 640px) 80vw, (max-width: 1280px) 30vw, 15vw"

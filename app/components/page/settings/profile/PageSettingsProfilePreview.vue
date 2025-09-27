@@ -44,14 +44,14 @@ const ui = {
 };
 
 function handleAvatarChange() {
-  if (avatarInput.value?.files) {
+  if (avatarInput.value?.files && avatarInput.value.files[0]) {
     emit("change:avatar", avatarInput.value.files[0]);
     state.value.avatar = window.URL.createObjectURL(avatarInput.value.files[0]);
   }
 }
 
 function handleBannerChange() {
-  if (bannerInput.value?.files) {
+  if (bannerInput.value?.files && bannerInput.value.files[0]) {
     emit("change:banner", bannerInput.value.files[0]);
     state.value.banner = window.URL.createObjectURL(bannerInput.value.files[0]);
   }

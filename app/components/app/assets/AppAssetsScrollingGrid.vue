@@ -22,28 +22,32 @@ const assets = computed(() =>
     <div
       class="animate-scrolling grid grid-cols-4 gap-6 pb-6 md:grid-cols-6 xl:grid-cols-8"
     >
-      <AppImage
-        v-for="asset in assets"
-        :key="asset.id"
-        class="h-full w-full rounded-md object-cover"
-        :src="asset.resizedImage!['1920w']"
-        :srcset="asset.resizedImage"
-        sizes="10vw"
-      />
+      <template v-for="asset in assets">
+        <AppImage
+          v-if="asset"
+          :key="asset.id"
+          class="h-full w-full rounded-md object-cover"
+          :src="asset.resizedImage!['1920w']"
+          :srcset="asset.resizedImage"
+          sizes="10vw"
+        />
+      </template>
     </div>
 
     <div
       aria-hidden
       class="animate-scrolling grid grid-cols-4 gap-6 pb-6 md:grid-cols-6 xl:grid-cols-8"
     >
-      <AppImage
-        v-for="asset in assets"
-        :key="asset.id"
-        class="h-full w-full rounded-md object-cover"
-        :src="asset.resizedImage!['1920w']"
-        :srcset="asset.resizedImage"
-        sizes="10vw"
-      />
+      <template v-for="asset in assets">
+        <AppImage
+          v-if="asset"
+          :key="asset.id"
+          class="h-full w-full rounded-md object-cover"
+          :src="asset.resizedImage!['1920w']"
+          :srcset="asset.resizedImage"
+          sizes="10vw"
+        />
+      </template>
     </div>
   </div>
 </template>

@@ -67,7 +67,7 @@ defineShortcuts({
                 icon="i-fluent-arrow-download-20-filled"
                 color="neutral"
                 square
-                :to="joinURL(images[currentIndex].src, '?download=1')"
+                :to="joinURL(images[currentIndex]!.src, '?download=1')"
               >
                 {{ $t("general.download") }}
               </UButton>

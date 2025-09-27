@@ -58,6 +58,7 @@ const columns = computed<TableColumn<Book>[]>(() => [
   },
   {
     accessorKey: "actions",
+    header: "",
   },
 ]);
 
@@ -107,7 +108,7 @@ function handleAddBulk() {
           <div class="flex min-w-52 items-center gap-3">
             <ULink
               v-if="title && release"
-              :to="joinURL('/title', title.slug, release.id, row.id)"
+              :to="joinURL('/title', title.slug, release.id, row.original.id)"
               class="hover:underline"
             >
               {{ row.original.name }}
@@ -128,9 +129,10 @@ function handleAddBulk() {
           </span>
         </template>
         <template #price-cell="{ row }">
-          <span>
+          <span v-if="row.original.price != 0">
             {{ $n(row.original.price, "currency", "vi") }}
           </span>
+          <span v-else></span>
         </template>
         <template #actions-cell="{ row }">
           <LibraryAddButton

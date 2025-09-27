@@ -39,7 +39,7 @@ function onScroll() {
     .sort(
       (el1, el2) =>
         el1.getBoundingClientRect().bottom - el2.getBoundingClientRect().bottom,
-    )[0].id;
+    )[0]?.id;
 }
 
 function scrollToTop() {
@@ -47,8 +47,20 @@ function scrollToTop() {
 }
 
 function scrollToNearest() {
-  if (nearestDay.value)
-    doScroll(props.dates[props.dates.indexOf(nearestDay.value)]);
+  if (nearestDay.value) {
+    const pos = props.dates[props.dates.indexOf(nearestDay.value)];
+    if (pos) doScroll(pos);
+  }
+}
+
+function scrollToPrev() {
+  const pos = props.dates[props.dates.indexOf(position.value) - 1];
+  if (pos) doScroll(pos);
+}
+
+function scrollToNext() {
+  const pos = props.dates[props.dates.indexOf(position.value) + 1];
+  if (pos) doScroll(pos);
 }
 
 onMounted(() => {
@@ -71,7 +83,7 @@ onUnmounted(() => {
         icon="i-fluent-chevron-up-20-filled"
         :disabled="dates.indexOf(position) === -1"
         square
-        @click="doScroll(dates[dates.indexOf(position) - 1])"
+        @click="scrollToPrev"
       />
       <UButton
         icon="i-fluent-arrow-up-20-filled"
@@ -98,7 +110,7 @@ onUnmounted(() => {
         icon="i-fluent-chevron-down-20-filled"
         :disabled="dates.indexOf(position) === dates.length - 0"
         square
-        @click="doScroll(dates[dates.indexOf(position) + 1])"
+        @click="scrollToNext"
       />
     </div>
   </div>
