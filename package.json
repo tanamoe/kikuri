@@ -66,7 +66,7 @@
     "pocketbase": "^0.26.2",
     "vue": "^3.5.18",
     "vue-tsc": "^3.0.5",
-    "zod": "3.25.76"
+    "zod": "4.1.13"
   },
   "trustedDependencies": [
     "@parcel/watcher",
