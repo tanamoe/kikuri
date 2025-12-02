@@ -205,7 +205,7 @@ onBeforeUnmount(() => {
             tabindex="-1"
             @click="() => (url = editor?.getAttributes('link').href)"
           />
-          <template #panel>
+          <template #content>
             <form class="space-y-3 p-3 text-right">
               <UFormGroup name="url">
                 <UInput v-model="url" placeholder="https://tana.moe/calendar" />
@@ -234,7 +234,7 @@ onBeforeUnmount(() => {
             square
             tabindex="-1"
           />
-          <template #panel>
+          <template #content>
             <div class="space-y-3 p-3 text-right">
               <UFormGroup name="url">
                 <UInput
