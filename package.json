@@ -25,9 +25,7 @@
     "@nuxt/eslint": "^1.11.0",
     "@nuxt/image": "^2.0.0",
     "@nuxt/ui": "^4.2.1",
-    "@nuxthub/core": "^0.9.1",
     "@nuxtjs/i18n": "^10.2.1",
-    "@pinia-plugin-persistedstate/nuxt": "^1.2.1",
     "@tailwindcss/typography": "^0.5.19",
     "@types/node": "~24.10.1",
     "@vueuse/core": "^14.1.0",
@@ -57,25 +55,15 @@
     "@tiptap/vue-3": "^3.11.1",
     "@vueuse/math": "^14.1.0",
     "@vueuse/router": "^14.1.0",
-    "better-sqlite3": "^12.5.0",
     "class-variance-authority": "^0.7.1",
     "dayjs": "^1.11.19",
     "fuzzball": "^2.2.3",
     "nuxt-swiper": "^2.0.1",
     "pinia": "^3.0.4",
+    "pinia-plugin-persistedstate": "^4.7.1",
     "pocketbase": "^0.26.3",
     "vue": "^3.5.25",
     "vue-tsc": "^3.1.5",
     "zod": "4.1.13"
-  },
-  "trustedDependencies": [
-    "@parcel/watcher",
-    "better-sqlite3",
-    "esbuild",
-    "pocketbase-typegen",
-    "sharp",
-    "sqlite3",
-    "vue-demi",
-    "workerd"
-  ]
+  }
 }
