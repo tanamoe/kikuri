@@ -93,6 +93,7 @@ withDefaults(
 
       <UNavigationMenu
         :items
+        content-orientation="vertical"
         class="col-span-4 hidden justify-center sm:flex"
       />
 

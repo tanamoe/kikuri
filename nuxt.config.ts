@@ -16,13 +16,12 @@ export default defineNuxtConfig({
     "@nuxt/eslint",
     "@vueuse/nuxt",
     "@pinia/nuxt",
-    "@pinia-plugin-persistedstate/nuxt",
+    "pinia-plugin-persistedstate/nuxt",
     "@nuxtjs/i18n",
     "@nuxt/image",
     "@nuxt/ui",
     "@nuxt/content",
     "nuxt-swiper",
-    "@nuxthub/core",
   ],
 
   devtools: {
@@ -34,17 +33,13 @@ export default defineNuxtConfig({
     typeCheck: true,
   },
 
-  hub: {
-    cache: true,
-  },
-
   css: ["~/assets/css/main.css"],
 
   routeRules: {
     "/": { swr: 10800 },
     "/calendar": { swr: 10800 },
-    // "/title/**": { swr: 10800 },
-    // "/library/*": { ssr: false },
+    "/title/**": { swr: 10800 },
+    "/library/*": { ssr: false },
   },
 
   image: {
