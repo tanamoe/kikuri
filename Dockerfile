@@ -13,7 +13,7 @@ COPY . /app
 RUN pnpm run build
 
 # runtime
-FROM gcr.io/distroless/nodejs24-debian12@sha256:1eb863ed9b3276bdff6030942999343fe287e7e50ddd8742d1d20668d1cb0ece
+FROM gcr.io/distroless/nodejs24-debian12@sha256:aa9ea28c521590ff497a06449109f26582ca9fa7eacfe8b169fec24399c1bd8a
 COPY --from=build /app/.output /app
 WORKDIR /app
 CMD ["./server/index.mjs"]
