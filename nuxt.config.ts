@@ -74,6 +74,14 @@ export default defineNuxtConfig({
     defaultLocale: "vi",
   },
 
+  nitro: {
+    preset: "cloudflare_module",
+    cloudflare: {
+      deployConfig: true,
+      nodeCompat: true,
+    },
+  },
+
   hub: {
     cache: {
       driver: "cloudflare-kv-binding",
