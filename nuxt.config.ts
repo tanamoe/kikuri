@@ -75,12 +75,12 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    compatibilityDate: "2024-09-19",
     preset: "cloudflare_module",
     cloudflare: {
       deployConfig: true,
       nodeCompat: true,
     },
-    noPublicDir: true,
   },
 
   hub: {
