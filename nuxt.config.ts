@@ -80,6 +80,7 @@ export default defineNuxtConfig({
       deployConfig: true,
       nodeCompat: true,
     },
+    noPublicDir: true,
   },
 
   hub: {
