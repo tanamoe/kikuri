@@ -23,7 +23,7 @@
   in {
     devShells = forEachSupportedSystem ({pkgs}: {
       default = pkgs.mkShell {
-        packages = with pkgs; [nodejs nodePackages.pnpm vue-language-server typescript];
+        packages = with pkgs; [nodejs pnpm vue-language-server typescript];
       };
     });
   };
