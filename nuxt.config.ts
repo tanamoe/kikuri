@@ -67,6 +67,7 @@ export default defineNuxtConfig({
   i18n: {
     detectBrowserLanguage: false,
     defaultLocale: "vi",
+    strategy: "no_prefix",
   },
 
   nitro: {
