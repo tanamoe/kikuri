@@ -13,6 +13,7 @@ export default defineNuxtConfig({
   },
 
   modules: [
+    "@nuxthub/core",
     "@nuxt/eslint",
     "@vueuse/nuxt",
     "@pinia/nuxt",
@@ -22,7 +23,6 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxt/content",
     "nuxt-swiper",
-    "@nuxthub/core",
   ],
 
   devtools: {
@@ -36,12 +36,7 @@ export default defineNuxtConfig({
 
   css: ["~/assets/css/main.css"],
 
-  routeRules: {
-    "/": { swr: 10800 },
-    "/calendar": { swr: 10800 },
-    "/title/**": { swr: 10800 },
-    "/library/*": { ssr: false },
-  },
+  ssr: false,
 
   image: {
     provider: "imagor",
@@ -81,13 +76,7 @@ export default defineNuxtConfig({
       deployConfig: true,
       nodeCompat: true,
     },
-  },
-
-  hub: {
-    cache: {
-      driver: "cloudflare-kv-binding",
-      namespaceId: "92a91b7169684258980defe42996a972",
-    },
+    devStorage: { cache: { driver: "memory" } },
   },
 
   compatibilityDate: "2024-07-06",
