@@ -22,6 +22,7 @@ export default defineNuxtConfig({
     "@nuxt/ui",
     "@nuxt/content",
     "nuxt-swiper",
+    "@nuxthub/core",
   ],
 
   devtools: {
@@ -71,6 +72,13 @@ export default defineNuxtConfig({
   i18n: {
     detectBrowserLanguage: false,
     defaultLocale: "vi",
+  },
+
+  hub: {
+    cache: {
+      driver: "cloudflare-kv-binding",
+      namespaceId: "92a91b7169684258980defe42996a972",
+    },
   },
 
   compatibilityDate: "2024-07-06",
