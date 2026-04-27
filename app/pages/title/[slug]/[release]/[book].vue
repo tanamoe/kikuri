@@ -20,38 +20,40 @@ const route = useRoute();
 const { $pb } = useNuxtApp();
 const { t } = useI18n({ useScope: "global" });
 
-const { data: release } = await useAsyncData(() =>
-  $pb.collection(Collections.Releases).getFirstListItem<
-    ReleasesResponse<{
-      publisher: PublishersResponse;
-      partner: PublishersResponse;
-      title: TitlesResponse<
-        unknown,
-        {
-          format: FormatsResponse;
-          links_via_title: LinksResponse<{
-            source: LinkSourcesResponse;
-          }>[];
-        }
-      >;
-      logo: AssetsResponse<MetadataImages>;
-      banner: AssetsResponse<MetadataImages>;
-    }>
-  >(
-    $pb.filter("title.slug = {:slug} && id = {:release}", {
-      slug: route.params.slug,
-      release: route.params.release,
-    }),
-    {
-      expand:
-        "publisher, partner, title.links_via_title.source, title.format, logo, banner",
-    },
-  ),
+const { data: release } = await useAsyncData(
+  `${route.params.slug}/${route.params.release}`,
+  () =>
+    $pb.collection(Collections.Releases).getFirstListItem<
+      ReleasesResponse<{
+        publisher: PublishersResponse;
+        partner: PublishersResponse;
+        title: TitlesResponse<
+          unknown,
+          {
+            format: FormatsResponse;
+            links_via_title: LinksResponse<{
+              source: LinkSourcesResponse;
+            }>[];
+          }
+        >;
+        logo: AssetsResponse<MetadataImages>;
+        banner: AssetsResponse<MetadataImages>;
+      }>
+    >(
+      $pb.filter("title.slug = {:slug} && id = {:release}", {
+        slug: route.params.slug,
+        release: route.params.release,
+      }),
+      {
+        expand:
+          "publisher, partner, title.links_via_title.source, title.format, logo, banner",
+      },
+    ),
 );
 
 const title = computed(() => release.value?.expand?.title);
 
-const { data: book, refresh } = await useAsyncData(() =>
+const { data: book, refresh } = await useAsyncData(route.path, () =>
   $pb.collection(Collections.Books).getOne<
     BooksResponse<
       MetadataLibrary,
@@ -80,7 +82,7 @@ const { data: book, refresh } = await useAsyncData(() =>
 
 const publication = computed(() => book.value?.expand?.publication);
 
-const { data: editions } = await useAsyncData(() =>
+const { data: editions } = await useAsyncData(`${route.path}/editions`, () =>
   $pb.collection(Collections.Books).getFullList<
     BooksResponse<
       MetadataLibrary,
@@ -111,35 +113,37 @@ const { data: editions } = await useAsyncData(() =>
   }),
 );
 
-const { data: books } = await useAsyncData(() =>
-  $pb.collection(Collections.Books).getFullList<
-    BooksResponse<
-      MetadataLibrary,
-      {
-        assets_via_book: AssetsResponse<MetadataImages>[];
-        publication: PublicationsResponse<
-          unknown,
-          {
-            defaultBook: BooksResponse<
-              unknown,
-              { assets_via_book: AssetsResponse<MetadataImages>[] }
-            >;
-          }
-        >;
-      }
-    >
-  >({
-    filter: $pb.filter(
-      "publication.release = {:release} && publication.defaultBook = id",
-      {
-        release: route.params.release,
-        volume: book.value?.expand?.publication.volume,
-        id: book.value?.id,
-      },
-    ),
-    sort: "+publication.volume,+publishDate,+edition,+assets_via_book.priority",
-    expand: "assets_via_book, publication.defaultBook.assets_via_book",
-  }),
+const { data: books } = await useAsyncData(
+  `${route.params.release}/books`,
+  () =>
+    $pb.collection(Collections.Books).getFullList<
+      BooksResponse<
+        MetadataLibrary,
+        {
+          assets_via_book: AssetsResponse<MetadataImages>[];
+          publication: PublicationsResponse<
+            unknown,
+            {
+              defaultBook: BooksResponse<
+                unknown,
+                { assets_via_book: AssetsResponse<MetadataImages>[] }
+              >;
+            }
+          >;
+        }
+      >
+    >({
+      filter: $pb.filter(
+        "publication.release = {:release} && publication.defaultBook = id",
+        {
+          release: route.params.release,
+          volume: book.value?.expand?.publication.volume,
+          id: book.value?.id,
+        },
+      ),
+      sort: "+publication.volume,+publishDate,+edition,+assets_via_book.priority",
+      expand: "assets_via_book, publication.defaultBook.assets_via_book",
+    }),
 );
 
 const { data: previous } = await useAsyncData(() =>
