@@ -1,7 +1,7 @@
 @import "tailwindcss" theme(static);
 @import "@nuxt/ui";
 
-@plugin '@tailwindcss/typography';
+@plugin "@tailwindcss/typography";
 
 @theme static {
   --font-*: initial;

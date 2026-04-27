@@ -124,15 +124,15 @@ definePageMeta({
           <div v-if="status == 'pending'" class="space-y-3">
             <USkeleton
               class="h-10 w-full"
-              :ui="{ background: 'bg-neutral-200 dark:bg-neutral-700' }"
+              :ui="{ base: 'bg-neutral-200 dark:bg-neutral-700' }"
             />
             <USkeleton
               class="h-10 w-full"
-              :ui="{ background: 'bg-neutral-200 dark:bg-neutral-700' }"
+              :ui="{ base: 'bg-neutral-200 dark:bg-neutral-700' }"
             />
             <USkeleton
               class="h-10 w-full"
-              :ui="{ background: 'bg-neutral-200 dark:bg-neutral-700' }"
+              :ui="{ base: 'bg-neutral-200 dark:bg-neutral-700' }"
             />
           </div>
           <ul v-else-if="data" class="space-y-3">

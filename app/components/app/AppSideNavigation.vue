@@ -17,7 +17,8 @@ defineProps<{
         <UButton
           v-if="
             typeof link.authenticated !== 'undefined'
-              ? link.authenticated === $pb.authStore.isAuthRecord
+              ? link.authenticated ===
+                ($pb.authStore.record?.collectionName != undefined)
               : true
           "
           active-class="bg-neutral-200 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-100"
