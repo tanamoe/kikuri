@@ -21,13 +21,5 @@
       "binding": "DB",
       "database_id": "13fe3d04-0320-4cfc-8212-4641ec1b3dad"
     }
-  ],
-  "vars": {
-    "FB_APP_ID": "1479515876199433",
-    "IMAGE_URL": "https://image.tana.moe",
-    "POCKETBASE_URL": "https://pb.tana.moe",
-    "SITE_URL": "https://tana.moe",
-    "UMAMI_SITE_ID": "c01f72a8-03c7-4c0f-bd13-f47f767a5d62",
-    "UMAMI_URL": "https://analytics.tana.moe/script.js"
-  }
+  ]
 }
