@@ -36,7 +36,7 @@
     "lint-staged": "^16.4.0",
     "nuxt": "^4.4.2",
     "prettier": "^3.8.3",
-    "prettier-plugin-tailwindcss": "^0.7.3",
+    "prettier-plugin-tailwindcss": "^0.8.0",
     "typescript": "^6.0.3",
     "ufo": "^1.6.3",
     "wrangler": "^4.85.0"
