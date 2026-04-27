@@ -27,7 +27,7 @@ const ui = {
   indicator: "rounded-none",
 };
 
-const items = computed<DropdownMenuItem[]>(() => [
+const items = computed<DropdownMenuItem[][]>(() => [
   [
     {
       label: t("general.print"),

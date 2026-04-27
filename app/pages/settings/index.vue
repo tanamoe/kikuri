@@ -5,7 +5,7 @@ definePageMeta({
     () => {
       const { $pb } = useNuxtApp();
 
-      if ($pb.authStore.isAuthRecord) {
+      if ($pb.authStore.record?.collectionName) {
         return navigateTo("/settings/profile");
       } else {
         return navigateTo("/settings/interface");

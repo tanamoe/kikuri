@@ -12,7 +12,7 @@ interface Props {
   inCollections?: MetadataLibrary["inCollections"];
 }
 
-const { id, name, inCollections } = defineProps<Props>();
+const { id, name, inCollections = undefined } = defineProps<Props>();
 
 const emit = defineEmits<{
   add: [];
@@ -37,7 +37,7 @@ function add() {
         <UButton icon="i-fluent-library-20-filled" v-bind="$attrs" square />
       </UTooltip>
 
-      <template #panel>
+      <template #content>
         <UCard
           :ui="{
             body: 'p-0 sm:p-0',

@@ -1,11 +1,16 @@
 import { joinURL } from "ufo";
 import { defineProvider } from "@nuxt/image/runtime";
+import type { ImageModifiers } from "@nuxt/image";
 
-export default defineProvider<{ baseURL?: string }>({
+interface ImagorOptions extends ImageModifiers {
+  baseURL: string;
+}
+
+export default defineProvider<ImagorOptions>({
   getImage(src, { modifiers, baseURL }, { options }) {
     const { width, height, quality, ...providerModifiers } = modifiers;
 
-    let url = baseURL ?? "";
+    let url = baseURL;
 
     if (width || height) url = joinURL(url, `/${width || 0}x${height || 0}`);
 

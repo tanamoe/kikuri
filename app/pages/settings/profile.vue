@@ -46,7 +46,7 @@ definePageMeta({
 
 <template>
   <div
-    v-if="$pb.authStore.isAuthRecord"
+    v-if="$pb.authStore.record?.collectionName"
     class="flex flex-col gap-6 lg:flex-row-reverse"
   >
     <PageSettingsProfilePreview

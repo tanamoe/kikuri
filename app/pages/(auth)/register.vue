@@ -12,7 +12,7 @@ const schema = z
       .min(3, t("error.account.usernameInvalidMin"))
       .max(150, t("error.account.usernameInvalidMax"))
       .regex(/^[^\s]*$/, t("error.account.usernameIncludedSpace")),
-    email: z.string().email(t("error.account.emailInvalid")),
+    email: z.email(t("error.account.emailInvalid")),
     password: z.string().min(8, t("error.account.passwordInvalidMin")),
     passwordConfirm: z.string().min(8, t("error.account.passwordInvalidMin")),
   })

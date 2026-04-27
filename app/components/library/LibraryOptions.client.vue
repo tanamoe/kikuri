@@ -14,7 +14,7 @@ const props = defineProps<{
   editable: boolean;
 }>();
 
-const items = computed<DropdownMenuItem[]>(() => [
+const items = computed<DropdownMenuItem[][]>(() => [
   [
     {
       label: t("general.missingBooks"),

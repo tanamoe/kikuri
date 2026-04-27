@@ -12,10 +12,9 @@ const schema = z
     password: z.string().min(8, t("error.account.passwordInvalidMin")),
     passwordConfirm: z.string().min(8, t("error.account.passwordInvalidMin")),
   })
-  .refine(
-    ({ password, passwordConfirm }) => password === passwordConfirm,
-    () => ({ message: t("error.account.passwordNotMatch") }),
-  );
+  .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
+    error: t("error.account.passwordNotMatch"),
+  });
 
 type Schema = z.output<typeof schema>;
 

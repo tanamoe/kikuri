@@ -9,7 +9,7 @@ const cookie = useCookie<boolean>("tana_register_banner", {
 
 <template>
   <UCard
-    v-if="cookie && !$pb.authStore.isAuthRecord"
+    v-if="cookie && !$pb.authStore.record?.collectionName"
     variant="subtle"
     class="relative overflow-hidden"
   >

@@ -73,7 +73,7 @@ function search() {
   execute();
 }
 
-function select(row: TableRow<TitlesResponse>, _e?: Event) {
+function select(_: Event, row: TableRow<TitlesResponse>) {
   name.value = row.original.name;
   id.value = row.id;
   isOpen.value = false;

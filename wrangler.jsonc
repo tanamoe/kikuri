@@ -1,0 +1,54 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kikuri",
+  "main": "./.output/server/index.mjs",
+  "compatibility_date": "2026-04-27",
+  "assets": {
+    "directory": "./.output/public/",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  },
+  "kv_namespaces": [
+    {
+      "binding": "CACHE",
+      "id": "92a91b7169684258980defe42996a972"
+    }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_id": "13fe3d04-0320-4cfc-8212-4641ec1b3dad"
+    }
+  ],
+  "vars": {
+    "FB_APP_ID": "1479515876199433",
+    "IMAGE_URL": "https://image.tana.moe",
+    "POCKETBASE_URL": "https://pb.tana.moe",
+    "SITE_URL": "https://tana.moe",
+    "UMAMI_SITE_ID": "c01f72a8-03c7-4c0f-bd13-f47f767a5d62",
+    "UMAMI_URL": "https://analytics.tana.moe/script.js"
+  },
+  "env": {
+    "preview": {
+      "kv_namespaces": [
+        {
+          "binding": "CACHE",
+          "id": "5b7c3fb3238f4fd7b3aeb6584ba8d9bc"
+        }
+      ],
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_id": "80e757ab-604d-4488-baa3-9518ce34b536"
+        }
+      ],
+      "vars": {
+        "IMAGE_URL": "https://image.tana.moe",
+        "POCKETBASE_URL": "https://pb.tana.moe",
+        "SITE_URL": "https://tana.moe",
+      },
+    }
+  }
+}

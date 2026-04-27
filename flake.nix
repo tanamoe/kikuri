@@ -9,7 +9,7 @@
   }: let
     overlays = [
       (final: prev: rec {
-        nodeVersion = 22;
+        nodeVersion = 25;
 
         nodejs = prev."nodejs_${toString nodeVersion}";
       })
@@ -23,7 +23,7 @@
   in {
     devShells = forEachSupportedSystem ({pkgs}: {
       default = pkgs.mkShell {
-        packages = with pkgs; [node2nix nodejs nodePackages.pnpm vue-language-server typescript];
+        packages = with pkgs; [nodejs pnpm vue-language-server typescript];
       };
     });
   };

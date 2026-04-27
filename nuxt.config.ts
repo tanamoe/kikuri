@@ -13,6 +13,7 @@ export default defineNuxtConfig({
   },
 
   modules: [
+    "@nuxthub/core",
     "@nuxt/eslint",
     "@vueuse/nuxt",
     "@pinia/nuxt",
@@ -35,12 +36,7 @@ export default defineNuxtConfig({
 
   css: ["~/assets/css/main.css"],
 
-  routeRules: {
-    "/": { swr: 10800 },
-    "/calendar": { swr: 10800 },
-    "/title/**": { swr: 10800 },
-    "/library/*": { ssr: false },
-  },
+  ssr: false,
 
   image: {
     provider: "imagor",
@@ -71,6 +67,17 @@ export default defineNuxtConfig({
   i18n: {
     detectBrowserLanguage: false,
     defaultLocale: "vi",
+    strategy: "no_prefix",
+  },
+
+  nitro: {
+    compatibilityDate: "2024-09-19",
+    preset: "cloudflare_module",
+    cloudflare: {
+      deployConfig: true,
+      nodeCompat: true,
+    },
+    devStorage: { cache: { driver: "memory" } },
   },
 
   compatibilityDate: "2024-07-06",
