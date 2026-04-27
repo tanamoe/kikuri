@@ -23,6 +23,13 @@ jobs:
         run: pnpm install
       - name: Build
         run: pnpm build
+        env:
+          FB_APP_ID: ${{ vars.FB_APP_ID }}
+          IMAGE_URL: ${{ vars.IMAGE_URL }}
+          POCKETBASE_URL: ${{ vars.POCKETBASE_URL }}
+          SITE_URL: ${{ vars.SITE_URL }}
+          UMAMI_SITE_ID: ${{ vars.UMAMI_SITE_ID }}
+          UMAMI_URL: ${{ vars.UMAMI_URL }}
       - name: Deploy
         run: pnpx wrangler deploy
         env:
